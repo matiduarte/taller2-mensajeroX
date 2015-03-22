@@ -1,1 +1,4 @@
 /Debug/
+/lib/libbz2.a
+/lib/librocksdb.a
+/lib/libsnappy.a
