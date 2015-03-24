@@ -5,5 +5,5 @@
  *      Author: matias
  */
 
-#include "/home/matias/workspace/MensajeroX/Servidor/src/Servidor/Servidor.h"
+#include "../src/Servidor/Servidor.h"
 

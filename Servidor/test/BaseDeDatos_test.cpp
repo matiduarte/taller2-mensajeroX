@@ -5,5 +5,5 @@
  *      Author: matias
  */
 
-#include "/home/matias/workspace/MensajeroX/Servidor/src/BaseDeDatos/BaseDeDatos.h"
+#include "../src/BaseDeDatos/BaseDeDatos.h"
 

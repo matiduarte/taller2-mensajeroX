@@ -5,5 +5,5 @@
  *      Author: matias
  */
 
-#include "/home/matias/workspace/MensajeroX/Servidor/src/Entidades/Conversacion.h"
+#include "../src/Entidades/Conversacion.h"
 
