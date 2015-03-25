@@ -12,6 +12,7 @@
 #include<string.h>
 #include <time.h>
 #include "../constantes.h"
+#include "../Utilidades/StringUtil.h"
 
 using namespace std;
 
@@ -24,14 +25,18 @@ private:
 	ofstream* archivo;
 	void ponerFecha();
 	void escribir(string texto);
+	string nivel;
+	string getNivel();
+	void setNivel(string nivel);
 
 public:
 	static Logger* getLogger();
 	void error(string texto);
-	void warm(string texto);
+	void warn(string texto);
 	void info(string texto);
 	void debug(string texto);
 	void guardarEstado();
+	void modificarNivel(string nivel);
 	~Logger();
 
 };

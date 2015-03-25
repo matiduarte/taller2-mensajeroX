@@ -14,7 +14,7 @@ Logger::Logger(){
 	ofstream* arch = new ofstream;
 	arch->open(archivoLog, ofstream::trunc);
 	archivo = arch;
-
+	this->nivel = nivelLogger;
 	ponerFecha();
 }
 
@@ -42,11 +42,54 @@ void Logger::ponerFecha(){
 	escribir(sfecha);
 }
 
+void Logger::modificarNivel(string nivel){
+	this->setNivel(nivel);
+}
+
+void Logger::setNivel(string nivel){
+	this->nivel = nivel;
+}
+
+string Logger::getNivel(){
+	return this->nivel;
+}
+
+void Logger::error(string texto){
+
+	this->escribir(texto);
+
+}
+
+void Logger::warn(string texto){
+
+	string nivel = StringUtil::toLower(this->getNivel());
+	if ((nivel == Warn) || (nivel == Info)  || (nivel == Debug))
+		this->escribir(texto);
+
+}
+
+void Logger::info(string texto){
+
+	string nivel = StringUtil::toLower(this->getNivel());
+	if ((nivel == Info)  || (nivel == Debug))
+		this->escribir(texto);
+
+}
+
+void Logger::debug(string texto){
+
+	string nivel = StringUtil::toLower(this->getNivel());
+	if ((nivel == Debug))
+		this->escribir(texto);
+
+}
+
 Logger::~Logger(){
 
 	this->archivo->close();
 	delete this->archivo;
 }
+
 
 Logger* Logger::getLogger(){
 
