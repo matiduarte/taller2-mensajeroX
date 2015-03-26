@@ -12,6 +12,9 @@ class Persistible {
 public:
 	Persistible();
 	virtual ~Persistible();
+	virtual string serializar();
+	virtual int deserealizar(string aDeserealizar);
+	virtual void persistir();
 };
 
 #endif /* SRC_ENTIDADES_PERSISTIBLE_H_ */

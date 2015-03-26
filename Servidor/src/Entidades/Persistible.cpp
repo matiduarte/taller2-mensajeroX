@@ -16,3 +16,15 @@ Persistible::~Persistible() {
 	// TODO Auto-generated destructor stub
 }
 
+string Persistible::serializar(){
+	string serializado = "";
+	return serializado;
+}
+
+int Persistible::deserealizar(string aDeserealizar){
+	return 0;
+}
+
+void Persistible::persistir(){
+}
+
