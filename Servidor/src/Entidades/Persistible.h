@@ -8,6 +8,11 @@
 #ifndef SRC_ENTIDADES_PERSISTIBLE_H_
 #define SRC_ENTIDADES_PERSISTIBLE_H_
 
+#include <string.h>
+#include <iostream>
+
+using namespace std;
+
 class Persistible {
 public:
 	Persistible();
