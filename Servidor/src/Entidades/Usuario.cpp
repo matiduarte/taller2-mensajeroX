@@ -34,6 +34,19 @@ string Usuario::getId(){
 	return this->id;
 }
 
+string Usuario::serializar(){
+	string serializado = "";
+	return serializado;
+}
+
+int Usuario::deserealizar(string aDeserealizar){
+	return 0;
+}
+
+void Usuario::persistir(){
+}
+
+
 Usuario::~Usuario() {
 	// TODO Auto-generated destructor stub
 }

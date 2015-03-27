@@ -9,7 +9,7 @@
 #define SRC_CONSTANTES_H_
 
 #define archivoLog "Logger.txt"
-#define nivelLogger "Debug"
+#define nivelLogger "Error"
 #define Error "error"
 #define Warn "warn"
 #define Info "info"

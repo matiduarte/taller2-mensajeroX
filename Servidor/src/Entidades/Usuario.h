@@ -32,6 +32,9 @@ public:
 	void registrarUltimaConexion();
 	string getUltimaConexion();
 	string getId();
+	string serializar();
+	int deserealizar(string aDeserealizar);
+	void persistir();
 	virtual ~Usuario();
 };
 
