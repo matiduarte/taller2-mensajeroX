@@ -37,6 +37,14 @@ string Conversacion::getId(){
 	}
 }
 
+vector<string> Conversacion::getMensajes(){
+	return this->mensajes;
+}
+
+void Conversacion::agregarMensaje(string mensaje){
+	this->mensajes.push_back(mensaje);
+}
+
 string Conversacion::serializar(){
 	string serializado = "";
 	return serializado;

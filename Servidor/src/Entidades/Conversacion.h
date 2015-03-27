@@ -26,6 +26,8 @@ public:
 	int deserealizar(string aDeserealizar);
 	void persistir();
 	string getId();
+	vector<string> getMensajes();
+	void agregarMensaje(string mensaje);
 };
 
 #endif /* SRC_ENTIDADES_CONVERSACION_H_ */
