@@ -10,7 +10,7 @@
 
 #include <string.h>
 #include <iostream>
-#include <functional>
+#include <sstream>
 
 using namespace std;
 
@@ -20,6 +20,7 @@ public:
 	virtual ~StringUtil();
     static string toLower(string str);
     static string toUpper(string str);
+    static int str2int (string string);
 };
 
 #endif /* SRC_UTILIDADES_STRINGUTIL_H_ */

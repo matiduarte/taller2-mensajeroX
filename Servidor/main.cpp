@@ -1,8 +1,8 @@
-#include "src/WebServer/mongoose.h"
 #include <stdio.h>
 #include <string.h>
 #include "src/Log/Logger.h"
-#include "src/Entidades/Usuario.h"
+#include "src/Servidor/Servidor.h"
+
 
 /*static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
   switch (ev) {
@@ -16,6 +16,8 @@
 
 int main(void) {
 
+	Servidor *servidor = new Servidor();
+	servidor->iniciar("8080");
 
   return 0;
 }
