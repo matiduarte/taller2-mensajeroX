@@ -1,7 +1,7 @@
-#include "src/WebServer/mongoose.h"
 #include <stdio.h>
 #include <string.h>
 #include "src/Log/Logger.h"
+#include "src/Servidor/Servidor.h"
 
 /*static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
   switch (ev) {
@@ -14,11 +14,7 @@
 }*/
 
 int main(void) {
-  //struct mg_server *server;
 
-/*  // Create and configure the server
-  server = mg_create_server(NULL, ev_handler);
-  mg_set_option(server, "listening_port", "8080");*/
 
 	Logger* logger = Logger::getLogger();
 	logger->guardarEstado();
@@ -27,14 +23,9 @@ int main(void) {
 	logger->info("ESTO ES INFO");
 	logger->debug("ESTO ES UN DEBUG");
 
-  // Serve request. Hit Ctrl-C to terminate the program
- /* printf("Starting on port %s\n", mg_get_option(server, "listening_port"));
-  for (;;) {
-    mg_poll_server(server, 1000);
-  }
+	Servidor *servidor = new Servidor();
+	servidor->iniciar("8080");
 
-  // Cleanup, and free server instance
-  mg_destroy_server(&server);*/
 
 	delete logger;
 

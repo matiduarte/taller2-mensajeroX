@@ -8,11 +8,53 @@
 #include "Servidor.h"
 
 Servidor::Servidor() {
-	// TODO Auto-generated constructor stub
-
+	webServer = mg_create_server(NULL, ev_handler);
 }
 
 Servidor::~Servidor() {
-	// TODO Auto-generated destructor stub
+	mg_destroy_server(&webServer);
 }
 
+Servicio Servidor::servicio = Servicio();
+
+void Servidor::iniciar(char *puerto){
+	webServer = mg_create_server(NULL, ev_handler);
+	mg_set_option(webServer, "listening_port", puerto);
+
+	printf("Starting on port %s\n", mg_get_option(webServer, "listening_port"));
+	for (;;) {
+	  mg_poll_server(webServer, 1000);
+	}
+}
+
+int Servidor::ev_handler(struct mg_connection *conn, enum mg_event ev){
+	  switch (ev) {
+	    case MG_AUTH: return MG_TRUE;
+	    case MG_REQUEST:
+	      administrarServicio(conn);
+	      return MG_TRUE;
+	    default: return MG_FALSE;
+	  }
+}
+
+void Servidor::administrarServicio(struct mg_connection *conn){
+	mg_printf_data(conn, "Hello! Requested URI is [%s]", conn->uri);
+
+	cout << "URI sin parsear" << conn->uri << endl;
+
+	int servicioRequerido = parsearURI(conn->uri);
+
+	switch( servicioRequerido ){
+
+	case prueba: 	servicio.prueba(); 							break;
+	case invalido: 	cout << "servicio no encontrado." << endl;	break;
+	default: 		cout << "default." << endl;
+
+	};
+}
+
+tipoDeServicio Servidor::parsearURI(const char* uri){
+	string uri_parseada(uri);
+	if(uri_parseada == "/prueba") return prueba;
+	else return invalido;
+}

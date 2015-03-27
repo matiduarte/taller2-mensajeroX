@@ -16,3 +16,6 @@ Servicio::~Servicio() {
 	// TODO Auto-generated destructor stub
 }
 
+void Servicio::prueba(){
+	cout << "Esto es una prueba." << endl;
+}

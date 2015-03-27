@@ -43,3 +43,10 @@ string StringUtil::toUpper(string str){
 
         return (string)upper;
 }
+
+int StringUtil::str2int (string string) {
+        std::istringstream ss(string.c_str());
+        int i;
+        ss >> i;
+        return i;
+}
