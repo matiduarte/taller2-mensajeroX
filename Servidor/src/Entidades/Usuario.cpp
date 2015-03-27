@@ -31,6 +31,11 @@ string Usuario::getUltimaConexion(){
 	return this->ultimaConexion;
 }
 
+string Usuario::getId(){
+	//TODO: Mati
+	return "";
+}
+
 Usuario::~Usuario() {
 	// TODO Auto-generated destructor stub
 }

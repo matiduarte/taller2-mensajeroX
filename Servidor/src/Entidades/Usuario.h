@@ -29,6 +29,7 @@ public:
 	void modificarDatos();
 	void registrarUltimaConexion();
 	string getUltimaConexion();
+	string getId();
 	virtual ~Usuario();
 };
 
