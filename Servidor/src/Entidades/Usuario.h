@@ -11,10 +11,12 @@
 #include <string.h>
 #include <iostream>
 #include <time.h>
+#include "Persistible.h"
+#include "../Utilidades/md5.h"
 
 using namespace std;
 
-class Usuario {
+class Usuario: Persistible {
 private:
 	string nombre;
 	string fotoDePerfil;

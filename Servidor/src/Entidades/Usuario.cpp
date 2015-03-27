@@ -13,9 +13,8 @@ Usuario::Usuario(string nombre, string fotoDePerfil, string telefono) {
 	this->fotoDePerfil = fotoDePerfil;
 	this->telefono = telefono;
 	this->conectado = true;
-	time_t tiempo;
-	time(&tiempo);
-	this->ultimaConexion = ctime (&tiempo);
+	this->id = md5(telefono);
+	this->ultimaConexion = "";
 
 }
 
@@ -32,8 +31,7 @@ string Usuario::getUltimaConexion(){
 }
 
 string Usuario::getId(){
-	//TODO: Mati
-	return "";
+	return this->id;
 }
 
 Usuario::~Usuario() {
