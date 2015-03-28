@@ -15,5 +15,7 @@
 #define Info "info"
 #define Debug "debug"
 
+#define SeparadorListaBD '#'
+
 
 #endif /* SRC_CONSTANTES_H_ */

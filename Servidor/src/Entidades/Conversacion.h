@@ -11,6 +11,7 @@
 #include "Persistible.h"
 #include "Usuario.h"
 #include <vector>
+#include "../Utilidades/StringUtil.h"
 
 class Conversacion : Persistible {
 private:

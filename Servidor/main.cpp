@@ -20,8 +20,24 @@ using namespace std;
 int main(void) {
 
 	Usuario* user = new Usuario("Pepe", "foto", "1568017070");
+	Usuario* user2 = new Usuario("Jose", "foto2", "156801515");
 	string a = user->serializar();
 	user->deserealizar(a);
+
+	vector<Usuario*> usuarios;
+	usuarios.push_back(user);
+	usuarios.push_back(user2);
+
+	vector<string> mensajes;
+	mensajes.push_back("mensaje 1");
+	mensajes.push_back("mensaje 2");
+
+	Conversacion* conversacion = new Conversacion(usuarios, mensajes);
+
+	string conversacionSerializada = conversacion->serializar();
+
+	Conversacion* conversacion2 = new Conversacion();
+	conversacion->deserealizar(conversacionSerializada);
 
 
 	Servidor *servidor = new Servidor();
