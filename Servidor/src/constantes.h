@@ -15,6 +15,14 @@
 #define Info "info"
 #define Debug "debug"
 
+/*Claves principales de los Usuarios*/
+#define keyNombre "Nombre"
+#define keyId "Id"
+#define keyFotoDePerfil "Foto de Perfil"
+#define keyEstadoDeConexion "Estado de Conexion"
+#define keyUltimaConexion "Ultima Conexion"
+#define keyTelefono "Telefono"
+
 #define SeparadorListaBD '#'
 
 

@@ -46,15 +46,35 @@ bool Usuario::getEstadoConexion(){
 	return this->conectado;
 }
 
+void Usuario::setId(string id){
+	this->id = id;
+}
+
+void Usuario::setNombre(string nombre){
+	this->nombre = nombre;
+}
+
+void Usuario::setTelefono(string telefono){
+	this->telefono = telefono;
+}
+
+void Usuario::setEstadoConexion(bool estado){
+	this->conectado = estado;
+}
+
+void Usuario::setUltimaConexion(string ultimaConexion){
+	this->ultimaConexion = ultimaConexion;
+}
+
 string Usuario::serializar(){
 
 	Json::Value user;
 
-	user["Id"] = this->getId();
-	user["Nombre"] = this->getNombre();
-	user["Telefono"] = this->getTelefono();
-	user["Estado de conexion"] = this->getEstadoConexion();
-	user["Ultima Conexion"] = this->getUltimaConexion();
+	user[keyId] = this->getId();
+	user[keyNombre] = this->getNombre();
+	user[keyTelefono] = this->getTelefono();
+	user[keyEstadoDeConexion] = this->getEstadoConexion();
+	user[keyUltimaConexion] = this->getUltimaConexion();
 
 	string str_user = user.toStyledString();
 
@@ -68,9 +88,16 @@ int Usuario::deserealizar(string aDeserealizar){
 
 	bool parseoExitoso = reader.parse(aDeserealizar, user);
 
-	if ( !parseoExitoso ){
-		//TODO: definir que pasa cuando no lo puede convertir
+	if ( parseoExitoso ){
+		this->setId(user.get(keyId, "").asString());
+		this->setNombre(user.get(keyNombre, "").asString());
+		this->setTelefono(user.get(keyTelefono, "").asString());
+		this->setEstadoConexion(user.get(keyEstadoDeConexion, "").asBool());
+		this->setUltimaConexion(user.get(keyUltimaConexion, "").asString());
 	}
+
+	cout << this->getNombre() << endl;
+	cout << this->getTelefono() << endl;
 
 	return 0;
 }
