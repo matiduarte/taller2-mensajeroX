@@ -48,7 +48,7 @@ void Conversacion::agregarMensaje(string mensaje){
 string Conversacion::serializar(){
 	Json::Value conversacion;
 
-	conversacion["Id"] = this->getId();
+	conversacion[keyIdConversacion] = this->getId();
 
 	string idsUsuarios = "";
 	for(unsigned i=0; i<this->usuarios.size();i++){
@@ -57,7 +57,7 @@ string Conversacion::serializar(){
 		}
 		idsUsuarios += this->usuarios[i]->getId();
 	}
-	conversacion["IdsUsuarios"] = idsUsuarios;
+	conversacion[keyIdsUsuarios] = idsUsuarios;
 
 	string mensajes = "";
 	for(unsigned i=0; i<this->mensajes.size();i++){
@@ -66,7 +66,7 @@ string Conversacion::serializar(){
 		}
 		mensajes += this->mensajes[i];
 	}
-	conversacion["Mensajes"] = mensajes;
+	conversacion[keyMensajes] = mensajes;
 
 
 	string conversacionJSON = conversacion.toStyledString();
@@ -81,10 +81,10 @@ int Conversacion::deserealizar(string aDeserealizar){
 	bool parseoExitoso = reader.parse(aDeserealizar, conversacion);
 
 	if (parseoExitoso){
-		this->id = conversacion.get("Id", "").asString();
+		this->id = conversacion.get(keyIdConversacion, "").asString();
 
 		vector<Usuario*> usuarios;
-		string idsUsuarios = conversacion.get("IdsUsuarios", "").asString();
+		string idsUsuarios = conversacion.get(keyIdsUsuarios, "").asString();
 		vector<string> idsUsuariosSplitted = StringUtil::split(idsUsuarios, SeparadorListaBD);
 		for(unsigned i=0; i<idsUsuariosSplitted.size();i++){
 			//TODO: obtener el usuario de la base de datos con el id
@@ -93,7 +93,7 @@ int Conversacion::deserealizar(string aDeserealizar){
 		}
 		this->usuarios = usuarios;
 
-		string mensajes = conversacion.get("Mensajes", "").asString();
+		string mensajes = conversacion.get(keyMensajes, "").asString();
 		vector<string> mensajesSplitted = StringUtil::split(mensajes, SeparadorListaBD);
 		this->mensajes = mensajesSplitted;
 

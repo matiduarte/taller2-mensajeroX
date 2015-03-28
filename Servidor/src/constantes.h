@@ -23,6 +23,11 @@
 #define keyUltimaConexion "Ultima Conexion"
 #define keyTelefono "Telefono"
 
+/*Claves principales de Conversacion*/
+#define keyIdConversacion "Id"
+#define keyIdsUsuarios "IdsUsuarios"
+#define keyMensajes "Mensajes"
+
 #define SeparadorListaBD '#'
 
 
