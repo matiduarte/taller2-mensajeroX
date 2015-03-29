@@ -2,7 +2,14 @@
 #include <string.h>
 #include "src/Log/Logger.h"
 #include "src/Servidor/Servidor.h"
+
 #include "src/BaseDeDatos/BaseDeDatos.h"
+
+#include "src/Entidades/Usuario.h"
+#include <iostream>
+
+using namespace std;
+
 
 /*static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
   switch (ev) {
@@ -16,7 +23,6 @@
 
 int main(void) {
 
-
 //	Logger* logger = Logger::getLogger();
 //	logger->guardarEstado();
 //	logger->error("ESTO ES UN ERROR");
@@ -27,18 +33,27 @@ int main(void) {
 //	Servidor *servidor = new Servidor();
 //	servidor->iniciar("8080");
 //
-//
 //	delete logger;
 //	delete servidor;
+//
+//	Usuario* user = new Usuario("Pepe", "foto", "1568017070");
+//	Usuario* user2 = new Usuario("Jose", "foto2", "156801515");
+//	string a = user->serializar();
+//	user->deserealizar(a);
+//
+//	vector<Usuario*> usuarios;
+//	usuarios.push_back(user);
+//	usuarios.push_back(user2);
+//
+//	vector<string> mensajes;
+//	mensajes.push_back("mensaje 1");
+//	mensajes.push_back("mensaje 2");
+//
+//	Conversacion* conversacion = new Conversacion(usuarios, mensajes);
+//	string conversacionSerializada = conversacion->serializar();
+//	Conversacion* conversacion2 = new Conversacion();
+//	conversacion->deserealizar(conversacionSerializada);
 
-	BaseDeDatos *baseDeDatos  = new BaseDeDatos();
-	baseDeDatos->setDato("7552","taller 2");
-	string dato;
-	dato = baseDeDatos->getDato("7552");
-
-	cout << "el dato es: " << dato << endl;
-
-	delete baseDeDatos;
 
   return 0;
 }

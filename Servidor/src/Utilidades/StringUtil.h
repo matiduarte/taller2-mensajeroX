@@ -11,6 +11,7 @@
 #include <string.h>
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 using namespace std;
 
@@ -21,6 +22,8 @@ public:
     static string toLower(string str);
     static string toUpper(string str);
     static int str2int (string string);
+    static vector<std::string>& split(const string &s, char delim, vector<string> &elems);
+    static vector<std::string> split(const string &s, char delim);
 };
 
 #endif /* SRC_UTILIDADES_STRINGUTIL_H_ */

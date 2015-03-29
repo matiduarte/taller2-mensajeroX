@@ -50,3 +50,17 @@ int StringUtil::str2int (string string) {
         ss >> i;
         return i;
 }
+
+vector<std::string>& StringUtil::split(const string &s, char delim, vector<string> &elems) {
+    std::stringstream ss(s);
+    std::string item;
+    while(std::getline(ss, item, delim)) {
+        elems.push_back(item);
+    }
+    return elems;
+}
+
+vector<std::string> StringUtil::split(const string &s, char delim) {
+    std::vector<std::string> elems;
+    return StringUtil::split(s, delim, elems);
+}

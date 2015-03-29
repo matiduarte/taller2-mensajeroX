@@ -13,6 +13,8 @@
 #include <time.h>
 #include "Persistible.h"
 #include "../Utilidades/md5.h"
+#include "../json/json.h"
+#include "../constantes.h"
 
 using namespace std;
 
@@ -31,8 +33,20 @@ public:
 	void registrar();
 	void modificarDatos();
 	void registrarUltimaConexion();
+	void setId(string id);
+	void setNombre(string nombre);
+	void setFotoDePerfil(string fotoDePerfil);
+	void setTelefono(string telefono);
+	void setEstadoConexion(bool estado);
+	void setUltimaConexion(string ultimaConexion);
 	string getUltimaConexion();
 	string getId();
+	string getNombre();
+	string getTelefono();
+	string serializar();
+	bool getEstadoConexion();
+	int deserealizar(string aDeserealizar);
+	void persistir();
 	virtual ~Usuario();
 };
 
