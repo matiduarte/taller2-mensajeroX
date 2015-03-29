@@ -16,7 +16,7 @@
 
 using namespace std;
 
-class Usuario: Persistible {
+class Usuario: public Persistible {
 private:
 	string nombre;
 	string fotoDePerfil;
@@ -27,6 +27,7 @@ private:
 
 public:
 	Usuario(string nombre, string fotoDePerfil, string telefono);
+	Usuario();
 	void registrar();
 	void modificarDatos();
 	void registrarUltimaConexion();

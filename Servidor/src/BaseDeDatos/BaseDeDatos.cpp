@@ -8,11 +8,29 @@
 #include "BaseDeDatos.h"
 
 BaseDeDatos::BaseDeDatos() {
-	// TODO Auto-generated constructor stub
+	options.IncreaseParallelism();
+	options.OptimizeLevelStyleCompaction();
+	options.create_if_missing = true;
+
+	estado = DB::Open(options, path_BaseDeDatos, &db);
+	assert(estado.ok());
 
 }
 
 BaseDeDatos::~BaseDeDatos() {
-	// TODO Auto-generated destructor stub
+	delete db;
 }
 
+void BaseDeDatos::setDato(string clave, string dato) {
+	estado = db->Put(WriteOptions(), clave, dato);
+	assert(estado.ok());
+
+}
+
+string BaseDeDatos::getDato(string clave) {
+	string valor;
+	estado = db->Get(ReadOptions(), clave, &valor);
+	//assert(estado.ok());
+
+	return valor;
+}

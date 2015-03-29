@@ -2,6 +2,7 @@
 #include <string.h>
 #include "src/Log/Logger.h"
 #include "src/Servidor/Servidor.h"
+#include "src/BaseDeDatos/BaseDeDatos.h"
 
 /*static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
   switch (ev) {
@@ -16,18 +17,28 @@
 int main(void) {
 
 
-	Logger* logger = Logger::getLogger();
-	logger->guardarEstado();
-	logger->error("ESTO ES UN ERROR");
-	logger->warn("ESTO ES UN WARNING");
-	logger->info("ESTO ES INFO");
-	logger->debug("ESTO ES UN DEBUG");
+//	Logger* logger = Logger::getLogger();
+//	logger->guardarEstado();
+//	logger->error("ESTO ES UN ERROR");
+//	logger->warn("ESTO ES UN WARNING");
+//	logger->info("ESTO ES INFO");
+//	logger->debug("ESTO ES UN DEBUG");
+//
+//	Servidor *servidor = new Servidor();
+//	servidor->iniciar("8080");
+//
+//
+//	delete logger;
+//	delete servidor;
 
-	Servidor *servidor = new Servidor();
-	servidor->iniciar("8080");
+	BaseDeDatos *baseDeDatos  = new BaseDeDatos();
+	baseDeDatos->setDato("7552","taller 2");
+	string dato;
+	dato = baseDeDatos->getDato("7552");
 
+	cout << "el dato es: " << dato << endl;
 
-	delete logger;
+	delete baseDeDatos;
 
   return 0;
 }

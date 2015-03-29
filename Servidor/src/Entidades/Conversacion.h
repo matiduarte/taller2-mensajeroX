@@ -12,7 +12,7 @@
 #include "Usuario.h"
 #include <vector>
 
-class Conversacion : Persistible {
+class Conversacion : public Persistible {
 private:
 	string id;
 	vector<string> mensajes;

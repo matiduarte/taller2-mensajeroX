@@ -34,6 +34,10 @@ string Usuario::getId(){
 	return this->id;
 }
 
+Usuario::Usuario() {
+	this->conectado = true;
+}
+
 Usuario::~Usuario() {
 	// TODO Auto-generated destructor stub
 }
