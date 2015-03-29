@@ -14,7 +14,7 @@
 #include "rocksdb/slice.h"
 #include "rocksdb/options.h"
 #include "../constantes.h"
-#include "../Entidades/Usuario.h"
+#include "../Entidades/Persistible.h"
 
 using namespace rocksdb;
 
@@ -29,12 +29,9 @@ private:
 public:
 	BaseDeDatos();
 	virtual ~BaseDeDatos();
-	void setUsuario(Usuario *usuario);
-	Usuario* getUsuario(string clave);
-	void setConversacion(Conversacion *conversacion);
-	Conversacion* getConversacion();
-	void setDato(string clave, string dato);
-	string getDato(string clave);
+	void setPersistible(Persistible *usuario);
+	string getPersistible(string clave);
+
 };
 
 #endif /* SRC_BASEDEDATOS_BASEDEDATOS_H_ */

@@ -28,3 +28,7 @@ int Persistible::deserealizar(string aDeserealizar){
 void Persistible::persistir(){
 }
 
+string Persistible::getId() {
+	string id = "";
+	return id;
+}

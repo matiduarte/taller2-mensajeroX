@@ -21,6 +21,7 @@ public:
 	virtual string serializar();
 	virtual int deserealizar(string aDeserealizar);
 	virtual void persistir();
+	virtual string getId();
 };
 
 #endif /* SRC_ENTIDADES_PERSISTIBLE_H_ */

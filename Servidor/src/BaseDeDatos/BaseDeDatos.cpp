@@ -11,7 +11,7 @@ BaseDeDatos::BaseDeDatos() {
 	options.IncreaseParallelism();
 	options.OptimizeLevelStyleCompaction();
 	options.create_if_missing = true;
-
+	//TODO: decidir que hacer cuando hay problemas para abrir la base de datos.
 	estado = DB::Open(options, path_BaseDeDatos, &db);
 	assert(estado.ok());
 
@@ -21,16 +21,21 @@ BaseDeDatos::~BaseDeDatos() {
 	delete db;
 }
 
-void BaseDeDatos::setDato(string clave, string dato) {
-	estado = db->Put(WriteOptions(), clave, dato);
-	assert(estado.ok());
 
+void BaseDeDatos::setPersistible(Persistible* dato) {
+	estado = db->Put(WriteOptions(), dato->getId(), dato->serializar());
+	//TODO: decidir que hacer cuando hay problemas para guardar datos.
+	assert(estado.ok());
 }
 
-string BaseDeDatos::getDato(string clave) {
+
+string BaseDeDatos::getPersistible(string clave) {
 	string valor;
 	estado = db->Get(ReadOptions(), clave, &valor);
-	//assert(estado.ok());
+	//TODO: decidir que hacer cuando hay problemas para obtener datos.
+	assert(estado.ok());
 
 	return valor;
 }
+
+

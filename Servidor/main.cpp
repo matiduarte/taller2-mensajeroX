@@ -54,6 +54,17 @@ int main(void) {
 //	Conversacion* conversacion2 = new Conversacion();
 //	conversacion->deserealizar(conversacionSerializada);
 
+	BaseDeDatos *baseDeDatos = new BaseDeDatos();
+	Usuario* user = new Usuario("Pepe", "foto", "1568017070");
+
+	baseDeDatos->setPersistible(user);
+	Usuario* user2 = new Usuario();
+	user2->deserealizar(baseDeDatos->getPersistible(user->getId()));
+
+	cout << "el usuario es: " << user2->getNombre() <<endl;
+
+	delete user;
+	delete user2;
 
   return 0;
 }
