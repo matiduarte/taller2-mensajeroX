@@ -55,7 +55,7 @@ void Servidor::administrarServicio(struct mg_connection *conn){
 
 tipoDeServicio Servidor::parsearURI(const char* uri){
 	string uri_parseada(uri);
-	if(uri_parseada == "/prueba") return PRUEBA;
-	else if(uri_parseada == "/registrarUsuario") return REGISTRAR_USUARIO;
+	if(uri_parseada == urlPrueba) return PRUEBA;
+	else if(uri_parseada == urlRegistrarUsuario) return REGISTRAR_USUARIO;
 	else return INVALIDO;
 }

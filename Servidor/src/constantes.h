@@ -38,6 +38,8 @@ const string path_BaseDeDatos = "Base de Datos";
 #define SeparadorListaBD '#'
 
 /*Constantes para Servicios*/
-
+#define urlRegistrarUsuario "/registrarUsuario"
+#define urlPrueba "/prueba"
+#define urlAutenticarUsuario "/autenticarUsuario"
 
 #endif /* SRC_CONSTANTES_H_ */
