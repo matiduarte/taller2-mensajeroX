@@ -11,6 +11,7 @@
 #include <string>
 using namespace std;
 
+/*Constantes de Logeo*/
 #define archivoLog "Logger.txt"
 #define nivelLogger "Error"
 #define Error "error"
@@ -36,5 +37,9 @@ const string path_BaseDeDatos = "Base de Datos";
 
 #define SeparadorListaBD '#'
 
+/*Constantes para Servicios*/
+#define urlRegistrarUsuario "/registrarUsuario"
+#define urlPrueba "/prueba"
+#define urlAutenticarUsuario "/autenticarUsuario"
 
 #endif /* SRC_CONSTANTES_H_ */
