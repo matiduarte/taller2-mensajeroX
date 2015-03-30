@@ -57,5 +57,6 @@ tipoDeServicio Servidor::parsearURI(const char* uri){
 	string uri_parseada(uri);
 	if(uri_parseada == urlPrueba) return PRUEBA;
 	else if(uri_parseada == urlRegistrarUsuario) return REGISTRAR_USUARIO;
+	else if (uri_parseada == urlAutenticarUsuario) return AUTENTICAR_USUARIO;
 	else return INVALIDO;
 }

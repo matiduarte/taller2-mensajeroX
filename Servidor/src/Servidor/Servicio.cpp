@@ -50,5 +50,15 @@ void Servicio::registrarUsuario(){
 }
 
 bool Servicio::autenticarUsuario(){
+
+	/*TODO: solicitar al usuario nombre y contraseña
+	 * 		buscar el password en la base de datos
+	 * 		comparar con el password ingresado
+	 * 		Si password coincide
+	 * 			Ingresa al sistema
+	 * 		Si no
+	 * 			Requerir datos nuevamente
+	 * 		Devolver Token (?)
+	 */
 	return true;
 }
