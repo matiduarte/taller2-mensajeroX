@@ -17,9 +17,10 @@
 using namespace std;
 
 enum tipoDeServicio{
-	prueba,
-	registrarUsuario,
-	invalido
+	PRUEBA,
+	REGISTRAR_USUARIO,
+	AUTENTICAR_USUARIO,
+	INVALIDO,
 };
 
 class Servidor {

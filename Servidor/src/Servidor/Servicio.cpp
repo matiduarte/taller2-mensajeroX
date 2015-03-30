@@ -48,3 +48,7 @@ void Servicio::registrarUsuario(){
 	string nombreUsuario = this->getParametro("nombre", "nombreDeafult");
 	cout << "Nombre es: "<< nombreUsuario << endl;
 }
+
+bool Servicio::autenticarUsuario(){
+	return true;
+}

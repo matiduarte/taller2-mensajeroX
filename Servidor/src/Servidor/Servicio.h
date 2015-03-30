@@ -17,7 +17,7 @@ class Servicio {
 public:
 	Servicio();
 	virtual ~Servicio();
-	bool autenticarUsuario(Usuario *usuario);
+	bool autenticarUsuario();
 	void registrarUsuario();
 	void enviarConversacion(Conversacion *conversacion);
 	void prueba();

@@ -44,9 +44,10 @@ void Servidor::administrarServicio(struct mg_connection *conn){
 
 	switch( servicioRequerido ){
 
-	case prueba: 	servicio->prueba(); 							break;
-	case registrarUsuario: 	servicio->registrarUsuario(); 							break;
-	case invalido: 	cout << "servicio no encontrado." << endl;	break;
+	case PRUEBA: 				servicio->prueba();				break;
+	case REGISTRAR_USUARIO: 	servicio->registrarUsuario(); 	break;
+	case AUTENTICAR_USUARIO: 	servicio->autenticarUsuario();  break;
+	case INVALIDO: 	cout << "servicio no encontrado." << endl;	break;
 	default: 		cout << "default." << endl;
 
 	};
@@ -54,7 +55,7 @@ void Servidor::administrarServicio(struct mg_connection *conn){
 
 tipoDeServicio Servidor::parsearURI(const char* uri){
 	string uri_parseada(uri);
-	if(uri_parseada == "/prueba") return prueba;
-	else if(uri_parseada == "/registrarUsuario") return registrarUsuario;
-	else return invalido;
+	if(uri_parseada == "/prueba") return PRUEBA;
+	else if(uri_parseada == "/registrarUsuario") return REGISTRAR_USUARIO;
+	else return INVALIDO;
 }
