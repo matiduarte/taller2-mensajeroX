@@ -48,6 +48,7 @@
 									<listOptionValue builtIn="false" value="snappy"/>
 									<listOptionValue builtIn="false" value="rocksdb"/>
 									<listOptionValue builtIn="false" value="z"/>
+									<listOptionValue builtIn="false" value="cppunit"/>
 									<listOptionValue builtIn="false" value="boost_unit_test_framework"/>
 								</option>
 								<option id="gnu.cpp.link.option.other.846642710" name="Other options (-Xlinker [option])" superClass="gnu.cpp.link.option.other"/>
@@ -132,10 +133,10 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
-		<configuration configurationName="Debug">
+		<configuration configurationName="Release">
 			<resource resourceType="PROJECT" workspacePath="/MensajeroX"/>
 		</configuration>
-		<configuration configurationName="Release">
+		<configuration configurationName="Debug">
 			<resource resourceType="PROJECT" workspacePath="/MensajeroX"/>
 		</configuration>
 	</storageModule>

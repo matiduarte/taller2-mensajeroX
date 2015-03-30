@@ -18,7 +18,7 @@ Servicio::~Servicio() {
 
 void Servicio::parsearParametros(struct mg_connection *conn){
 	char buffer[1000];
-	//params es un JSON
+	//params es un JSON con toda la data
 	int result = mg_get_var(conn, "params", buffer, 1000);
 	if(result < 1){
 		//TODO: loggear error
