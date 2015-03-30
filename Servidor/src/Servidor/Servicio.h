@@ -10,15 +10,21 @@
 
 #include "../Entidades/Usuario.h"
 #include "../Entidades/Conversacion.h"
+#include "../WebServer/mongoose.h"
+#include "../json/json.h"
 
 class Servicio {
 public:
 	Servicio();
 	virtual ~Servicio();
 	bool autenticarUsuario(Usuario *usuario);
-	void registrarUsuario(Usuario *usuario);
+	void registrarUsuario();
 	void enviarConversacion(Conversacion *conversacion);
 	void prueba();
+	string getParametro(string nombreParametro, string valorDefault);
+	void parsearParametros(struct mg_connection *conn);
+private:
+	Json::Value parametros;
 
 };
 

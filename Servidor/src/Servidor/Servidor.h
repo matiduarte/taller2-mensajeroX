@@ -24,7 +24,7 @@ enum tipoDeServicio{
 
 class Servidor {
 private:
-	static Servicio servicio;
+	static Servicio* servicio;
 	struct mg_server *webServer;
 	static void administrarServicio(struct mg_connection *conn);
 	static int ev_handler(struct mg_connection *conn, enum mg_event ev);

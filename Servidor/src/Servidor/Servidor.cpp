@@ -15,7 +15,7 @@ Servidor::~Servidor() {
 	mg_destroy_server(&webServer);
 }
 
-Servicio Servidor::servicio = Servicio();
+Servicio* Servidor::servicio = new Servicio();
 
 void Servidor::iniciar(char *puerto){
 	webServer = mg_create_server(NULL, ev_handler);
@@ -38,15 +38,14 @@ int Servidor::ev_handler(struct mg_connection *conn, enum mg_event ev){
 }
 
 void Servidor::administrarServicio(struct mg_connection *conn){
-	mg_printf_data(conn, "Hello! Requested URI is [%s]", conn->uri);
-
-	cout << "URI sin parsear" << conn->uri << endl;
-
 	int servicioRequerido = parsearURI(conn->uri);
+
+	servicio->parsearParametros(conn);
 
 	switch( servicioRequerido ){
 
-	case prueba: 	servicio.prueba(); 							break;
+	case prueba: 	servicio->prueba(); 							break;
+	case registrarUsuario: 	servicio->registrarUsuario(); 							break;
 	case invalido: 	cout << "servicio no encontrado." << endl;	break;
 	default: 		cout << "default." << endl;
 
@@ -56,5 +55,6 @@ void Servidor::administrarServicio(struct mg_connection *conn){
 tipoDeServicio Servidor::parsearURI(const char* uri){
 	string uri_parseada(uri);
 	if(uri_parseada == "/prueba") return prueba;
+	else if(uri_parseada == "/registrarUsuario") return registrarUsuario;
 	else return invalido;
 }
