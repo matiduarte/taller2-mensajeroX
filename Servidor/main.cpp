@@ -7,9 +7,12 @@
 
 #include "src/Entidades/Usuario.h"
 #include <iostream>
+#include <cppunit/TestSuite.h>
+#include <cppunit/ui/text/TestRunner.h>
+#include "test/TestUsuario.h"
 
 using namespace std;
-
+using namespace CppUnit;
 
 /*static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
   switch (ev) {
@@ -30,8 +33,15 @@ int main(void) {
 //	logger->info("ESTO ES INFO");
 //	logger->debug("ESTO ES UN DEBUG");
 //
-	Servidor *servidor = new Servidor();
-	servidor->iniciar("8081");
+	/*Servidor *servidor = new Servidor();
+	servidor->iniciar("8081");*/
+
+	CppUnit::TextUi::TestRunner runner;
+	TestUsuario* usr_test = new TestUsuario();
+	runner.addTest(usr_test);
+	runner.run();
+
+
 //
 //	delete logger;
 //	delete servidor;
