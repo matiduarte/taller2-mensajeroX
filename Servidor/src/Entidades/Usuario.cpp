@@ -35,8 +35,8 @@ string Usuario::getId(){
 }
 
 
-Usuario::Usuario() {
-	this->conectado = true;
+Usuario::Usuario(string usuarioSerializado) {
+	this->deserealizar(usuarioSerializado);
 }
 
 

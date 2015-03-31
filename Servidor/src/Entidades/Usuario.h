@@ -29,7 +29,7 @@ private:
 
 public:
 	Usuario(string nombre, string fotoDePerfil, string telefono);
-	Usuario();
+	Usuario(string usuarioSerializado);
 	void registrar();
 	void modificarDatos();
 	void registrarUltimaConexion();

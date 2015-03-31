@@ -7,8 +7,8 @@
 
 #include "Conversacion.h"
 
-Conversacion::Conversacion() {
-	// TODO Auto-generated constructor stub
+Conversacion::Conversacion(string conversacionSerializada) {
+	this->deserealizar(conversacionSerializada);
 }
 
 Conversacion::Conversacion(vector<Usuario*> usuarios, vector<string> mensajes){

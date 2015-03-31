@@ -15,19 +15,32 @@
 #include "rocksdb/options.h"
 #include "../constantes.h"
 #include "../Entidades/Persistible.h"
+#include "../Entidades/Usuario.h"
+#include "../Entidades/Conversacion.h"
+
 
 using namespace rocksdb;
 
 class BaseDeDatos {
 private:
+	static BaseDeDatos* pBaseDeDatos;
+	static void destruirBaseDeDatos();
+	BaseDeDatos();
+
 	DB* db;
 	Options options;
-	string path_BaseDeDatosDefault;
-	string ClaveBaseUsuario;
-	string ClaveBaseConversacion;
+	string claveBaseUsuario;
+	string claveBaseConversacion;
 	Status estado;
+	void setDato(string clave, string valor);
+	string getDato(string clave);
+
 public:
-	BaseDeDatos();
+	void setUsuario(Usuario* usuario);
+	Usuario* getUsuario(string clave);
+	void setConversacion(Conversacion* conversacion);
+	Conversacion* getConversacion(string clave);
+	static BaseDeDatos* getInstance();
 	virtual ~BaseDeDatos();
 	void setPersistible(Persistible *usuario);
 	string getPersistible(string clave);
