@@ -14,12 +14,14 @@
 #include "rocksdb/slice.h"
 #include "rocksdb/options.h"
 #include "../constantes.h"
-#include "../Entidades/Persistible.h"
 #include "../Entidades/Usuario.h"
 #include "../Entidades/Conversacion.h"
 
 
 using namespace rocksdb;
+
+class Conversacion;
+class Usuario;
 
 class BaseDeDatos {
 private:

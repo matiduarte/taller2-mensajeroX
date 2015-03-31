@@ -12,7 +12,9 @@
 #include "Usuario.h"
 #include <vector>
 #include "../Utilidades/StringUtil.h"
+#include "../BaseDeDatos/BaseDeDatos.h"
 
+class BaseDeDatos;
 class Conversacion : public Persistible {
 private:
 	string id;
