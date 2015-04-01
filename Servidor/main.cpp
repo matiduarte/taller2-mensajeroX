@@ -35,11 +35,11 @@ int main(void) {
 //
 	/*Servidor *servidor = new Servidor();
 	servidor->iniciar("8081");*/
-
-	CppUnit::TextUi::TestRunner runner;
-	TestUsuario* usr_test = new TestUsuario();
-	runner.addTest(usr_test);
-	runner.run();
+//
+//	CppUnit::TextUi::TestRunner runner;
+//	TestUsuario* usr_test = new TestUsuario();
+//	runner.addTest(usr_test);
+//	runner.run();
 
 
 //
@@ -64,19 +64,35 @@ int main(void) {
 //	Conversacion* conversacion2 = new Conversacion();
 //	conversacion->deserealizar(conversacionSerializada);
 
-	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
-	Usuario* user = new Usuario("Pepe", "foto", "1568017070");
+//	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
+//	Usuario* user = new Usuario("Pepe", "foto", "1568017070");
+//
+//	baseDeDatos->setUsuario(user);
+//
+//	Usuario *user2;
+//	user2 = baseDeDatos->getUsuario(user->getId());
+//
+//	cout << "el usuario es: " << user2->getNombre() <<endl;
+//
+//	delete user;
+//	delete user2;
+//	delete baseDeDatos;
 
-	baseDeDatos->setUsuario(user);
+	CPPUNIT_NS::TestResult controller;
+	CPPUNIT_NS::TestResultCollector result;
 
-	Usuario *user2;
-	user2 = baseDeDatos->getUsuario(user->getId());
+	controller.addListener(&result);
+	CPPUNIT_NS::BriefTestProgressListener progress;
 
-	cout << "el usuario es: " << user2->getNombre() <<endl;
+	controller.addListener(&progress);
+	CPPUNIT_NS::TestRunner runner;
 
-	delete user;
-	delete user2;
-	delete baseDeDatos;
+	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest());
+	runner.run(controller);
+
+	CPPUNIT_NS::CompilerOutputter outputter(&result, CPPUNIT_NS::stdCOut());
+	outputter.write();
+
 
   return 0;
 }

@@ -17,20 +17,23 @@
 #include "../Entidades/Persistible.h"
 #include "../Entidades/Usuario.h"
 #include "../Entidades/Conversacion.h"
-
+#include "../../test/Base De Datos/BaseDeDatosTests.h"
 
 using namespace rocksdb;
+class BaseDeDatosTests;
 
 class BaseDeDatos {
+	friend BaseDeDatosTests;
 private:
 	static BaseDeDatos* pBaseDeDatos;
 	static void destruirBaseDeDatos();
-	BaseDeDatos();
+	BaseDeDatos(string path);
 
 	DB* db;
 	Options options;
 	string claveBaseUsuario;
 	string claveBaseConversacion;
+	string pathBaseDeDatos;
 	Status estado;
 	void setDato(string clave, string valor);
 	string getDato(string clave);
@@ -42,8 +45,6 @@ public:
 	Conversacion* getConversacion(string clave);
 	static BaseDeDatos* getInstance();
 	virtual ~BaseDeDatos();
-	void setPersistible(Persistible *usuario);
-	string getPersistible(string clave);
 
 };
 

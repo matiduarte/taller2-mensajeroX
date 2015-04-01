@@ -10,16 +10,17 @@
 BaseDeDatos* BaseDeDatos::pBaseDeDatos = NULL;
 
 /**
- * Abre o crea si no esta creada la base de datos en "path_BaseDeDatos".
+ * Abre o crea si no esta creada la base de datos.
  */
-BaseDeDatos::BaseDeDatos() {
+BaseDeDatos::BaseDeDatos(string path) {
 	claveBaseUsuario = "usuario_";
 	claveBaseConversacion = "conversacion_";
+	pathBaseDeDatos = path;
 	options.IncreaseParallelism();
 	options.OptimizeLevelStyleCompaction();
 	options.create_if_missing = true;
 	//TODO: decidir que hacer cuando hay problemas para abrir la base de datos.
-	estado = DB::Open(options, path_BaseDeDatos, &db);
+	estado = DB::Open(options, pathBaseDeDatos, &db);
 	assert(estado.ok());
 
 }
@@ -27,7 +28,7 @@ BaseDeDatos::BaseDeDatos() {
 BaseDeDatos* BaseDeDatos::getInstance() {
     if(pBaseDeDatos == NULL)
     {
-    	pBaseDeDatos = new BaseDeDatos();
+    	pBaseDeDatos = new BaseDeDatos(path_BaseDeDatos);
         atexit(&destruirBaseDeDatos);    // At exit, destroy the singleton
     }
     return pBaseDeDatos;
