@@ -105,5 +105,7 @@ int Conversacion::deserealizar(string aDeserealizar){
 }
 
 void Conversacion::persistir(){
+	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
+	baseDeDatos->setConversacion(this);
 }
 
