@@ -13,7 +13,7 @@ using namespace std;
 
 /*Constantes de Logeo*/
 #define archivoLog "Logger.txt"
-#define nivelLogger "Error"
+#define nivelLogger "Info"
 #define Error "error"
 #define Warn "warn"
 #define Info "info"

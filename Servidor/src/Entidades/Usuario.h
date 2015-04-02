@@ -16,6 +16,7 @@
 #include "../json/json.h"
 #include "../constantes.h"
 #include "../test/Usuario/TestUsuario.h"
+#include "../Log/Logger.h"
 
 using namespace std;
 

@@ -15,7 +15,6 @@ Usuario::Usuario(string nombre, string fotoDePerfil, string telefono) {
 	this->conectado = true;
 	this->id = md5(telefono);
 	this->registrarUltimaConexion();
-
 }
 
 void Usuario::registrarUltimaConexion(){
@@ -93,6 +92,9 @@ string Usuario::serializar(){
 
 	string str_user = user.toStyledString();
 
+	Logger::getLogger()->info("Los datos del Usuario " + this->getNombre() + " se almacenaron correctamente");
+	Logger::getLogger()->guardarEstado();
+
 	return str_user;
 }
 
@@ -110,9 +112,16 @@ int Usuario::deserealizar(string aDeserealizar){
 		this->setEstadoConexion(user.get(keyEstadoDeConexion, "").asBool());
 		this->setUltimaConexion(user.get(keyUltimaConexion, "").asString());
 		this->setFotoDePerfil(user.get(keyFotoDePerfil, "").asString());
+		Logger::getLogger()->info("Los datos del Usuario "+ this->getNombre() +"fueron extraidos correctamente");
+	} else {
+		Logger::getLogger()->error("ERROR: no se pudieron deserializar los datos correctamente");
+
 	}
 
-	return 0;
+	Logger::getLogger()->guardarEstado();
+
+	return parseoExitoso;
+
 }
 
 void Usuario::persistir(){
