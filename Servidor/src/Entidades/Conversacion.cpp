@@ -91,8 +91,7 @@ int Conversacion::deserealizar(string aDeserealizar){
 		string idsUsuarios = conversacion.get(keyIdsUsuarios, "").asString();
 		vector<string> idsUsuariosSplitted = StringUtil::split(idsUsuarios, SeparadorListaBD);
 		for(unsigned i=0; i<idsUsuariosSplitted.size();i++){
-			//TODO: obtener el usuario de la base de datos con el id
-			Usuario* u = new Usuario("nombre","foto","4646");
+			Usuario* u = Usuario::obtener(idsUsuariosSplitted[i]);
 			usuarios.push_back(u);
 		}
 		this->usuarios = usuarios;
@@ -111,5 +110,10 @@ int Conversacion::deserealizar(string aDeserealizar){
 void Conversacion::persistir(){
 	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
 	baseDeDatos->setConversacion(this);
+}
+
+Conversacion* Conversacion::obtener(string clave){
+	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
+	return baseDeDatos->getConversacion(clave);
 }
 

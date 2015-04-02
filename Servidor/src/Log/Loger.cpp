@@ -1,15 +1,15 @@
 /*
- * Logger.cpp
+ * Loger.cpp
  *
- *  Created on: 24/3/2015
+ *  Created on: 2/4/2015
  *      Author: matias
  */
 
-#include "Logger.h"
+#include "Loger.h"
 
-Logger* Logger::logInstancia = NULL;
+Loger* Loger::logInstancia = NULL;
 
-Logger::Logger(){
+Loger::Loger(){
 
 	ofstream* arch = new ofstream;
 	arch->open(archivoLog, ofstream::trunc);
@@ -18,20 +18,20 @@ Logger::Logger(){
 	ponerFecha();
 }
 
-void Logger::escribir(string texto){
+void Loger::escribir(string texto){
 	this->archivo->write(texto.c_str(), strlen(texto.c_str()));
 	this->archivo->write("\n", strlen("\n"));
 
 }
 
-void Logger::guardarEstado(){
+void Loger::guardarEstado(){
 
 	this->archivo->close();
 	this->archivo->open(archivoLog, ofstream::app);
 
 }
 
-void Logger::ponerFecha(){
+void Loger::ponerFecha(){
 	time_t fecha;
 	time ( &fecha);
 	string sfecha = ctime (&fecha);
@@ -42,25 +42,25 @@ void Logger::ponerFecha(){
 	escribir(sfecha);
 }
 
-void Logger::modificarNivel(string nivel){
+void Loger::modificarNivel(string nivel){
 	this->setNivel(nivel);
 }
 
-void Logger::setNivel(string nivel){
+void Loger::setNivel(string nivel){
 	this->nivel = nivel;
 }
 
-string Logger::getNivel(){
+string Loger::getNivel(){
 	return this->nivel;
 }
 
-void Logger::error(string texto){
+void Loger::error(string texto){
 
 	this->escribir(texto);
 
 }
 
-void Logger::warn(string texto){
+void Loger::warn(string texto){
 
 	string nivel = StringUtil::toLower(this->getNivel());
 	if ((nivel == Warn) || (nivel == Info)  || (nivel == Debug))
@@ -68,7 +68,7 @@ void Logger::warn(string texto){
 
 }
 
-void Logger::info(string texto){
+void Loger::info(string texto){
 
 	string nivel = StringUtil::toLower(this->getNivel());
 	if ((nivel == Info)  || (nivel == Debug))
@@ -76,7 +76,7 @@ void Logger::info(string texto){
 
 }
 
-void Logger::debug(string texto){
+void Loger::debug(string texto){
 
 	string nivel = StringUtil::toLower(this->getNivel());
 	if ((nivel == Debug))
@@ -84,16 +84,17 @@ void Logger::debug(string texto){
 
 }
 
-Logger::~Logger(){
+Loger::~Loger(){
 
 	this->archivo->close();
 	delete this->archivo;
 }
 
 
-Logger* Logger::getLogger(){
+Loger* Loger::getLoger(){
 
-	if(logInstancia == NULL) logInstancia = new Logger();
+	if(logInstancia == NULL) logInstancia = new Loger();
 
 	return logInstancia;
 }
+

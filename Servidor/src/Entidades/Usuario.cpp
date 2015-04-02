@@ -92,8 +92,8 @@ string Usuario::serializar(){
 
 	string str_user = user.toStyledString();
 
-	Logger::getLogger()->info("Los datos del Usuario " + this->getNombre() + " se almacenaron correctamente");
-	Logger::getLogger()->guardarEstado();
+	Loger::getLoger()->info("Los datos del Usuario " + this->getNombre() + " se almacenaron correctamente");
+	Loger::getLoger()->guardarEstado();
 
 	return str_user;
 }
@@ -112,20 +112,26 @@ int Usuario::deserealizar(string aDeserealizar){
 		this->setEstadoConexion(user.get(keyEstadoDeConexion, "").asBool());
 		this->setUltimaConexion(user.get(keyUltimaConexion, "").asString());
 		this->setFotoDePerfil(user.get(keyFotoDePerfil, "").asString());
-		Logger::getLogger()->info("Los datos del Usuario "+ this->getNombre() +"fueron extraidos correctamente");
+		Loger::getLoger()->info("Los datos del Usuario "+ this->getNombre() +" fueron extraidos correctamente");
 	} else {
-		Logger::getLogger()->error("ERROR: no se pudieron deserializar los datos correctamente");
+		Loger::getLoger()->error("ERROR: no se pudieron deserializar los datos correctamente");
 
 	}
 
-	Logger::getLogger()->guardarEstado();
+	Loger::getLoger()->guardarEstado();
 
 	return parseoExitoso;
 
 }
 
 void Usuario::persistir(){
+	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
+	baseDeDatos->setUsuario(this);
+}
 
+Usuario* Usuario::obtener(string clave){
+	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
+	return baseDeDatos->getUsuario(clave);
 }
 
 

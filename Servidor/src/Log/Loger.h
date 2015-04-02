@@ -1,12 +1,12 @@
 /*
- * Logger.h
+ * Loger.h
  *
- *  Created on: 24/3/2015
+ *  Created on: 2/4/2015
  *      Author: matias
  */
 
-#ifndef SRC_LOG_LOGGER_H_
-#define SRC_LOG_LOGGER_H_
+#ifndef SRC_LOG_LOGER_H_
+#define SRC_LOG_LOGER_H_
 
 #include<fstream>
 #include<string.h>
@@ -14,14 +14,11 @@
 #include "../constantes.h"
 #include "../Utilidades/StringUtil.h"
 
-using namespace std;
-
-class Logger{
-
+class Loger {
 private:
 
-	static Logger* logInstancia;
-	Logger();
+	static Loger* logInstancia;
+	Loger();
 	ofstream* archivo;
 	void ponerFecha();
 	void escribir(string texto);
@@ -30,15 +27,14 @@ private:
 	void setNivel(string nivel);
 
 public:
-	static Logger* getLogger();
+	static Loger* getLoger();
 	void error(string texto);
 	void warn(string texto);
 	void info(string texto);
 	void debug(string texto);
 	void guardarEstado();
 	void modificarNivel(string nivel);
-	~Logger();
-
+	~Loger();
 };
 
-#endif /* SRC_LOG_LOGGER_H_ */
+#endif /* SRC_LOG_LOGER_H_ */

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include "src/Log/Logger.h"
 #include "src/Servidor/Servidor.h"
 
 #include "src/BaseDeDatos/BaseDeDatos.h"
@@ -17,6 +16,8 @@
 #include <cppunit/TestResult.h>
 #include <cppunit/TestResultCollector.h>
 #include <cppunit/TestRunner.h>
+
+#include "src/Log/Loger.h"
 
 using namespace std;
 using namespace CppUnit;

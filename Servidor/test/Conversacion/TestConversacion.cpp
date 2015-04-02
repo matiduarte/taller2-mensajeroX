@@ -21,6 +21,11 @@ TestConversacion::~TestConversacion() {
 void TestConversacion::testSerializacionDeDatosUnaConversacion(){
 	Usuario* user = new Usuario("Pepe", "foto", "1568017070");
 	Usuario* user2 = new Usuario("Jose", "foto2", "156801515");
+
+	BaseDeDatos* db = BaseDeDatos::getInstance();
+	db->setUsuario(user);
+	db->setUsuario(user2);
+
 	vector<Usuario*> usuarios;
 	usuarios.push_back(user);
 	usuarios.push_back(user2);
@@ -40,13 +45,11 @@ void TestConversacion::testSerializacionDeDatosUnaConversacion(){
 	CPPUNIT_ASSERT(mensajes[0] == mensajesDeserealizados[0]);
 	CPPUNIT_ASSERT(mensajes[1] == mensajesDeserealizados[1]);
 
-//TODO: descomentar cuando este implementada la parte de obtener el usuario de la db
+	CPPUNIT_ASSERT(user->getNombre() == usuariosDeserealizados[0]->getNombre());
+	CPPUNIT_ASSERT(user->getId() == usuariosDeserealizados[0]->getId());
 
-//	CPPUNIT_ASSERT(user->getNombre() == usuariosDeserealizados[0]->getNombre());
-//	CPPUNIT_ASSERT(user->getId() == usuariosDeserealizados[0]->getId());
-//
-//	CPPUNIT_ASSERT(user2->getNombre() == usuariosDeserealizados[1]->getNombre());
-//	CPPUNIT_ASSERT(user2->getId() == usuariosDeserealizados[1]->getId());
+	CPPUNIT_ASSERT(user2->getNombre() == usuariosDeserealizados[1]->getNombre());
+	CPPUNIT_ASSERT(user2->getId() == usuariosDeserealizados[1]->getId());
 
 
 	delete user;
