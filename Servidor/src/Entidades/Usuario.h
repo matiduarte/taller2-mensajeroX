@@ -15,10 +15,15 @@
 #include "../Utilidades/md5.h"
 #include "../json/json.h"
 #include "../constantes.h"
+#include "../test/Usuario/TestUsuario.h"
 
 using namespace std;
 
-class Usuario: public Persistible {
+class TestUsuario;
+
+class Usuario: public Persistible
+	 {
+	friend TestUsuario;
 private:
 	string nombre;
 	string fotoDePerfil;
@@ -43,6 +48,7 @@ public:
 	string getId();
 	string getNombre();
 	string getTelefono();
+	string getFotoDePerfil();
 	string serializar();
 	bool getEstadoConexion();
 	int deserealizar(string aDeserealizar);

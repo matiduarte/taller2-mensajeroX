@@ -72,6 +72,14 @@ void Usuario::setUltimaConexion(string ultimaConexion){
 	this->ultimaConexion = ultimaConexion;
 }
 
+void Usuario::setFotoDePerfil(string foto){
+	this->fotoDePerfil = foto;
+}
+
+string Usuario::getFotoDePerfil(){
+	return this->fotoDePerfil;
+}
+
 string Usuario::serializar(){
 
 	Json::Value user;
@@ -81,6 +89,7 @@ string Usuario::serializar(){
 	user[keyTelefono] = this->getTelefono();
 	user[keyEstadoDeConexion] = this->getEstadoConexion();
 	user[keyUltimaConexion] = this->getUltimaConexion();
+	user[keyFotoDePerfil] = this->getFotoDePerfil();
 
 	string str_user = user.toStyledString();
 
@@ -100,10 +109,8 @@ int Usuario::deserealizar(string aDeserealizar){
 		this->setTelefono(user.get(keyTelefono, "").asString());
 		this->setEstadoConexion(user.get(keyEstadoDeConexion, "").asBool());
 		this->setUltimaConexion(user.get(keyUltimaConexion, "").asString());
+		this->setFotoDePerfil(user.get(keyFotoDePerfil, "").asString());
 	}
-
-	cout << this->getNombre() << endl;
-	cout << this->getTelefono() << endl;
 
 	return 0;
 }

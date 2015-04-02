@@ -9,7 +9,14 @@
 #include <iostream>
 #include <cppunit/TestSuite.h>
 #include <cppunit/ui/text/TestRunner.h>
-#include "test/TestUsuario.h"
+#include "test/Usuario/TestUsuario.h"
+
+#include <cppunit/BriefTestProgressListener.h>
+#include <cppunit/CompilerOutputter.h>
+#include <cppunit/extensions/TestFactoryRegistry.h>
+#include <cppunit/TestResult.h>
+#include <cppunit/TestResultCollector.h>
+#include <cppunit/TestRunner.h>
 
 using namespace std;
 using namespace CppUnit;
