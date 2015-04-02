@@ -41,6 +41,7 @@ vector<string> Conversacion::getMensajes(){
 	return this->mensajes;
 }
 
+
 vector<Usuario*> Conversacion::getUsuarios(){
 	return this->usuarios;
 }
@@ -117,3 +118,7 @@ Conversacion* Conversacion::obtener(string clave){
 	return baseDeDatos->getConversacion(clave);
 }
 
+void Conversacion::eliminar(string clave) {
+	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
+	baseDeDatos->eliminarConversacion(clave);
+}

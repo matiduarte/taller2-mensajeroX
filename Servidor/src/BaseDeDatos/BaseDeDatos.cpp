@@ -21,8 +21,11 @@ BaseDeDatos::BaseDeDatos(string path) {
 	options.create_if_missing = true;
 	//TODO: decidir que hacer cuando hay problemas para abrir la base de datos.
 	estado = DB::Open(options, pathBaseDeDatos, &db);
-	assert(estado.ok());
-
+	if (!estado.ok()){
+		Loger::getLoger()->error("ERROR: No se pudo abrir la Base De Datos con path: "+path);
+		Loger::getLoger()->guardarEstado();
+		cerr << "No se pudo abrir la Base de Datos." << endl;
+	}
 }
 
 BaseDeDatos* BaseDeDatos::getInstance() {
@@ -50,7 +53,11 @@ BaseDeDatos::~BaseDeDatos() {}
 void BaseDeDatos::setDato(string clave, string valor) {
 	estado = db->Put(WriteOptions(), clave, valor);
 	//TODO: decidir que hacer cuando hay problemas para guardar datos.
-	assert(estado.ok());
+	if (!estado.ok()){
+		Loger::getLoger()->error("ERROR: No se pudo guardar el objeto con clave: "+clave);
+		Loger::getLoger()->guardarEstado();
+		cerr << "No se pudo guardar el objeto." << endl;
+	}
 }
 
 
@@ -58,7 +65,11 @@ string BaseDeDatos::getDato(string clave) {
 	string valor;
 	estado = db->Get(ReadOptions(), clave, &valor);
 	//TODO: decidir que hacer cuando hay problemas para obtener datos.
-	assert(estado.ok());
+	if (!estado.ok()){
+		Loger::getLoger()->error("ERROR: No se encontró el objeto con clave: "+clave);
+		Loger::getLoger()->guardarEstado();
+		cerr << "No se encontró el objeto." << endl;
+	}
 	return valor;
 }
 
@@ -84,4 +95,22 @@ Conversacion* BaseDeDatos::getConversacion(string clave) {
 
 	Conversacion *conversacion = new Conversacion(claveBaseConversacion+getDato(clave));
 	return conversacion;
+}
+
+void BaseDeDatos::eliminar(string clave) {
+	estado = db->Delete(rocksdb::WriteOptions(), clave);
+	//TODO: decidir que hacer cuando hay problemas para eliminar datos.
+	if (!estado.ok()){
+		Loger::getLoger()->error("ERROR: No se pudo eliminar el objeto con clave: "+clave);
+		Loger::getLoger()->guardarEstado();
+		cerr << "No se pudo eliminar el objeto." << endl;
+	}
+}
+
+void BaseDeDatos::eliminarUsuario(string clave) {
+	eliminar(claveBaseUsuario+clave);
+}
+
+void BaseDeDatos::eliminarConversacion(string clave) {
+	eliminar(claveBaseConversacion+clave);
 }

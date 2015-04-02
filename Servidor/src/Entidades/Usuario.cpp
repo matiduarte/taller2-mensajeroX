@@ -134,6 +134,10 @@ Usuario* Usuario::obtener(string clave){
 	return baseDeDatos->getUsuario(clave);
 }
 
+void Usuario::eliminar(string clave){
+	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
+	baseDeDatos->eliminarUsuario(clave);
+}
 
 Usuario::~Usuario() {
 	// TODO Auto-generated destructor stub

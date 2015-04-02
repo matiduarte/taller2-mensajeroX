@@ -1,3 +1,8 @@
 -----------------------------------------------------------------
-Fri Mar 27 12:46:02 2015
+Thu Apr  2 19:05:37 2015
 -----------------------------------------------------------------
+Los datos del Usuario Pepe se almacenaron correctamente
+Los datos del Usuario Pepe se almacenaron correctamente
+Los datos del Usuario Jose se almacenaron correctamente
+Los datos del Usuario Pepe fueron extraidos correctamente
+Los datos del Usuario Jose fueron extraidos correctamente

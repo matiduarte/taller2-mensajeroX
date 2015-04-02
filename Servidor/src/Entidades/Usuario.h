@@ -58,6 +58,7 @@ public:
 	int deserealizar(string aDeserealizar);
 	void persistir();
 	static Usuario* obtener(string clave);
+	static void eliminar(string clave);
 	virtual ~Usuario();
 };
 

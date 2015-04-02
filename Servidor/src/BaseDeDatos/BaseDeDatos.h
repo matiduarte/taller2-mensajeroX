@@ -39,12 +39,15 @@ private:
 	Status estado;
 	void setDato(string clave, string valor);
 	string getDato(string clave);
+	void eliminar(string clave);
 
 public:
 	void setUsuario(Usuario* usuario);
 	Usuario* getUsuario(string clave);
 	void setConversacion(Conversacion* conversacion);
 	Conversacion* getConversacion(string clave);
+	void eliminarUsuario(string clave);
+	void eliminarConversacion(string clave);
 	static BaseDeDatos* getInstance();
 	virtual ~BaseDeDatos();
 

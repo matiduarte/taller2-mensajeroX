@@ -29,6 +29,7 @@ public:
 	int deserealizar(string aDeserealizar);
 	void persistir();
 	static Conversacion* obtener(string clave);
+	static void eliminar(string clave);
 	string getId();
 	vector<string> getMensajes();
 	void agregarMensaje(string mensaje);

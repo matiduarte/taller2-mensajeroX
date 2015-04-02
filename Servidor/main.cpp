@@ -74,17 +74,16 @@ int main(void) {
 
 //	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
 //	Usuario* user = new Usuario("Pepe", "foto", "1568017070");
-//
-//	baseDeDatos->setUsuario(user);
-//
 //	Usuario *user2;
+
+//	baseDeDatos->setUsuario(user);
+//	Usuario::eliminar(user->getId());
 //	user2 = baseDeDatos->getUsuario(user->getId());
-//
 //	cout << "el usuario es: " << user2->getNombre() <<endl;
-//
 //	delete user;
 //	delete user2;
 //	delete baseDeDatos;
+
 
 	CPPUNIT_NS::TestResult controller;
 	CPPUNIT_NS::TestResultCollector result;
