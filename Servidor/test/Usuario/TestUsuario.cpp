@@ -35,5 +35,17 @@ void TestUsuario::testSerializacionDeDatosDeUnUsuario(){
 
 	delete unUsuario;
 
+}
 
+void TestUsuario::testLaDeserializacionDebeActualizarLosDatosDeUnUsuario(){
+
+	Usuario* unUsuario = new Usuario("Pedro" , "foto" , "123456789");
+	string nuevoTelefono = "1122334455";
+	unUsuario->setTelefono(nuevoTelefono);
+	string usuarioSerializado = unUsuario->serializar();
+	unUsuario->deserealizar(usuarioSerializado);
+
+	CPPUNIT_ASSERT(nuevoTelefono == unUsuario->getTelefono() );
+
+	delete unUsuario;
 }
