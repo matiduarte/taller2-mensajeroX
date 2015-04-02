@@ -41,6 +41,10 @@ vector<string> Conversacion::getMensajes(){
 	return this->mensajes;
 }
 
+vector<Usuario*> Conversacion::getUsuarios(){
+	return this->usuarios;
+}
+
 void Conversacion::agregarMensaje(string mensaje){
 	this->mensajes.push_back(mensaje);
 }
