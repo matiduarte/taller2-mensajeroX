@@ -9,12 +9,12 @@
 #define SRC_ENTIDADES_CONVERSACION_H_
 
 #include "Persistible.h"
-#include "Usuario.h"
 #include <vector>
 #include "../Utilidades/StringUtil.h"
 #include "../BaseDeDatos/BaseDeDatos.h"
 
 class BaseDeDatos;
+class Usuario;
 class Conversacion : public Persistible {
 private:
 	string id;
@@ -28,6 +28,7 @@ public:
 	string serializar();
 	int deserealizar(string aDeserealizar);
 	void persistir();
+	static Conversacion* obtener(string clave);
 	string getId();
 	vector<string> getMensajes();
 	void agregarMensaje(string mensaje);

@@ -116,7 +116,13 @@ int Usuario::deserealizar(string aDeserealizar){
 }
 
 void Usuario::persistir(){
+	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
+	baseDeDatos->setUsuario(this);
+}
 
+Usuario* Usuario::obtener(string clave){
+	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
+	return baseDeDatos->getUsuario(clave);
 }
 
 

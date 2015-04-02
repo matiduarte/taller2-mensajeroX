@@ -16,6 +16,9 @@
 #include "../json/json.h"
 #include "../constantes.h"
 #include "../test/Usuario/TestUsuario.h"
+#include "../BaseDeDatos/BaseDeDatos.h"
+
+class BaseDeDatos;
 
 using namespace std;
 
@@ -53,6 +56,7 @@ public:
 	bool getEstadoConexion();
 	int deserealizar(string aDeserealizar);
 	void persistir();
+	static Usuario* obtener(string clave);
 	virtual ~Usuario();
 };
 

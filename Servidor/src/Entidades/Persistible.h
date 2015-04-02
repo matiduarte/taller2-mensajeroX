@@ -21,6 +21,7 @@ public:
 	virtual string serializar();
 	virtual int deserealizar(string aDeserealizar);
 	virtual void persistir();
+	static Persistible* obtener(string clave);
 	virtual string getId();
 };
 
