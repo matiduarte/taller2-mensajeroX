@@ -22,7 +22,7 @@ BaseDeDatos::BaseDeDatos(string path) {
 	//TODO: decidir que hacer cuando hay problemas para abrir la base de datos.
 	estado = DB::Open(options, pathBaseDeDatos, &db);
 	if (!estado.ok()){
-		Loger::getLoger()->error("ERROR: No se pudo abrir la Base De Datos con path: "+path);
+		Loger::getLoger()->error("No se pudo abrir la Base De Datos con path: "+path);
 		Loger::getLoger()->guardarEstado();
 		cerr << "No se pudo abrir la Base de Datos." << endl;
 	}
@@ -52,11 +52,9 @@ BaseDeDatos::~BaseDeDatos() {}
 
 void BaseDeDatos::setDato(string clave, string valor) {
 	estado = db->Put(WriteOptions(), clave, valor);
-	//TODO: decidir que hacer cuando hay problemas para guardar datos.
 	if (!estado.ok()){
-		Loger::getLoger()->error("ERROR: No se pudo guardar el objeto con clave: "+clave);
+		Loger::getLoger()->warn("No se pudo guardar el objeto con clave: "+clave);
 		Loger::getLoger()->guardarEstado();
-		cerr << "No se pudo guardar el objeto." << endl;
 	}
 }
 
@@ -64,12 +62,12 @@ void BaseDeDatos::setDato(string clave, string valor) {
 string BaseDeDatos::getDato(string clave) {
 	string valor;
 	estado = db->Get(ReadOptions(), clave, &valor);
-	//TODO: decidir que hacer cuando hay problemas para obtener datos.
-	if (!estado.ok()){
-		Loger::getLoger()->error("ERROR: No se encontró el objeto con clave: "+clave);
-		Loger::getLoger()->guardarEstado();
-		cerr << "No se encontró el objeto." << endl;
-	}
+
+	if (estado.IsNotFound())
+		valor = keyDatoNoEncontrado;
+	else if (!estado.ok())
+		throw new std::runtime_error("No se pudo obtener el dato: "+estado.ToString());
+
 	return valor;
 }
 
@@ -80,9 +78,19 @@ void BaseDeDatos::setUsuario(Usuario* usuario) {
 
 
 Usuario* BaseDeDatos::getUsuario(string clave) {
-
-	Usuario *usuario = new Usuario(getDato(claveBaseUsuario+clave));
-	return usuario;
+	try {
+		string valor = getDato(claveBaseUsuario + clave);
+		if (valor != keyDatoNoEncontrado)
+			return new Usuario(valor);
+		else{
+			Loger::getLoger()->warn("El usuario con clave: " +clave+ " no se encuentra en la base de datos.");
+			Loger::getLoger()->guardarEstado();
+		}
+	} catch (std::runtime_error &e) {
+		Loger::getLoger()->error(string(e.what()));
+		Loger::getLoger()->guardarEstado();
+	}
+	return new Usuario();
 }
 
 
@@ -93,17 +101,27 @@ void BaseDeDatos::setConversacion(Conversacion* conversacion) {
 
 Conversacion* BaseDeDatos::getConversacion(string clave) {
 
-	Conversacion *conversacion = new Conversacion(claveBaseConversacion+getDato(clave));
-	return conversacion;
+	try {
+		string valor = getDato(claveBaseConversacion + clave);
+		if (valor != keyDatoNoEncontrado)
+			return new Conversacion(claveBaseConversacion+getDato(clave));
+		else{
+			Loger::getLoger()->warn("La conversación con clave: " +clave+ " no se encuentra en la base de datos.");
+			Loger::getLoger()->guardarEstado();
+		}
+	} catch (std::runtime_error &e) {
+		Loger::getLoger()->error(string(e.what()));
+		Loger::getLoger()->guardarEstado();
+	}
+	return new Conversacion();
 }
+
 
 void BaseDeDatos::eliminar(string clave) {
 	estado = db->Delete(rocksdb::WriteOptions(), clave);
-	//TODO: decidir que hacer cuando hay problemas para eliminar datos.
 	if (!estado.ok()){
-		Loger::getLoger()->error("ERROR: No se pudo eliminar el objeto con clave: "+clave);
+		Loger::getLoger()->warn(" No se pudo eliminar el objeto con clave: "+clave);
 		Loger::getLoger()->guardarEstado();
-		cerr << "No se pudo eliminar el objeto." << endl;
 	}
 }
 

@@ -75,11 +75,12 @@ int main(void) {
 //	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
 //	Usuario* user = new Usuario("Pepe", "foto", "1568017070");
 //	Usuario *user2;
-
+//
 //	baseDeDatos->setUsuario(user);
 //	Usuario::eliminar(user->getId());
-//	user2 = baseDeDatos->getUsuario(user->getId());
-//	cout << "el usuario es: " << user2->getNombre() <<endl;
+//	user2 = baseDeDatos->getUsuario("68cf4241410d1d0f905809aaea2816fc");
+//	cout << "el usuario es: " << user2->getId() <<endl;
+//
 //	delete user;
 //	delete user2;
 //	delete baseDeDatos;
