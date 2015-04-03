@@ -21,6 +21,7 @@ using namespace std;
 
 
 const string path_BaseDeDatos = "Base de Datos";
+const string keyDefault = "";
 
 /*Claves principales de los Usuarios*/
 #define keyNombre "Nombre"

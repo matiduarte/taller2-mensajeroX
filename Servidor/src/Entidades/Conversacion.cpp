@@ -86,10 +86,10 @@ int Conversacion::deserealizar(string aDeserealizar){
 	bool parseoExitoso = reader.parse(aDeserealizar, conversacion);
 
 	if (parseoExitoso){
-		this->id = conversacion.get(keyIdConversacion, "").asString();
+		this->id = conversacion.get(keyIdConversacion, keyDefault).asString();
 
 		vector<Usuario*> usuarios;
-		string idsUsuarios = conversacion.get(keyIdsUsuarios, "").asString();
+		string idsUsuarios = conversacion.get(keyIdsUsuarios, keyDefault).asString();
 		vector<string> idsUsuariosSplitted = StringUtil::split(idsUsuarios, SeparadorListaBD);
 		for(unsigned i=0; i<idsUsuariosSplitted.size();i++){
 			Usuario* u = Usuario::obtener(idsUsuariosSplitted[i]);
@@ -97,7 +97,7 @@ int Conversacion::deserealizar(string aDeserealizar){
 		}
 		this->usuarios = usuarios;
 
-		string mensajes = conversacion.get(keyMensajes, "").asString();
+		string mensajes = conversacion.get(keyMensajes, keyDefault).asString();
 		vector<string> mensajesSplitted = StringUtil::split(mensajes, SeparadorListaBD);
 		this->mensajes = mensajesSplitted;
 

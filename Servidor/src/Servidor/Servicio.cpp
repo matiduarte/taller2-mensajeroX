@@ -45,12 +45,13 @@ void Servicio::prueba(){
 }
 
 void Servicio::registrarUsuario(){
-	string nombreUsuario = this->getParametro("nombre", "nombreDeafult");
+	string nombreUsuario = this->getParametro(keyNombre, keyDefault);
 	cout << "Nombre es: "<< nombreUsuario << endl;
 }
 
 bool Servicio::autenticarUsuario(){
 
+	string telUsuario = this->getParametro(keyTelefono, keyDefault);
 	/*TODO: solicitar al usuario nombre y contraseña
 	 * 		buscar el password en la base de datos
 	 * 		comparar con el password ingresado

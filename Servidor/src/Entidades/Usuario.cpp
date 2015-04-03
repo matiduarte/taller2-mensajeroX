@@ -107,12 +107,12 @@ int Usuario::deserealizar(string aDeserealizar){
 	bool parseoExitoso = reader.parse(aDeserealizar, user);
 
 	if ( parseoExitoso ){
-		this->setId(user.get(keyId, "").asString());
-		this->setNombre(user.get(keyNombre, "").asString());
-		this->setTelefono(user.get(keyTelefono, "").asString());
-		this->setEstadoConexion(user.get(keyEstadoDeConexion, "").asBool());
-		this->setUltimaConexion(user.get(keyUltimaConexion, "").asString());
-		this->setFotoDePerfil(user.get(keyFotoDePerfil, "").asString());
+		this->setId(user.get(keyId, keyDefault).asString());
+		this->setNombre(user.get(keyNombre, keyDefault).asString());
+		this->setTelefono(user.get(keyTelefono, keyDefault).asString());
+		this->setEstadoConexion(user.get(keyEstadoDeConexion, keyDefault).asBool());
+		this->setUltimaConexion(user.get(keyUltimaConexion, keyDefault).asString());
+		this->setFotoDePerfil(user.get(keyFotoDePerfil, keyDefault).asString());
 	} else {
 		Loger::getLoger()->error("ERROR: no se pudieron deserializar los datos correctamente");
 	}
