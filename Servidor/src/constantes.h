@@ -44,7 +44,7 @@ const string path_BaseDeDatos = "Base de Datos";
 
 /*Constantes para el manejo de errores*/
 const string keyDatoNoEncontrado = "NotFound";
-const string keyIdUsuarioNoEncontra = "UsarioInvalido";
+const string keyIdUsuarioNoEncontrado = "UsarioInvalido";
 const string keyIdConversacionNoEncontrada = "ConversacionInvalida";
 
 #endif /* SRC_CONSTANTES_H_ */

@@ -17,6 +17,10 @@ Usuario::Usuario(string nombre, string fotoDePerfil, string telefono) {
 	this->registrarUltimaConexion();
 }
 
+Usuario::Usuario(){
+	this->id = keyIdUsuarioNoEncontrado;
+}
+
 void Usuario::registrarUltimaConexion(){
 
 	time_t tiempo;

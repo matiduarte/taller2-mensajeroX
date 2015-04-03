@@ -37,6 +37,7 @@ private:
 	string ultimaConexion;
 
 public:
+	Usuario();
 	Usuario(string nombre, string fotoDePerfil, string telefono);
 	Usuario(string usuarioSerializado);
 	void registrar();
