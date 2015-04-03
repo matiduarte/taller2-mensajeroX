@@ -92,9 +92,6 @@ string Usuario::serializar(){
 
 	string str_user = user.toStyledString();
 
-	Loger::getLoger()->info("Los datos del Usuario " + this->getNombre() + " se almacenaron correctamente");
-	Loger::getLoger()->guardarEstado();
-
 	return str_user;
 }
 
@@ -112,10 +109,8 @@ int Usuario::deserealizar(string aDeserealizar){
 		this->setEstadoConexion(user.get(keyEstadoDeConexion, "").asBool());
 		this->setUltimaConexion(user.get(keyUltimaConexion, "").asString());
 		this->setFotoDePerfil(user.get(keyFotoDePerfil, "").asString());
-		Loger::getLoger()->info("Los datos del Usuario "+ this->getNombre() +" fueron extraidos correctamente");
 	} else {
 		Loger::getLoger()->error("ERROR: no se pudieron deserializar los datos correctamente");
-
 	}
 
 	Loger::getLoger()->guardarEstado();
