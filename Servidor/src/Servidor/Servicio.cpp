@@ -51,7 +51,8 @@ void Servicio::registrarUsuario(){
 
 bool Servicio::autenticarUsuario(){
 
-	string telUsuario = this->getParametro(keyTelefono, keyDefault);
+	string telefono = this->getParametro(keyTelefono, keyDefault);
+	cout << "Telefono para autenticar: " << telefono << endl;
 	/*TODO: solicitar al usuario nombre y contraseña
 	 * 		buscar el password en la base de datos
 	 * 		comparar con el password ingresado

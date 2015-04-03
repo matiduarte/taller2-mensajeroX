@@ -56,7 +56,7 @@ string Loger::getNivel(){
 
 void Loger::error(string texto){
 
-	this->escribir(texto);
+	this->escribir("ERROR: " +texto);
 
 }
 
@@ -64,7 +64,7 @@ void Loger::warn(string texto){
 
 	string nivel = StringUtil::toLower(this->getNivel());
 	if ((nivel == Warn) || (nivel == Info)  || (nivel == Debug))
-		this->escribir(texto);
+		this->escribir("WARNING: "+texto);
 
 }
 
@@ -72,7 +72,7 @@ void Loger::info(string texto){
 
 	string nivel = StringUtil::toLower(this->getNivel());
 	if ((nivel == Info)  || (nivel == Debug))
-		this->escribir(texto);
+		this->escribir("INFO: "+texto);
 
 }
 
@@ -80,7 +80,7 @@ void Loger::debug(string texto){
 
 	string nivel = StringUtil::toLower(this->getNivel());
 	if ((nivel == Debug))
-		this->escribir(texto);
+		this->escribir("DEBUG: "+texto);
 
 }
 

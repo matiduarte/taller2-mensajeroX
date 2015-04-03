@@ -114,7 +114,7 @@ int Usuario::deserealizar(string aDeserealizar){
 		this->setUltimaConexion(user.get(keyUltimaConexion, keyDefault).asString());
 		this->setFotoDePerfil(user.get(keyFotoDePerfil, keyDefault).asString());
 	} else {
-		Loger::getLoger()->error("ERROR: no se pudieron deserializar los datos correctamente");
+		Loger::getLoger()->error("no se pudieron deserializar los datos correctamente");
 	}
 
 	Loger::getLoger()->guardarEstado();
