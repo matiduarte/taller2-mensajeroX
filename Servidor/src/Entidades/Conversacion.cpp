@@ -17,6 +17,10 @@ Conversacion::Conversacion(vector<Usuario*> usuarios, vector<string> mensajes){
 	this->id = this->getId();
 }
 
+Conversacion::Conversacion(){
+	this->id = keyIdConversacionNoEncontrada;
+}
+
 Conversacion::~Conversacion() {
 	// TODO Auto-generated destructor stub
 }

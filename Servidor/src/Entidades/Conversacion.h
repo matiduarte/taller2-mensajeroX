@@ -24,6 +24,7 @@ private:
 public:
 	Conversacion(vector<Usuario*> usuarios, vector<string> mensajes);
 	Conversacion(string conversacionSerializada);
+	Conversacion();
 	virtual ~Conversacion();
 	string serializar();
 	int deserealizar(string aDeserealizar);
