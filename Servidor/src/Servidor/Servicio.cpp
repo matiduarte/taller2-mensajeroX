@@ -49,18 +49,18 @@ void Servicio::registrarUsuario(){
 	cout << "Nombre es: "<< nombreUsuario << endl;
 }
 
-bool Servicio::autenticarUsuario(){
+void Servicio::autenticarUsuario(){
 
 	string telefono = this->getParametro(keyTelefono, keyDefault);
-	cout << "Telefono para autenticar: " << telefono << endl;
-	/*TODO: solicitar al usuario nombre y contraseña
-	 * 		buscar el password en la base de datos
-	 * 		comparar con el password ingresado
-	 * 		Si password coincide
-	 * 			Ingresa al sistema
-	 * 		Si no
-	 * 			Requerir datos nuevamente
-	 * 		Devolver Token (?)
-	 */
-	return true;
+	string clave = Usuario::obtenerId(telefono);
+	Usuario* user = Usuario::obtener(clave);
+
+	if (user->getId() != keyIdUsuarioNoEncontrado){
+		user->setEstadoConexion(true);
+		user->persistir();
+	} else {
+		Loger::getLoger()->warn("Usuario "+user->getNombre()+ "no se encuentra registrado en el sistema");
+		Loger::getLoger()->guardarEstado();
+	}
+	delete user;
 }

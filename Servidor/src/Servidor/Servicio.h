@@ -12,12 +12,13 @@
 #include "../Entidades/Conversacion.h"
 #include "../WebServer/mongoose.h"
 #include "../json/json.h"
+#include "../Log/Loger.h"
 
 class Servicio {
 public:
 	Servicio();
 	virtual ~Servicio();
-	bool autenticarUsuario();
+	void autenticarUsuario();
 	void registrarUsuario();
 	void enviarConversacion(Conversacion *conversacion);
 	void prueba();

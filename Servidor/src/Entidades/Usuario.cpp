@@ -142,3 +142,8 @@ Usuario::~Usuario() {
 	// TODO Auto-generated destructor stub
 }
 
+string Usuario::obtenerId(string telefono){
+	return md5(telefono);
+
+}
+

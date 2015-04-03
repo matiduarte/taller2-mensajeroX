@@ -60,6 +60,7 @@ public:
 	void persistir();
 	static Usuario* obtener(string clave);
 	static void eliminar(string clave);
+	static string obtenerId(string telefono);
 	virtual ~Usuario();
 };
 
