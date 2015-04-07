@@ -67,7 +67,7 @@ void Usuario::setTelefono(string telefono){
 	this->telefono = telefono;
 }
 
-void Usuario::setEstadoConexion(const bool estado){
+void Usuario::setEstadoConexion(bool estado){
 	this->conectado = estado;
 }
 

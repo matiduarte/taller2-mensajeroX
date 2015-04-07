@@ -49,11 +49,19 @@ void Servicio::registrarUsuario(){
 	cout << "Nombre es: "<< nombreUsuario << endl;
 }
 
-void Servicio::autenticarUsuario(){
+Usuario* Servicio::obtenerUsuario(){
 
 	string telefono = this->getParametro(keyTelefono, keyDefault);
 	string clave = Usuario::obtenerId(telefono);
 	Usuario* user = Usuario::obtener(clave);
+
+	return user;
+
+}
+
+void Servicio::autenticarUsuario(){
+
+	Usuario* user = this->obtenerUsuario();
 
 	if (user->getId() != keyIdUsuarioNoEncontrado){
 		user->setEstadoConexion(Online);
@@ -67,5 +75,24 @@ void Servicio::autenticarUsuario(){
 }
 
 void Servicio::administrarPerfil(){
+
+	string nombreUsuario = this->getParametro(keyNombre, keyDefault);
+	string estadoDeConexion = this->getParametro(keyEstadoDeConexion, keyDefault);
+	string fotoDePerfil = this->getParametro(keyFotoDePerfil, keyDefault);
+	bool estado = StringUtil::toBoolean(estadoDeConexion);
+	//TODO: Ver lo del check-in
+	Usuario* user = this->obtenerUsuario();
+
+	if (user->getId() != keyIdUsuarioNoEncontrado){
+		user->setNombre(nombreUsuario);
+		user->setEstadoConexion(estado);
+		user->setFotoDePerfil(fotoDePerfil);
+		user->persistir();
+		Loger::getLoger()->info("Se modificaron los datos del usuario "+user->getNombre()+ " correctamente.");
+	} else {
+		Loger::getLoger()->warn("El usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
+	}
+	Loger::getLoger()->guardarEstado();
+	delete user;
 
 }

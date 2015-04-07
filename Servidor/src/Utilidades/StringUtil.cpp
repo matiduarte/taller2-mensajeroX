@@ -64,3 +64,14 @@ vector<std::string> StringUtil::split(const string &s, char delim) {
     std::vector<std::string> elems;
     return StringUtil::split(s, delim, elems);
 }
+
+bool StringUtil::toBoolean(string value){
+
+	//TODO: VER SI VA A VENIR 0 O 1 O ONLINE U OFFLINE
+	bool estado = false;
+
+	if (value == "1")
+		estado = true;
+
+	return estado;
+}

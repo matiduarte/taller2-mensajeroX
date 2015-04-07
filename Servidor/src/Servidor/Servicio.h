@@ -25,6 +25,7 @@ public:
 	string getParametro(string nombreParametro, string valorDefault);
 	void parsearParametros(struct mg_connection *conn);
 	void administrarPerfil();
+	Usuario* obtenerUsuario();
 private:
 	Json::Value parametros;
 

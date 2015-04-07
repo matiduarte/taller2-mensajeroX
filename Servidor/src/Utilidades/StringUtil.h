@@ -24,6 +24,7 @@ public:
     static int str2int (string string);
     static vector<std::string>& split(const string &s, char delim, vector<string> &elems);
     static vector<std::string> split(const string &s, char delim);
+    static bool toBoolean(string value);
 };
 
 #endif /* SRC_UTILIDADES_STRINGUTIL_H_ */
