@@ -65,3 +65,7 @@ void Servicio::autenticarUsuario(){
 	Loger::getLoger()->guardarEstado();
 	delete user;
 }
+
+void Servicio::administrarPerfil(){
+
+}

@@ -45,6 +45,7 @@ const string keyDefault = "";
 #define urlRegistrarUsuario "/registrarUsuario"
 #define urlPrueba "/prueba"
 #define urlAutenticarUsuario "/autenticarUsuario"
+#define urlAdministrarPerfil "/administrarPerfil"
 
 /*Constantes para el manejo de errores*/
 const string keyDatoNoEncontrado = "NotFound";

@@ -24,6 +24,7 @@ public:
 	void prueba();
 	string getParametro(string nombreParametro, string valorDefault);
 	void parsearParametros(struct mg_connection *conn);
+	void administrarPerfil();
 private:
 	Json::Value parametros;
 
