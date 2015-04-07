@@ -22,38 +22,18 @@
 using namespace std;
 using namespace CppUnit;
 
-/*static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
-  switch (ev) {
-    case MG_AUTH: return MG_TRUE;
-    case MG_REQUEST:
-      mg_printf_data(conn, "Hello! Requested URI is [%s]", conn->uri);
-      return MG_TRUE;
-    default: return MG_FALSE;
-  }
-}*/
-
 int main(void) {
 
-//	Logger* logger = Logger::getLogger();
-//	logger->guardarEstado();
-//	logger->error("ESTO ES UN ERROR");
-//	logger->warn("ESTO ES UN WARNING");
-//	logger->info("ESTO ES INFO");
-//	logger->debug("ESTO ES UN DEBUG");
-//
-	/*Servidor *servidor = new Servidor();
-	servidor->iniciar("8081");*/
-//
-//	CppUnit::TextUi::TestRunner runner;
-//	TestUsuario* usr_test = new TestUsuario();
-//	runner.addTest(usr_test);
-//	runner.run();
-
-
-//
-//	delete logger;
+//	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
+//	Usuario* user = new Usuario("Pepe", "foto", "1122");
+//	user->setEstadoConexion(false);
+//	baseDeDatos->setUsuario(user);
+//	delete user;
+//	Servidor *servidor = new Servidor();
+//	servidor->iniciar("8081");
 //	delete servidor;
-//
+
+
 //	Usuario* user = new Usuario("Pepe", "foto", "1568017070");
 //	Usuario* user2 = new Usuario("Jose", "foto2", "156801515");
 //	string a = user->serializar();
@@ -71,19 +51,6 @@ int main(void) {
 //	string conversacionSerializada = conversacion->serializar();
 //	Conversacion* conversacion2 = new Conversacion();
 //	conversacion->deserealizar(conversacionSerializada);
-
-//	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
-//	Usuario* user = new Usuario("Pepe", "foto", "1568017070");
-//	Usuario *user2;
-//
-//	baseDeDatos->setUsuario(user);
-//	Usuario::eliminar(user->getId());
-//	user2 = baseDeDatos->getUsuario("68cf4241410d1d0f905809aaea2816fc");
-//	cout << "el usuario es: " << user2->getId() <<endl;
-//
-//	delete user;
-//	delete user2;
-//	delete baseDeDatos;
 
 
 	CPPUNIT_NS::TestResult controller;

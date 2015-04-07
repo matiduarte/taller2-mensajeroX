@@ -96,3 +96,25 @@ void Servicio::administrarPerfil(){
 	delete user;
 
 }
+
+bool Servicio::consultarUsuarioOnline() {
+
+	Usuario* user = this->obtenerUsuario();
+	bool estado;
+
+	if (user->getId() != keyIdUsuarioNoEncontrado) {
+		Loger::getLoger()->info("Consulta de estado del usuario "+user->getNombre()+ " exitosa.");
+		estado = user->getEstadoConexion();
+	} else {
+		estado = false;
+		Loger::getLoger()->warn(
+								"No se pudo obtener el estado del usuario con numero: "
+								+ this->getParametro(keyTelefono, keyDefault)
+								+ " ya que no se encuentra registrado en el sistema.");
+	}
+
+	Loger::getLoger()->guardarEstado();
+	delete user;
+	return estado;
+
+}

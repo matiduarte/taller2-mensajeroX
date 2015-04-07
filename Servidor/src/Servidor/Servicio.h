@@ -26,6 +26,7 @@ public:
 	void parsearParametros(struct mg_connection *conn);
 	void administrarPerfil();
 	Usuario* obtenerUsuario();
+	bool consultarUsuarioOnline();
 private:
 	Json::Value parametros;
 
