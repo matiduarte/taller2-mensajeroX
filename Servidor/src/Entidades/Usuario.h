@@ -47,7 +47,7 @@ public:
 	void setNombre(string nombre);
 	void setFotoDePerfil(string fotoDePerfil);
 	void setTelefono(string telefono);
-	void setEstadoConexion(bool estado);
+	void setEstadoConexion(const bool estado);
 	void setUltimaConexion(string ultimaConexion);
 	string getUltimaConexion();
 	string getId();

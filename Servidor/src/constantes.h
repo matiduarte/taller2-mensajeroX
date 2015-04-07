@@ -19,6 +19,9 @@ using namespace std;
 #define Info "info"
 #define Debug "debug"
 
+/*constantes para estado de conexion*/
+const bool Online = true;
+const bool Offline = false;
 
 const string path_BaseDeDatos = "Base de Datos";
 const string keyDefault = "";

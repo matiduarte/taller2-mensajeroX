@@ -56,11 +56,12 @@ void Servicio::autenticarUsuario(){
 	Usuario* user = Usuario::obtener(clave);
 
 	if (user->getId() != keyIdUsuarioNoEncontrado){
-		user->setEstadoConexion(true);
+		user->setEstadoConexion(Online);
 		user->persistir();
+		Loger::getLoger()->info("El usuario "+user->getNombre()+ " inicio sesion correctamente.");
 	} else {
-		Loger::getLoger()->warn("Usuario "+user->getNombre()+ "no se encuentra registrado en el sistema");
-		Loger::getLoger()->guardarEstado();
+		Loger::getLoger()->warn("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
 	}
+	Loger::getLoger()->guardarEstado();
 	delete user;
 }

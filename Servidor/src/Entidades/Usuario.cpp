@@ -12,7 +12,7 @@ Usuario::Usuario(string nombre, string fotoDePerfil, string telefono) {
 	this->nombre = nombre;
 	this->fotoDePerfil = fotoDePerfil;
 	this->telefono = telefono;
-	this->conectado = true;
+	this->conectado = Online;
 	this->id = md5(telefono);
 	this->registrarUltimaConexion();
 }
@@ -67,7 +67,7 @@ void Usuario::setTelefono(string telefono){
 	this->telefono = telefono;
 }
 
-void Usuario::setEstadoConexion(bool estado){
+void Usuario::setEstadoConexion(const bool estado){
 	this->conectado = estado;
 }
 
