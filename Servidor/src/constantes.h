@@ -39,6 +39,11 @@ const string keyDefault = "";
 #define keyIdsUsuarios "IdsUsuarios"
 #define keyMensajes "Mensajes"
 
+/*Claves principales de Mensaje*/
+#define keyCuerpo "Cuerpo"
+#define keyIdUsuarioEmisor "IdUsuarioEmisor"
+#define keyFecha "Fecha"
+
 #define SeparadorListaBD '#'
 
 /*Constantes para Servicios*/
