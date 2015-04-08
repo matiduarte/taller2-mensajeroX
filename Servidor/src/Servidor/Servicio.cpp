@@ -80,13 +80,14 @@ void Servicio::administrarPerfil(){
 	string estadoDeConexion = this->getParametro(keyEstadoDeConexion, keyDefault);
 	string fotoDePerfil = this->getParametro(keyFotoDePerfil, keyDefault);
 	bool estado = StringUtil::toBoolean(estadoDeConexion);
-	//TODO: Ver lo del check-in
+	string localizacion = this->getParametro(keyLocalizacion, keyDefault);
 	Usuario* user = this->obtenerUsuario();
 
 	if (user->getId() != keyIdUsuarioNoEncontrado){
 		user->setNombre(nombreUsuario);
 		user->setEstadoConexion(estado);
 		user->setFotoDePerfil(fotoDePerfil);
+		user->setLocalizacion(localizacion);
 		user->persistir();
 		Loger::getLoger()->info("Se modificaron los datos del usuario "+user->getNombre()+ " correctamente.");
 	} else {

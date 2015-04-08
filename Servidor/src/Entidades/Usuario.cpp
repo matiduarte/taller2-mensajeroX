@@ -15,6 +15,7 @@ Usuario::Usuario(string nombre, string fotoDePerfil, string telefono) {
 	this->conectado = Online;
 	this->id = md5(telefono);
 	this->registrarUltimaConexion();
+	this->localizacion = "";
 }
 
 Usuario::Usuario(){
@@ -83,6 +84,14 @@ string Usuario::getFotoDePerfil(){
 	return this->fotoDePerfil;
 }
 
+string Usuario::getLocalizacion(){
+	return this->localizacion;
+}
+
+void Usuario::setLocalizacion(string localizacion){
+	this->localizacion = localizacion;
+}
+
 string Usuario::serializar(){
 
 	Json::Value user;
@@ -93,6 +102,7 @@ string Usuario::serializar(){
 	user[keyEstadoDeConexion] = this->getEstadoConexion();
 	user[keyUltimaConexion] = this->getUltimaConexion();
 	user[keyFotoDePerfil] = this->getFotoDePerfil();
+	user[keyLocalizacion] = this->getLocalizacion();
 
 	string str_user = user.toStyledString();
 
@@ -113,6 +123,7 @@ int Usuario::deserealizar(string aDeserealizar){
 		this->setEstadoConexion(user.get(keyEstadoDeConexion, keyDefault).asBool());
 		this->setUltimaConexion(user.get(keyUltimaConexion, keyDefault).asString());
 		this->setFotoDePerfil(user.get(keyFotoDePerfil, keyDefault).asString());
+		this->setLocalizacion(user.get(keyLocalizacion, keyDefault).asString());
 	} else {
 		Loger::getLoger()->error("no se pudieron deserializar los datos correctamente");
 	}

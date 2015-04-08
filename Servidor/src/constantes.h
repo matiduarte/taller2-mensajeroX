@@ -33,6 +33,7 @@ const string keyDefault = "";
 #define keyEstadoDeConexion "Estado de Conexion"
 #define keyUltimaConexion "Ultima Conexion"
 #define keyTelefono "Telefono"
+#define keyLocalizacion "Localizacion"
 
 /*Claves principales de Conversacion*/
 #define keyIdConversacion "Id"

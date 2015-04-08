@@ -34,6 +34,7 @@ private:
 	string id;
 	string telefono;
 	bool conectado;
+	string localizacion;
 	string ultimaConexion;
 
 public:
@@ -61,6 +62,8 @@ public:
 	static Usuario* obtener(string clave);
 	static void eliminar(string clave);
 	static string obtenerId(string telefono);
+	string getLocalizacion();
+	void setLocalizacion(string localizacion);
 	virtual ~Usuario();
 };
 
