@@ -26,6 +26,7 @@ private:
 public:
 	Mensaje();
 	Mensaje(string cuerpo, string idUsuarioEmisor, string fecha);
+	Mensaje(string aDeserealizar);
 	~Mensaje();
 	string serializar();
 	int deserealizar(string aDeserealizar);

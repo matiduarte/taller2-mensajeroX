@@ -11,7 +11,7 @@ Conversacion::Conversacion(string conversacionSerializada) {
 	this->deserealizar(conversacionSerializada);
 }
 
-Conversacion::Conversacion(vector<Usuario*> usuarios, vector<string> mensajes){
+Conversacion::Conversacion(vector<Usuario*> usuarios, vector<Mensaje*> mensajes){
 	this->usuarios = usuarios;
 	this->mensajes = mensajes;
 	this->id = this->getId();
@@ -41,7 +41,7 @@ string Conversacion::getId(){
 	}
 }
 
-vector<string> Conversacion::getMensajes(){
+vector<Mensaje*> Conversacion::getMensajes(){
 	return this->mensajes;
 }
 
@@ -50,7 +50,7 @@ vector<Usuario*> Conversacion::getUsuarios(){
 	return this->usuarios;
 }
 
-void Conversacion::agregarMensaje(string mensaje){
+void Conversacion::agregarMensaje(Mensaje* mensaje){
 	this->mensajes.push_back(mensaje);
 }
 
@@ -73,7 +73,7 @@ string Conversacion::serializar(){
 		if(mensajes != ""){
 			mensajes += SeparadorListaBD;
 		}
-		mensajes += this->mensajes[i];
+		mensajes += this->mensajes[i]->serializar();
 	}
 	conversacion[keyMensajes] = mensajes;
 
@@ -101,9 +101,14 @@ int Conversacion::deserealizar(string aDeserealizar){
 		}
 		this->usuarios = usuarios;
 
-		string mensajes = conversacion.get(keyMensajes, keyDefault).asString();
-		vector<string> mensajesSplitted = StringUtil::split(mensajes, SeparadorListaBD);
-		this->mensajes = mensajesSplitted;
+		vector<Mensaje*> mensajes;
+		string mensajesSerializados = conversacion.get(keyMensajes, keyDefault).asString();
+		vector<string> mensajesSplitted = StringUtil::split(mensajesSerializados, SeparadorListaBD);
+		for(unsigned i=0; i<mensajesSplitted.size();i++){
+			Mensaje* m = new Mensaje(mensajesSplitted[i]);
+			mensajes.push_back(m);
+		}
+		this->mensajes = mensajes;
 
 		return 1;
 	}else{

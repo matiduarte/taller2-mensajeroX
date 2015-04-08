@@ -12,17 +12,18 @@
 #include <vector>
 #include "../Utilidades/StringUtil.h"
 #include "../BaseDeDatos/BaseDeDatos.h"
+#include "Mensaje.h";
 
 class BaseDeDatos;
 class Usuario;
 class Conversacion : public Persistible {
 private:
 	string id;
-	vector<string> mensajes;
+	vector<Mensaje*> mensajes;
 	vector<Usuario*> usuarios;
 
 public:
-	Conversacion(vector<Usuario*> usuarios, vector<string> mensajes);
+	Conversacion(vector<Usuario*> usuarios, vector<Mensaje*> mensajes);
 	Conversacion(string conversacionSerializada);
 	Conversacion();
 	virtual ~Conversacion();
@@ -32,8 +33,8 @@ public:
 	static Conversacion* obtener(string clave);
 	static void eliminar(string clave);
 	string getId();
-	vector<string> getMensajes();
-	void agregarMensaje(string mensaje);
+	vector<Mensaje*> getMensajes();
+	void agregarMensaje(Mensaje* mensaje);
 	vector<Usuario*> getUsuarios();
 };
 

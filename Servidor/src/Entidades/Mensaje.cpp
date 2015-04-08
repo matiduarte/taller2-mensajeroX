@@ -9,6 +9,10 @@ Mensaje::Mensaje(string cuerpo, string idUsuarioEmisor, string fecha){
 	this->fecha = fecha;
 }
 
+Mensaje::Mensaje(string aDeserealizar){
+	this->deserealizar(aDeserealizar);
+}
+
 Mensaje::~Mensaje(){
 }
 
