@@ -58,6 +58,8 @@ void Servicio::registrarUsuario(){
 
 		Usuario* user = new Usuario(nombre, fotoPerfil, telefono);
 		user->persistir();
+
+		Loger::getLoger()->info("Se registro el usuario con Id: " + clave);
 	}
 }
 
