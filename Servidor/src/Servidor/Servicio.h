@@ -25,6 +25,7 @@ public:
 	string getParametro(string nombreParametro, string valorDefault);
 	void parsearParametros(struct mg_connection *conn);
 	void administrarPerfil();
+	void checkinUsuario();
 	Usuario* obtenerUsuario();
 	bool consultarUsuarioOnline();
 private:

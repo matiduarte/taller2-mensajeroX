@@ -133,3 +133,21 @@ bool Servicio::consultarUsuarioOnline() {
 	return estado;
 
 }
+
+void Servicio::checkinUsuario(){
+
+	Usuario* user = this->obtenerUsuario();
+	string localizacion = this->getParametro(keyLocalizacion, keyDefault);
+
+	if (user->getId() != keyIdUsuarioNoEncontrado){
+		user->setLocalizacion(localizacion);
+		user->persistir();
+		Loger::getLoger()->info("Se actualizo la ubicacion del Usuario "+user->getNombre());
+	} else {
+		Loger::getLoger()->warn("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
+	}
+
+	Loger::getLoger()->guardarEstado();
+	delete user;
+
+}
