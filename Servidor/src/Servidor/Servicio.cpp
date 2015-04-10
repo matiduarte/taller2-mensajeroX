@@ -79,6 +79,7 @@ void Servicio::autenticarUsuario(){
 
 	if (user->getId() != keyIdUsuarioNoEncontrado){
 		user->setEstadoConexion(Online);
+		string token = user->calcularTokenDeSesion();
 		user->persistir();
 		Loger::getLoger()->info("El usuario "+user->getNombre()+ " inicio sesion correctamente.");
 	} else {
