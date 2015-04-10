@@ -12,7 +12,7 @@
 #include <vector>
 #include "../Utilidades/StringUtil.h"
 #include "../BaseDeDatos/BaseDeDatos.h"
-#include "Mensaje.h";
+#include "Mensaje.h"
 
 class BaseDeDatos;
 class Usuario;

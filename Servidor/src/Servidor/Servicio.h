@@ -26,6 +26,7 @@ public:
 	void parsearParametros(struct mg_connection *conn);
 	void administrarPerfil();
 	void checkinUsuario();
+	void desconectarUsuario();
 	Usuario* obtenerUsuario();
 	bool consultarUsuarioOnline();
 private:

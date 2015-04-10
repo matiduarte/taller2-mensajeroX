@@ -36,6 +36,7 @@ private:
 	bool conectado;
 	string localizacion;
 	string ultimaConexion;
+	string token;
 
 public:
 	Usuario();
@@ -64,6 +65,7 @@ public:
 	static string obtenerId(string telefono);
 	string getLocalizacion();
 	void setLocalizacion(string localizacion);
+	string calcularTokenDeSesion();
 	virtual ~Usuario();
 };
 

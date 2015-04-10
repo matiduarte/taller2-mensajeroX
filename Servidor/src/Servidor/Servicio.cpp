@@ -84,6 +84,7 @@ void Servicio::autenticarUsuario(){
 	} else {
 		Loger::getLoger()->warn("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
 	}
+	//TODO: Devolver el token al cliente
 	Loger::getLoger()->guardarEstado();
 	delete user;
 }
@@ -150,4 +151,20 @@ void Servicio::checkinUsuario(){
 	Loger::getLoger()->guardarEstado();
 	delete user;
 
+}
+
+void Servicio::desconectarUsuario(){
+
+	Usuario* user = this->obtenerUsuario();
+
+	if (user->getId() != keyIdUsuarioNoEncontrado){
+		user->setEstadoConexion(Offline);
+		user->persistir();
+		Loger::getLoger()->info("El usuario "+user->getNombre()+ " cerro sesion correctamente");
+	} else {
+		Loger::getLoger()->warn("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
+	}
+
+	Loger::getLoger()->guardarEstado();
+	delete user;
 }

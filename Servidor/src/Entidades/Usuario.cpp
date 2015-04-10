@@ -16,6 +16,7 @@ Usuario::Usuario(string nombre, string fotoDePerfil, string telefono) {
 	this->id = md5(telefono);
 	this->registrarUltimaConexion();
 	this->localizacion = "";
+	this->token = "";
 }
 
 Usuario::Usuario(){
@@ -103,6 +104,8 @@ string Usuario::serializar(){
 	user[keyUltimaConexion] = this->getUltimaConexion();
 	user[keyFotoDePerfil] = this->getFotoDePerfil();
 	user[keyLocalizacion] = this->getLocalizacion();
+	//TODO: ver si no conviene llamar al metodo que calcula el token aca
+	user[keyTokenSesion] = this->token;
 
 	string str_user = user.toStyledString();
 
@@ -124,6 +127,7 @@ int Usuario::deserealizar(string aDeserealizar){
 		this->setUltimaConexion(user.get(keyUltimaConexion, keyDefault).asString());
 		this->setFotoDePerfil(user.get(keyFotoDePerfil, keyDefault).asString());
 		this->setLocalizacion(user.get(keyLocalizacion, keyDefault).asString());
+		this->token = user.get(keyTokenSesion, keyDefault).asString();
 	} else {
 		Loger::getLoger()->error("no se pudieron deserializar los datos correctamente");
 	}
@@ -156,5 +160,10 @@ Usuario::~Usuario() {
 string Usuario::obtenerId(string telefono){
 	return md5(telefono);
 
+}
+
+string Usuario::calcularTokenDeSesion(){
+
+	return this->token = md5(this->getTelefono() + this->getUltimaConexion());
 }
 
