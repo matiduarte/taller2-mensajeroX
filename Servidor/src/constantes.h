@@ -57,6 +57,9 @@ const string keyDefault = "";
 #define urlCheckinUsuario "/checkinUsuario"
 #define urlDesconectarUsuario "/desconectarUsuario"
 
+/*Constantes de parametros para Servicios*/
+#define keyIdUltimoMensaje "idUltimoMensaje"
+
 /*Constantes para el manejo de errores*/
 const string keyDatoNoEncontrado = "NotFound";
 const string keyIdUsuarioNoEncontrado = "UsarioInvalido";

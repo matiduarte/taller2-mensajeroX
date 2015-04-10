@@ -29,6 +29,7 @@ public:
 	void desconectarUsuario();
 	Usuario* obtenerUsuario();
 	bool consultarUsuarioOnline();
+	void enviarConversacion();
 private:
 	Json::Value parametros;
 

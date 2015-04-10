@@ -169,3 +169,38 @@ void Servicio::desconectarUsuario(){
 	Loger::getLoger()->guardarEstado();
 	delete user;
 }
+
+void Servicio::enviarConversacion(){
+	string idConversacion = this->getParametro(keyIdConversacion, keyDefault);
+	string idUltimoMensaje = this->getParametro(keyIdUltimoMensaje, keyDefault);
+
+	//Puede darse el caso de que la conversacion no exista si este servicio se llamo primero que agregarMensaje
+	//No deberia pasar ya que agregarMensaje se llama primero, pero por latencia de red podria llamarse a este servicio primero
+	Conversacion* conversacion = Conversacion::obtener(idConversacion);
+	if(conversacion->getId() != keyIdConversacionNoEncontrada){
+		vector<Mensaje*> mensajes = conversacion->getMensajes();
+		vector<Mensaje*> mensajesRespuesta;
+
+		if(idUltimoMensaje != ""){
+			bool encontrado = false;
+			for(unsigned i=0; i<mensajes.size(); i++){
+				if(encontrado){
+					mensajesRespuesta.push_back(mensajes[i]);
+				}
+
+				if(!encontrado && mensajes[i]->getId() == idUltimoMensaje){
+					//A partir del proximo mensaje tengo que enviar todos
+					encontrado = true;
+				}
+			}
+		}else{
+			//El cliente no tiene mensajes en su aplicacion. Tengo que enviar la conversacion entera
+			mensajesRespuesta = mensajes;
+		}
+
+		//Todo: Responder al cliente los mensajes. Algunos mensajes o la conversacion entera
+
+	}else{
+		Loger::getLoger()->warn("La conversacion "+ idConversacion + " no se encuentra en el sistema");
+	}
+}
