@@ -12,6 +12,7 @@
 #include <iostream>
 #include "../constantes.h"
 #include "Persistible.h"
+#include "../Utilidades/md5.h"
 #include "../json/json.h"
 #include "../Log/Loger.h"
 
@@ -22,7 +23,7 @@ private:
 	string cuerpo;
 	string idUsuarioEmisor;
 	string fecha;
-
+	string id;
 public:
 	Mensaje();
 	Mensaje(string cuerpo, string idUsuarioEmisor, string fecha);
@@ -30,9 +31,11 @@ public:
 	~Mensaje();
 	string serializar();
 	int deserealizar(string aDeserealizar);
+	string getId();
 	string getCuerpo();
 	string getIdUsuarioEmisor();
 	string getFecha();
+	void setId(string id);
 	void setCuerpo(string cuerpo);
 	void setIdUsuarioEmisor(string idUsuarioEmisor);
 	void setFecha(string fecha);
