@@ -37,15 +37,17 @@ void TestUsuario::testSerializacionDeDatosDeUnUsuario(){
 
 }
 
-void TestUsuario::testLaDeserializacionDebeActualizarLosDatosDeUnUsuario(){
+void TestUsuario::testModificacionDeDatosDelUsuario(){
 
 	Usuario* unUsuario = new Usuario("Pedro" , "foto" , "123456789");
-	string nuevoTelefono = "1122334455";
-	unUsuario->setTelefono(nuevoTelefono);
-	string usuarioSerializado = unUsuario->serializar();
-	unUsuario->deserealizar(usuarioSerializado);
+	string nuevoNombre = "Roberto";
+	string nuevaFoto = "OtraFoto";
+	unUsuario->setNombre(nuevoNombre);
+	unUsuario->setFotoDePerfil(nuevaFoto);
+	unUsuario->persistir();
 
-	CPPUNIT_ASSERT(nuevoTelefono == unUsuario->getTelefono() );
+	CPPUNIT_ASSERT(Usuario::obtener(unUsuario->getId())->getNombre() == nuevoNombre );
+	CPPUNIT_ASSERT(Usuario::obtener(unUsuario->getId())->getFotoDePerfil() == nuevaFoto);
 
 	delete unUsuario;
 }

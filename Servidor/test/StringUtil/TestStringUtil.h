@@ -9,6 +9,7 @@
 #define TEST_STRINGUTIL_TESTSTRINGUTIL_H_
 
 #include "../src/Utilidades/StringUtil.h"
+#include "../src/constantes.h"
 #include <cppunit/extensions/HelperMacros.h>
 
 using namespace CPPUNIT_NS;

@@ -17,13 +17,13 @@ using namespace std;
 class TestUsuario: public TestFixture {
 	CPPUNIT_TEST_SUITE(TestUsuario);
 	CPPUNIT_TEST(testSerializacionDeDatosDeUnUsuario);
-	CPPUNIT_TEST(testLaDeserializacionDebeActualizarLosDatosDeUnUsuario);
+	CPPUNIT_TEST(testModificacionDeDatosDelUsuario);
 	CPPUNIT_TEST_SUITE_END();
 public:
 	TestUsuario();
 	virtual ~TestUsuario();
     void testSerializacionDeDatosDeUnUsuario();
-    void testLaDeserializacionDebeActualizarLosDatosDeUnUsuario();
+    void testModificacionDeDatosDelUsuario();
 
 };
 

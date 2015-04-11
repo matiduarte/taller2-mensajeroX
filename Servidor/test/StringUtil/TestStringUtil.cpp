@@ -38,9 +38,9 @@ void TestStringUtil::testToUpperDeberiaPasarTodoAMayuscula(){
 
 void TestStringUtil::testToBooleanDeberiaConvertirLaCadenaEnUnBool(){
 
-	string verdadero = "1";
-	string falso = "0";
+	string conectado = "1";
+	string desconectado = "0";
 
-	CPPUNIT_ASSERT(StringUtil::toBoolean(verdadero) == true);
-	CPPUNIT_ASSERT(StringUtil::toBoolean(falso) == false);
+	CPPUNIT_ASSERT(StringUtil::toBoolean(conectado) == Online);
+	CPPUNIT_ASSERT(StringUtil::toBoolean(desconectado) == Offline);
 }
