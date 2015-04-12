@@ -35,6 +35,7 @@ private:
 	Options options;
 	string claveBaseUsuario;
 	string claveBaseConversacion;
+	string claveBaseConversacionesPorUsuario;
 	string pathBaseDeDatos;
 	Status estado;
 	void setDato(string clave, string valor);

@@ -15,6 +15,7 @@ BaseDeDatos* BaseDeDatos::pBaseDeDatos = NULL;
 BaseDeDatos::BaseDeDatos(string path) {
 	claveBaseUsuario = "usuario_";
 	claveBaseConversacion = "conversacion_";
+	claveBaseConversacionesPorUsuario = "conversaciones_por_usuario_";
 	pathBaseDeDatos = path;
 	options.IncreaseParallelism();
 	options.OptimizeLevelStyleCompaction();
@@ -96,6 +97,20 @@ Usuario* BaseDeDatos::getUsuario(string clave) {
 
 void BaseDeDatos::setConversacion(Conversacion* conversacion) {
 	setDato( claveBaseConversacion+conversacion->getId(), conversacion->serializar() );
+
+	//Guardo conversacion por usuarios
+	vector<Usuario*> usuarios = conversacion->getUsuarios();
+	for(unsigned i=0; i<usuarios.size(); i++){
+		Usuario* usuarioActual = usuarios[i];
+		string valor = getDato(claveBaseConversacionesPorUsuario + usuarioActual->getId());
+		vector<string> idsConversaciones = StringUtil::split(valor, SeparadorListaBD);
+		if(!StringUtil::vectorContiene(idsConversaciones, conversacion->getId())){
+			//Si la conversacion actual no esta agregada al indice para el usuario, la agrego
+			valor += SeparadorListaBD + conversacion->getId();
+		}
+		setDato(claveBaseConversacionesPorUsuario + usuarioActual->getId(), valor);
+	}
+
 }
 
 

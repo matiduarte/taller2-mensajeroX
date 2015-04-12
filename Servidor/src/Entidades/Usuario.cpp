@@ -167,3 +167,6 @@ string Usuario::calcularTokenDeSesion(){
 	return this->token = md5(this->getTelefono() + this->getUltimaConexion());
 }
 
+vector<string> Usuario::obtnerIdsConversaciones(){
+	return Conversacion::obtenerIdsPorIdUsuario(this->getId());
+}

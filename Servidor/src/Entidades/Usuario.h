@@ -67,6 +67,7 @@ public:
 	void setLocalizacion(string localizacion);
 	string calcularTokenDeSesion();
 	virtual ~Usuario();
+	vector<string> obtnerIdsConversaciones();
 };
 
 #endif /* SRC_ENTIDADES_USUARIO_H_ */

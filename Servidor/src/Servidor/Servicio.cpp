@@ -40,6 +40,10 @@ string Servicio::getParametro(string nombreParametro, string valorDefault){
 	return this->parametros.get(nombreParametro, valorDefault).asString();
 }
 
+Json::Value Servicio::getParametroArray(string nombreParametro, string valorDefault){
+	return this->parametros.get(nombreParametro, valorDefault);
+}
+
 void Servicio::prueba(){
 	cout << "Esto es una prueba." << endl;
 }
@@ -203,4 +207,39 @@ void Servicio::enviarConversacion(){
 	}else{
 		Loger::getLoger()->warn("La conversacion "+ idConversacion + " no se encuentra en el sistema");
 	}
+}
+
+void Servicio::enviarConversaciones(){
+	Json::Value idsConversacionesValue = this->getParametroArray(keyIdConversaciones, keyDefault);
+	vector<string> idsConversaciones = StringUtil::jsonValueToVector(idsConversacionesValue);
+
+	string idUsuario = this->getParametro(keyIdUsuarioParametro, keyDefault);
+
+	Usuario* usuario = new Usuario(idUsuario);
+	if(usuario->getId() != keyIdUsuarioNoEncontrado){
+		vector<string> idsConversacionesActuales = usuario->obtnerIdsConversaciones();
+		vector<Conversacion*> nuevasConversaciones;
+
+		for(unsigned i=0; i<idsConversacionesActuales.size();i++){
+			string idActual = idsConversacionesActuales[i];
+
+			//Si no esta en las conversaciones que me llegan, quiere decir que es una nueva conversacion.
+			//Tengo que enviarla al cliente
+			if(!StringUtil::vectorContiene(idsConversaciones, idActual)){
+				Conversacion* nuevaConversacion = new Conversacion(idActual);
+				if(nuevaConversacion->getId() != keyIdConversacionNoEncontrada){
+					nuevasConversaciones.push_back(nuevaConversacion);
+				}else{
+					Loger::getLoger()->warn("La conversacion "+ idActual + " no se encuentra en el sistema");
+				}
+			}
+		}
+
+		//TODO: responder la info de las nuevas conversaciones al cliente: ultimo mensaje, usuario, etc.
+
+	}else{
+		Loger::getLoger()->warn("El usuario "+ idUsuario  + " no se encuentra en el sistema");
+	}
+
+
 }

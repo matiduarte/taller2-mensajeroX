@@ -70,3 +70,17 @@ bool StringUtil::toBoolean(string value){
 	//TODO: VER SI VA A VENIR 0 O 1 O ONLINE U OFFLINE
 	return (value == "1");
 }
+
+vector<string> StringUtil::jsonValueToVector(Json::Value vector){
+	std::vector<std::string> result;
+	for(unsigned i=0; i< vector.size();i++){
+		string idActual = vector.get(i, keyDefault).asString();
+		result.push_back(idActual);
+	}
+
+	return result;
+}
+
+bool StringUtil::vectorContiene(vector<string> vector, string valor){
+	return find(vector.begin(), vector.end(), valor) != vector.end();
+}

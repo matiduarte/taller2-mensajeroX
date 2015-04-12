@@ -12,6 +12,8 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <algorithm>
+#include "../json/json.h"
 #include "../test/StringUtil/TestStringUtil.h"
 
 using namespace std;
@@ -29,6 +31,8 @@ public:
     static vector<std::string>& split(const string &s, char delim, vector<string> &elems);
     static vector<std::string> split(const string &s, char delim);
     static bool toBoolean(string value);
+    static vector<string> jsonValueToVector(Json::Value vector);
+    static bool vectorContiene(vector<string> vector, string valor);
 };
 
 #endif /* SRC_UTILIDADES_STRINGUTIL_H_ */

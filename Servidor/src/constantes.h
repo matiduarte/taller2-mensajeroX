@@ -59,6 +59,8 @@ const string keyDefault = "";
 
 /*Constantes de parametros para Servicios*/
 #define keyIdUltimoMensaje "idUltimoMensaje"
+#define keyIdConversaciones "idsConversaciones"
+#define keyIdUsuarioParametro "idUsuario"
 
 /*Constantes para el manejo de errores*/
 const string keyDatoNoEncontrado = "NotFound";

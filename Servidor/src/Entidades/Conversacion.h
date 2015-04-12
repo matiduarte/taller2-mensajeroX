@@ -36,6 +36,7 @@ public:
 	vector<Mensaje*> getMensajes();
 	void agregarMensaje(Mensaje* mensaje);
 	vector<Usuario*> getUsuarios();
+	static vector<string> obtenerIdsPorIdUsuario(string claveUsuario);
 };
 
 #endif /* SRC_ENTIDADES_CONVERSACION_H_ */
