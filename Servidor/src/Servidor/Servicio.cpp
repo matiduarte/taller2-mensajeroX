@@ -40,6 +40,10 @@ string Servicio::getParametro(string nombreParametro, string valorDefault){
 	return this->parametros.get(nombreParametro, valorDefault).asString();
 }
 
+Json::Value Servicio::getParametroArray(string nombreParametro, string valorDefault){
+	return this->parametros.get(nombreParametro, valorDefault);
+}
+
 void Servicio::prueba(){
 	cout << "Esto es una prueba." << endl;
 }
@@ -79,11 +83,13 @@ void Servicio::autenticarUsuario(){
 
 	if (user->getId() != keyIdUsuarioNoEncontrado){
 		user->setEstadoConexion(Online);
+		string token = user->calcularTokenDeSesion();
 		user->persistir();
 		Loger::getLoger()->info("El usuario "+user->getNombre()+ " inicio sesion correctamente.");
 	} else {
 		Loger::getLoger()->warn("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
 	}
+	//TODO: Devolver el token al cliente
 	Loger::getLoger()->guardarEstado();
 	delete user;
 }
@@ -140,6 +146,7 @@ bool Servicio::consultarUsuarioOnline() {
 
 }
 
+
 /*
  * Agrega el mensaje que envió el cliente a la conversacion correspondiente y luego la almacena en
  * la Base de Datos.
@@ -147,19 +154,21 @@ bool Servicio::consultarUsuarioOnline() {
  */
 void Servicio::almacenarConversacion() {
 
-	string idEmisor 	= this->getParametro(keyIdUsuarioEmisor,keyDefault);
-	string idReceptor 	= this->getParametro(keyIdUsuarioReceptor,keyDefault);
+	string idEmisor   = this->getParametro(keyIdUsuarioEmisor,keyDefault);
+	string idReceptor = this->getParametro(keyIdUsuarioReceptor,keyDefault);
 
 	//chequeo que los usuarios existan:
-	Usuario *emisor = Usuario::obtener(idEmisor);
-	Usuario *receptor = Usuario::obtener(idReceptor);
+	Usuario *emisor   =  Usuario::obtenerPorTelefono(idEmisor);
+	Usuario *receptor =  Usuario::obtenerPorTelefono(idReceptor);
+
 	if (	emisor	->getId() 	== keyIdUsuarioNoEncontrado ||
 			receptor->getId() 	== keyIdUsuarioNoEncontrado		)
 	{
 		string msj_warning = "No se pudo almacenar la conversacion porque: ";
-		if(emisor->getId() 	== keyIdUsuarioNoEncontrado) msj_warning.append("el emisor no existe.");
-		if(emisor->getId() 	== keyIdUsuarioNoEncontrado) msj_warning.append(" el receptor no existe.");
+		if(emisor->getId()	 == keyIdUsuarioNoEncontrado) msj_warning.append("el emisor no existe.");
+		if(receptor->getId() == keyIdUsuarioNoEncontrado) msj_warning.append(" el receptor no existe.");
 		Loger::getLoger()->warn(msj_warning);
+		Loger::getLoger()->guardarEstado();
 	}
 	else{
 		//Obtengo el mensaje:
@@ -168,10 +177,11 @@ void Servicio::almacenarConversacion() {
 		Mensaje*	mensaje	= new Mensaje(cuerpo,idEmisor,fecha);
 
 		//almaceno la conversacion (si no existe la creo):
-		Conversacion *conversacion = Conversacion::obtener(idEmisor+"-"+idReceptor);
+		Conversacion *conversacion = Conversacion::obtener(emisor->getId()+"-"+receptor->getId());
 		if (conversacion->getId() != keyIdConversacionNoEncontrada) {
 			conversacion->agregarMensaje(mensaje);
 			conversacion->persistir();
+			cout << "CONVERSACION EXISTENTE: " +conversacion->getId() <<endl;
 			delete conversacion;
 		}
 		else{
@@ -182,8 +192,112 @@ void Servicio::almacenarConversacion() {
 			mensajes.push_back(mensaje);
 			Conversacion *nuevaConversacion = new Conversacion(usuarios,mensajes);
 			nuevaConversacion->persistir();
+			cout << "NUEVA CONVERSACION: " +nuevaConversacion->getId() <<endl;
 			delete nuevaConversacion;
 		}
 		delete mensaje;
 	}
+}
+
+void Servicio::checkinUsuario(){
+
+	Usuario* user = this->obtenerUsuario();
+	string localizacion = this->getParametro(keyLocalizacion, keyDefault);
+
+	if (user->getId() != keyIdUsuarioNoEncontrado){
+		user->setLocalizacion(localizacion);
+		user->persistir();
+		Loger::getLoger()->info("Se actualizo la ubicacion del Usuario "+user->getNombre());
+	} else {
+		Loger::getLoger()->warn("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
+	}
+
+	Loger::getLoger()->guardarEstado();
+	delete user;
+
+}
+
+void Servicio::desconectarUsuario(){
+
+	Usuario* user = this->obtenerUsuario();
+
+	if (user->getId() != keyIdUsuarioNoEncontrado){
+		user->setEstadoConexion(Offline);
+		user->persistir();
+		Loger::getLoger()->info("El usuario "+user->getNombre()+ " cerro sesion correctamente");
+	} else {
+		Loger::getLoger()->warn("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
+	}
+
+	Loger::getLoger()->guardarEstado();
+	delete user;
+}
+
+void Servicio::enviarConversacion(){
+	string idConversacion = this->getParametro(keyIdConversacion, keyDefault);
+	string idUltimoMensaje = this->getParametro(keyIdUltimoMensaje, keyDefault);
+
+	//Puede darse el caso de que la conversacion no exista si este servicio se llamo primero que agregarMensaje
+	//No deberia pasar ya que agregarMensaje se llama primero, pero por latencia de red podria llamarse a este servicio primero
+	Conversacion* conversacion = Conversacion::obtener(idConversacion);
+	if(conversacion->getId() != keyIdConversacionNoEncontrada){
+		vector<Mensaje*> mensajes = conversacion->getMensajes();
+		vector<Mensaje*> mensajesRespuesta;
+
+		if(idUltimoMensaje != ""){
+			bool encontrado = false;
+			for(unsigned i=0; i<mensajes.size(); i++){
+				if(encontrado){
+					mensajesRespuesta.push_back(mensajes[i]);
+				}
+
+				if(!encontrado && mensajes[i]->getId() == idUltimoMensaje){
+					//A partir del proximo mensaje tengo que enviar todos
+					encontrado = true;
+				}
+			}
+		}else{
+			//El cliente no tiene mensajes en su aplicacion. Tengo que enviar la conversacion entera
+			mensajesRespuesta = mensajes;
+		}
+
+		//Todo: Responder al cliente los mensajes. Algunos mensajes o la conversacion entera
+
+	}else{
+		Loger::getLoger()->warn("La conversacion "+ idConversacion + " no se encuentra en el sistema");
+	}
+}
+
+void Servicio::enviarConversaciones(){
+	Json::Value idsConversacionesValue = this->getParametroArray(keyIdConversaciones, keyDefault);
+	vector<string> idsConversaciones = StringUtil::jsonValueToVector(idsConversacionesValue);
+
+	string idUsuario = this->getParametro(keyIdUsuarioParametro, keyDefault);
+
+	Usuario* usuario = new Usuario(idUsuario);
+	if(usuario->getId() != keyIdUsuarioNoEncontrado){
+		vector<string> idsConversacionesActuales = usuario->obtnerIdsConversaciones();
+		vector<Conversacion*> nuevasConversaciones;
+
+		for(unsigned i=0; i<idsConversacionesActuales.size();i++){
+			string idActual = idsConversacionesActuales[i];
+
+			//Si no esta en las conversaciones que me llegan, quiere decir que es una nueva conversacion.
+			//Tengo que enviarla al cliente
+			if(!StringUtil::vectorContiene(idsConversaciones, idActual)){
+				Conversacion* nuevaConversacion = new Conversacion(idActual);
+				if(nuevaConversacion->getId() != keyIdConversacionNoEncontrada){
+					nuevasConversaciones.push_back(nuevaConversacion);
+				}else{
+					Loger::getLoger()->warn("La conversacion "+ idActual + " no se encuentra en el sistema");
+				}
+			}
+		}
+
+		//TODO: responder la info de las nuevas conversaciones al cliente: ultimo mensaje, usuario, etc.
+
+	}else{
+		Loger::getLoger()->warn("El usuario "+ idUsuario  + " no se encuentra en el sistema");
+	}
+
 }

@@ -12,7 +12,7 @@
 #include <vector>
 #include "../Utilidades/StringUtil.h"
 #include "../BaseDeDatos/BaseDeDatos.h"
-#include "Mensaje.h";
+#include "Mensaje.h"
 
 class BaseDeDatos;
 class Usuario;
@@ -36,6 +36,7 @@ public:
 	vector<Mensaje*> getMensajes();
 	void agregarMensaje(Mensaje* mensaje);
 	vector<Usuario*> getUsuarios();
+	static vector<string> obtenerIdsPorIdUsuario(string claveUsuario);
 };
 
 #endif /* SRC_ENTIDADES_CONVERSACION_H_ */

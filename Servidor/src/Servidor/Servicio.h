@@ -23,11 +23,16 @@ public:
 	void enviarConversacion(Conversacion *conversacion);
 	void prueba();
 	string getParametro(string nombreParametro, string valorDefault);
+	Json::Value getParametroArray(string nombreParametro, string valorDefault);
 	void parsearParametros(struct mg_connection *conn);
 	void administrarPerfil();
+	void checkinUsuario();
+	void desconectarUsuario();
 	Usuario* obtenerUsuario();
 	bool consultarUsuarioOnline();
 	void almacenarConversacion();
+	void enviarConversacion();
+	void enviarConversaciones();
 
 private:
 	Json::Value parametros;

@@ -34,6 +34,7 @@ const string keyDefault = "";
 #define keyUltimaConexion "Ultima Conexion"
 #define keyTelefono "Telefono"
 #define keyLocalizacion "Localizacion"
+#define keyTokenSesion "Token"
 
 /*Claves principales de Conversacion*/
 #define keyIdConversacion "Id"
@@ -56,6 +57,14 @@ const string keyDefault = "";
 #define urlAutenticarUsuario "/autenticarUsuario"
 #define urlAdministrarPerfil "/administrarPerfil"
 #define urlConsultarUsuarioOnline "/consultarUsuarioOnline"
+#define urlCheckinUsuario "/checkinUsuario"
+#define urlDesconectarUsuario "/desconectarUsuario"
+#define urlAlmacenarConversacion "/almacenarConversacion"
+
+/*Constantes de parametros para Servicios*/
+#define keyIdUltimoMensaje "idUltimoMensaje"
+#define keyIdConversaciones "idsConversaciones"
+#define keyIdUsuarioParametro "idUsuario"
 
 /*Constantes para el manejo de errores*/
 const string keyDatoNoEncontrado = "NotFound";

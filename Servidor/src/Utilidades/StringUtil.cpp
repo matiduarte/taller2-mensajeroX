@@ -68,10 +68,19 @@ vector<std::string> StringUtil::split(const string &s, char delim) {
 bool StringUtil::toBoolean(string value){
 
 	//TODO: VER SI VA A VENIR 0 O 1 O ONLINE U OFFLINE
-	bool estado = false;
+	return (value == "1");
+}
 
-	if (value == "1")
-		estado = true;
+vector<string> StringUtil::jsonValueToVector(Json::Value vector){
+	std::vector<std::string> result;
+	for(unsigned i=0; i< vector.size();i++){
+		string idActual = vector.get(i, keyDefault).asString();
+		result.push_back(idActual);
+	}
 
-	return estado;
+	return result;
+}
+
+bool StringUtil::vectorContiene(vector<string> vector, string valor){
+	return find(vector.begin(), vector.end(), valor) != vector.end();
 }

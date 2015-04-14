@@ -36,6 +36,7 @@ private:
 	bool conectado;
 	string localizacion;
 	string ultimaConexion;
+	string token;
 
 public:
 	Usuario();
@@ -60,11 +61,14 @@ public:
 	int deserealizar(string aDeserealizar);
 	void persistir();
 	static Usuario* obtener(string clave);
+	static Usuario* obtenerPorTelefono(string telefono);
 	static void eliminar(string clave);
 	static string obtenerId(string telefono);
 	string getLocalizacion();
 	void setLocalizacion(string localizacion);
+	string calcularTokenDeSesion();
 	virtual ~Usuario();
+	vector<string> obtnerIdsConversaciones();
 };
 
 #endif /* SRC_ENTIDADES_USUARIO_H_ */
