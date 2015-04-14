@@ -29,7 +29,7 @@ public:
 	void checkinUsuario();
 	void desconectarUsuario();
 	Usuario* obtenerUsuario();
-	bool consultarUsuarioOnline();
+	void consultarUsuarioOnline();
 	void almacenarConversacion();
 	void enviarConversacion();
 	void enviarConversaciones();

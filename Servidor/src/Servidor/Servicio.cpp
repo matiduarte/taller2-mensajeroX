@@ -124,16 +124,16 @@ void Servicio::administrarPerfil(){
  * 		  false: si el estado de conexion del usuario es desconectado
  * 		  		 o bien el usuario no existe.
  */
-bool Servicio::consultarUsuarioOnline() {
+void Servicio::consultarUsuarioOnline() {
 
 	Usuario* user = this->obtenerUsuario();
-	bool estado;
 
 	if (user->getId() != keyIdUsuarioNoEncontrado) {
 		Loger::getLoger()->info("Consulta de estado del usuario "+user->getNombre()+ " exitosa.");
-		estado = user->getEstadoConexion();
+		bool estado = user->getEstadoConexion();
+		//TODO: enviar la respuesta al cliente.
+
 	} else {
-		estado = false;
 		Loger::getLoger()->warn(
 								"No se pudo obtener el estado del usuario con numero: "
 								+ this->getParametro(keyTelefono, keyDefault)
@@ -142,7 +142,6 @@ bool Servicio::consultarUsuarioOnline() {
 
 	Loger::getLoger()->guardarEstado();
 	delete user;
-	return estado;
 
 }
 
@@ -181,7 +180,6 @@ void Servicio::almacenarConversacion() {
 		if (conversacion->getId() != keyIdConversacionNoEncontrada) {
 			conversacion->agregarMensaje(mensaje);
 			conversacion->persistir();
-			cout << "CONVERSACION EXISTENTE: " +conversacion->getId() <<endl;
 			delete conversacion;
 		}
 		else{
@@ -192,7 +190,6 @@ void Servicio::almacenarConversacion() {
 			mensajes.push_back(mensaje);
 			Conversacion *nuevaConversacion = new Conversacion(usuarios,mensajes);
 			nuevaConversacion->persistir();
-			cout << "NUEVA CONVERSACION: " +nuevaConversacion->getId() <<endl;
 			delete nuevaConversacion;
 		}
 		delete mensaje;

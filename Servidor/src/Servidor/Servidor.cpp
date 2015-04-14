@@ -47,7 +47,7 @@ void Servidor::administrarServicio(struct mg_connection *conn){
 	case REGISTRAR_USUARIO: 		servicio->registrarUsuario(); 		break;
 	case AUTENTICAR_USUARIO: 		servicio->autenticarUsuario();  	break;
 	case ADMINISTRAR_PERFIL:		servicio->administrarPerfil(); 		break;
-	case CONSULTAR_USUARIO_ONLINE:										break;
+	case CONSULTAR_USUARIO_ONLINE:	servicio->consultarUsuarioOnline();	break;
 	case CHECKIN_USUARIO:			servicio->checkinUsuario();     	break;
 	case DESCONECTAR_USUARIO:		servicio->desconectarUsuario(); 	break;
 	case ALMACENAR_CONVERSACION:	servicio->almacenarConversacion();	break;
