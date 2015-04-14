@@ -26,9 +26,17 @@ int main(void) {
 
 //	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
 //	Usuario* user = new Usuario("Pepe", "foto", "1122");
-//	user->setEstadoConexion(false);
-//	baseDeDatos->setUsuario(user);
-//	delete user;
+//	Usuario* user2 = new Usuario("Juan", "foto", "1133");
+//	vector<Usuario*> usuarios;
+//	usuarios.push_back(user);
+//	usuarios.push_back(user2);
+//
+//	vector<string> mensajes;
+//	mensajes.push_back("mensaje 1");
+//	mensajes.push_back("mensaje 2");
+//	Conversacion* conversacion = new Conversacion(usuarios,mensajes);
+//
+//
 //	Servidor *servidor = new Servidor();
 //	servidor->iniciar("8081");
 //	delete servidor;

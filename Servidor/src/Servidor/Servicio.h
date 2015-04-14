@@ -27,9 +27,10 @@ public:
 	void administrarPerfil();
 	Usuario* obtenerUsuario();
 	bool consultarUsuarioOnline();
+	void almacenarConversacion();
+
 private:
 	Json::Value parametros;
-
 };
 
 #endif /* SRC_SERVIDOR_SERVICIO_H_ */

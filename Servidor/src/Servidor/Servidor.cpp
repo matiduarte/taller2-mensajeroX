@@ -44,11 +44,12 @@ void Servidor::administrarServicio(struct mg_connection *conn){
 
 	switch( servicioRequerido ){
 
-	case PRUEBA: 					servicio->prueba();				break;
-	case REGISTRAR_USUARIO: 		servicio->registrarUsuario(); 	break;
-	case AUTENTICAR_USUARIO: 		servicio->autenticarUsuario();  break;
-	case ADMINISTRAR_PERFIL:		servicio->administrarPerfil(); 	break;
-	case CONSULTAR_USUARIO_ONLINE:									break;
+	case PRUEBA: 					servicio->prueba();					break;
+	case REGISTRAR_USUARIO: 		servicio->registrarUsuario(); 		break;
+	case AUTENTICAR_USUARIO: 		servicio->autenticarUsuario();  	break;
+	case ADMINISTRAR_PERFIL:		servicio->administrarPerfil(); 		break;
+	case CONSULTAR_USUARIO_ONLINE:										break;
+	case ALMACENAR_CONVERSACION:	servicio->almacenarConversacion();	break;
 	case INVALIDO: 	cout << "servicio no encontrado." << endl;	break;
 	default: 		cout << "default." << endl;
 

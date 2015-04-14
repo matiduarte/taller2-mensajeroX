@@ -44,6 +44,9 @@ const string keyDefault = "";
 #define keyCuerpo "Cuerpo"
 #define keyIdUsuarioEmisor "IdUsuarioEmisor"
 #define keyFecha "Fecha"
+#define keyIdUsuarioReceptor "IdUsuarioReceptor"
+
+
 
 #define SeparadorListaBD '#'
 
@@ -58,5 +61,6 @@ const string keyDefault = "";
 const string keyDatoNoEncontrado = "NotFound";
 const string keyIdUsuarioNoEncontrado = "UsarioInvalido";
 const string keyIdConversacionNoEncontrada = "ConversacionInvalida";
+
 
 #endif /* SRC_CONSTANTES_H_ */

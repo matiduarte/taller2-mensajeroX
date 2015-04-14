@@ -112,6 +112,12 @@ void Servicio::administrarPerfil(){
 
 }
 
+//TODO: decidir que hacer cuando el usuario no existe.
+/*
+ * @return true: si el estado de conexion del usuario es conectado.
+ * 		  false: si el estado de conexion del usuario es desconectado
+ * 		  		 o bien el usuario no existe.
+ */
 bool Servicio::consultarUsuarioOnline() {
 
 	Usuario* user = this->obtenerUsuario();
@@ -132,4 +138,52 @@ bool Servicio::consultarUsuarioOnline() {
 	delete user;
 	return estado;
 
+}
+
+/*
+ * Agrega el mensaje que envió el cliente a la conversacion correspondiente y luego la almacena en
+ * la Base de Datos.
+ *
+ */
+void Servicio::almacenarConversacion() {
+
+	string idEmisor 	= this->getParametro(keyIdUsuarioEmisor,keyDefault);
+	string idReceptor 	= this->getParametro(keyIdUsuarioReceptor,keyDefault);
+
+	//chequeo que los usuarios existan:
+	Usuario *emisor = Usuario::obtener(idEmisor);
+	Usuario *receptor = Usuario::obtener(idReceptor);
+	if (	emisor	->getId() 	== keyIdUsuarioNoEncontrado ||
+			receptor->getId() 	== keyIdUsuarioNoEncontrado		)
+	{
+		string msj_warning = "No se pudo almacenar la conversacion porque: ";
+		if(emisor->getId() 	== keyIdUsuarioNoEncontrado) msj_warning.append("el emisor no existe.");
+		if(emisor->getId() 	== keyIdUsuarioNoEncontrado) msj_warning.append(" el receptor no existe.");
+		Loger::getLoger()->warn(msj_warning);
+	}
+	else{
+		//Obtengo el mensaje:
+		string 		cuerpo 	= this->getParametro(keyCuerpo,keyDefault);
+		string 		fecha 	= this->getParametro(keyFecha,keyDefault);
+		Mensaje*	mensaje	= new Mensaje(cuerpo,idEmisor,fecha);
+
+		//almaceno la conversacion (si no existe la creo):
+		Conversacion *conversacion = Conversacion::obtener(idEmisor+"-"+idReceptor);
+		if (conversacion->getId() != keyIdConversacionNoEncontrada) {
+			conversacion->agregarMensaje(mensaje);
+			conversacion->persistir();
+			delete conversacion;
+		}
+		else{
+			vector<Usuario*> usuarios;
+			usuarios.push_back(emisor);
+			usuarios.push_back(receptor);
+			vector<Mensaje*> mensajes;
+			mensajes.push_back(mensaje);
+			Conversacion *nuevaConversacion = new Conversacion(usuarios,mensajes);
+			nuevaConversacion->persistir();
+			delete nuevaConversacion;
+		}
+		delete mensaje;
+	}
 }

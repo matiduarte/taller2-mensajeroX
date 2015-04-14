@@ -149,6 +149,7 @@ void Usuario::eliminar(string clave){
 	baseDeDatos->eliminarUsuario(clave);
 }
 
+
 Usuario::~Usuario() {
 	// TODO Auto-generated destructor stub
 }
