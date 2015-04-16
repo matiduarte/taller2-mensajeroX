@@ -49,29 +49,26 @@ void Servicio::prueba(){
 }
 
 void Servicio::registrarUsuario(){
-	string telefono = this->getParametro(keyTelefono, keyDefault);
 
-	string clave = Usuario::obtenerId(telefono);
-	Usuario* user = Usuario::obtener(clave);
+	Usuario* user = this->obtenerUsuario();
 	if(user->getId() != keyIdUsuarioNoEncontrado){
 		//El usuario ya existe. Devuelvo error
-		Loger::getLoger()->warn("Se intento registrar un usuario ya existente. Id: " + clave);
+		Loger::getLoger()->warn("Se intento registrar un usuario ya existente. Id: " + user->getId());
 	}else{
 		string nombre = this->getParametro(keyNombre, keyDefault);
 		string fotoPerfil = this->getParametro(keyFotoDePerfil, keyDefault);
 
-		Usuario* user = new Usuario(nombre, fotoPerfil, telefono);
+		Usuario* user = new Usuario(nombre, fotoPerfil, user->getTelefono());
 		user->persistir();
 
-		Loger::getLoger()->info("Se registro el usuario con Id: " + clave);
+		Loger::getLoger()->info("Se registro el usuario con Id: " + user->getId());
 	}
 }
 
 Usuario* Servicio::obtenerUsuario(){
 
 	string telefono = this->getParametro(keyTelefono, keyDefault);
-	string clave = Usuario::obtenerId(telefono);
-	Usuario* user = Usuario::obtener(clave);
+	Usuario* user = Usuario::obtenerPorTelefono(telefono);
 
 	return user;
 

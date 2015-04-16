@@ -37,6 +37,7 @@ private:
 	string localizacion;
 	string ultimaConexion;
 	string token;
+	static string obtenerId(string telefono);
 
 public:
 	Usuario();
@@ -63,7 +64,6 @@ public:
 	static Usuario* obtener(string clave);
 	static Usuario* obtenerPorTelefono(string telefono);
 	static void eliminar(string clave);
-	static string obtenerId(string telefono);
 	string getLocalizacion();
 	void setLocalizacion(string localizacion);
 	string calcularTokenDeSesion();
