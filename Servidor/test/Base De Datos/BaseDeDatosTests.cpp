@@ -37,3 +37,19 @@ void BaseDeDatosTests::getDatoInvalido(){
 	CPPUNIT_ASSERT(valor == keyDatoNoEncontrado );
 }
 
+void BaseDeDatosTests::guardarUsuario() {
+	Usuario *unUsuario  = new Usuario("Juan","foto","1234");
+	baseDeDatos->setUsuario(unUsuario);
+	Usuario *pUsuario;
+	pUsuario = baseDeDatos->getUsuario(unUsuario->getId());
+
+	CPPUNIT_ASSERT(unUsuario->getNombre() == pUsuario->getNombre() );
+	CPPUNIT_ASSERT(unUsuario->getFotoDePerfil() == pUsuario->getFotoDePerfil() );
+	CPPUNIT_ASSERT(unUsuario->getId() == pUsuario->getId() );
+
+	baseDeDatos->eliminarUsuario(unUsuario->getId());
+
+	delete unUsuario;
+	delete pUsuario;
+
+}

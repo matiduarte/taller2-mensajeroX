@@ -10,6 +10,7 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 #include "../../src/BaseDeDatos/BaseDeDatos.h"
+#include "../../src/Entidades/Usuario.h"
 
 using namespace CPPUNIT_NS;
 using namespace std;
@@ -19,6 +20,7 @@ class BaseDeDatosTests: public TestFixture {
 	CPPUNIT_TEST_SUITE(BaseDeDatosTests);
 	CPPUNIT_TEST(guardarUnDato);
 	CPPUNIT_TEST(getDatoInvalido);
+	CPPUNIT_TEST(guardarUsuario);
 
 	CPPUNIT_TEST_SUITE_END();
 public:
@@ -28,6 +30,7 @@ protected:
 	BaseDeDatos *baseDeDatos;
 	void guardarUnDato();
 	void getDatoInvalido();
+	void guardarUsuario();
 };
 
 #endif /* TEST_BASE_DE_DATOS_BASEDEDATOSTESTS_H_ */

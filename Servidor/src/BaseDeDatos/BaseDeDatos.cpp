@@ -23,19 +23,18 @@ BaseDeDatos::BaseDeDatos() {
 	//TODO: decidir que hacer cuando hay problemas para abrir la base de datos.
 	estado = DB::Open(options, pathBaseDeDatos, &db);
 	if (!estado.ok()){
-		Loger::getLoger()->error("No se pudo abrir la Base De Datos con path: "+BaseDeDatos::pathBaseDeDatos);
-		Loger::getLoger()->guardarEstado();
-		cerr << "No se pudo abrir la Base de Datos." << endl;
-	}
+			Loger::getLoger()->error("No se pudo abrir la Base De Datos con path: "+BaseDeDatos::pathBaseDeDatos);
+			Loger::getLoger()->guardarEstado();
+			cerr << "No se pudo abrir la Base de Datos." << endl;
+		}
 }
 
 BaseDeDatos* BaseDeDatos::getInstance() {
-    if(pBaseDeDatos == NULL)
-    {
-    	pBaseDeDatos = new BaseDeDatos();
-        atexit(&destruirBaseDeDatos);    // At exit, destroy the singleton
-    }
-    return pBaseDeDatos;
+	if (pBaseDeDatos == NULL) {
+		pBaseDeDatos = new BaseDeDatos();
+		atexit(&destruirBaseDeDatos);    // At exit, destroy the singleton
+	}
+	return pBaseDeDatos;
 }
 
 /**
