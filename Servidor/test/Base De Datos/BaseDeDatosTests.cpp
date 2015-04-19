@@ -30,5 +30,10 @@ BaseDeDatosTests::BaseDeDatosTests() {
 
 
 
+void BaseDeDatosTests::getDatoInvalido(){
 
+	string clave = "clave inexistente";
+	string valor = baseDeDatos->getDato(clave);
+	CPPUNIT_ASSERT(valor == keyDatoNoEncontrado );
+}
 
