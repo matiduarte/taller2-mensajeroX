@@ -14,14 +14,17 @@
 using namespace CPPUNIT_NS;
 using namespace std;
 
-
 class BaseDeDatosTests: public TestFixture {
+
 	CPPUNIT_TEST_SUITE(BaseDeDatosTests);
 	CPPUNIT_TEST(guardarUnDato);
 
 	CPPUNIT_TEST_SUITE_END();
+public:
+	BaseDeDatosTests();
 
 protected:
+	BaseDeDatos *baseDeDatos;
 	void guardarUnDato();
 };
 

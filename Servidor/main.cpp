@@ -71,7 +71,7 @@ int main(void) {
 //	Conversacion* conversacion2 = new Conversacion();
 //	conversacion->deserealizar(conversacionSerializada);
 
-
+	BaseDeDatos::setPath(path_BaseDeDatosTests);
 	CPPUNIT_NS::TestResult controller;
 	CPPUNIT_NS::TestResultCollector result;
 

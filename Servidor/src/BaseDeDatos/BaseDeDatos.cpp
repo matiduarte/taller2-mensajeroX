@@ -8,22 +8,22 @@
 #include "BaseDeDatos.h"
 
 BaseDeDatos* BaseDeDatos::pBaseDeDatos = NULL;
+string BaseDeDatos::pathBaseDeDatos = path_BaseDeDatos;
 
 /**
  * Abre o crea si no esta creada la base de datos.
  */
-BaseDeDatos::BaseDeDatos(string path) {
+BaseDeDatos::BaseDeDatos() {
 	claveBaseUsuario = "usuario_";
 	claveBaseConversacion = "conversacion_";
 	claveBaseConversacionesPorUsuario = "conversaciones_por_usuario_";
-	pathBaseDeDatos = path;
 	options.IncreaseParallelism();
 	options.OptimizeLevelStyleCompaction();
 	options.create_if_missing = true;
 	//TODO: decidir que hacer cuando hay problemas para abrir la base de datos.
 	estado = DB::Open(options, pathBaseDeDatos, &db);
 	if (!estado.ok()){
-		Loger::getLoger()->error("No se pudo abrir la Base De Datos con path: "+path);
+		Loger::getLoger()->error("No se pudo abrir la Base De Datos con path: "+BaseDeDatos::pathBaseDeDatos);
 		Loger::getLoger()->guardarEstado();
 		cerr << "No se pudo abrir la Base de Datos." << endl;
 	}
@@ -32,7 +32,7 @@ BaseDeDatos::BaseDeDatos(string path) {
 BaseDeDatos* BaseDeDatos::getInstance() {
     if(pBaseDeDatos == NULL)
     {
-    	pBaseDeDatos = new BaseDeDatos(path_BaseDeDatos);
+    	pBaseDeDatos = new BaseDeDatos();
         atexit(&destruirBaseDeDatos);    // At exit, destroy the singleton
     }
     return pBaseDeDatos;
@@ -46,6 +46,10 @@ void BaseDeDatos::destruirBaseDeDatos(){
 		delete pBaseDeDatos->db;
 		delete pBaseDeDatos;
 	}
+}
+
+void BaseDeDatos::setPath(string path) {
+	BaseDeDatos::pathBaseDeDatos = path;
 }
 
 BaseDeDatos::~BaseDeDatos() {}

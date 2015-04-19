@@ -29,20 +29,21 @@ class BaseDeDatos {
 private:
 	static BaseDeDatos* pBaseDeDatos;
 	static void destruirBaseDeDatos();
-	BaseDeDatos(string path);
+	BaseDeDatos();
 
 	DB* db;
 	Options options;
 	string claveBaseUsuario;
 	string claveBaseConversacion;
 	string claveBaseConversacionesPorUsuario;
-	string pathBaseDeDatos;
+	static string pathBaseDeDatos;
 	Status estado;
 	void setDato(string clave, string valor);
 	string getDato(string clave);
 	void eliminar(string clave);
 
 public:
+	static void setPath(string path);
 	void setUsuario(Usuario* usuario);
 	Usuario* getUsuario(string clave);
 	void setConversacion(Conversacion* conversacion);

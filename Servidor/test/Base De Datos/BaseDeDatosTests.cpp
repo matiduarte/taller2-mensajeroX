@@ -9,9 +9,9 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(BaseDeDatosTests);
 
+
 void BaseDeDatosTests::guardarUnDato(){
 
-	BaseDeDatos *baseDeDatos = new BaseDeDatos("Base De Datos TEST");
 	string valor = "un dato cuaquiera";
 	string clave = "1";
 	baseDeDatos->setDato(clave,valor);
@@ -22,5 +22,13 @@ void BaseDeDatosTests::guardarUnDato(){
     batch.Delete(clave);
     baseDeDatos->db->Write(WriteOptions(), &batch);
 
-	delete baseDeDatos;
 }
+
+BaseDeDatosTests::BaseDeDatosTests() {
+	this->baseDeDatos = BaseDeDatos::getInstance();
+}
+
+
+
+
+

@@ -23,7 +23,10 @@ using namespace std;
 const bool Online = true;
 const bool Offline = false;
 
+/*Constantes para Base de Datos*/
 const string path_BaseDeDatos = "Base de Datos";
+const string path_BaseDeDatosTests = "Base de Datos TEST";
+
 const string keyDefault = "";
 
 /*Claves principales de los Usuarios*/
