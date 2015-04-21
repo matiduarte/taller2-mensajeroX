@@ -55,6 +55,8 @@ void Servidor::administrarServicio(struct mg_connection *conn){
 	default: 		cout << "default." << endl;
 
 	};
+
+	mg_printf_data(conn, "prueba respuesta");
 }
 
 tipoDeServicio Servidor::parsearURI(const char* uri){
