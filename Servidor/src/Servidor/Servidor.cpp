@@ -27,17 +27,24 @@ void Servidor::iniciar(char *puerto){
 	}
 }
 
-int Servidor::ev_handler(struct mg_connection *conn, enum mg_event ev){
-	  switch (ev) {
-	    case MG_AUTH: return MG_TRUE;
-	    case MG_REQUEST:
-	      administrarServicio(conn);
-	      return MG_TRUE;
-	    default: return MG_FALSE;
-	  }
+void test(){
+
 }
 
-void Servidor::administrarServicio(struct mg_connection *conn){
+int Servidor::ev_handler(struct mg_connection *conn, enum mg_event ev){
+	if(ev == MG_REQUEST){
+		thread threadCliente(administrarServicio, conn);
+		threadCliente.join();
+		return MG_TRUE;
+	}
+	else if(ev == MG_AUTH){
+	  return MG_TRUE;
+	}
+
+	return MG_FALSE;
+}
+
+void Servidor::administrarServicio(struct mg_connection* conn){
 	int servicioRequerido = parsearURI(conn->uri);
 
 	servicio->parsearParametros(conn);
@@ -55,7 +62,7 @@ void Servidor::administrarServicio(struct mg_connection *conn){
 	default: 		cout << "default." << endl;
 
 	};
-
+	//mg_send_header(conn, "Content-Type", "application/json");
 	mg_printf_data(conn, "prueba respuesta");
 }
 

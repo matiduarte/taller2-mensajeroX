@@ -13,6 +13,7 @@
 #include "../WebServer/mongoose.h"
 #include <string>
 #include "../Utilidades/StringUtil.h"
+#include <thread>
 
 using namespace std;
 
@@ -32,7 +33,8 @@ class Servidor {
 private:
 	static Servicio* servicio;
 	struct mg_server *webServer;
-	static void administrarServicio(struct mg_connection *conn);
+	static void administrarServicio(struct mg_connection* conn);
+
 	static int ev_handler(struct mg_connection *conn, enum mg_event ev);
 
 	static tipoDeServicio parsearURI(const char* uri);
