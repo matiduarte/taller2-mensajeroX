@@ -22,7 +22,7 @@
 using namespace std;
 using namespace CppUnit;
 
-int main(void) {
+/*int main(void) {
 	BaseDeDatos::setPath(path_BaseDeDatosTests);
 	Servidor *servidor = new Servidor();
 	servidor->iniciar("8080");
@@ -44,4 +44,4 @@ int main(void) {
 
 
   return 0;
-}
+}*/

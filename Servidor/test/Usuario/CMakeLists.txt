@@ -1,0 +1,5 @@
+project(taller2-mensajero)
+
+add_library(testUsuario TestUsuario.h TestUsuario.cpp)
+
+target_link_libraries(testUsuario cppunit entidades)
