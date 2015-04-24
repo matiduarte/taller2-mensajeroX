@@ -1,6 +1,6 @@
 project(taller2-mensajero)
 
-include_directories(${PROJECT_SOURCE_DIR}/../main)
+include_directories(${PROJECT_SOURCE_DIR}/../src)
 
 add_subdirectory(Usuario)
 
