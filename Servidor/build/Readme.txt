@@ -1,3 +1,7 @@
-Desde la carpeta build se ejecuta el cmake/
-Se paran sobre la carpeta y ejecutan cmake .. y despues make.
-Todavia no funciona.
+Ejecucion de CMake
+
+1- Desde la consola dirigirse a Servidor/build
+2- Ejecutar cmake ..
+3- Finalizado ejecutar make
+
+TODAVIA NO FUNCIONA
