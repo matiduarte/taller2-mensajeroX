@@ -4,3 +4,7 @@
 /.idea/libraries
 .DS_Store
 /build
+.idea/compiler.xml
+.idea/
+Mensajero.iml
+app/app.iml
