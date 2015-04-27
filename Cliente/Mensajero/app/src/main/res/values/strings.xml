@@ -8,6 +8,8 @@
     <string name="title_activity_registrar_usuario">RegistrarUsuarioActivity</string>
     <string name="hecho">Hecho</string>
     <string name="mensaje_bienvenida">Bienvenido</string>
+    <string name="title_activity_confirmar_datos">ConfirmarDatosActivity</string>
+    <string name="volver">Volver</string>
 
 
 </resources>
