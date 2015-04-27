@@ -18,6 +18,7 @@
 #include <cppunit/TestResult.h>
 #include <cppunit/TestResultCollector.h>
 #include <cppunit/TestRunner.h>
+#include "../src/BaseDeDatos/BaseDeDatos.h"
 
 using namespace std;
 using namespace CppUnit;
