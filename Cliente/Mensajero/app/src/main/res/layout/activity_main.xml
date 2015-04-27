@@ -22,4 +22,13 @@
         android:textColor="#ffffff"
         android:textStyle="bold"
         style="@style/Base.TextAppearance.AppCompat.Display1" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prueba"
+        android:id="@+id/button2"
+        android:layout_above="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="66dp" />
 </RelativeLayout>

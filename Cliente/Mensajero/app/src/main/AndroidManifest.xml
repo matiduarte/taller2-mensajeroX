@@ -10,15 +10,17 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".RegistrarUsuarioActivity"
             android:label="@string/title_activity_registrar_usuario" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="com.dk.mensajero.RegistrarUsuarioActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>

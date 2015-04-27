@@ -32,7 +32,6 @@
         android:layout_below="@+id/button"
         android:divider="#000000"
         android:dividerHeight="0.5dp"
-        android:textColor="#000000"
         android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft" />
 
 </RelativeLayout>
