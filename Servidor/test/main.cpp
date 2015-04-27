@@ -24,6 +24,8 @@ using namespace CppUnit;
 
 int main(void) {
 
+	BaseDeDatos::setPath(path_BaseDeDatosTests);
+
 	CPPUNIT_NS::TestResult controller;
 	CPPUNIT_NS::TestResultCollector result;
 
