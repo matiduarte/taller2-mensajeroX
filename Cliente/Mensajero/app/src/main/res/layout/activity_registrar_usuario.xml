@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.dk.mensajero.RegistrarUsuarioActivity"
+    android:background="#228B22">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hecho"
+        android:id="@+id/button"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="#ffffff"
+        android:textColor="#228B22"
+        android:nestedScrollingEnabled="false"
+        android:longClickable="false"
+        android:enabled="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:elegantTextHeight="false"
+        android:textColorHint="#228B22" />
+
+    <EditText
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:id="@+id/editText3"
+        android:layout_alignBottom="@+id/button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#ffffff"
+        android:text="@string/header_numero_telefono"
+        android:inputType="text"
+        android:textColor="#228B22"
+        android:textSize="19sp" />
+
+    <ExpandableListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/exp_list"
+        android:layout_below="@+id/editText3"
+        android:background="#ffffff"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#228B22"
+        android:layout_marginTop="36dp"
+        android:indicatorRight="?android:attr/expandableListPreferredItemIndicatorRight" />
+
+</RelativeLayout>

@@ -4,5 +4,11 @@
     <string name="app_name">Mensajero</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_registrar_usuario">RegistrarUsuarioActivity</string>
+    <string name="hecho">Hecho</string>
+    <string name="mensaje_bienvenida">Bienvenido</string>
+    <string name="header_numero_telefono">Número de Teléfono</string>
+    <string name="argentina">Argentina</string>
+    <string name="cod_area_arg">+54</string>
 
 </resources>
