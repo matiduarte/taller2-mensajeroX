@@ -37,10 +37,8 @@
         <activity
             android:name=".AjustesActivity"
             android:label="@string/title_activity_ajustes" >
-            android:name=".RegistrarUsuarioActivity"
-            android:label="@string/title_activity_registrar_usuario" >
             <intent-filter>
-                <action android:name="com.dk.mensajero.RegistrarUsuarioActivity" />
+                <action android:name="com.dk.mensajero.AjustesActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
