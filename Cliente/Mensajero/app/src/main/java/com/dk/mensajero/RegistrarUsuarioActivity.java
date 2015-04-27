@@ -7,7 +7,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,17 +26,52 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
     ExpandableListView Exp_list;
     AdaptadorDePaises adaptador;
     private static Button button_sbm;
+    private EditText numeroDeTelefono;
+    private TextView codigoDeArea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_usuario);
+        panelExpandiblePaises();
+        onClickButtonListener();
+        mostrarCodigoDeArea();
+    }
+
+    public void panelExpandiblePaises(){
         Exp_list = (ExpandableListView) findViewById(exp_list);
         paisesDesplegable = ProveedorDatos.getInfo();
         listaDePaises = new ArrayList<String>(paisesDesplegable.keySet());
         adaptador = new AdaptadorDePaises(this, paisesDesplegable, listaDePaises);
         Exp_list.setAdapter(adaptador);
-        onClickButtonListener();
+    }
+
+    public void mostrarCodigoDeArea(){
+        codigoDeArea = (TextView) findViewById(R.id.codArea);
+        Exp_list.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                switch (paisesDesplegable.get(listaDePaises.get(groupPosition)).get(childPosition)) {
+                    case "Argentina":
+                        codigoDeArea.setText("+54");
+                        break;
+                    case "Brasil":
+                        codigoDeArea.setText("+55");
+                        break;
+                    case "Chile":
+                        codigoDeArea.setText("+56");
+                        break;
+                    case "Uruguay":
+                        codigoDeArea.setText("+598");
+                        break;
+                    default:
+                        break;
+                }
+
+                return false;
+            }
+        });
     }
 
     public void onClickButtonListener(){
