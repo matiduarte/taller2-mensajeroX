@@ -7,42 +7,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ExpandableListView;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import static com.dk.mensajero.R.id.exp_list;
 
 
-public class RegistrarUsuarioActivity extends ActionBarActivity {
+public class ConfirmarDatosActivity extends ActionBarActivity {
 
-    HashMap<String, List<String>> paisesDesplegable;
-    List<String> listaDePaises;
-    ExpandableListView Exp_list;
-    AdaptadorDePaises adaptador;
     private static Button button_sbm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registrar_usuario);
-        Exp_list = (ExpandableListView) findViewById(exp_list);
-        paisesDesplegable = ProveedorDatos.getInfo();
-        listaDePaises = new ArrayList<String>(paisesDesplegable.keySet());
-        adaptador = new AdaptadorDePaises(this, paisesDesplegable, listaDePaises);
-        Exp_list.setAdapter(adaptador);
+        setContentView(R.layout.activity_confirmar_datos);
         onClickButtonListener();
     }
 
+    //TODO: esta funcion deberia estar encapsulada en una clase, se repite mucho
     public void onClickButtonListener(){
-        button_sbm = (Button)findViewById(R.id.button);
+        button_sbm = (Button)findViewById(R.id.button4);
         button_sbm.setOnClickListener(
                 new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent("com.dk.mensajero.ConfirmarDatosActivity");
+                        Intent intent = new Intent("com.dk.mensajero.RegistrarUsuarioActivity");
                         startActivity(intent);
 
                     }
@@ -51,11 +36,10 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_registrar_usuario, menu);
+        getMenuInflater().inflate(R.menu.menu_confirmar_datos, menu);
         return true;
     }
 
@@ -65,6 +49,7 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
