@@ -72,7 +72,7 @@ public class AdaptadorDePaises extends BaseExpandableListAdapter {
             convertView = inflator.inflate(R.layout.parent_layout, parentView, false);
         }
         TextView parentTextView = (TextView) convertView.findViewById(R.id.parent_txt);
-        parentTextView.setTypeface(null, Typeface.NORMAL);
+        parentTextView.setTypeface(null, Typeface.BOLD);
         parentTextView.setText(groupTitle);
         return convertView;
     }
@@ -94,6 +94,6 @@ public class AdaptadorDePaises extends BaseExpandableListAdapter {
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return false;
+        return true;
     }
 }
