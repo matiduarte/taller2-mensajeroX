@@ -6,7 +6,7 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra")
 
 # Bibliotecas 
 
-#set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/lib/Modulos/")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/lib/Modulos/")
 
 set(ROCKSDB_ROOT_DIR "${PROJECT_SOURCE_DIR}/lib/rocksdb/")
 set(JSONCPP_ROOT_DIR "${PROJECT_SOURCE_DIR}/src/json/")
@@ -23,6 +23,7 @@ set (BD_PATH "${PROJECT_SOURCE_DIR}/src/BaseDeDatos/")
 set (LOG_PATH "${PROJECT_SOURCE_DIR}/src/Log/")
 set (UTILIDADES_PATH "${PROJECT_SOURCE_DIR}/src/Utilidades/")
 set (TEST_PATH "${PROJECT_SOURCE_DIR}/test/")
+set (CPPUNIT_ROOT_DIR "${PROJECT_SOURCE_DIR}/lib/cppunit")
 
 add_subdirectory(${MONGOOSECPP_PATH})
 add_subdirectory(${JSONCPP_ROOT_DIR})
@@ -45,7 +46,6 @@ add_subdirectory(src)
 
 # Tests
 enable_testing()
-set (CPPUNIT_ROOT_DIR "${PROJECT_SOURCE_DIR}/lib/cppunit")
 add_subdirectory(${TEST_PATH})
 
 add_executable(Servidor main.cpp)
