@@ -1,5 +1,5 @@
 project(taller2-mensajero)
 
-add_library(logger Logger.cpp)
+add_library(loger Loger.cpp)
 
-target_link_libraries(logger utilidades)
+target_link_libraries(loger utilidades)
