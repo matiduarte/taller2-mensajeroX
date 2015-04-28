@@ -51,6 +51,6 @@
         android:background="#ffffff"
         android:textColor="#228B22"
         android:textStyle="bold"
-        android:hint="@string/notificacion_ingresar_telefono"/>
+        android:hint="@string/notificacion_ingresar_telefono" />
 
 </RelativeLayout>

@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 import static com.dk.mensajero.R.id.exp_list;
 
 
@@ -25,14 +27,18 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
     AdaptadorDePaises adaptador;
     private static Button button_sbm;
     private TextView codigoDeArea;
+    private TextView numeroDeTelefono;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_usuario);
+        this.numeroDeTelefono = (TextView) findViewById(R.id.phoneNumber);
+        this.codigoDeArea = (TextView) findViewById(R.id.codArea);
         panelExpandiblePaises();
         onClickButtonListener();
         mostrarCodigoDeArea();
+        ocultarCuadros();
     }
 
     public void panelExpandiblePaises() {
@@ -47,7 +53,6 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
     }
 
     public void mostrarCodigoDeArea(){
-        codigoDeArea = (TextView) findViewById(R.id.codArea);
         Exp_list.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
@@ -69,9 +74,23 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
                         break;
                 }
                 Exp_list.collapseGroup(groupPosition);
+                mostrarCuadroNumeroDeTelefono();
+                mostrarCuadroCodigoDeArea();
+
                 return false;
             }
         });
+    }
+
+    public void ocultarCuadros(){
+        Exp_list.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                ocultarCuadroCodigoDeArea();
+                ocultarCuadroNumeroDeTelefono();
+            }
+        });
+
     }
 
     public void onClickButtonListener(){
@@ -129,5 +148,21 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
     public void setCodigoUru(){
         codigoDeArea = (TextView) findViewById(R.id.codArea);
         codigoDeArea.setText("+598");
+    }
+
+    public void ocultarCuadroNumeroDeTelefono(){
+        this.numeroDeTelefono.setVisibility(INVISIBLE);
+    }
+
+    public void mostrarCuadroNumeroDeTelefono(){
+        this.numeroDeTelefono.setVisibility(VISIBLE);
+    }
+
+    public void ocultarCuadroCodigoDeArea(){
+        this.codigoDeArea.setVisibility(INVISIBLE);
+    }
+
+    public void mostrarCuadroCodigoDeArea(){
+        this.codigoDeArea.setVisibility(VISIBLE);
     }
 }
