@@ -1,23 +1,19 @@
 package com.dk.mensajero;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static android.widget.AbsListView.CHOICE_MODE_SINGLE;
 import static com.dk.mensajero.R.id.exp_list;
 
 
@@ -28,7 +24,6 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
     ExpandableListView Exp_list;
     AdaptadorDePaises adaptador;
     private static Button button_sbm;
-    private EditText numeroDeTelefono;
     private TextView codigoDeArea;
 
     @Override
@@ -43,7 +38,7 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
     public void panelExpandiblePaises() {
         Exp_list = (ExpandableListView) findViewById(exp_list);
         paisesDesplegable = ProveedorDatos.getInfo();
-        listaDePaises = new ArrayList<String>(paisesDesplegable.keySet());
+        listaDePaises = new ArrayList<>(paisesDesplegable.keySet());
         adaptador = new AdaptadorDePaises(this, paisesDesplegable, listaDePaises);
         Exp_list.setAdapter(adaptador);
         //Argentina va por default
