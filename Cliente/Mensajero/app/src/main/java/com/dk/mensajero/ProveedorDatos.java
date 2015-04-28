@@ -18,7 +18,7 @@ public class ProveedorDatos {
         paises.add("Chile");
         paises.add("Uruguay");
 
-        paisesDetallados.put("Paises", paises);
+        paisesDetallados.put("Argentina", paises);
 
         return paisesDetallados;
     }

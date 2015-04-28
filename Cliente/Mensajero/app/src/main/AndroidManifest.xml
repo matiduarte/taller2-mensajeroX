@@ -18,7 +18,8 @@
         </activity>
         <activity
             android:name=".RegistrarUsuarioActivity"
-            android:label="@string/title_activity_registrar_usuario" >
+            android:label="@string/title_activity_registrar_usuario"
+            android:windowSoftInputMode="adjustNothing" >
             <intent-filter>
                 <action android:name="com.dk.mensajero.RegistrarUsuarioActivity" />
 

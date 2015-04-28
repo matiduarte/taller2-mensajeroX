@@ -10,7 +10,7 @@
     <string name="mensaje_bienvenida">Bienvenido</string>
     <string name="title_activity_confirmar_datos">ConfirmarDatosActivity</string>
     <string name="volver">Volver</string>
-    <string name="notificacion_ingresar_telefono">Su numero de telefono</string>
+    <string name="notificacion_ingresar_telefono">Número de télefono</string>
 
 
 </resources>

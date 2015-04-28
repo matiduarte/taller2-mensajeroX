@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.widget.AbsListView.CHOICE_MODE_SINGLE;
 import static com.dk.mensajero.R.id.exp_list;
 
 
@@ -38,12 +40,15 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
         mostrarCodigoDeArea();
     }
 
-    public void panelExpandiblePaises(){
+    public void panelExpandiblePaises() {
         Exp_list = (ExpandableListView) findViewById(exp_list);
         paisesDesplegable = ProveedorDatos.getInfo();
         listaDePaises = new ArrayList<String>(paisesDesplegable.keySet());
         adaptador = new AdaptadorDePaises(this, paisesDesplegable, listaDePaises);
         Exp_list.setAdapter(adaptador);
+        //Argentina va por default
+        this.setCodigoArg();
+
     }
 
     public void mostrarCodigoDeArea(){
@@ -54,21 +59,21 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
 
                 switch (paisesDesplegable.get(listaDePaises.get(groupPosition)).get(childPosition)) {
                     case "Argentina":
-                        codigoDeArea.setText("+54");
+                        setCodigoArg();
                         break;
                     case "Brasil":
-                        codigoDeArea.setText("+55");
+                        setCodigoBra();
                         break;
                     case "Chile":
-                        codigoDeArea.setText("+56");
+                        setCodigoChi();
                         break;
                     case "Uruguay":
-                        codigoDeArea.setText("+598");
+                        setCodigoUru();
                         break;
                     default:
                         break;
                 }
-
+                Exp_list.collapseGroup(groupPosition);
                 return false;
             }
         });
@@ -109,5 +114,25 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setCodigoArg(){
+        codigoDeArea = (TextView) findViewById(R.id.codArea);
+        codigoDeArea.setText("+54");
+    }
+
+    public void setCodigoBra(){
+        codigoDeArea = (TextView) findViewById(R.id.codArea);
+        codigoDeArea.setText("+55");
+    }
+
+    public void setCodigoChi(){
+        codigoDeArea = (TextView) findViewById(R.id.codArea);
+        codigoDeArea.setText("+56");
+    }
+
+    public void setCodigoUru(){
+        codigoDeArea = (TextView) findViewById(R.id.codArea);
+        codigoDeArea.setText("+598");
     }
 }
