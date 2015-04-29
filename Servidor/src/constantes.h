@@ -28,6 +28,7 @@ const string path_BaseDeDatos = "Base de Datos";
 const string path_BaseDeDatosTests = "Base de Datos TEST";
 
 const string keyDefault = "";
+#define puertoDefault "8080"
 
 /*Claves principales de los Usuarios*/
 #define keyNombre "Nombre"

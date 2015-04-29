@@ -48,6 +48,7 @@ public:
 	Usuario* getUsuario(string clave);
 	void setConversacion(Conversacion* conversacion);
 	Conversacion* getConversacion(string clave);
+	vector<string> getIdsConversacionPorIdUsuario(string claveUsuario);
 	void eliminarUsuario(string clave);
 	void eliminarConversacion(string clave);
 	static BaseDeDatos* getInstance();

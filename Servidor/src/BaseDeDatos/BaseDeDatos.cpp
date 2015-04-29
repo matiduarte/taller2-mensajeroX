@@ -116,6 +116,11 @@ void BaseDeDatos::setConversacion(Conversacion* conversacion) {
 
 }
 
+vector<string> BaseDeDatos::getIdsConversacionPorIdUsuario(string claveUsuario) {
+	string valor = getDato(claveBaseConversacionesPorUsuario + claveUsuario);
+	return StringUtil::split(valor, SeparadorListaBD);
+}
+
 
 Conversacion* BaseDeDatos::getConversacion(string clave) {
 

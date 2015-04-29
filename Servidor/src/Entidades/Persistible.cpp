@@ -22,6 +22,7 @@ string Persistible::serializar(){
 }
 
 int Persistible::deserealizar(string aDeserealizar){
+	aDeserealizar = "";
 	return 0;
 }
 

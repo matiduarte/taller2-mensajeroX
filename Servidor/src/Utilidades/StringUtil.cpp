@@ -84,3 +84,9 @@ vector<string> StringUtil::jsonValueToVector(Json::Value vector){
 bool StringUtil::vectorContiene(vector<string> vector, string valor){
 	return find(vector.begin(), vector.end(), valor) != vector.end();
 }
+
+char* StringUtil::str2Char (string string){
+	char *cstr = new char[string.length() + 1];
+	strcpy(cstr, string.c_str());
+	return cstr;
+}

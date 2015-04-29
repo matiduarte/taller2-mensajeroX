@@ -128,8 +128,8 @@ Conversacion* Conversacion::obtener(string clave){
 }
 
 vector<string> Conversacion::obtenerIdsPorIdUsuario(string claveUsuario){
-	vector<string> idsConversacion;
-	return idsConversacion;
+	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
+	return baseDeDatos->getIdsConversacionPorIdUsuario(claveUsuario);
 }
 
 void Conversacion::eliminar(string clave) {

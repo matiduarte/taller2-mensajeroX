@@ -24,7 +24,9 @@ using namespace std;
 int main(void) {
 	BaseDeDatos::setPath(path_BaseDeDatosTests);
 	Servidor *servidor = new Servidor();
-	servidor->iniciar("8080");
+	char* puerto = StringUtil::str2Char(puertoDefault);
+	servidor->iniciar(puerto);
+	delete puerto;
 
 //	CPPUNIT_NS::TestResult controller;
 //	CPPUNIT_NS::TestResultCollector result;

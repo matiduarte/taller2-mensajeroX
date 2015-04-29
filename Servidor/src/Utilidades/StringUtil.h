@@ -34,6 +34,7 @@ public:
     static bool toBoolean(string value);
     static vector<string> jsonValueToVector(Json::Value vector);
     static bool vectorContiene(vector<string> vector, string valor);
+    static char* str2Char (string string);
 };
 
 #endif /* SRC_UTILIDADES_STRINGUTIL_H_ */
