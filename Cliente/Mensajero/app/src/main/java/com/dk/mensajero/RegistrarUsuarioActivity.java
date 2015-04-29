@@ -100,7 +100,7 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
                 new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent("com.dk.mensajero.ConfirmarDatosActivity");
+                        Intent intent = new Intent("com.dk.mensajero.AjustesActivity");
                         startActivity(intent);
 
                     }
