@@ -14,14 +14,15 @@
 #include <vector>
 #include <algorithm>
 #include "../json/json.h"
-#include "../test/StringUtil/TestStringUtil.h"
+#include "../constantes.h"
+//#include "../test/StringUtil/TestStringUtil.h"
 
 using namespace std;
 
-class TestStringUtil;
+//class TestStringUtil;
 
 class StringUtil {
-	friend TestStringUtil;
+	//friend TestStringUtil;
 public:
 	StringUtil();
 	virtual ~StringUtil();

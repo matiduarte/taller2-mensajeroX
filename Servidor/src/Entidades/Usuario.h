@@ -15,7 +15,7 @@
 #include "../Utilidades/md5.h"
 #include "../json/json.h"
 #include "../constantes.h"
-#include "../test/Usuario/TestUsuario.h"
+//#include "../test/Usuario/TestUsuario.h"
 #include "../BaseDeDatos/BaseDeDatos.h"
 #include "../Log/Loger.h"
 
@@ -23,11 +23,11 @@ class BaseDeDatos;
 
 using namespace std;
 
-class TestUsuario;
+//class TestUsuario;
 
 class Usuario: public Persistible
 	 {
-	friend TestUsuario;
+	//friend TestUsuario;
 private:
 	string nombre;
 	string fotoDePerfil;

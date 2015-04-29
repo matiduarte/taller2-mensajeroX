@@ -6,23 +6,22 @@
 
 #include "src/Entidades/Usuario.h"
 #include <iostream>
-#include <cppunit/TestSuite.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include "test/Usuario/TestUsuario.h"
-
-#include <cppunit/BriefTestProgressListener.h>
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/TestResult.h>
-#include <cppunit/TestResultCollector.h>
-#include <cppunit/TestRunner.h>
+//#include <cppunit/TestSuite.h>
+//#include <cppunit/ui/text/TestRunner.h>
+//#include "test/Usuario/TestUsuario.h"
+//
+//#include <cppunit/BriefTestProgressListener.h>
+//#include <cppunit/CompilerOutputter.h>
+//#include <cppunit/extensions/TestFactoryRegistry.h>
+//#include <cppunit/TestResult.h>
+//#include <cppunit/TestResultCollector.h>
+//#include <cppunit/TestRunner.h>
 
 #include "src/Log/Loger.h"
 
 using namespace std;
-using namespace CppUnit;
 
-/*int main(void) {
+int main(void) {
 	BaseDeDatos::setPath(path_BaseDeDatosTests);
 	Servidor *servidor = new Servidor();
 	servidor->iniciar("8080");
@@ -44,4 +43,4 @@ using namespace CppUnit;
 
 
   return 0;
-}*/
+}

@@ -1,0 +1,9 @@
+
+find_library(BZ2_LIBRARIES bz2 "${LIBS_ROOT_DIR}")
+
+set(BZ2_FOUND TRUE)
+
+if (NOT BZ2_LIBRARIES)
+  set(BZ2_FOUND FALSE)
+endif (NOT BZ2_LIBRARIES)
+
