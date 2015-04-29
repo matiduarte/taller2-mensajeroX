@@ -11,6 +11,7 @@
     <string name="title_activity_confirmar_datos">ConfirmarDatosActivity</string>
     <string name="volver">Volver</string>
     <string name="notificacion_ingresar_telefono">Número de télefono</string>
+    <string name="mensaje_confirmacion_codArea_telefono">Por favor confirme el código de su país e ingrese su número de télefono</string>
 
 
 </resources>

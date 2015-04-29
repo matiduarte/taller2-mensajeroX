@@ -35,14 +35,15 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
         setContentView(R.layout.activity_registrar_usuario);
         this.numeroDeTelefono = (TextView) findViewById(R.id.phoneNumber);
         this.codigoDeArea = (TextView) findViewById(R.id.codArea);
-        panelExpandiblePaises();
+        ExpandList();
         onClickButtonListener();
-        mostrarCodigoDeArea();
-        ocultarCuadros();
+        onChildClickListener();
+        onGroupExpandListener();
+        onGroupCollapseListener();
 
     }
 
-    public void panelExpandiblePaises() {
+    public void ExpandList() {
         Exp_list = (ExpandableListView) findViewById(exp_list);
         paisesDesplegable = ProveedorDatos.getInfo();
         listaDePaises = new ArrayList<>(paisesDesplegable.keySet());
@@ -53,7 +54,7 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
 
     }
 
-    public void mostrarCodigoDeArea(){
+    public void onChildClickListener(){
         Exp_list.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
@@ -75,23 +76,30 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
                         break;
                 }
                 Exp_list.collapseGroup(groupPosition);
-                mostrarCuadroNumeroDeTelefono();
-                mostrarCuadroCodigoDeArea();
+                mostrarCuadros();
 
                 return false;
             }
         });
     }
 
-    public void ocultarCuadros(){
+    public void onGroupExpandListener(){
         Exp_list.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
-                ocultarCuadroCodigoDeArea();
-                ocultarCuadroNumeroDeTelefono();
+                ocultarCuadros();
             }
         });
 
+    }
+
+    public void onGroupCollapseListener(){
+        Exp_list.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+            @Override
+            public void onGroupCollapse(int groupPosition) {
+                mostrarCuadros();
+            }
+        });
     }
 
     public void onClickButtonListener(){
@@ -151,19 +159,14 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
         codigoDeArea.setText("+598");
     }
 
-    public void ocultarCuadroNumeroDeTelefono(){
+    public void ocultarCuadros(){
         this.numeroDeTelefono.setVisibility(INVISIBLE);
-    }
-
-    public void mostrarCuadroNumeroDeTelefono(){
-        this.numeroDeTelefono.setVisibility(VISIBLE);
-    }
-
-    public void ocultarCuadroCodigoDeArea(){
         this.codigoDeArea.setVisibility(INVISIBLE);
     }
 
-    public void mostrarCuadroCodigoDeArea(){
+    public void mostrarCuadros(){
+
+        this.numeroDeTelefono.setVisibility(VISIBLE);
         this.codigoDeArea.setVisibility(VISIBLE);
     }
 }
