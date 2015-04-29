@@ -7,6 +7,11 @@
 
 #include "Servicio.h"
 
+Servicio::Servicio(struct mg_connection *conn) {
+	this->connexion = conn;
+
+}
+
 Servicio::Servicio() {
 	// TODO Auto-generated constructor stub
 
@@ -16,10 +21,10 @@ Servicio::~Servicio() {
 	// TODO Auto-generated destructor stub
 }
 
-void Servicio::parsearParametros(struct mg_connection *conn){
+void Servicio::parsearParametros(){
 	char buffer[1000];
 	//params es un JSON con toda la data
-	int result = mg_get_var(conn, "params", buffer, 1000);
+	int result = mg_get_var(this->connexion, "params", buffer, 1000);
 	if(result < 1){
 		//TODO: loggear error
 		//-1 clave no encontrada
@@ -44,6 +49,17 @@ Json::Value Servicio::getParametroArray(string nombreParametro, string valorDefa
 	return this->parametros.get(nombreParametro, valorDefault);
 }
 
+void Servicio::responder(string mensaje, bool success){
+	Json::Value respuesta;
+	respuesta[keyPayload] = mensaje;
+	respuesta[keySuccess] = "true";
+	if(!success){
+		respuesta[keySuccess] = "false";
+	}
+
+	mg_printf_data(this->connexion, respuesta.toStyledString().c_str());
+}
+
 void Servicio::prueba(){
 	cout << "Esto es una prueba." << endl;
 }
@@ -54,14 +70,17 @@ void Servicio::registrarUsuario(){
 	if(user->getId() != keyIdUsuarioNoEncontrado){
 		//El usuario ya existe. Devuelvo error
 		Loger::getLoger()->warn("Se intento registrar un usuario ya existente. Id: " + user->getId());
+		this->responder("El usuario ya existe", false);
 	}else{
 		string nombre = this->getParametro(keyNombre, keyDefault);
 		string fotoPerfil = this->getParametro(keyFotoDePerfil, keyDefault);
+		string telefono = this->getParametro(keyTelefono, keyDefault);
 
-		Usuario* user = new Usuario(nombre, fotoPerfil, user->getTelefono());
+		Usuario* user = new Usuario(nombre, fotoPerfil, telefono);
 		user->persistir();
-
+		this->responder("Usuario registrado correctamente", true);
 		Loger::getLoger()->info("Se registro el usuario con Id: " + user->getId());
+		delete user;
 	}
 }
 
@@ -69,7 +88,6 @@ Usuario* Servicio::obtenerUsuario(){
 
 	string telefono = this->getParametro(keyTelefono, keyDefault);
 	Usuario* user = Usuario::obtenerPorTelefono(telefono);
-
 	return user;
 
 }
@@ -83,8 +101,10 @@ void Servicio::autenticarUsuario(){
 		string token = user->calcularTokenDeSesion();
 		user->persistir();
 		Loger::getLoger()->info("El usuario "+user->getNombre()+ " inicio sesion correctamente.");
+		this->responder("El usuario "+user->getNombre()+ " inicio sesion correctamente.", true);
 	} else {
 		Loger::getLoger()->warn("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
+		this->responder("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema", false);
 	}
 	//TODO: Devolver el token al cliente
 	Loger::getLoger()->guardarEstado();
@@ -107,8 +127,10 @@ void Servicio::administrarPerfil(){
 		user->setLocalizacion(localizacion);
 		user->persistir();
 		Loger::getLoger()->info("Se modificaron los datos del usuario "+user->getNombre()+ " correctamente.");
+		this->responder("Se modificaron los datos del usuario "+user->getNombre()+ " correctamente.", true);
 	} else {
 		Loger::getLoger()->warn("El usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
+		this->responder("El usuario "+user->getNombre()+ " no se encuentra registrado en el sistema", false);
 	}
 	Loger::getLoger()->guardarEstado();
 	delete user;
@@ -128,13 +150,20 @@ void Servicio::consultarUsuarioOnline() {
 	if (user->getId() != keyIdUsuarioNoEncontrado) {
 		Loger::getLoger()->info("Consulta de estado del usuario "+user->getNombre()+ " exitosa.");
 		bool estado = user->getEstadoConexion();
-		//TODO: enviar la respuesta al cliente.
+		string mensaje = "true";
+		if(!estado){
+			mensaje = "false";
+		}
+		this->responder(mensaje, true);
 
 	} else {
 		Loger::getLoger()->warn(
 								"No se pudo obtener el estado del usuario con numero: "
 								+ this->getParametro(keyTelefono, keyDefault)
 								+ " ya que no se encuentra registrado en el sistema.");
+		this->responder("No se pudo obtener el estado del usuario con numero: "
+				+ this->getParametro(keyTelefono, keyDefault)
+				+ " ya que no se encuentra registrado en el sistema.", false);
 	}
 
 	Loger::getLoger()->guardarEstado();
@@ -202,8 +231,10 @@ void Servicio::checkinUsuario(){
 		user->setLocalizacion(localizacion);
 		user->persistir();
 		Loger::getLoger()->info("Se actualizo la ubicacion del Usuario "+user->getNombre());
+		this->responder("Se actualizo la ubicacion del Usuario "+user->getNombre(), true);
 	} else {
 		Loger::getLoger()->warn("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
+		this->responder("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema", false);
 	}
 
 	Loger::getLoger()->guardarEstado();
@@ -219,8 +250,10 @@ void Servicio::desconectarUsuario(){
 		user->setEstadoConexion(Offline);
 		user->persistir();
 		Loger::getLoger()->info("El usuario "+user->getNombre()+ " cerro sesion correctamente");
+		this->responder("El usuario "+user->getNombre()+ " cerro sesion correctamente", true);
 	} else {
 		Loger::getLoger()->warn("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
+		this->responder("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema", false);
 	}
 
 	Loger::getLoger()->guardarEstado();

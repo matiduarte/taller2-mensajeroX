@@ -15,8 +15,6 @@ Servidor::~Servidor() {
 	mg_destroy_server(&webServer);
 }
 
-Servicio* Servidor::servicio = new Servicio();
-
 void Servidor::iniciar(char *puerto){
 	webServer = mg_create_server(NULL, ev_handler);
 	mg_set_option(webServer, "listening_port", puerto);
@@ -47,7 +45,8 @@ int Servidor::ev_handler(struct mg_connection *conn, enum mg_event ev){
 void Servidor::administrarServicio(struct mg_connection* conn){
 	int servicioRequerido = parsearURI(conn->uri);
 
-	servicio->parsearParametros(conn);
+	Servicio* servicio = new Servicio(conn);
+	servicio->parsearParametros();
 
 	switch( servicioRequerido ){
 	case PRUEBA: 					servicio->prueba();					break;
@@ -63,7 +62,8 @@ void Servidor::administrarServicio(struct mg_connection* conn){
 
 	};
 	//mg_send_header(conn, "Content-Type", "application/json");
-	mg_printf_data(conn, "prueba respuesta");
+
+	delete servicio;
 }
 
 tipoDeServicio Servidor::parsearURI(const char* uri){

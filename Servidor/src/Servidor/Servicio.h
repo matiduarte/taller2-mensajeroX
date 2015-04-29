@@ -16,6 +16,7 @@
 
 class Servicio {
 public:
+	Servicio(struct mg_connection *conn);
 	Servicio();
 	virtual ~Servicio();
 	void autenticarUsuario();
@@ -24,7 +25,7 @@ public:
 	void prueba();
 	string getParametro(string nombreParametro, string valorDefault);
 	Json::Value getParametroArray(string nombreParametro, string valorDefault);
-	void parsearParametros(struct mg_connection *conn);
+	void parsearParametros();
 	void administrarPerfil();
 	void checkinUsuario();
 	void desconectarUsuario();
@@ -33,9 +34,11 @@ public:
 	void almacenarConversacion();
 	void enviarConversacion();
 	void enviarConversaciones();
+	void responder(string mensaje, bool error);
 
 private:
 	Json::Value parametros;
+	struct mg_connection* connexion;
 };
 
 #endif /* SRC_SERVIDOR_SERVICIO_H_ */

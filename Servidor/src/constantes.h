@@ -32,7 +32,7 @@ const string keyDefault = "";
 /*Claves principales de los Usuarios*/
 #define keyNombre "Nombre"
 #define keyId "Id"
-#define keyFotoDePerfil "Foto de Perfil"
+#define keyFotoDePerfil "FotodePerfil"
 #define keyEstadoDeConexion "Estado de Conexion"
 #define keyUltimaConexion "Ultima Conexion"
 #define keyTelefono "Telefono"
@@ -68,6 +68,8 @@ const string keyDefault = "";
 #define keyIdUltimoMensaje "idUltimoMensaje"
 #define keyIdConversaciones "idsConversaciones"
 #define keyIdUsuarioParametro "idUsuario"
+#define keyPayload "payload"
+#define keySuccess "success"
 
 /*Constantes para el manejo de errores*/
 const string keyDatoNoEncontrado = "NotFound";
