@@ -45,7 +45,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ImformacionActivity"
+            android:name=".InformacionActivity"
             android:label="@string/title_activity_imformacion"
             android:parentActivityName="com.dk.mensajero.AjustesActivity" >
             <meta-data
