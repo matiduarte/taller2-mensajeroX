@@ -46,7 +46,7 @@
         </activity>
         <activity
             android:name=".InformacionActivity"
-            android:label="@string/title_activity_imformacion"
+            android:label="@string/title_activity_informacion"
             android:parentActivityName="com.dk.mensajero.AjustesActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

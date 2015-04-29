@@ -11,7 +11,7 @@
     <string name="title_activity_confirmar_datos">ConfirmarDatosActivity</string>
     <string name="volver">Volver</string>
     <string name="notificacion_ingresar_telefono">Número de télefono</string>
-    <string name="title_activity_imformacion">Imformacion</string>
+    <string name="title_activity_informacion">Informacion</string>
     <string name="derechos">Copyleft @ 2015 MensajeroX inc.\nAll wrongs reserved. </string>
     <string name="version">Versión: 1.0.0</string>
     <string name="mensaje_confirmacion_codArea_telefono">Por favor confirme el código de su país e ingrese su número de télefono</string>
