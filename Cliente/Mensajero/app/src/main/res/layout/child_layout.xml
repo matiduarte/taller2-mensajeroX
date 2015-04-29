@@ -8,9 +8,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="?android:attr/expandableListPreferredChildIndicatorLeft"
-        android:textColor="#228B22"
-        android:background="#ffffff"
         android:paddingTop="10dp"
+        android:textColor="#1E90FF"
         android:paddingBottom="10dp"
         android:textStyle="bold"
         android:textSize="17sp" />

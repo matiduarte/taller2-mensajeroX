@@ -39,6 +39,7 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
         onClickButtonListener();
         mostrarCodigoDeArea();
         ocultarCuadros();
+
     }
 
     public void panelExpandiblePaises() {
