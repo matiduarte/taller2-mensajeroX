@@ -1,0 +1,3 @@
+White = #FFFFFF
+LightGray = #D3D3D3
+DodgerBlue = #1E90FF
