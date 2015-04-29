@@ -40,11 +40,18 @@
             android:label="@string/title_activity_ajustes" >
             <intent-filter>
                 <action android:name="com.dk.mensajero.AjustesActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ImformacionActivity"
+            android:label="@string/title_activity_imformacion"
+            android:parentActivityName="com.dk.mensajero.AjustesActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dk.mensajero.AjustesActivity" />
         </activity>
     </application>
 
 </manifest>
-
-

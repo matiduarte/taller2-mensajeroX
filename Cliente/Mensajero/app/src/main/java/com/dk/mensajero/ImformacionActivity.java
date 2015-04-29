@@ -1,25 +1,23 @@
 package com.dk.mensajero;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 
-public class AjustesActivity extends ActionBarActivity {
+public class ImformacionActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ajustes);
+        setContentView(R.layout.activity_imformacion);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_ajustes, menu);
+        getMenuInflater().inflate(R.menu.menu_imformacion, menu);
         return true;
     }
 
@@ -36,10 +34,5 @@ public class AjustesActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void mostrarInformacion(View view){
-        Intent intent = new Intent(this, ImformacionActivity.class);
-        startActivity(intent);
     }
 }
