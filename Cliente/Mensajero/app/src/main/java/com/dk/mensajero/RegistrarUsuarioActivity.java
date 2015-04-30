@@ -1,105 +1,56 @@
 package com.dk.mensajero;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ExpandableListView;
+import android.widget.Spinner;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
-import static com.dk.mensajero.R.id.exp_list;
+import static android.widget.AdapterView.*;
+import static com.dk.mensajero.RegistrarUsuarioActivity.country.*;
 
 
-public class RegistrarUsuarioActivity extends ActionBarActivity {
+public class RegistrarUsuarioActivity extends ActionBarActivity implements OnItemSelectedListener {
 
-    HashMap<String, List<String>> paisesDesplegable;
-    List<String> listaDePaises;
-    ExpandableListView Exp_list;
-    AdaptadorDePaises adaptador;
+    enum country{
+        ARGENTINA,
+        BRASIL,
+        CHILE,
+        PARAGUAY,
+        URUGUAY,
+        INVALID,
+    }
     private static Button button_sbm;
-    private TextView codigoDeArea;
-    private TextView numeroDeTelefono;
+    private TextView areaCode;
+    private TextView phoneNumber;
+    Spinner expList;
+    ArrayAdapter<CharSequence> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_usuario);
-        this.numeroDeTelefono = (TextView) findViewById(R.id.phoneNumber);
-        this.codigoDeArea = (TextView) findViewById(R.id.codArea);
-        ExpandList();
-        onClickButtonListener();
-        onChildClickListener();
-        onGroupExpandListener();
-        onGroupCollapseListener();
-
+        this.phoneNumber = (TextView) findViewById(R.id.phoneNumber);
+        this.areaCode = (TextView) findViewById(R.id.areaCode);
+        this.expandableListCountries();
+        this.onClickButtonListener();
     }
 
-    public void ExpandList() {
-        Exp_list = (ExpandableListView) findViewById(exp_list);
-        paisesDesplegable = ProveedorDatos.getInfo();
-        listaDePaises = new ArrayList<>(paisesDesplegable.keySet());
-        adaptador = new AdaptadorDePaises(this, paisesDesplegable, listaDePaises);
-        Exp_list.setAdapter(adaptador);
-        //Argentina va por default
-        this.setCodigoArg();
-
-    }
-
-    public void onChildClickListener(){
-        Exp_list.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-
-                switch (paisesDesplegable.get(listaDePaises.get(groupPosition)).get(childPosition)) {
-                    case "Argentina":
-                        setCodigoArg();
-                        break;
-                    case "Brasil":
-                        setCodigoBra();
-                        break;
-                    case "Chile":
-                        setCodigoChi();
-                        break;
-                    case "Uruguay":
-                        setCodigoUru();
-                        break;
-                    default:
-                        break;
-                }
-                Exp_list.collapseGroup(groupPosition);
-                mostrarCuadros();
-
-                return false;
-            }
-        });
-    }
-
-    public void onGroupExpandListener(){
-        Exp_list.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                ocultarCuadros();
-            }
-        });
-
-    }
-
-    public void onGroupCollapseListener(){
-        Exp_list.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-                mostrarCuadros();
-            }
-        });
+    public void expandableListCountries(){
+        expList = (Spinner)findViewById(R.id.expandableListCountries);
+        this.adapter = ArrayAdapter.createFromResource(this, R.array.Paises, android.R.layout.simple_spinner_item);
+        expList.setAdapter(adapter);
+        expList.setOnItemSelectedListener(this);
+        setArgCode();
     }
 
     public void onClickButtonListener(){
@@ -116,7 +67,6 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
         );
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -139,34 +89,70 @@ public class RegistrarUsuarioActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void setCodigoArg(){
-        codigoDeArea = (TextView) findViewById(R.id.codArea);
-        codigoDeArea.setText("+54");
+    public void setArgCode(){
+        areaCode.setText("+54");
     }
 
-    public void setCodigoBra(){
-        codigoDeArea = (TextView) findViewById(R.id.codArea);
-        codigoDeArea.setText("+55");
+    public void setBraCode(){
+        areaCode.setText("+55");
     }
 
-    public void setCodigoChi(){
-        codigoDeArea = (TextView) findViewById(R.id.codArea);
-        codigoDeArea.setText("+56");
+    public void setChiCode(){
+        areaCode.setText("+56");
     }
 
-    public void setCodigoUru(){
-        codigoDeArea = (TextView) findViewById(R.id.codArea);
-        codigoDeArea.setText("+598");
+    public void setUruCode(){
+        areaCode.setText("+598");
     }
 
-    public void ocultarCuadros(){
-        this.numeroDeTelefono.setVisibility(INVISIBLE);
-        this.codigoDeArea.setVisibility(INVISIBLE);
+    public void setParCode(){
+        areaCode.setText("+595");
     }
 
-    public void mostrarCuadros(){
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        this.numeroDeTelefono.setVisibility(VISIBLE);
-        this.codigoDeArea.setVisibility(VISIBLE);
+        ((TextView) parent.getChildAt(0)).setTextColor(Color.rgb(30,144,255));
+        ((TextView) parent.getChildAt(0)).setTextSize(18);
+       switch (this.getCountry((int) id)) {
+            case ARGENTINA:
+                setArgCode();
+                break;
+            case BRASIL:
+                setBraCode();
+                break;
+            case CHILE:
+                setChiCode();
+                break;
+            case PARAGUAY:
+                setParCode();
+                break;
+           case URUGUAY:
+               setUruCode();
+               break;
+            default:
+                break;
+        }
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    private country getCountry(int id) {
+        if (id == 0)
+            return ARGENTINA;
+        if (id == 1)
+            return BRASIL;
+        if (id == 2)
+            return CHILE;
+        if (id == 3)
+            return PARAGUAY;
+        if (id == 4)
+            return URUGUAY;
+
+        return INVALID;
     }
 }
