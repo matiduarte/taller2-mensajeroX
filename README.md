@@ -27,7 +27,11 @@ Una vez finalizado, ejecutar el servidor con ./Servidor
 
 Instalar plug-in Postman en el navegador web  
 ```
-Url servidor: http://localhost:8080/nombreServicio
-
+Url servidor: http://localhost:8080/nombreServicio  
+Seleccionar el comando POST  
+En la casilla Key escribir params  
+En la casilla Value ingresar un Json  
+Presionar Send  
+```
 
 
