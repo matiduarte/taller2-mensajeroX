@@ -15,12 +15,12 @@ $ cd taller2-mensajero/Servidor
 ### Compilación
 
 En la carpeta del servidor escribir:
-
+```
 $ mkdir build  
 $ cd /build  
 $ cmake ..  
 $ make  
-
+```
 Una vez finalizado, ejecutar el servidor con ./Servidor
 
 
