@@ -1,4 +1,7 @@
-# taller2-mensajeroX
+# Taller de Programación 75.52
+
+taller2-mensajero  
+-----------
 
 Uso basico
 -----------
