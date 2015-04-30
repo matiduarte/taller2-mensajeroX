@@ -34,6 +34,7 @@ public:
 	void almacenarConversacion();
 	void enviarConversacion();
 	void enviarConversaciones();
+	void obtenerIdConversacion();
 	void responder(string mensaje, bool error);
 
 private:

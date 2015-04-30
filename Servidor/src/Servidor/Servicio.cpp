@@ -192,6 +192,7 @@ void Servicio::almacenarConversacion() {
 		string msj_warning = "No se pudo almacenar la conversacion porque: ";
 		if(emisor->getId()	 == keyIdUsuarioNoEncontrado) msj_warning.append("el emisor no existe.");
 		if(receptor->getId() == keyIdUsuarioNoEncontrado) msj_warning.append(" el receptor no existe.");
+		this->responder(msj_warning, false);
 		Loger::getLoger()->warn(msj_warning);
 		Loger::getLoger()->guardarEstado();
 	}
@@ -218,6 +219,7 @@ void Servicio::almacenarConversacion() {
 			nuevaConversacion->persistir();
 			delete nuevaConversacion;
 		}
+		this->responder("Mensaje agregado correctamente", true);
 		delete mensaje;
 	}
 }
@@ -260,6 +262,41 @@ void Servicio::desconectarUsuario(){
 	delete user;
 }
 
+void Servicio::obtenerIdConversacion(){
+	string telefonoUsuarioEmisor = this->getParametro(keyTelefonoEmisor, keyDefault);
+	string telefonoUsuarioRecceptor = this->getParametro(keyTelefonoReceptor, keyDefault);
+
+	Usuario* usuarioEmisor = Usuario::obtenerPorTelefono(telefonoUsuarioEmisor);
+	Usuario* usuarioReceptor = Usuario::obtenerPorTelefono(telefonoUsuarioRecceptor);
+
+	if (usuarioEmisor->getId() != keyIdUsuarioNoEncontrado && usuarioReceptor->getId() != keyIdUsuarioNoEncontrado){
+		vector<Mensaje*> mensajes;
+		vector<Usuario*> usuarios;
+		usuarios.push_back(usuarioEmisor);
+		usuarios.push_back(usuarioReceptor);
+		Conversacion* conversacion = new Conversacion(usuarios, mensajes);
+		string idConversacion = conversacion->getId();
+		if(idConversacion != keyIdUsuarioNoEncontrado){
+			this->responder(idConversacion, true);
+		}else{
+			Loger::getLoger()->warn("Error al obtener el id de la conversacion");
+			this->responder("Error al obtener el id de la conversacion", false);
+		}
+	}else{
+		Usuario* user;
+		if(usuarioEmisor->getId() == keyIdUsuarioNoEncontrado){
+			user = usuarioEmisor;
+		}else{
+			user = usuarioReceptor;
+		}
+		Loger::getLoger()->warn("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
+		this->responder("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema", false);
+	}
+
+	delete usuarioEmisor;
+	delete usuarioReceptor;
+}
+
 void Servicio::enviarConversacion(){
 	string idConversacion = this->getParametro(keyIdConversacion, keyDefault);
 	string idUltimoMensaje = this->getParametro(keyIdUltimoMensaje, keyDefault);
@@ -288,10 +325,15 @@ void Servicio::enviarConversacion(){
 			mensajesRespuesta = mensajes;
 		}
 
-		//Todo: Responder al cliente los mensajes. Algunos mensajes o la conversacion entera
+		Json::Value respuesta;
+		for(unsigned i=0; i<mensajesRespuesta.size(); i++){
+			respuesta[i] = mensajesRespuesta[i]->serializar();
+		}
+		this->responder(respuesta.toStyledString(), true);
 
 	}else{
 		Loger::getLoger()->warn("La conversacion "+ idConversacion + " no se encuentra en el sistema");
+		this->responder("La conversacion "+ idConversacion + " no se encuentra en el sistema", false);
 	}
 }
 

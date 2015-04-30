@@ -64,6 +64,8 @@ const string keyDefault = "";
 #define urlCheckinUsuario "/checkinUsuario"
 #define urlDesconectarUsuario "/desconectarUsuario"
 #define urlAlmacenarConversacion "/almacenarConversacion"
+#define urlObtenerIdConversacion "/obtenerIdConversacion"
+#define urlEnviarConversacion "/enviarConversacion"
 
 /*Constantes de parametros para Servicios*/
 #define keyIdUltimoMensaje "idUltimoMensaje"
@@ -71,6 +73,8 @@ const string keyDefault = "";
 #define keyIdUsuarioParametro "idUsuario"
 #define keyPayload "payload"
 #define keySuccess "success"
+#define keyTelefonoEmisor "TelefonoEmisor"
+#define keyTelefonoReceptor "TelefonoReceptor"
 
 /*Constantes para el manejo de errores*/
 const string keyDatoNoEncontrado = "NotFound";

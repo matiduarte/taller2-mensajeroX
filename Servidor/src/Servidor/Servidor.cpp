@@ -57,6 +57,8 @@ void Servidor::administrarServicio(struct mg_connection* conn){
 	case CHECKIN_USUARIO:			servicio->checkinUsuario();     	break;
 	case DESCONECTAR_USUARIO:		servicio->desconectarUsuario(); 	break;
 	case ALMACENAR_CONVERSACION:	servicio->almacenarConversacion();	break;
+	case OBTENER_ID_CONVERSACION:	servicio->obtenerIdConversacion();	break;
+	case ENVIAR_CONVERSACION:	servicio->enviarConversacion();	break;
 	case INVALIDO: 	cout << "servicio no encontrado." << endl;	break;
 	default: 		cout << "default." << endl;
 
@@ -86,5 +88,10 @@ tipoDeServicio Servidor::parsearURI(const char* uri){
 		return DESCONECTAR_USUARIO;
 	if (uri_parseada == urlAlmacenarConversacion)
 		return ALMACENAR_CONVERSACION;
+	if (uri_parseada == urlObtenerIdConversacion)
+		return OBTENER_ID_CONVERSACION;
+	if (uri_parseada == urlEnviarConversacion)
+		return ENVIAR_CONVERSACION;
+
 	return INVALIDO;
 }
