@@ -1,7 +1,5 @@
 # taller2-mensajero  
 
-##Taller de Programación 75.52 
-
 Uso basico
 -----------
 
@@ -23,6 +21,13 @@ $ cd /build
 $ cmake ..  
 $ make  
 ```
-Una vez finalizado, ejecutar el servidor con ./Servidor
+Una vez finalizado, ejecutar el servidor con ./Servidor  
+
+### Correr pruebas
+
+Instalar plug-in Postman en el navegador web  
+```
+Url servidor: http://localhost:8080/nombreServicio
+
 
 
