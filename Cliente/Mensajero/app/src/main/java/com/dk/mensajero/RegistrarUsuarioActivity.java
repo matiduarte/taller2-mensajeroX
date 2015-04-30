@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -30,9 +32,12 @@ public class RegistrarUsuarioActivity extends ActionBarActivity implements OnIte
         INVALID,
     }
     private static Button button_sbm;
+    private static Button button_yes;
+    private static Button button_edit;
     private TextView areaCode;
     private TextView phoneNumber;
     Spinner expList;
+    Layout rl;
     ArrayAdapter<CharSequence> adapter;
 
     @Override
