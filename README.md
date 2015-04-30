@@ -30,7 +30,7 @@ Instalar plug-in Postman en el navegador web y seguir los siguentes pasos:
 1-Url servidor: http://localhost:8080/nombreServicio  
 2-Seleccionar el comando POST  
 3-En la casilla Key escribir params  
-4-En la casilla Value ingresar un Json  
+4-En la casilla Value ingresar un Json. Ej: {"Nombre":"Juan"}  
 5-Presionar Send  
 
 
