@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,13 +14,11 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import static android.view.View.INVISIBLE;
-import static android.view.View.VISIBLE;
 import static android.widget.AdapterView.*;
-import static com.dk.mensajero.RegistrarUsuarioActivity.country.*;
+import static com.dk.mensajero.UserLoggerActivity.country.*;
 
 
-public class RegistrarUsuarioActivity extends ActionBarActivity implements OnItemSelectedListener {
+public class UserLoggerActivity extends ActionBarActivity implements OnItemSelectedListener {
 
     enum country{
         ARGENTINA,
@@ -31,23 +28,27 @@ public class RegistrarUsuarioActivity extends ActionBarActivity implements OnIte
         URUGUAY,
         INVALID,
     }
-    private static Button button_sbm;
+
     private static Button button_yes;
     private static Button button_edit;
     private TextView areaCode;
     private TextView phoneNumber;
+    private TextView userPhone;
+    private RelativeLayout numberConfirmationMessage_rl;
     Spinner expList;
-    Layout rl;
     ArrayAdapter<CharSequence> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registrar_usuario);
+        setContentView(R.layout.activity_user_logger);
         this.phoneNumber = (TextView) findViewById(R.id.phoneNumber);
         this.areaCode = (TextView) findViewById(R.id.areaCode);
+        this.numberConfirmationMessage_rl = (RelativeLayout) findViewById(R.id.numberConfirmationMessage);
         this.expandableListCountries();
         this.onClickButtonListener();
+        this.onYesButtonClick();
+        this.onEditButtonClick();
     }
 
     public void expandableListCountries(){
@@ -59,8 +60,26 @@ public class RegistrarUsuarioActivity extends ActionBarActivity implements OnIte
     }
 
     public void onClickButtonListener(){
-        button_sbm = (Button)findViewById(R.id.button);
-        button_sbm.setOnClickListener(
+        Button button_ok = (Button) findViewById(R.id.buttonOk);
+        button_ok.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        userPhone = (TextView) findViewById(R.id.number);
+                        CharSequence enterPhone = phoneNumber.getText();
+                        userPhone.setText(enterPhone);
+                        //numberConfirmationMessage_rl.setBackgroundColor(Color.RED);
+                        numberConfirmationMessage_rl.setVisibility(VISIBLE);
+
+                    }
+                }
+        );
+
+    }
+
+     public void onYesButtonClick(){
+        button_yes = (Button)findViewById(R.id.yesButton);
+        button_yes.setOnClickListener(
                 new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
@@ -73,10 +92,24 @@ public class RegistrarUsuarioActivity extends ActionBarActivity implements OnIte
 
     }
 
+    public void onEditButtonClick(){
+        button_edit = (Button)findViewById(R.id.editButton);
+        button_edit.setOnClickListener(
+                new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        numberConfirmationMessage_rl.setVisibility(GONE);
+
+                    }
+                }
+        );
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_registrar_usuario, menu);
+        getMenuInflater().inflate(R.menu.menu_user_logger, menu);
         return true;
     }
 

@@ -101,7 +101,7 @@ void Servicio::autenticarUsuario(){
 		string token = user->calcularTokenDeSesion();
 		user->persistir();
 		Loger::getLoger()->info("El usuario "+user->getNombre()+ " inicio sesion correctamente.");
-		this->responder("El usuario "+user->getNombre()+ " inicio sesion correctamente.", true);
+		this->responder("El usuario "+user->getNombre()+ " inicio sesion correctamente. Token: " + user->getToken(), true);
 	} else {
 		Loger::getLoger()->warn("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
 		this->responder("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema", false);

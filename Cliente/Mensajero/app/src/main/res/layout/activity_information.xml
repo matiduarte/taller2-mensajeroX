@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
 
 
-    tools:context="com.dk.mensajero.InformacionActivity">
+    tools:context="com.dk.mensajero.InformationActivity">
 
     <ImageView
         android:layout_width="fill_parent"

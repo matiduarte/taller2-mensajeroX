@@ -69,6 +69,7 @@ public:
 	string calcularTokenDeSesion();
 	virtual ~Usuario();
 	vector<string> obtnerIdsConversaciones();
+	string getToken();
 };
 
 #endif /* SRC_ENTIDADES_USUARIO_H_ */

@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegistrarUsuarioActivity"
+            android:name=".UserLoggerActivity"
             android:label="@string/title_activity_registrar_usuario"
             android:windowSoftInputMode="adjustNothing" >
             <intent-filter>
@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AjustesActivity"
+            android:name=".SettingsActivity"
             android:label="@string/title_activity_ajustes" >
             <intent-filter>
                 <action android:name="com.dk.mensajero.AjustesActivity" />
@@ -45,12 +45,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".InformacionActivity"
+            android:name=".InformationActivity"
             android:label="@string/title_activity_informacion"
-            android:parentActivityName="com.dk.mensajero.AjustesActivity" >
+            android:parentActivityName=".SettingsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dk.mensajero.AjustesActivity" />
+                android:value=".SettingsActivity" />
         </activity>
     </application>
 

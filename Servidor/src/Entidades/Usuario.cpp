@@ -176,3 +176,7 @@ string Usuario::calcularTokenDeSesion(){
 vector<string> Usuario::obtnerIdsConversaciones(){
 	return Conversacion::obtenerIdsPorIdUsuario(this->getId());
 }
+
+string Usuario::getToken(){
+	return this->token;
+}

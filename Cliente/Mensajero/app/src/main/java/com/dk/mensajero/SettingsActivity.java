@@ -8,18 +8,18 @@ import android.view.MenuItem;
 import android.view.View;
 
 
-public class AjustesActivity extends ActionBarActivity {
+public class SettingsActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ajustes);
+        setContentView(R.layout.activity_settings);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_ajustes, menu);
+        getMenuInflater().inflate(R.menu.menu_settings, menu);
         return true;
     }
 
@@ -39,7 +39,7 @@ public class AjustesActivity extends ActionBarActivity {
     }
 
     public void mostrarInformacion(View view){
-        Intent intent = new Intent(this, InformacionActivity.class);
+        Intent intent = new Intent(this, InformationActivity.class);
         startActivity(intent);
     }
 }
