@@ -31,10 +31,14 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
 
     private static Button button_yes;
     private static Button button_edit;
+    private static Button button_ok;
     private TextView areaCode;
     private TextView phoneNumber;
     private TextView userPhone;
+    private TextView areaCodeView;
     private RelativeLayout numberConfirmationMessage_rl;
+    private RelativeLayout mirror_rl;
+    private TextView phoneNumberNotifacitionView;
     Spinner expList;
     ArrayAdapter<CharSequence> adapter;
 
@@ -45,8 +49,11 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
         this.phoneNumber = (TextView) findViewById(R.id.phoneNumber);
         this.areaCode = (TextView) findViewById(R.id.areaCode);
         this.numberConfirmationMessage_rl = (RelativeLayout) findViewById(R.id.numberConfirmationMessage);
+        this.mirror_rl = (RelativeLayout) findViewById(R.id.mirror);
+        this.areaCodeView = (TextView) findViewById(R.id.areaCodeConfirmationMessage);
+        this.phoneNumberNotifacitionView = (TextView) findViewById(R.id.phoneNumberNotification);
         this.expandableListCountries();
-        this.onClickButtonListener();
+        this.onOkButtonClick();
         this.onYesButtonClick();
         this.onEditButtonClick();
     }
@@ -59,18 +66,13 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
         setArgCode();
     }
 
-    public void onClickButtonListener(){
-        Button button_ok = (Button) findViewById(R.id.buttonOk);
+    public void onOkButtonClick(){
+        button_ok = (Button) findViewById(R.id.buttonOk);
         button_ok.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        userPhone = (TextView) findViewById(R.id.number);
-                        CharSequence enterPhone = phoneNumber.getText();
-                        userPhone.setText(enterPhone);
-                        //numberConfirmationMessage_rl.setBackgroundColor(Color.RED);
-                        numberConfirmationMessage_rl.setVisibility(VISIBLE);
-
+                        hideTextsViews();
                     }
                 }
         );
@@ -172,6 +174,21 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
                 break;
         }
 
+    }
+
+    private void hideTextsViews(){
+        this.userPhone = (TextView) findViewById(R.id.number);
+        this.areaCodeView.setAlpha((float) 0.1);
+        this.button_ok.setAlpha((float) 0.1);
+        this.phoneNumberNotifacitionView.setAlpha((float) 0.1);
+        CharSequence code = areaCode.getText();
+        CharSequence enterPhone = phoneNumber.getText();
+        userPhone.setText(code + " " + enterPhone);
+        //numberConfirmationMessage_rl.setBackgroundColor(Color.RED);
+        mirror_rl.setVisibility(VISIBLE);
+        numberConfirmationMessage_rl.setBackgroundColor(Color.LTGRAY);
+        numberConfirmationMessage_rl.setVisibility(VISIBLE);
+        //numberConfirmationMessage_rl.setVisibility(VISIBLE);
     }
 
     @Override
