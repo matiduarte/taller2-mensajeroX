@@ -31,10 +31,13 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
 
     private static Button button_yes;
     private static Button button_edit;
+    private static Button button_ok;
     private TextView areaCode;
     private TextView phoneNumber;
     private TextView userPhone;
+    private TextView areaCodeView;
     private RelativeLayout numberConfirmationMessage_rl;
+    private TextView phoneNumberNotifacitionView;
     Spinner expList;
     ArrayAdapter<CharSequence> adapter;
 
@@ -45,8 +48,10 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
         this.phoneNumber = (TextView) findViewById(R.id.phoneNumber);
         this.areaCode = (TextView) findViewById(R.id.areaCode);
         this.numberConfirmationMessage_rl = (RelativeLayout) findViewById(R.id.numberConfirmationMessage);
+        this.areaCodeView = (TextView) findViewById(R.id.areaCodeConfirmationMessage);
+        this.phoneNumberNotifacitionView = (TextView) findViewById(R.id.phoneNumberNotification);
         this.expandableListCountries();
-        this.onClickButtonListener();
+        this.onOkButtonClick();
         this.onYesButtonClick();
         this.onEditButtonClick();
     }
@@ -59,18 +64,19 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
         setArgCode();
     }
 
-    public void onClickButtonListener(){
-        Button button_ok = (Button) findViewById(R.id.buttonOk);
+    public void onOkButtonClick(){
+        button_ok = (Button) findViewById(R.id.buttonOk);
         button_ok.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        userPhone = (TextView) findViewById(R.id.number);
-                        CharSequence enterPhone = phoneNumber.getText();
-                        userPhone.setText(enterPhone);
-                        //numberConfirmationMessage_rl.setBackgroundColor(Color.RED);
-                        numberConfirmationMessage_rl.setVisibility(VISIBLE);
-
+                        showUserPhone();
+                        hideAreaCode();
+                        hideOkButton();
+                        hidePhoneNumber();
+                        hideSpinner();
+                        hidePhoneNumberNotification();
+                        hideAreaCodeTextView();
                     }
                 }
         );
@@ -98,8 +104,13 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
                 new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        numberConfirmationMessage_rl.setVisibility(GONE);
-
+                        hideNumberConfirmationRL();
+                        showAreaCode();
+                        showPhoneNumber();
+                        showOkButton();
+                        showPhoneNumberNotification();
+                        showAreaCodeTextView();
+                        showSpinner();
                     }
                 }
         );
@@ -174,9 +185,74 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
 
     }
 
+    private void showPhoneNumber(){
+        this.phoneNumber.setVisibility(VISIBLE);
+    }
+
+    private void showAreaCode(){
+        this.areaCode.setVisibility(VISIBLE);
+    }
+
+    private void hidePhoneNumber(){
+        this.phoneNumber.setVisibility(INVISIBLE);
+    }
+
+    private void hideAreaCode(){
+        this.areaCode.setVisibility(INVISIBLE);
+    }
+
+
+    private void showUserPhone(){
+        this.showNumberConfirmationRL();
+        this.userPhone = (TextView) findViewById(R.id.number);
+        CharSequence code = areaCode.getText();
+        CharSequence enterPhone = phoneNumber.getText();
+        userPhone.setText(code + " " + enterPhone);
+    }
+
+    private void hideSpinner(){
+        this.expList.setVisibility(INVISIBLE);
+    }
+
+    private void showSpinner(){
+        this.expList.setVisibility(VISIBLE);
+    }
+
+    private void hideOkButton(){
+        button_ok.setAlpha((float) 0.3);
+    }
+
+    private void showOkButton(){
+        button_ok.setAlpha((float)0.8);
+    }
+
+    private void hidePhoneNumberNotification(){
+        this.phoneNumberNotifacitionView.setAlpha((float) 0.3);
+    }
+
+    private void showPhoneNumberNotification(){
+        this.phoneNumberNotifacitionView.setAlpha((float) 1);
+    }
+
+    private void showNumberConfirmationRL(){
+        numberConfirmationMessage_rl.setVisibility(VISIBLE);
+    }
+
+    private void hideNumberConfirmationRL(){
+        numberConfirmationMessage_rl.setVisibility(INVISIBLE);
+    }
+
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    private void hideAreaCodeTextView(){
+        this.areaCodeView.setVisibility(INVISIBLE);
+    }
+
+    private void showAreaCodeTextView(){
+        this.areaCodeView.setVisibility(VISIBLE);
     }
 
     private country getCountry(int id) {

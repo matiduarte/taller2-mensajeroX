@@ -1,6 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:id="@+id/laConchaDeTuMadre"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -12,7 +11,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hecho"
+        android:text="@string/ok_button"
         android:alpha="0.8"
         android:textColor="#1E90FF"
         android:id="@+id/buttonOk"
@@ -45,13 +44,13 @@
         android:layout_alignParentEnd="true"
         android:textColor="#000000"
         android:textStyle="bold"
-        android:hint="@string/notificacion_ingresar_telefono" />
+        android:hint="@string/phone_number_notification" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/CabeceraNumeroDeTelefono"
-        android:text="@string/notificacion_ingresar_telefono"
+        android:id="@+id/phoneNumberNotification"
+        android:text="@string/phone_number_notification"
         android:textColor="#000000"
         android:textStyle="bold"
         android:textSize="18sp"
@@ -62,9 +61,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/mensaje_confirmacion_codArea_telefono"
+        android:text="@string/area_code_confirmation_message"
         android:textColor="#000000"
-        android:id="@+id/mensajeInformativoRegisrarUsuario"
+        android:id="@+id/areaCodeConfirmationMessage"
         android:textSize="14sp"
         android:textStyle="bold"
         android:layout_below="@+id/buttonOk"
@@ -87,14 +86,13 @@
         android:id="@+id/numberConfirmationMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/mensajeInformativoRegisrarUsuario"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#C0C0C0"
         android:layout_alignBottom="@+id/phoneNumber"
-        android:layout_alignRight="@+id/mensajeInformativoRegisrarUsuario"
-        android:layout_alignEnd="@+id/mensajeInformativoRegisrarUsuario"
-        android:visibility="gone">
+        android:layout_alignRight="@+id/areaCodeConfirmationMessage"
+        android:layout_alignEnd="@+id/areaCodeConfirmationMessage"
+        android:visibility="gone"
+        android:layout_alignTop="@+id/areaCodeConfirmationMessage">
 
         <Button
             android:layout_width="wrap_content"
@@ -102,7 +100,6 @@
             android:text="@string/yes_button"
             android:id="@+id/yesButton"
             android:textColor="#1E90FF"
-            android:background="#C0C0C0"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
@@ -114,7 +111,6 @@
             android:text="@string/edit_button"
             android:id="@+id/editButton"
             android:textColor="#1E90FF"
-            android:background="#C0C0C0"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -136,12 +132,24 @@
             android:layout_height="wrap_content"
             android:id="@+id/number"
             android:gravity="center"
+            android:textColor="#1E90FF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_above="@+id/isThatYourPhone"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/is_that_your_phone"
+            android:id="@+id/isThatYourPhone"
             android:textColor="#000000"
             android:textSize="15sp"
             android:textStyle="bold"
+            android:gravity="center"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            />
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
 
