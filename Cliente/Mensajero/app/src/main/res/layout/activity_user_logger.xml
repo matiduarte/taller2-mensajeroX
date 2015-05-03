@@ -86,15 +86,13 @@
         android:id="@+id/numberConfirmationMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/areaCodeConfirmationMessage"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#FFFFFF"
-        android:alpha="1"
         android:layout_alignBottom="@+id/phoneNumber"
         android:layout_alignRight="@+id/areaCodeConfirmationMessage"
         android:layout_alignEnd="@+id/areaCodeConfirmationMessage"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:layout_alignTop="@+id/areaCodeConfirmationMessage">
 
         <Button
             android:layout_width="wrap_content"
@@ -102,7 +100,6 @@
             android:text="@string/yes_button"
             android:id="@+id/yesButton"
             android:textColor="#1E90FF"
-            android:background="#FFFFFF"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
@@ -114,7 +111,6 @@
             android:text="@string/edit_button"
             android:id="@+id/editButton"
             android:textColor="#1E90FF"
-            android:background="#FFFFFF"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -136,24 +132,25 @@
             android:layout_height="wrap_content"
             android:id="@+id/number"
             android:gravity="center"
+            android:textColor="#1E90FF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_above="@+id/isThatYourPhone"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/is_that_your_phone"
+            android:id="@+id/isThatYourPhone"
             android:textColor="#000000"
             android:textSize="15sp"
             android:textStyle="bold"
+            android:gravity="center"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            />
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/mirror"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:background="#D3D3D3"
-        android:visibility="gone"
-        android:alpha="0.5"
-        ></RelativeLayout>
 
 </RelativeLayout>

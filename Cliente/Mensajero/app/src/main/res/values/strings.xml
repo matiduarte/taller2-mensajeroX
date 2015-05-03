@@ -17,6 +17,7 @@
     <string name="yes_button">Si</string>
     <string name="edit_button">Editar</string>
     <string name="number_confirmation">Confirme su número:</string>
+    <string name="is_that_your_phone">Es correcto el numero de telefono?</string>
     <string-array name="Paises">
             <item>Argentina</item>
             <item>Brasil</item>
