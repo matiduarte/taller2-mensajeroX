@@ -25,4 +25,6 @@
             <item>Paraguay</item>
             <item>Uruguay</item>
         </string-array>
+    <string name="title_activity_profile">Profile</string>
+    <string name="textEdit_Activity_profile">Introduzca su nombre y añada una foto a su perfil.</string>
 </resources>
