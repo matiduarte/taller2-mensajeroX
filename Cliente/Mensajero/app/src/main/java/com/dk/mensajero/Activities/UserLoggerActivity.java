@@ -1,4 +1,4 @@
-package com.dk.mensajero;
+package com.dk.mensajero.Activities;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,8 +14,11 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.dk.mensajero.Entities.User;
+import com.dk.mensajero.R;
+
 import static android.widget.AdapterView.*;
-import static com.dk.mensajero.UserLoggerActivity.country.*;
+import static com.dk.mensajero.Activities.UserLoggerActivity.country.*;
 
 
 public class UserLoggerActivity extends ActionBarActivity implements OnItemSelectedListener {

@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UserLoggerActivity"
+            android:name=".Activities.UserLoggerActivity"
             android:label="@string/title_activity_user_logger"
             android:windowSoftInputMode="adjustNothing" >
             <intent-filter>
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".Activities.SettingsActivity"
             android:label="@string/title_activity_ajustes" >
             <intent-filter>
                 <action android:name="com.dk.mensajero.AjustesActivity" />
@@ -36,12 +36,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".InformationActivity"
+            android:name=".Activities.InformationActivity"
             android:label="@string/title_activity_informacion"
-            android:parentActivityName=".SettingsActivity" >
+            android:parentActivityName=".Activities.SettingsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SettingsActivity" />
+                android:value=".Activities.SettingsActivity" />
         </activity>
     </application>
 
