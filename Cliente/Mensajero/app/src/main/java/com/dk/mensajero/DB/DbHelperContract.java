@@ -20,5 +20,6 @@ public final class DbHelperContract {
         public static final String TABLE_NAME = "Conversation";
         public static final String CONVERSATION_ID = "conversationId";
         public static final String CONTACT_ID = "contactId";
+        public static final String CONTACT_NAME = "contactName";
     }
 }

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.User;
 
 import java.util.ArrayList;
@@ -151,4 +152,23 @@ public class DbHelper extends SQLiteOpenHelper {
         return users.get(0);
     }
 
+    public long insertConversation(Conversation conversation) {
+        // Gets the data repository in write mode
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(DbHelperContract.CoversationEntry.CONVERSATION_ID, conversation.getConversationId());
+        values.put(DbHelperContract.CoversationEntry.CONTACT_ID, conversation.getContactId());
+        values.put(DbHelperContract.CoversationEntry.CONTACT_NAME, conversation.getContactName());
+
+        // Insert the new row, returning the primary key value of the new row
+        long newRowId;
+        newRowId = db.insert(
+                DbHelperContract.CoversationEntry.TABLE_NAME,
+                DbHelperContract.CoversationEntry._ID,
+                values);
+
+        return newRowId;
+    }
 }
