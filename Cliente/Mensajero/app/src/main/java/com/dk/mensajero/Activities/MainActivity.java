@@ -25,7 +25,7 @@ public class MainActivity extends ActionBarActivity {
     public void onClickButtonListener(){
         button_sbm = (Button)findViewById(R.id.button2);
         button_sbm.setOnClickListener(
-                new View.OnClickListener(){
+                new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent("com.dk.mensajero.RegistrarUsuarioActivity");
@@ -57,5 +57,16 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void showConversations(View view) {
+        Intent intent = new Intent(this, ConversationsActivity.class);
+        startActivity(intent);
+    }
+
+    public void showSettings(View view) {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 }

@@ -32,4 +32,26 @@
         android:layout_above="@+id/textView"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="66dp" />
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Conversaciones"
+        android:id="@+id/boton_conversations"
+        android:onClick="showConversations"
+        android:layout_marginTop="42dp"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:id="@+id/button_settings"
+        android:layout_below="@+id/boton_conversations"
+        android:layout_centerHorizontal="true"
+        android:onClick="showSettings"
+        android:layout_marginTop="29dp" />
+
 </RelativeLayout>
