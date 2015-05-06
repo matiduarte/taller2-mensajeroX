@@ -4,13 +4,13 @@
     <string name="app_name">Mensajero</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_ajustes">AjustesActivity</string>
+    <string name="title_activity_ajustes">Ajustes</string>
     <string name="title_activity_user_logger">RegistrarUsuarioActivity</string>
     <string name="ok_button">Hecho</string>
     <string name="wellcome_message">Bienvenido</string>
     <string name="back_button">Volver</string>
     <string name="phone_number_notification">Número de télefono</string>
-    <string name="title_activity_informacion">Informacion</string>
+    <string name="title_activity_informacion">Información</string>
     <string name="derechos">Copyleft @ 2015 MensajeroX inc.\nAll wrongs reserved. </string>
     <string name="version">Versión: 1.0.0</string>
     <string name="area_code_confirmation_message">Por favor confirme el código de su país e ingrese su número de télefono</string>
@@ -25,6 +25,6 @@
             <item>Paraguay</item>
             <item>Uruguay</item>
         </string-array>
-    <string name="title_activity_profile">Profile</string>
+    <string name="title_activity_profile">Perfil</string>
     <string name="textEdit_Activity_profile">Introduzca su nombre y añada una foto a su perfil.</string>
 </resources>
