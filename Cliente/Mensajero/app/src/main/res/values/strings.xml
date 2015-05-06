@@ -28,4 +28,6 @@
     <string name="title_activity_profile">Profile</string>
     <string name="textEdit_Activity_profile">Introduzca su nombre y añada una foto a su perfil.</string>
     <string name="title_activity_conversations">Conversaciones</string>
+    <string name="title_activity_conversation">ConversationActivity</string>
+    <string name="send">Enviar</string>
 </resources>
