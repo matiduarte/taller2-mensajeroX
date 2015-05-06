@@ -50,4 +50,9 @@ public class SettingsActivity extends ActionBarActivity {
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
+
+    public void showConversations(View view) {
+        Intent intent = new Intent(this, ConversationsActivity.class);
+        startActivity(intent);
+    }
 }
