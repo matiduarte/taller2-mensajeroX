@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,7 +36,6 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
 
     private static Button button_yes;
     private static Button button_edit;
-    private static Button button_ok;
     private TextView areaCode;
     private TextView phoneNumber;
     private TextView userPhone;
@@ -54,9 +55,10 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
         this.areaCodeView = (TextView) findViewById(R.id.areaCodeConfirmationMessage);
         this.phoneNumberNotifacitionView = (TextView) findViewById(R.id.phoneNumberNotification);
         this.expandableListCountries();
-        this.onOkButtonClick();
         this.onYesButtonClick();
         this.onEditButtonClick();
+        this.onEditActionListener();
+
     }
 
     public void expandableListCountries(){
@@ -65,25 +67,6 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
         expList.setAdapter(adapter);
         expList.setOnItemSelectedListener(this);
         setArgCode();
-    }
-
-    public void onOkButtonClick(){
-        button_ok = (Button) findViewById(R.id.buttonOk);
-        button_ok.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showUserPhone();
-                        hideAreaCode();
-                        hideOkButton();
-                        hidePhoneNumber();
-                        hideSpinner();
-                        hidePhoneNumberNotification();
-                        hideAreaCodeTextView();
-                    }
-                }
-        );
-
     }
 
      public void onYesButtonClick(){
@@ -110,7 +93,6 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
                         hideNumberConfirmationRL();
                         showAreaCode();
                         showPhoneNumber();
-                        showOkButton();
                         showPhoneNumberNotification();
                         showAreaCodeTextView();
                         showSpinner();
@@ -221,14 +203,6 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
         this.expList.setVisibility(VISIBLE);
     }
 
-    private void hideOkButton(){
-        button_ok.setAlpha((float) 0.3);
-    }
-
-    private void showOkButton(){
-        button_ok.setAlpha((float)0.8);
-    }
-
     private void hidePhoneNumberNotification(){
         this.phoneNumberNotifacitionView.setAlpha((float) 0.3);
     }
@@ -271,5 +245,24 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
             return URUGUAY;
 
         return INVALID;
+    }
+
+    public void onEditActionListener(){
+
+        this.phoneNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                //verifies what key is pressed, in our case verifies if the DONE key is pressed
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    showUserPhone();
+                    hideAreaCode();
+                    hidePhoneNumber();
+                    hideSpinner();
+                    hidePhoneNumberNotification();
+                    hideAreaCodeTextView();
+                }
+                return false;
+            }
+        });
     }
 }
