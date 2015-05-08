@@ -34,4 +34,5 @@
     </string>
     <string name="profile_state_connected">Conectado</string>
     <string name="profile_state_disconnected">Desconectado</string>
+    <string name="profile_save">Guardar</string>
 </resources>

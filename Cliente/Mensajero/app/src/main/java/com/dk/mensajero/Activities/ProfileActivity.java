@@ -38,6 +38,8 @@ public class ProfileActivity extends ActionBarActivity {
 
         EditText name = (EditText)findViewById(R.id.profileUserName);
         name.setHint("Juanma");
+        
+
 
         Button state = (Button)findViewById(R.id.profileUserState);
         state.setText("Conectado");
@@ -85,13 +87,15 @@ public class ProfileActivity extends ActionBarActivity {
                     Log.i("el profile path: ", selectedImagePath);
                     Log.i("URI GETPATH: ", selectedImageUri.getPath());
                     // Setearle el path al usuario
-//                    ImageView picture = (ImageView)findViewById(R.id.imageButtonProfile);
-//
-//                    try{
-//                        picture.setImageBitmap(getBitmapFromUri(selectedImageUri));
-//                    }catch (IOException e) {
-//                        Log.i("WARNING: ",e.getMessage());
-//                    }
+                    ImageView picture = (ImageView)findViewById(R.id.imageButtonProfile);
+
+                    try{
+                        //Bitmap profilePicture = getBitmapFromUri(selectedImageUri);
+                        //profilePicture = Bitmap.createScaledBitmap(profilePicture,200,200,true);
+                        picture.setImageBitmap(getBitmapFromUri(selectedImageUri));
+                    }catch (IOException e) {
+                        Log.i("WARNING: ",e.getMessage());
+                    }
 
                 }
             }

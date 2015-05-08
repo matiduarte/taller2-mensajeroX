@@ -21,13 +21,15 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:onClick="selectPicture"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
             android:src="@drawable/profile_default" />
 
         <TextView
             android:id="@+id/textView_editNameAndPicture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:text="@string/textEdit_Activity_profile" />
     </LinearLayout>
 
@@ -42,6 +44,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal" >
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1.2dip"
+                android:background="#849b87"
+                android:id="@+id/profile_nameBar"
+                android:layout_below="@+id/profileUserName"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="9dp" />
 
             <TextView
                 android:id="@+id/textView_name"
@@ -63,10 +75,10 @@
                 android:divider="#000000"
                 android:textColor="#000000"
                 android:textStyle="bold"
+                android:layout_marginTop="11dp"
                 android:layout_below="@+id/textView_name"
                 android:layout_alignLeft="@+id/textView_name"
-                android:layout_alignStart="@+id/textView_name"
-                android:layout_marginTop="16dp" />
+                android:layout_alignStart="@+id/textView_name" />
 
         </RelativeLayout>
 
@@ -92,7 +104,7 @@
                 android:text="Estado"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:layout_marginLeft="24dp"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="23dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
@@ -102,7 +114,7 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Button"
+                android:text=""
                 android:id="@+id/profileUserState"
                 android:onClick="changeState"
                 android:background="#FFFFFF"
@@ -110,8 +122,40 @@
                 android:layout_alignLeft="@+id/textView_state"
                 android:layout_alignStart="@+id/textView_state" />
 
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1.2dip"
+                android:background="#849b87"
+                android:id="@+id/profile_stateBar"
+                android:layout_marginTop="15dp"
+                android:layout_below="@+id/profileUserState"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
         </RelativeLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_save"
+                android:id="@+id/button"
+                android:layout_centerVertical="true"
+                android:background="#FFFFFF"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
     </LinearLayout>
 
 
