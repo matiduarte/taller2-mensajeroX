@@ -5,7 +5,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_ajustes">Ajustes</string>
-    <string name="title_activity_user_logger">RegistrarUsuarioActivity</string>
+    <string name="title_activity_user_logger">Verifique su número de teléfono</string>
     <string name="ok_button">Hecho</string>
     <string name="wellcome_message">Bienvenido</string>
     <string name="back_button">Volver</string>
