@@ -14,7 +14,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.dk.mensajero.DB.DbHelper;
 import com.dk.mensajero.DB.DbHelperContract;
@@ -32,6 +35,12 @@ public class ProfileActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        EditText name = (EditText)findViewById(R.id.profileUserName);
+        name.setHint("Juanma");
+
+        Button state = (Button)findViewById(R.id.profileUserState);
+        state.setText("Conectado");
     }
 
     @Override
@@ -117,4 +126,12 @@ public class ProfileActivity extends ActionBarActivity {
     }
 
 
+    public void changeState(View view) {
+        Button state = (Button)findViewById(R.id.profileUserState);
+        CharSequence actualState =  state.getText();
+        if(actualState.equals("Conectado"))
+            state.setText(R.string.profile_state_disconnected);
+        else
+            state.setText(R.string.profile_state_connected);
+    }
 }

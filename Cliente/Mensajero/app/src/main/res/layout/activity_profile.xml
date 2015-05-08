@@ -6,6 +6,7 @@
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"
     android:layout_alignParentTop="true"
+    android:background="#FFFFFF"
     android:orientation="vertical"
     tools:context="com.dk.mensajero.Activities.ProfileActivity">
 
@@ -37,12 +38,37 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/textView_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nombre"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal" >
+
+            <TextView
+                android:id="@+id/textView_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_marginLeft="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/profileUserName"
+                android:divider="#000000"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:layout_below="@+id/textView_name"
+                android:layout_alignLeft="@+id/textView_name"
+                android:layout_alignStart="@+id/textView_name"
+                android:layout_marginTop="16dp" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 
@@ -53,12 +79,38 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/textView_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Estado"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/textView_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Estado"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_marginLeft="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Button"
+                android:id="@+id/profileUserState"
+                android:onClick="changeState"
+                android:background="#FFFFFF"
+                android:layout_below="@+id/textView_state"
+                android:layout_alignLeft="@+id/textView_state"
+                android:layout_alignStart="@+id/textView_state" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 
