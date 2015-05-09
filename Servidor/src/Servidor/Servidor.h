@@ -27,7 +27,7 @@ enum tipoDeServicio{
 	CHECKIN_USUARIO,
 	DESCONECTAR_USUARIO,
 	OBTENER_ID_CONVERSACION,
-	ENVIAR_CONVERSACION,
+	OBTENER_CONVERSACION,
 	INVALIDO,
 };
 
@@ -39,7 +39,7 @@ private:
 
 	static int ev_handler(struct mg_connection *conn, enum mg_event ev);
 
-	static tipoDeServicio parsearURI(const char* uri);
+	static tipoDeServicio parsearURI(struct mg_connection* uri);
 
 public:
 	Servidor();

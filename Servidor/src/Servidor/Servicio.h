@@ -27,14 +27,12 @@ public:
 	Json::Value getParametroArray(string nombreParametro, string valorDefault);
 	void parsearParametros();
 	void administrarPerfil();
-	void checkinUsuario();
-	void desconectarUsuario();
 	Usuario* obtenerUsuario();
-	void consultarUsuarioOnline();
 	void almacenarConversacion();
-	void enviarConversacion();
-	void enviarConversaciones();
+	void obtenerConversacion();
+	void obtenerConversaciones();
 	void obtenerIdConversacion();
+	void consultarUsuarioOnline();
 	void responder(string mensaje, bool error);
 
 private:

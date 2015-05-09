@@ -66,6 +66,8 @@ const string keyDefault = "";
 #define urlAlmacenarConversacion "/almacenarConversacion"
 #define urlObtenerIdConversacion "/obtenerIdConversacion"
 #define urlEnviarConversacion "/enviarConversacion"
+const string urlBaseUsuario = "/usuario";
+const string urlBaseConversacion = "/conversacion";
 
 /*Constantes de parametros para Servicios*/
 #define keyIdUltimoMensaje "idUltimoMensaje"
