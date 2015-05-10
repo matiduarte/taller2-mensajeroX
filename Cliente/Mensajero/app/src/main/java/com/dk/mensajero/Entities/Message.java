@@ -16,8 +16,7 @@ public class Message {
     public Message(){
     }
 
-    public Message(long id, String conversationId, String messageId, String body, String date){
-        this.id = id;
+    public Message(String conversationId, String messageId, String body, String date){
         this.conversationId = conversationId;
         this.messageId = messageId;
         this.body = body;
