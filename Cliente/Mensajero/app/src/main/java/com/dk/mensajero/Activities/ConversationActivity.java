@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.dk.mensajero.Conversations.ChatAdapter;
+import com.dk.mensajero.Adapters.ChatAdapter;
 import com.dk.mensajero.Conversations.ConversationDataProvider;
 import com.dk.mensajero.R;
 

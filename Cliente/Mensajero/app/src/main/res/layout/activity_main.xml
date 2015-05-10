@@ -29,9 +29,9 @@
         android:text="Prueba"
         android:id="@+id/button2"
         android:textColor="#1E90FF"
-        android:layout_above="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="66dp" />
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/button_settings"
+        android:layout_alignStart="@+id/button_settings" />
 
 
     <Button
@@ -53,5 +53,14 @@
         android:layout_centerHorizontal="true"
         android:onClick="showSettings"
         android:layout_marginTop="29dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chat"
+        android:id="@+id/button_chat"
+        android:layout_above="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="39dp" />
 
 </RelativeLayout>

@@ -44,6 +44,7 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
     private TextView phoneNumberNotifacitionView;
     Spinner expList;
     ArrayAdapter<CharSequence> adapter;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -254,6 +255,7 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 //verifies what key is pressed, in our case verifies if the DONE key is pressed
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    user = new User(phoneNumber.getText().toString());
                     showUserPhone();
                     hideAreaCode();
                     hidePhoneNumber();
