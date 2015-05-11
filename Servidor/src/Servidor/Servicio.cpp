@@ -43,21 +43,24 @@ void Servicio::parsearParametros(){
 
 string Servicio::getParametro(string nombreParametro, string valorDefault){
 	string metodo(this->connexion->request_method);
-	if(metodo == "POST" || metodo == "PUT"){
-		char buffer[1000];
-		int resultado = mg_get_var(this->connexion, nombreParametro.c_str(), buffer, 1000);
-		if(resultado < 1){
-			return valorDefault;
-		}
-
-		string parametro(buffer);
-		return parametro;
+	char buffer[1000];
+	int resultado = mg_get_var(this->connexion, nombreParametro.c_str(), buffer, 1000);
+	if(resultado < 1){
+		return valorDefault;
 	}
-	return valorDefault;
+
+	string parametro(buffer);
+	return parametro;
 }
 
 Json::Value Servicio::getParametroArray(string nombreParametro, string valorDefault){
-	return this->parametros.get(nombreParametro, valorDefault);
+	string parametro =  this->getParametro(nombreParametro, valorDefault);
+
+	Json::Value valorParams;
+	Json::Reader reader;
+
+	bool parseoExitoso = reader.parse(parametro, valorParams);
+	return valorParams;
 }
 
 void Servicio::responder(string mensaje, bool success){
@@ -275,7 +278,7 @@ void Servicio::obtenerConversacion(){
 
 	char idConv[255];
 	char idMensaje[255];
-	if(2 == sscanf(this->connexion->uri, parametrosUri.c_str(), &idConv, &idUltimoMensaje)){
+	if(2 != sscanf(this->connexion->uri, parametrosUri.c_str(), &idConv, &idUltimoMensaje)){
 		string idConversacion(idConv);
 		string idUltimoMensaje(idMensaje);
 	}
@@ -283,7 +286,7 @@ void Servicio::obtenerConversacion(){
 
 	//Puede darse el caso de que la conversacion no exista si este servicio se llamo primero que agregarMensaje
 	//No deberia pasar ya que agregarMensaje se llama primero, pero por latencia de red podria llamarse a este servicio primero
-	Conversacion* conversacion = Conversacion::obtener(idConversacion);
+	Conversacion* conversacion = Conversacion::obtener(idConv);
 	if(conversacion->getId() != keyIdConversacionNoEncontrada){
 		vector<Mensaje*> mensajes = conversacion->getMensajes();
 		vector<Mensaje*> mensajesRespuesta;
@@ -321,9 +324,13 @@ void Servicio::obtenerConversaciones(){
 	Json::Value idsConversacionesValue = this->getParametroArray(keyIdConversaciones, keyDefault);
 	vector<string> idsConversaciones = StringUtil::jsonValueToVector(idsConversacionesValue);
 
-	string idUsuario = this->getParametro(keyIdUsuarioParametro, keyDefault);
+	string parametrosUri = urlBaseUsuarioConversaciones + "/%s %*s";
 
-	Usuario* usuario = new Usuario(idUsuario);
+	string idUsuario;
+	char idUsu[255];
+	sscanf(this->connexion->uri, parametrosUri.c_str(), idUsu);
+
+	Usuario* usuario = Usuario::obtenerPorTelefono(idUsu);
 	if(usuario->getId() != keyIdUsuarioNoEncontrado){
 		vector<string> idsConversacionesActuales = usuario->obtnerIdsConversaciones();
 		vector<Conversacion*> nuevasConversaciones;
@@ -334,7 +341,7 @@ void Servicio::obtenerConversaciones(){
 			//Si no esta en las conversaciones que me llegan, quiere decir que es una nueva conversacion.
 			//Tengo que enviarla al cliente
 			if(!StringUtil::vectorContiene(idsConversaciones, idActual)){
-				Conversacion* nuevaConversacion = new Conversacion(idActual);
+				Conversacion* nuevaConversacion = Conversacion::obtener(idActual);
 				if(nuevaConversacion->getId() != keyIdConversacionNoEncontrada){
 					nuevasConversaciones.push_back(nuevaConversacion);
 				}else{

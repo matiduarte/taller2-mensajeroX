@@ -46,7 +46,6 @@ void Servidor::administrarServicio(struct mg_connection* conn){
 	int servicioRequerido = parsearURI(conn);
 
 	Servicio* servicio = new Servicio(conn);
-	servicio->parsearParametros();
 
 	switch( servicioRequerido ){
 	case PRUEBA: 					servicio->prueba();					break;
@@ -54,7 +53,8 @@ void Servidor::administrarServicio(struct mg_connection* conn){
 	case ADMINISTRAR_PERFIL:		servicio->administrarPerfil(); 		break;
 	case ALMACENAR_CONVERSACION:	servicio->almacenarConversacion();	break;
 	case OBTENER_ID_CONVERSACION:	servicio->obtenerIdConversacion();	break;
-	case OBTENER_CONVERSACION:	servicio->obtenerConversacion();	break;
+	case OBTENER_CONVERSACION:	servicio->obtenerConversaciones();	break;
+	case OBTENER_CONVERSACIONES:	servicio->obtenerConversaciones();	break;
 	case CONSULTAR_USUARIO_ONLINE:	servicio->consultarUsuarioOnline();	break;
 	case INVALIDO: 	cout << "servicio no encontrado." << endl;	break;
 	default: 		cout << "default." << endl;
@@ -82,6 +82,9 @@ tipoDeServicio Servidor::parsearURI(struct mg_connection* conn){
 	}
 
 	if(strcmp(metodo,"GET") == 0){
+		if(uri_parseada.find(urlBaseUsuarioConversaciones)!= std::string::npos){
+			return OBTENER_CONVERSACIONES;
+		}
 		if(uri_parseada.find(urlBaseUsuario)!= std::string::npos){
 			return CONSULTAR_USUARIO_ONLINE;
 		}
