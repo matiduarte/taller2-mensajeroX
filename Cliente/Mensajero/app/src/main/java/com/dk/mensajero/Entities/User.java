@@ -24,10 +24,6 @@ public class User {
         this.name = name;
     }
 
-    public User(String phone){
-        this.phone = phone;
-    }
-
     //Properties
 
     public long getId(){

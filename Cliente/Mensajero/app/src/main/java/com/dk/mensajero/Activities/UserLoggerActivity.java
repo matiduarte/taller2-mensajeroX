@@ -44,7 +44,6 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
     private TextView phoneNumberNotifacitionView;
     Spinner expList;
     ArrayAdapter<CharSequence> adapter;
-    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,14 +69,25 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
         setArgCode();
     }
 
+    /**
+     * Create a Bundle with the user phone and pass it to the profileActivity
+     */
+    private void startProfileActivity(){
+
+        Intent profileIntent = new Intent(this, ProfileActivity.class);
+        Bundle bundlePhone = new Bundle();
+        bundlePhone.putString("phone",this.phoneNumber.getText().toString());
+        profileIntent.putExtras(bundlePhone);
+        startActivity(profileIntent);
+    }
+
      public void onYesButtonClick(){
         button_yes = (Button)findViewById(R.id.yesButton);
         button_yes.setOnClickListener(
                 new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent("com.dk.mensajero.AjustesActivity");
-                        startActivity(intent);
+                        startProfileActivity();
 
                     }
                 }
@@ -255,7 +265,6 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 //verifies what key is pressed, in our case verifies if the DONE key is pressed
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    user = new User(phoneNumber.getText().toString());
                     showUserPhone();
                     hideAreaCode();
                     hidePhoneNumber();
@@ -266,5 +275,6 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
                 return false;
             }
         });
+
     }
 }

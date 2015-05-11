@@ -27,6 +27,7 @@ import java.io.IOException;
 
 public class ProfileActivity extends ActionBarActivity {
     private static final int SELECT_PICTURE = 1;
+    private String phoneNumber;
 
 
     @Override
@@ -36,6 +37,8 @@ public class ProfileActivity extends ActionBarActivity {
         DbHelper db = new DbHelper(this);
         User user = db.getUser();
 
+        //Obtengo el telefono del userLogger
+        this.getUserPhone();
         //nombre
         EditText name = (EditText)findViewById(R.id.profileUserName);
         name.setHint(user.getName());
@@ -169,4 +172,14 @@ public class ProfileActivity extends ActionBarActivity {
 
     }
 
+
+    private void getUserPhone(){
+
+        Intent intentExtras = getIntent();
+        Bundle phoneBundle;
+        if (intentExtras.hasExtra("phone")){
+            phoneBundle = intentExtras.getExtras();
+            this.phoneNumber = phoneBundle.getString("phone");
+        }
+    }
 }
