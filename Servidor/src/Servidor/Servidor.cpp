@@ -43,22 +43,19 @@ int Servidor::ev_handler(struct mg_connection *conn, enum mg_event ev){
 }
 
 void Servidor::administrarServicio(struct mg_connection* conn){
-	int servicioRequerido = parsearURI(conn->uri);
+	int servicioRequerido = parsearURI(conn);
 
 	Servicio* servicio = new Servicio(conn);
-	servicio->parsearParametros();
 
 	switch( servicioRequerido ){
 	case PRUEBA: 					servicio->prueba();					break;
 	case REGISTRAR_USUARIO: 		servicio->registrarUsuario(); 		break;
-	case AUTENTICAR_USUARIO: 		servicio->autenticarUsuario();  	break;
 	case ADMINISTRAR_PERFIL:		servicio->administrarPerfil(); 		break;
-	case CONSULTAR_USUARIO_ONLINE:	servicio->consultarUsuarioOnline();	break;
-	case CHECKIN_USUARIO:			servicio->checkinUsuario();     	break;
-	case DESCONECTAR_USUARIO:		servicio->desconectarUsuario(); 	break;
 	case ALMACENAR_CONVERSACION:	servicio->almacenarConversacion();	break;
 	case OBTENER_ID_CONVERSACION:	servicio->obtenerIdConversacion();	break;
-	case ENVIAR_CONVERSACION:	servicio->enviarConversacion();	break;
+	case OBTENER_CONVERSACION:	servicio->obtenerConversaciones();	break;
+	case OBTENER_CONVERSACIONES:	servicio->obtenerConversaciones();	break;
+	case CONSULTAR_USUARIO_ONLINE:	servicio->consultarUsuarioOnline();	break;
 	case INVALIDO: 	cout << "servicio no encontrado." << endl;	break;
 	default: 		cout << "default." << endl;
 
@@ -68,30 +65,49 @@ void Servidor::administrarServicio(struct mg_connection* conn){
 	delete servicio;
 }
 
-tipoDeServicio Servidor::parsearURI(const char* uri){
+tipoDeServicio Servidor::parsearURI(struct mg_connection* conn){
+	const char* uri = conn->uri;
+	const char* metodo = conn->request_method;
 
-	//TDD STYLE!!!!!!!!!!!!!!!!!!!!!!!
 	string uri_parseada(uri);
+	string metodo_parseada(metodo);
+
+	if(strcmp(metodo,"POST") == 0){
+		if(uri_parseada == urlBaseUsuario){
+			return REGISTRAR_USUARIO;
+		}
+		if(uri_parseada == urlBaseConversacion){
+			return ALMACENAR_CONVERSACION;
+		}
+	}
+
+	if(strcmp(metodo,"GET") == 0){
+		if(uri_parseada.find(urlBaseUsuarioConversaciones)!= std::string::npos){
+			return OBTENER_CONVERSACIONES;
+		}
+		if(uri_parseada.find(urlBaseUsuario)!= std::string::npos){
+			return CONSULTAR_USUARIO_ONLINE;
+		}
+		if(uri_parseada.find(urlBaseConversacion)!= std::string::npos && uri_parseada.find(keyIdConversacion)!= std::string::npos){
+			return OBTENER_CONVERSACION;
+		}
+		if(uri_parseada.find(urlBaseConversacion)!= std::string::npos && uri_parseada.find(keyTelefonoEmisor)!= std::string::npos && uri_parseada.find(keyTelefonoReceptor)!= std::string::npos){
+			return OBTENER_ID_CONVERSACION;
+		}
+	}
+
+	if(strcmp(metodo,"PUT") == 0){
+		if(uri_parseada == urlBaseUsuario){
+			return ADMINISTRAR_PERFIL;
+		}
+//		if(uri_parseada == urlBaseConversacion){
+//			return ALMACENAR_CONVERSACION;
+//		}
+	}
+
+
 	if(uri_parseada == urlPrueba)
 		return PRUEBA;
-	if(uri_parseada == urlRegistrarUsuario)
-		return REGISTRAR_USUARIO;
-	if (uri_parseada == urlAutenticarUsuario)
-		return AUTENTICAR_USUARIO;
-	if (uri_parseada == urlAdministrarPerfil)
-		return ADMINISTRAR_PERFIL;
-	if (uri_parseada == urlConsultarUsuarioOnline)
-		return CONSULTAR_USUARIO_ONLINE;
-	if (uri_parseada == urlCheckinUsuario)
-		return CHECKIN_USUARIO;
-	if (uri_parseada == urlDesconectarUsuario)
-		return DESCONECTAR_USUARIO;
-	if (uri_parseada == urlAlmacenarConversacion)
-		return ALMACENAR_CONVERSACION;
-	if (uri_parseada == urlObtenerIdConversacion)
-		return OBTENER_ID_CONVERSACION;
-	if (uri_parseada == urlEnviarConversacion)
-		return ENVIAR_CONVERSACION;
 
 	return INVALIDO;
 }

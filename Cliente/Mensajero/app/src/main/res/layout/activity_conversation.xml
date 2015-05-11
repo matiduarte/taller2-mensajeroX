@@ -6,7 +6,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    android:background="#f5f5dc"
+    android:background="#FFD39B"
     tools:context="com.dk.mensajero.Activities.ConversationActivity">
 
     <ListView

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.dk.mensajero.Entities.Conversation;
+import com.dk.mensajero.Entities.Message;
 import com.dk.mensajero.Entities.User;
 
 import java.util.ArrayList;
@@ -31,19 +32,30 @@ public class DbHelper extends SQLiteOpenHelper {
                     DbHelperContract.UserEntry.NAME + TEXT_TYPE +
             " );"
             +
-            "CREATE TABLE " + DbHelperContract.CoversationEntry.TABLE_NAME + " (" +
-            DbHelperContract.CoversationEntry._ID + " INTEGER PRIMARY KEY," +
-            DbHelperContract.CoversationEntry.CONVERSATION_ID + TEXT_TYPE + COMMA_SEP +
-            DbHelperContract.CoversationEntry.CONTACT_ID + TEXT_TYPE +
-            " );" ;
+            "CREATE TABLE " + DbHelperContract.ConversationEntry.TABLE_NAME + " (" +
+            DbHelperContract.ConversationEntry._ID + " INTEGER PRIMARY KEY," +
+            DbHelperContract.ConversationEntry.CONVERSATION_ID + TEXT_TYPE + COMMA_SEP +
+            DbHelperContract.ConversationEntry.CONTACT_ID + TEXT_TYPE +
+            " );"
+
+            +
+            "CREATE TABLE " + DbHelperContract.MessageEntry.TABLE_NAME + " (" +
+            DbHelperContract.MessageEntry._ID + " INTEGER PRIMARY KEY," +
+            DbHelperContract.MessageEntry.CONVERSATION_ID + TEXT_TYPE + COMMA_SEP +
+            DbHelperContract.MessageEntry.MESSAGE_ID + TEXT_TYPE + COMMA_SEP +
+            DbHelperContract.MessageEntry.BODY + TEXT_TYPE + COMMA_SEP +
+            DbHelperContract.MessageEntry.DATE + TEXT_TYPE +
+            " );";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DbHelperContract.UserEntry.TABLE_NAME + ";"
             +
-            "DROP TABLE IF EXISTS " + DbHelperContract.CoversationEntry.TABLE_NAME + ";";
+            "DROP TABLE IF EXISTS " + DbHelperContract.ConversationEntry.TABLE_NAME + ";"
+            +
+            "DROP TABLE IF EXISTS " + DbHelperContract.MessageEntry.TABLE_NAME + ";";
 
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "MensajeroX.db";
 
     public DbHelper(Context context) {
@@ -84,7 +96,7 @@ public class DbHelper extends SQLiteOpenHelper {
         return newRowId;
     }
 
-    public void updateGame(User user){
+    public void updateUser(User user){
         // Gets the data repository in write mode
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -158,15 +170,36 @@ public class DbHelper extends SQLiteOpenHelper {
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
-        values.put(DbHelperContract.CoversationEntry.CONVERSATION_ID, conversation.getConversationId());
-        values.put(DbHelperContract.CoversationEntry.CONTACT_ID, conversation.getContactId());
-        values.put(DbHelperContract.CoversationEntry.CONTACT_NAME, conversation.getContactName());
+        values.put(DbHelperContract.ConversationEntry.CONVERSATION_ID, conversation.getConversationId());
+        values.put(DbHelperContract.ConversationEntry.CONTACT_ID, conversation.getContactId());
+        values.put(DbHelperContract.ConversationEntry.CONTACT_NAME, conversation.getContactName());
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId;
         newRowId = db.insert(
-                DbHelperContract.CoversationEntry.TABLE_NAME,
-                DbHelperContract.CoversationEntry._ID,
+                DbHelperContract.ConversationEntry.TABLE_NAME,
+                DbHelperContract.ConversationEntry._ID,
+                values);
+
+        return newRowId;
+    }
+
+    public long insertMessage(Message message) {
+        // Gets the data repository in write mode
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(DbHelperContract.MessageEntry.CONVERSATION_ID, message.getConversationId());
+        values.put(DbHelperContract.MessageEntry.MESSAGE_ID, message.getMessageId());
+        values.put(DbHelperContract.MessageEntry.BODY, message.getBody());
+        values.put(DbHelperContract.MessageEntry.DATE, message.getDate());
+
+        // Insert the new row, returning the primary key value of the new row
+        long newRowId;
+        newRowId = db.insert(
+                DbHelperContract.MessageEntry.TABLE_NAME,
+                DbHelperContract.MessageEntry._ID,
                 values);
 
         return newRowId;

@@ -16,10 +16,18 @@ public final class DbHelperContract {
         public static final String NAME = "name";
     }
 
-    public static abstract class CoversationEntry implements BaseColumns {
+    public static abstract class ConversationEntry implements BaseColumns {
         public static final String TABLE_NAME = "Conversation";
         public static final String CONVERSATION_ID = "conversationId";
         public static final String CONTACT_ID = "contactId";
         public static final String CONTACT_NAME = "contactName";
+    }
+
+    public static abstract class MessageEntry implements BaseColumns {
+        public static final String TABLE_NAME = "Message";
+        public static final String CONVERSATION_ID = "conversationId";
+        public static final String MESSAGE_ID = "messageId";
+        public static final String BODY = "body";
+        public static final String DATE = "date";
     }
 }

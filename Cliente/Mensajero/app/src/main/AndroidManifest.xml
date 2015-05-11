@@ -52,7 +52,7 @@
                 android:value="com.dk.mensajero.Activities.SettingsActivity" />
         </activity>
         <activity
-            android:name=".Activities.ConversationsActivity"
+            android:name=".Activities.ConversationsListActivity"
             android:label="@string/title_activity_conversations"
             android:parentActivityName=".Activities.SettingsActivity" >
             <meta-data
@@ -62,7 +62,12 @@
         <activity
             android:name=".Activities.ConversationActivity"
             android:label="@string/title_activity_conversation"
-            android:parentActivityName=".Activities.SettingsActivity" >
+            android:parentActivityName=".Activities.SettingsActivity">
+            <intent-filter>
+                <action android:name="com.dk.mensajero.ConversationActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.dk.mensajero.Activities.SettingsActivity" />

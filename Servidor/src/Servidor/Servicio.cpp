@@ -42,11 +42,25 @@ void Servicio::parsearParametros(){
 }
 
 string Servicio::getParametro(string nombreParametro, string valorDefault){
-	return this->parametros.get(nombreParametro, valorDefault).asString();
+	string metodo(this->connexion->request_method);
+	char buffer[1000];
+	int resultado = mg_get_var(this->connexion, nombreParametro.c_str(), buffer, 1000);
+	if(resultado < 1){
+		return valorDefault;
+	}
+
+	string parametro(buffer);
+	return parametro;
 }
 
 Json::Value Servicio::getParametroArray(string nombreParametro, string valorDefault){
-	return this->parametros.get(nombreParametro, valorDefault);
+	string parametro =  this->getParametro(nombreParametro, valorDefault);
+
+	Json::Value valorParams;
+	Json::Reader reader;
+
+	bool parseoExitoso = reader.parse(parametro, valorParams);
+	return valorParams;
 }
 
 void Servicio::responder(string mensaje, bool success){
@@ -92,25 +106,6 @@ Usuario* Servicio::obtenerUsuario(){
 
 }
 
-void Servicio::autenticarUsuario(){
-
-	Usuario* user = this->obtenerUsuario();
-
-	if (user->getId() != keyIdUsuarioNoEncontrado){
-		user->setEstadoConexion(Online);
-		string token = user->calcularTokenDeSesion();
-		user->persistir();
-		Loger::getLoger()->info("El usuario "+user->getNombre()+ " inicio sesion correctamente.");
-		this->responder("El usuario "+user->getNombre()+ " inicio sesion correctamente. Token: " + user->getToken(), true);
-	} else {
-		Loger::getLoger()->warn("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
-		this->responder("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema", false);
-	}
-	//TODO: Devolver el token al cliente
-	Loger::getLoger()->guardarEstado();
-	delete user;
-}
-
 void Servicio::administrarPerfil(){
 
 	string nombreUsuario = this->getParametro(keyNombre, keyDefault);
@@ -119,15 +114,19 @@ void Servicio::administrarPerfil(){
 	bool estado = StringUtil::toBoolean(estadoDeConexion);
 	string localizacion = this->getParametro(keyLocalizacion, keyDefault);
 	Usuario* user = this->obtenerUsuario();
+	bool estadoActual = user->getEstadoConexion();
 
 	if (user->getId() != keyIdUsuarioNoEncontrado){
 		user->setNombre(nombreUsuario);
 		user->setEstadoConexion(estado);
+		if(estado && estado != estadoActual){
+			user->calcularTokenDeSesion();
+		}
 		user->setFotoDePerfil(fotoDePerfil);
 		user->setLocalizacion(localizacion);
 		user->persistir();
 		Loger::getLoger()->info("Se modificaron los datos del usuario "+user->getNombre()+ " correctamente.");
-		this->responder("Se modificaron los datos del usuario "+user->getNombre()+ " correctamente.", true);
+		this->responder("Se modificaron los datos del usuario "+user->getNombre()+ " correctamente. Token:" + user->getToken(), true);
 	} else {
 		Loger::getLoger()->warn("El usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
 		this->responder("El usuario "+user->getNombre()+ " no se encuentra registrado en el sistema", false);
@@ -144,8 +143,13 @@ void Servicio::administrarPerfil(){
  * 		  		 o bien el usuario no existe.
  */
 void Servicio::consultarUsuarioOnline() {
-
-	Usuario* user = this->obtenerUsuario();
+	char parametro[255];
+	string telefono;
+	string uriParametros = urlBaseUsuario + "/%s";
+	if(1 == sscanf(this->connexion->uri, uriParametros.c_str() , &parametro)) {
+		string telefono(parametro);
+	}
+	Usuario* user = Usuario::obtenerPorTelefono(telefono);
 
 	if (user->getId() != keyIdUsuarioNoEncontrado) {
 		Loger::getLoger()->info("Consulta de estado del usuario "+user->getNombre()+ " exitosa.");
@@ -224,47 +228,17 @@ void Servicio::almacenarConversacion() {
 	}
 }
 
-void Servicio::checkinUsuario(){
-
-	Usuario* user = this->obtenerUsuario();
-	string localizacion = this->getParametro(keyLocalizacion, keyDefault);
-
-	if (user->getId() != keyIdUsuarioNoEncontrado){
-		user->setLocalizacion(localizacion);
-		user->persistir();
-		Loger::getLoger()->info("Se actualizo la ubicacion del Usuario "+user->getNombre());
-		this->responder("Se actualizo la ubicacion del Usuario "+user->getNombre(), true);
-	} else {
-		Loger::getLoger()->warn("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
-		this->responder("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema", false);
-	}
-
-	Loger::getLoger()->guardarEstado();
-	delete user;
-
-}
-
-void Servicio::desconectarUsuario(){
-
-	Usuario* user = this->obtenerUsuario();
-
-	if (user->getId() != keyIdUsuarioNoEncontrado){
-		user->setEstadoConexion(Offline);
-		user->persistir();
-		Loger::getLoger()->info("El usuario "+user->getNombre()+ " cerro sesion correctamente");
-		this->responder("El usuario "+user->getNombre()+ " cerro sesion correctamente", true);
-	} else {
-		Loger::getLoger()->warn("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
-		this->responder("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema", false);
-	}
-
-	Loger::getLoger()->guardarEstado();
-	delete user;
-}
-
 void Servicio::obtenerIdConversacion(){
-	string telefonoUsuarioEmisor = this->getParametro(keyTelefonoEmisor, keyDefault);
-	string telefonoUsuarioRecceptor = this->getParametro(keyTelefonoReceptor, keyDefault);
+	string telefonoUsuarioEmisor = keyDefault;
+	string telefonoUsuarioRecceptor = keyDefault;
+	string parametrosUri = urlBaseConversacion + "/" + telefonoUsuarioEmisor + "/%s/" + telefonoUsuarioRecceptor + "/%s";
+	char telEmisor[255];
+	char telReceptor[255];
+	if(2 == sscanf(this->connexion->uri, parametrosUri.c_str() , &telEmisor, &telReceptor)){
+		string telefonoUsuarioEmisor(telEmisor);
+		string telefonoUsuarioRecceptor(telReceptor);
+	}
+
 
 	Usuario* usuarioEmisor = Usuario::obtenerPorTelefono(telefonoUsuarioEmisor);
 	Usuario* usuarioReceptor = Usuario::obtenerPorTelefono(telefonoUsuarioRecceptor);
@@ -297,13 +271,22 @@ void Servicio::obtenerIdConversacion(){
 	delete usuarioReceptor;
 }
 
-void Servicio::enviarConversacion(){
-	string idConversacion = this->getParametro(keyIdConversacion, keyDefault);
-	string idUltimoMensaje = this->getParametro(keyIdUltimoMensaje, keyDefault);
+void Servicio::obtenerConversacion(){
+	string idConversacion = keyDefault;
+	string idUltimoMensaje = keyDefault;
+	string parametrosUri = urlBaseConversacion + "/%s/" + keyIdUltimoMensaje + "/%s";
+
+	char idConv[255];
+	char idMensaje[255];
+	if(2 != sscanf(this->connexion->uri, parametrosUri.c_str(), &idConv, &idUltimoMensaje)){
+		string idConversacion(idConv);
+		string idUltimoMensaje(idMensaje);
+	}
+
 
 	//Puede darse el caso de que la conversacion no exista si este servicio se llamo primero que agregarMensaje
 	//No deberia pasar ya que agregarMensaje se llama primero, pero por latencia de red podria llamarse a este servicio primero
-	Conversacion* conversacion = Conversacion::obtener(idConversacion);
+	Conversacion* conversacion = Conversacion::obtener(idConv);
 	if(conversacion->getId() != keyIdConversacionNoEncontrada){
 		vector<Mensaje*> mensajes = conversacion->getMensajes();
 		vector<Mensaje*> mensajesRespuesta;
@@ -337,13 +320,17 @@ void Servicio::enviarConversacion(){
 	}
 }
 
-void Servicio::enviarConversaciones(){
+void Servicio::obtenerConversaciones(){
 	Json::Value idsConversacionesValue = this->getParametroArray(keyIdConversaciones, keyDefault);
 	vector<string> idsConversaciones = StringUtil::jsonValueToVector(idsConversacionesValue);
 
-	string idUsuario = this->getParametro(keyIdUsuarioParametro, keyDefault);
+	string parametrosUri = urlBaseUsuarioConversaciones + "/%s %*s";
 
-	Usuario* usuario = new Usuario(idUsuario);
+	string idUsuario;
+	char idUsu[255];
+	sscanf(this->connexion->uri, parametrosUri.c_str(), idUsu);
+
+	Usuario* usuario = Usuario::obtenerPorTelefono(idUsu);
 	if(usuario->getId() != keyIdUsuarioNoEncontrado){
 		vector<string> idsConversacionesActuales = usuario->obtnerIdsConversaciones();
 		vector<Conversacion*> nuevasConversaciones;
@@ -354,7 +341,7 @@ void Servicio::enviarConversaciones(){
 			//Si no esta en las conversaciones que me llegan, quiere decir que es una nueva conversacion.
 			//Tengo que enviarla al cliente
 			if(!StringUtil::vectorContiene(idsConversaciones, idActual)){
-				Conversacion* nuevaConversacion = new Conversacion(idActual);
+				Conversacion* nuevaConversacion = Conversacion::obtener(idActual);
 				if(nuevaConversacion->getId() != keyIdConversacionNoEncontrada){
 					nuevasConversaciones.push_back(nuevaConversacion);
 				}else{

@@ -12,8 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.dk.mensajero.Conversations.ChatAdapter;
+import com.dk.mensajero.Adapters.ChatAdapter;
 import com.dk.mensajero.Conversations.ConversationDataProvider;
+import com.dk.mensajero.Entities.Message;
 import com.dk.mensajero.R;
 
 public class ConversationActivity extends ActionBarActivity {
@@ -56,7 +57,10 @@ public class ConversationActivity extends ActionBarActivity {
         this.send_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    chatAdapter.add(new ConversationDataProvider(position, chatText.getText().toString()));
+                    //TODO: Enviar el mensaje al servidor. Con el id del mensaje que se recibe, guardar en la db
+                    Message message = new Message();
+                    message.setBody(chatText.getText().toString());
+                    chatAdapter.add(new ConversationDataProvider(position, message));
                     position = !position;
                     chatText.setText("");
 

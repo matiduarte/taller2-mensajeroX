@@ -1,4 +1,4 @@
-package com.dk.mensajero.Conversations;
+package com.dk.mensajero.Adapters;
 
 import android.app.ActionBar;
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dk.mensajero.Conversations.ConversationDataProvider;
 import com.dk.mensajero.R;
 
 import java.util.ArrayList;
