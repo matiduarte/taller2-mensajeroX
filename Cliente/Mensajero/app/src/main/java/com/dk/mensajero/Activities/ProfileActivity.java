@@ -1,10 +1,10 @@
 package com.dk.mensajero.Activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
@@ -17,10 +17,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
-
+import android.widget.Toast;
 import com.dk.mensajero.DB.DbHelper;
-import com.dk.mensajero.DB.DbHelperContract;
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.R;
 
@@ -29,20 +27,32 @@ import java.io.IOException;
 
 public class ProfileActivity extends ActionBarActivity {
     private static final int SELECT_PICTURE = 1;
-    private String selectedImagePath;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        DbHelper db = new DbHelper(this);
+        User user = db.getUser();
 
+        //nombre
         EditText name = (EditText)findViewById(R.id.profileUserName);
-        name.setHint("Juanma");
-        
+        name.setHint(user.getName());
 
+        //foto de perfil
+        ImageView picture = (ImageView) findViewById(R.id.imageButtonProfile);
+        String profilePicturePath = user.getProfilePicture();
+        if (profilePicturePath.equals("")) {
+            picture.setImageDrawable(getResources().getDrawable(R.drawable.profile_default));
+        } else {
+            picture.setImageDrawable(Drawable.createFromPath(user.getProfilePicture()));
+        }
 
-        Button state = (Button)findViewById(R.id.profileUserState);
-        state.setText("Conectado");
+        //estado
+        Button state = (Button) findViewById(R.id.profileUserState);
+        //TODO: pedir el estado al servidor
+        state.setText("conectado");
     }
 
     @Override
@@ -83,16 +93,13 @@ public class ProfileActivity extends ActionBarActivity {
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
                 if (selectedImageUri != null) {
-                    selectedImagePath = getPath(selectedImageUri);
-                    Log.i("el profile path: ", selectedImagePath);
-                    Log.i("URI GETPATH: ", selectedImageUri.getPath());
-                    // Setearle el path al usuario
                     ImageView picture = (ImageView)findViewById(R.id.imageButtonProfile);
-
                     try{
-                        //Bitmap profilePicture = getBitmapFromUri(selectedImageUri);
-                        //profilePicture = Bitmap.createScaledBitmap(profilePicture,200,200,true);
                         picture.setImageBitmap(getBitmapFromUri(selectedImageUri));
+                        DbHelper db = new DbHelper(this);
+                        User user = db.getUser();
+                        user.setProfilePicture(getPath(selectedImageUri));
+                        db.updateUser(user);
                     }catch (IOException e) {
                         Log.i("WARNING: ",e.getMessage());
                     }
@@ -138,4 +145,28 @@ public class ProfileActivity extends ActionBarActivity {
         else
             state.setText(R.string.profile_state_connected);
     }
+
+    public void saveProfile(View view){
+        DbHelper db = new DbHelper(this);
+        User user = db.getUser();
+
+        //guardo el nombre
+        EditText editText = (EditText) findViewById(R.id.profileUserName);
+        String sName = editText.getText().toString();
+        if (!sName.matches("")) {
+            user.setName(sName);
+        }
+
+        //TODO: actualizar el usuario en el server
+
+        //actualizo en la base de datos local
+        db.updateUser(user);
+
+        //vuelvo a la pantalla de settings.
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+
+
+    }
+
 }

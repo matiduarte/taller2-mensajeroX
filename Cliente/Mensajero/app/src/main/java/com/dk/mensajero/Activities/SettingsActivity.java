@@ -1,13 +1,12 @@
 package com.dk.mensajero.Activities;
 
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
+import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.R;
 
 
@@ -17,6 +16,9 @@ public class SettingsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        User user = new User(123524,"1223434","121434","","Lucas");
+        user.save(this);
     }
 
     @Override
