@@ -38,7 +38,7 @@ public class ProfileActivity extends ActionBarActivity {
         User user = db.getUser();
 
         //Obtengo el telefono del userLogger
-        this.getUserPhone();
+        //this.getUserPhone();
         //nombre
         EditText name = (EditText)findViewById(R.id.profileUserName);
         name.setHint(user.getName());
@@ -173,7 +173,7 @@ public class ProfileActivity extends ActionBarActivity {
     }
 
 
-    private void getUserPhone(){
+   /* private void getUserPhone(){
 
         Intent intentExtras = getIntent();
         Bundle phoneBundle;
@@ -181,5 +181,5 @@ public class ProfileActivity extends ActionBarActivity {
             phoneBundle = intentExtras.getExtras();
             this.phoneNumber = phoneBundle.getString("phone");
         }
-    }
+    }*/
 }

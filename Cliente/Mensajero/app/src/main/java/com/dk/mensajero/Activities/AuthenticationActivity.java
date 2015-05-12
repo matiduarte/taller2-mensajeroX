@@ -1,21 +1,21 @@
 package com.dk.mensajero.Activities;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.R;
 
 public class AuthenticationActivity extends ActionBarActivity implements View.OnClickListener {
 
     Button bLogin;
-    EditText etUserName, etPassword;
+    EditText etPhoneNumber, etPassword;
     TextView registerLink;
 
     @Override
@@ -23,7 +23,7 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
 
-        etUserName = (EditText) findViewById(R.id.etUserName);
+        etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
         etPassword = (EditText) findViewById(R.id.etPassword);
         bLogin = (Button) findViewById(R.id.bLogin);
         registerLink = (TextView) findViewById(R.id.tvRegisterLink);
@@ -37,7 +37,12 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
         switch (v.getId()){
             case R.id.bLogin:
 
-                startActivity(new Intent(this, MainActivity.class));
+                String phone = etPhoneNumber.getText().toString();
+                String password = etPassword.getText().toString();
+
+                User user = new User(phone, password);
+
+                authenticate(user);
 
                 break;
             case R.id.tvRegisterLink:
@@ -47,4 +52,19 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
                 break;
         }
     }
+
+    private void authenticate(User user){
+        //TODO: BUSCAR LA INFO DEl SERVIDOR
+        //showErrorMessage();
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
+    private void showErrorMessage(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AuthenticationActivity.this);
+        dialogBuilder.setMessage("Datos incorrectos");
+        dialogBuilder.setPositiveButton("Ok",null);
+        dialogBuilder.show();
+    }
 }
+
+
