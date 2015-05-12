@@ -18,7 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
+
 import com.dk.mensajero.DB.DbHelper;
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.R;
@@ -177,7 +177,7 @@ public class ProfileActivity extends ActionBarActivity {
         db.updateUser(user);
 
         //vuelvo a la pantalla principal.
-        Intent intent = new Intent(this, UserLoggerActivity.class);
+        Intent intent = new Intent(this, PhoneNumberRegisterActivity.class);
         startActivity(intent);
 
 

@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.UserLoggerActivity"
+            android:name=".Activities.PhoneNumberRegisterActivity"
             android:label="@string/title_activity_user_logger"
             android:windowSoftInputMode="adjustNothing" >
             <intent-filter>

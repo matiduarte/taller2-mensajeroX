@@ -17,14 +17,13 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.R;
 
 import static android.widget.AdapterView.*;
-import static com.dk.mensajero.Activities.UserLoggerActivity.country.*;
+import static com.dk.mensajero.Activities.PhoneNumberRegisterActivity.country.*;
 
 
-public class UserLoggerActivity extends ActionBarActivity implements OnItemSelectedListener {
+public class PhoneNumberRegisterActivity extends ActionBarActivity implements OnItemSelectedListener {
 
     enum country{
         ARGENTINA,
@@ -49,7 +48,7 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_logger);
+        setContentView(R.layout.activity_phone_number_register);
         this.phoneNumber = (TextView) findViewById(R.id.phoneNumber);
         this.areaCode = (TextView) findViewById(R.id.areaCode);
         this.numberConfirmationMessage_rl = (RelativeLayout) findViewById(R.id.numberConfirmationMessage);
@@ -117,7 +116,7 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_user_logger, menu);
+        getMenuInflater().inflate(R.menu.menu_phone_number_register, menu);
         return true;
     }
 
@@ -285,7 +284,7 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
     }
 
     private void showEmptyPhoneMessage(){
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(UserLoggerActivity.this);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PhoneNumberRegisterActivity.this);
         dialogBuilder.setMessage("No se ingreso ningun número");
         dialogBuilder.setPositiveButton("Reintentar",null);
         dialogBuilder.show();

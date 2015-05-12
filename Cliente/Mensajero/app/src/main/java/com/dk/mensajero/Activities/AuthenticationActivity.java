@@ -47,7 +47,7 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
                 break;
             case R.id.tvRegisterLink:
 
-                startActivity(new Intent(this, UserLoggerActivity.class));
+                startActivity(new Intent(this, PhoneNumberRegisterActivity.class));
 
                 break;
         }
