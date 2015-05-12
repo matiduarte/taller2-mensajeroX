@@ -72,6 +72,8 @@ public class User {
         this.name = name;
     }
 
+    public void setPassword(String password){this.password = password; }
+
 
     //Methods
 

@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.dk.mensajero.DB.DbHelper;
@@ -28,6 +29,7 @@ import java.io.IOException;
 public class ProfileActivity extends ActionBarActivity {
     private static final int SELECT_PICTURE = 1;
     private String phoneNumber;
+    EditText etName, etPassword;
 
 
     @Override
@@ -37,14 +39,16 @@ public class ProfileActivity extends ActionBarActivity {
         DbHelper db = new DbHelper(this);
         User user = db.getUser();
 
-        //Obtengo el telefono del userLogger
-        this.getUserPhone();
         //nombre
-        EditText name = (EditText)findViewById(R.id.profileUserName);
-        name.setHint(user.getName());
+        etName = (EditText)findViewById(R.id.profile_etName);
+        etName.setText(user.getName());
+
+        //contraseña
+        etPassword = (EditText)findViewById(R.id.profile_etPassword);
+        etPassword.setHint(R.string.newPassword);
 
         //foto de perfil
-        ImageView picture = (ImageView) findViewById(R.id.imageButtonProfile);
+        ImageButton picture = (ImageButton) findViewById(R.id.profile_ibPicture);
         String profilePicturePath = user.getProfilePicture();
         if (profilePicturePath.equals("")) {
             picture.setImageDrawable(getResources().getDrawable(R.drawable.profile_default));
@@ -53,7 +57,7 @@ public class ProfileActivity extends ActionBarActivity {
         }
 
         //estado
-        Button state = (Button) findViewById(R.id.profileUserState);
+        Button state = (Button) findViewById(R.id.profile_bState);
         //TODO: pedir el estado al servidor
         state.setText("conectado");
     }
@@ -96,7 +100,7 @@ public class ProfileActivity extends ActionBarActivity {
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
                 if (selectedImageUri != null) {
-                    ImageView picture = (ImageView)findViewById(R.id.imageButtonProfile);
+                    ImageView picture = (ImageView)findViewById(R.id.profile_ibPicture);
                     try{
                         picture.setImageBitmap(getBitmapFromUri(selectedImageUri));
                         DbHelper db = new DbHelper(this);
@@ -141,9 +145,9 @@ public class ProfileActivity extends ActionBarActivity {
 
 
     public void changeState(View view) {
-        Button state = (Button)findViewById(R.id.profileUserState);
+        Button state = (Button)findViewById(R.id.profile_bState);
         CharSequence actualState =  state.getText();
-        if(actualState.equals("Conectado"))
+        if(actualState.equals("conectado"))
             state.setText(R.string.profile_state_disconnected);
         else
             state.setText(R.string.profile_state_connected);
@@ -154,10 +158,17 @@ public class ProfileActivity extends ActionBarActivity {
         User user = db.getUser();
 
         //guardo el nombre
-        EditText editText = (EditText) findViewById(R.id.profileUserName);
-        String sName = editText.getText().toString();
+        etName = (EditText) findViewById(R.id.profile_etName);
+        String sName = etName.getText().toString();
         if (!sName.matches("")) {
             user.setName(sName);
+        }
+
+        //guardo la contraseña
+        etPassword = (EditText) findViewById(R.id.profile_etName);
+        String sPassword = etPassword.getText().toString();
+        if (!sPassword.matches("")) {
+            user.setPassword(sPassword);
         }
 
         //TODO: actualizar el usuario en el server
@@ -165,8 +176,8 @@ public class ProfileActivity extends ActionBarActivity {
         //actualizo en la base de datos local
         db.updateUser(user);
 
-        //vuelvo a la pantalla de settings.
-        Intent intent = new Intent(this, SettingsActivity.class);
+        //vuelvo a la pantalla principal.
+        Intent intent = new Intent(this, UserLoggerActivity.class);
         startActivity(intent);
 
 
