@@ -63,6 +63,17 @@ Json::Value Servicio::getParametroArray(string nombreParametro, string valorDefa
 	return valorParams;
 }
 
+string Servicio::getParametroIdMetodoGET(string urlBase){
+	string parametrosUri = urlBase + "/%s";
+
+	char id[255];
+	if(1 == sscanf(this->connexion->uri, parametrosUri.c_str(), &id)){
+		return id;
+	}
+
+	return "";
+}
+
 void Servicio::responder(string mensaje, bool success){
 	Json::Value respuesta;
 	respuesta[keyPayload] = mensaje;
@@ -143,12 +154,7 @@ void Servicio::administrarPerfil(){
  * 		  		 o bien el usuario no existe.
  */
 void Servicio::consultarUsuarioOnline() {
-	char parametro[255];
-	string telefono;
-	string uriParametros = urlBaseUsuario + "/%s";
-	if(1 == sscanf(this->connexion->uri, uriParametros.c_str() , &parametro)) {
-		string telefono(parametro);
-	}
+	string telefono = this->getParametroIdMetodoGET(urlBaseUsuario);
 	Usuario* user = Usuario::obtenerPorTelefono(telefono);
 
 	if (user->getId() != keyIdUsuarioNoEncontrado) {
@@ -229,16 +235,8 @@ void Servicio::almacenarConversacion() {
 }
 
 void Servicio::obtenerIdConversacion(){
-	string telefonoUsuarioEmisor = keyDefault;
-	string telefonoUsuarioRecceptor = keyDefault;
-	string parametrosUri = urlBaseConversacion + "/" + telefonoUsuarioEmisor + "/%s/" + telefonoUsuarioRecceptor + "/%s";
-	char telEmisor[255];
-	char telReceptor[255];
-	if(2 == sscanf(this->connexion->uri, parametrosUri.c_str() , &telEmisor, &telReceptor)){
-		string telefonoUsuarioEmisor(telEmisor);
-		string telefonoUsuarioRecceptor(telReceptor);
-	}
-
+	string telefonoUsuarioEmisor = this->getParametro(keyTelefonoEmisor,keyDefault);;
+	string telefonoUsuarioRecceptor = this->getParametro(keyTelefonoReceptor,keyDefault);
 
 	Usuario* usuarioEmisor = Usuario::obtenerPorTelefono(telefonoUsuarioEmisor);
 	Usuario* usuarioReceptor = Usuario::obtenerPorTelefono(telefonoUsuarioRecceptor);
@@ -272,21 +270,12 @@ void Servicio::obtenerIdConversacion(){
 }
 
 void Servicio::obtenerConversacion(){
-	string idConversacion = keyDefault;
-	string idUltimoMensaje = keyDefault;
-	string parametrosUri = urlBaseConversacion + "/%s/" + keyIdUltimoMensaje + "/%s";
-
-	char idConv[255];
-	char idMensaje[255];
-	if(2 != sscanf(this->connexion->uri, parametrosUri.c_str(), &idConv, &idUltimoMensaje)){
-		string idConversacion(idConv);
-		string idUltimoMensaje(idMensaje);
-	}
-
+	string idConversacion = this->getParametroIdMetodoGET(urlBaseConversacion);
+	string idUltimoMensaje = this->getParametro(keyIdUltimoMensaje,keyDefault);
 
 	//Puede darse el caso de que la conversacion no exista si este servicio se llamo primero que agregarMensaje
 	//No deberia pasar ya que agregarMensaje se llama primero, pero por latencia de red podria llamarse a este servicio primero
-	Conversacion* conversacion = Conversacion::obtener(idConv);
+	Conversacion* conversacion = Conversacion::obtener(idConversacion);
 	if(conversacion->getId() != keyIdConversacionNoEncontrada){
 		vector<Mensaje*> mensajes = conversacion->getMensajes();
 		vector<Mensaje*> mensajesRespuesta;
@@ -324,13 +313,9 @@ void Servicio::obtenerConversaciones(){
 	Json::Value idsConversacionesValue = this->getParametroArray(keyIdConversaciones, keyDefault);
 	vector<string> idsConversaciones = StringUtil::jsonValueToVector(idsConversacionesValue);
 
-	string parametrosUri = urlBaseUsuarioConversaciones + "/%s %*s";
+	string idUsuario = this->getParametro(keyIdUsuarioParametro, keyDefault);
 
-	string idUsuario;
-	char idUsu[255];
-	sscanf(this->connexion->uri, parametrosUri.c_str(), idUsu);
-
-	Usuario* usuario = Usuario::obtenerPorTelefono(idUsu);
+	Usuario* usuario = Usuario::obtenerPorTelefono(idUsuario);
 	if(usuario->getId() != keyIdUsuarioNoEncontrado){
 		vector<string> idsConversacionesActuales = usuario->obtnerIdsConversaciones();
 		vector<Conversacion*> nuevasConversaciones;

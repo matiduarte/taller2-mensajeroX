@@ -53,7 +53,7 @@ void Servidor::administrarServicio(struct mg_connection* conn){
 	case ADMINISTRAR_PERFIL:		servicio->administrarPerfil(); 		break;
 	case ALMACENAR_CONVERSACION:	servicio->almacenarConversacion();	break;
 	case OBTENER_ID_CONVERSACION:	servicio->obtenerIdConversacion();	break;
-	case OBTENER_CONVERSACION:	servicio->obtenerConversaciones();	break;
+	case OBTENER_CONVERSACION:	servicio->obtenerConversacion();	break;
 	case OBTENER_CONVERSACIONES:	servicio->obtenerConversaciones();	break;
 	case CONSULTAR_USUARIO_ONLINE:	servicio->consultarUsuarioOnline();	break;
 	case INVALIDO: 	cout << "servicio no encontrado." << endl;	break;
@@ -88,11 +88,11 @@ tipoDeServicio Servidor::parsearURI(struct mg_connection* conn){
 		if(uri_parseada.find(urlBaseUsuario)!= std::string::npos){
 			return CONSULTAR_USUARIO_ONLINE;
 		}
-		if(uri_parseada.find(urlBaseConversacion)!= std::string::npos && uri_parseada.find(keyIdConversacion)!= std::string::npos){
-			return OBTENER_CONVERSACION;
-		}
-		if(uri_parseada.find(urlBaseConversacion)!= std::string::npos && uri_parseada.find(keyTelefonoEmisor)!= std::string::npos && uri_parseada.find(keyTelefonoReceptor)!= std::string::npos){
+		if(uri_parseada.find(urlBaseConversacionId)!= std::string::npos){
 			return OBTENER_ID_CONVERSACION;
+		}
+		if(uri_parseada.find(urlBaseConversacion)!= std::string::npos){
+			return OBTENER_CONVERSACION;
 		}
 	}
 

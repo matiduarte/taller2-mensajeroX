@@ -25,6 +25,7 @@ public:
 	void prueba();
 	string getParametro(string nombreParametro, string valorDefault);
 	Json::Value getParametroArray(string nombreParametro, string valorDefault);
+	string getParametroIdMetodoGET(string urlBase);
 	void parsearParametros();
 	void administrarPerfil();
 	Usuario* obtenerUsuario();
