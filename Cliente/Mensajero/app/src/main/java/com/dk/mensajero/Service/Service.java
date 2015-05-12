@@ -19,6 +19,10 @@ public class Service {
     private String KEY_PHONE_USER_RECEIVER = "IdUsuarioReceptor";
     private String KEY_MESSAGE_BODY = "Cuerpo";
     private String KEY_MESSAGE_DATE = "Fecha";
+    private String KEY_USER_NAME = "Nombre";
+    private String KEY_USER_PICTURE = "FotoDePerfil";
+    private String KEY_USER_STATE = "EstadoDeConexion";
+    private String KEY_USER_PHONE = "Telefono";
 
     public JSONObject getConversation(String conversationId, String lastMessageId){
         String url = BASE_URL + COVERSATION_URL + conversationId + KEY_ID_LAST_MESSAGE + lastMessageId;
@@ -70,4 +74,31 @@ public class Service {
 
         return jObject;
     }
+
+    public JSONObject saveProfile(String phone, String name, String picturePath, String state){
+        String url = BASE_URL + USER_URL;
+        RestClient client = new RestClient(url);
+
+        client.addParam(KEY_USER_NAME, name);
+        client.addParam(KEY_USER_PHONE, phone);
+        client.addParam(KEY_USER_PICTURE, picturePath);
+        client.addParam(KEY_USER_STATE, state);
+
+        try {
+            client.execute(RestClient.RequestMethod.PUT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String response = client.getResponse();
+        JSONObject jObject = new JSONObject();
+        try {
+            jObject = new JSONObject(response);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return jObject;
+    }
+
 }
