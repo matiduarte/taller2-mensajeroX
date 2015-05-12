@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".Activities.AuthenticationActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,15 +62,29 @@
         <activity
             android:name=".Activities.ConversationActivity"
             android:label="@string/title_activity_conversation"
-            android:parentActivityName=".Activities.SettingsActivity">
+            android:parentActivityName=".Activities.SettingsActivity" >
             <intent-filter>
                 <action android:name="com.dk.mensajero.ConversationActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.dk.mensajero.Activities.SettingsActivity" />
+        </activity>
+        <activity
+            android:name=".Activities.RegisterActivity"
+            android:label="@string/title_activity_register" >
+        </activity>
+        <activity
+            android:name=".Activities.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.dk.mensajero.MainActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 

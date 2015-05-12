@@ -72,13 +72,13 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
     /**
      * Create a Bundle with the user phone and pass it to the profileActivity
      */
-    private void startProfileActivity(){
+    private void startRegisterActivity(){
 
-        Intent profileIntent = new Intent(this, ProfileActivity.class);
+        Intent registerIntent = new Intent(this, RegisterActivity.class);
         Bundle bundlePhone = new Bundle();
         bundlePhone.putString("phone",this.phoneNumber.getText().toString());
-        profileIntent.putExtras(bundlePhone);
-        startActivity(profileIntent);
+        registerIntent.putExtras(bundlePhone);
+        startActivity(registerIntent);
     }
 
      public void onYesButtonClick(){
@@ -87,7 +87,7 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
                 new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        startProfileActivity();
+                        startRegisterActivity();
 
                     }
                 }

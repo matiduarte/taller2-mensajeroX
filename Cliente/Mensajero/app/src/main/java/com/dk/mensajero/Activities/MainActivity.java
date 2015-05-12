@@ -13,31 +13,15 @@ import com.dk.mensajero.R;
 
 public class MainActivity extends ActionBarActivity {
 
-    private static Button button_sbm;
     private static Button button_chat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        onPruebaButtonListener();
         onChatButtonListener();
     }
 
-    public void onPruebaButtonListener(){
-        button_sbm = (Button)findViewById(R.id.button2);
-        button_sbm.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent("com.dk.mensajero.RegistrarUsuarioActivity");
-                        startActivity(intent);
-
-                    }
-                }
-        );
-
-    }
 
     public void onChatButtonListener(){
         button_chat = (Button)findViewById(R.id.button_chat);

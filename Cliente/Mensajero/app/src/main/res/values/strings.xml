@@ -37,4 +37,7 @@
     <string name="profile_save_button">Guardar</string>
     <string name="profile_name">Nombre</string>
     <string name="profile_state">Estado</string>
+    <string name="title_activity_authentication">authenticationActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_register">RegisterActivity</string>
 </resources>

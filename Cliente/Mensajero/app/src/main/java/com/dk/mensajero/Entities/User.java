@@ -12,6 +12,7 @@ public class User {
     private String phone = "";
     private String profilePicture = "";
     private String name = "";
+    private String password = "";
 
     public User(){
     }
@@ -22,6 +23,11 @@ public class User {
         this.phone = phone;
         this.profilePicture = profilePicture;
         this.name = name;
+    }
+
+    public User(String phone, String password){
+        this.phone = phone;
+        this.password = password;
     }
 
     //Properties
