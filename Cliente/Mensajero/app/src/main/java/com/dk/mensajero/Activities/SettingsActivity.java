@@ -16,9 +16,6 @@ public class SettingsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
-        User user = new User(123524,"1223434","121434","","Lucas");
-        user.save(this);
     }
 
     @Override

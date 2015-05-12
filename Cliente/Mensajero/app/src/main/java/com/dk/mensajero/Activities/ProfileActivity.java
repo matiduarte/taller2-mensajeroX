@@ -59,7 +59,7 @@ public class ProfileActivity extends ActionBarActivity {
         //estado
         Button state = (Button) findViewById(R.id.profile_bState);
         //TODO: pedir el estado al servidor
-        state.setText("conectado");
+        state.setText("Conectado");
     }
 
     @Override
@@ -147,7 +147,7 @@ public class ProfileActivity extends ActionBarActivity {
     public void changeState(View view) {
         Button state = (Button)findViewById(R.id.profile_bState);
         CharSequence actualState =  state.getText();
-        if(actualState.equals("conectado"))
+        if(actualState.equals("Conectado"))
             state.setText(R.string.profile_state_disconnected);
         else
             state.setText(R.string.profile_state_connected);
