@@ -1,5 +1,6 @@
 package com.dk.mensajero.Activities;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -265,16 +266,29 @@ public class UserLoggerActivity extends ActionBarActivity implements OnItemSelec
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 //verifies what key is pressed, in our case verifies if the DONE key is pressed
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    showUserPhone();
-                    hideAreaCode();
-                    hidePhoneNumber();
-                    hideSpinner();
-                    hidePhoneNumberNotification();
-                    hideAreaCodeTextView();
+                    String phone = phoneNumber.getText().toString();
+                    if (phone.equals("")){
+                        showEmptyPhoneMessage();
+                    } else {
+                        showUserPhone();
+                        hideAreaCode();
+                        hidePhoneNumber();
+                        hideSpinner();
+                        hidePhoneNumberNotification();
+                        hideAreaCodeTextView();
+                    }
                 }
                 return false;
             }
         });
 
     }
+
+    private void showEmptyPhoneMessage(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(UserLoggerActivity.this);
+        dialogBuilder.setMessage("No se ingreso ningun número");
+        dialogBuilder.setPositiveButton("Reintentar",null);
+        dialogBuilder.show();
+    }
+
 }

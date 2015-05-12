@@ -165,7 +165,7 @@ public class ProfileActivity extends ActionBarActivity {
         }
 
         //guardo la contraseña
-        etPassword = (EditText) findViewById(R.id.profile_etName);
+        etPassword = (EditText) findViewById(R.id.profile_etPassword);
         String sPassword = etPassword.getText().toString();
         if (!sPassword.matches("")) {
             user.setPassword(sPassword);
@@ -184,7 +184,7 @@ public class ProfileActivity extends ActionBarActivity {
     }
 
 
-    private void getUserPhone(){
+   /* private void getUserPhone(){
 
         Intent intentExtras = getIntent();
         Bundle phoneBundle;
@@ -192,5 +192,5 @@ public class ProfileActivity extends ActionBarActivity {
             phoneBundle = intentExtras.getExtras();
             this.phoneNumber = phoneBundle.getString("phone");
         }
-    }
+    }*/
 }
