@@ -10,7 +10,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dk.mensajero.Entities.User;
+import com.dk.mensajero.Interfaces.GetUserCallback;
 import com.dk.mensajero.R;
+import com.dk.mensajero.Service.Service;
 
 public class AuthenticationActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -36,7 +38,6 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bLogin:
-
                 String phone = etPhoneNumber.getText().toString();
                 String password = etPassword.getText().toString();
 
@@ -54,8 +55,24 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
     }
 
     private void authenticate(User user){
-        //TODO: BUSCAR LA INFO DEl SERVIDOR
-        //showErrorMessage();
+
+        Service serviceRequest = new Service(this);
+        serviceRequest.fetchUserDataInBackground(user, new GetUserCallback() {
+            @Override
+            public void done(User returnedUser) {
+                if (returnedUser == null){
+                    showErrorMessage();
+                } else {
+                    logUserIn(returnedUser);
+                }
+            }
+        });
+
+
+    }
+
+    private void logUserIn(User returnedUser) {
+        returnedUser.save(this);
         startActivity(new Intent(this, MainActivity.class));
     }
 

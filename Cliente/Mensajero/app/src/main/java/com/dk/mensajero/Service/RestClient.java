@@ -13,6 +13,9 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 
 import java.io.BufferedReader;
@@ -37,6 +40,8 @@ public class RestClient {
         DELETE
     }
 
+    public static final int CONNECTION_TIMEOUT = 1000 * 15;
+    HttpParams httpRequestParams;
     private ArrayList<NameValuePair> params;
     private ArrayList <NameValuePair> headers;
     private String url;
@@ -61,6 +66,9 @@ public class RestClient {
         this.url = url;
         params = new ArrayList<NameValuePair>();
         headers = new ArrayList<NameValuePair>();
+        httpRequestParams = new BasicHttpParams();
+        HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);
+        HttpConnectionParams.setSoTimeout(httpRequestParams, CONNECTION_TIMEOUT);
     }
 
     public void addParam(String name, String value)
@@ -177,7 +185,7 @@ public class RestClient {
 
     private void executeRequest(HttpUriRequest request, String url)
     {
-        HttpClient client = new DefaultHttpClient();
+        HttpClient client = new DefaultHttpClient(httpRequestParams);
 
         HttpResponse httpResponse;
 

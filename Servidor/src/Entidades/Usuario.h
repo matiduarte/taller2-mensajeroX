@@ -37,6 +37,7 @@ private:
 	string localizacion;
 	string ultimaConexion;
 	string token;
+	string password;
 	static string obtenerId(string telefono);
 
 public:

@@ -11,7 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.dk.mensajero.Entities.User;
+import com.dk.mensajero.Interfaces.GetUserCallback;
 import com.dk.mensajero.R;
+import com.dk.mensajero.Service.Service;
 
 public class RegisterActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -56,9 +58,13 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
     }
 
     private void registerUser(User user) {
-        //TODO: MANDAR LA INFO AL SERVIDOR
-        user.save(this);
-        startActivity(new Intent(this, AuthenticationActivity.class));
+        Service serviceRequest = new Service(this);
+        serviceRequest.storeNewUserInBackground(user, new GetUserCallback() {
+            @Override
+            public void done(User returnedUser) {
+                startActivity(new Intent(RegisterActivity.this, AuthenticationActivity.class));
+            }
+        });
     }
 
     private void getUserPhone(){
