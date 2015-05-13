@@ -64,7 +64,7 @@ Json::Value Servicio::getParametroArray(string nombreParametro, string valorDefa
 }
 
 string Servicio::getParametroIdMetodoGET(string urlBase){
-	string parametrosUri = urlBase + "/%s";
+	string parametrosUri = urlBase + "%s";
 
 	char id[255];
 	if(1 == sscanf(this->connexion->uri, parametrosUri.c_str(), &id)){
