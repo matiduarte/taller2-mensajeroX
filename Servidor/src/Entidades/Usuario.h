@@ -42,7 +42,8 @@ private:
 
 public:
 	Usuario();
-	Usuario(string nombre, string fotoDePerfil, string telefono);
+	Usuario(string nombre, string fotoDePerfil, string telefono, string password);
+	Usuario(string nombre, string telefono, string password);
 	Usuario(string usuarioSerializado);
 	void registrar();
 	void modificarDatos();
@@ -53,11 +54,13 @@ public:
 	void setTelefono(string telefono);
 	void setEstadoConexion(bool estado);
 	void setUltimaConexion(string ultimaConexion);
+	void setPassword(string password);
 	string getUltimaConexion();
 	string getId();
 	string getNombre();
 	string getTelefono();
 	string getFotoDePerfil();
+	string getPassword();
 	string serializar();
 	bool getEstadoConexion();
 	int deserealizar(string aDeserealizar);
@@ -71,6 +74,7 @@ public:
 	virtual ~Usuario();
 	vector<string> obtnerIdsConversaciones();
 	string getToken();
+
 };
 
 #endif /* SRC_ENTIDADES_USUARIO_H_ */

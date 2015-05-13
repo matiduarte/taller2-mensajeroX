@@ -59,14 +59,22 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
 
     private void authenticate(User user){
 
+        final String insertedPassword = user.getPassword();
+
         Service serviceRequest = new Service(this);
         serviceRequest.fetchUserDataInBackground(user, new GetUserCallback() {
+
             @Override
             public void done(User returnedUser) {
                 if (returnedUser == null){
                     showErrorMessage();
                 } else {
-                    logUserIn(returnedUser);
+                    if (insertedPassword.equals(returnedUser.getPassword())) {
+                        logUserIn(returnedUser);
+                    }
+                    else {
+                        showWrongPasswordMessage();
+                    }
                 }
             }
         });
@@ -89,6 +97,13 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
     private void showEmptyFieldMessage(){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AuthenticationActivity.this);
         dialogBuilder.setMessage("No puede haber campos vacios");
+        dialogBuilder.setPositiveButton("Reintentar",null);
+        dialogBuilder.show();
+    }
+
+    private void showWrongPasswordMessage(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AuthenticationActivity.this);
+        dialogBuilder.setMessage("Contraseña incorrecta");
         dialogBuilder.setPositiveButton("Reintentar",null);
         dialogBuilder.show();
     }
