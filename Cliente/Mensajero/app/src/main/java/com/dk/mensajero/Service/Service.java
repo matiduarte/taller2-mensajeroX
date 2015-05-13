@@ -46,6 +46,7 @@ public class Service {
 
     private String KEY_PAYLOAD = "payload";
     private String KEY_SUCCESS = "success";
+    private String KEY_USER_PASSWORD = "Password";
 
 
     public Service(Context context){
@@ -161,8 +162,9 @@ public class Service {
             String url = BASE_URL + USER_URL;
             RestClient client = new RestClient(url);
 
-            client.addParam(KEY_USER_NAME, user.getName());
             client.addParam(KEY_USER_PHONE, user.getPhone());
+            client.addParam(KEY_USER_NAME, user.getName());
+            client.addParam(KEY_USER_PASSWORD, user.getPassword());
 
             try {
                 client.execute(RestClient.RequestMethod.POST);
@@ -218,8 +220,11 @@ public class Service {
                 if (jObject.length() == 0){
                     returnedUser = null;
                 } else {
-                    String name = jObject.getString(KEY_USER_NAME);
-                    returnedUser = new User(user.getPhone(), name, user.getPassword());
+                    String data = jObject.getString("payload");
+                    JSONObject jData = new JSONObject(data);
+                    String name = jData.getString("Nombre");
+                    String password = jData.getString("Password");
+                    returnedUser = new User(user.getPhone(), name, password);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

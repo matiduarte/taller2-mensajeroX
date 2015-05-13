@@ -100,8 +100,10 @@ void Servicio::registrarUsuario(){
 		string nombre = this->getParametro(keyNombre, keyDefault);
 		string fotoPerfil = this->getParametro(keyFotoDePerfil, keyDefault);
 		string telefono = this->getParametro(keyTelefono, keyDefault);
+		string password = this->getParametro(keyPassword, keyDefault);
 
-		Usuario* user = new Usuario(nombre, fotoPerfil, telefono);
+		Usuario* user = new Usuario(nombre, telefono, password);
+
 		user->persistir();
 		this->responder("Usuario registrado correctamente", true);
 		Loger::getLoger()->info("Se registro el usuario con Id: " + user->getId());
@@ -158,13 +160,18 @@ void Servicio::consultarUsuarioOnline() {
 	Usuario* user = Usuario::obtenerPorTelefono(telefono);
 
 	if (user->getId() != keyIdUsuarioNoEncontrado) {
+		string nombre = user->getNombre();
+		string password = user->getPassword();
 		Loger::getLoger()->info("Consulta de estado del usuario "+user->getNombre()+ " exitosa.");
 		bool estado = user->getEstadoConexion();
 		string mensaje = "true";
 		if(!estado){
 			mensaje = "false";
 		}
-		this->responder(mensaje, true);
+		Json::Value respuesta;
+		respuesta[keyNombre] = nombre;
+		respuesta[keyPassword] = password;
+		this->responder(respuesta.toStyledString(), true);
 
 	} else {
 		Loger::getLoger()->warn(

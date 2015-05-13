@@ -7,7 +7,7 @@
 
 #include "Usuario.h"
 
-Usuario::Usuario(string nombre, string fotoDePerfil, string telefono) {
+Usuario::Usuario(string nombre, string fotoDePerfil, string telefono, string password) {
 
 	this->nombre = nombre;
 	this->fotoDePerfil = fotoDePerfil;
@@ -17,6 +17,20 @@ Usuario::Usuario(string nombre, string fotoDePerfil, string telefono) {
 	this->registrarUltimaConexion();
 	this->localizacion = "";
 	this->token = "";
+	this->password = password;
+}
+
+Usuario::Usuario(string nombre, string telefono, string password){
+
+		this->nombre = nombre;
+		this->fotoDePerfil = fotoDePerfil;
+		this->telefono = telefono;
+		this->conectado = Online;
+		this->id = md5(telefono);
+		this->registrarUltimaConexion();
+		this->localizacion = "";
+		this->token = "";
+		this->password = password;
 }
 
 Usuario::Usuario(){
@@ -104,8 +118,8 @@ string Usuario::serializar(){
 	user[keyUltimaConexion] = this->getUltimaConexion();
 	user[keyFotoDePerfil] = this->getFotoDePerfil();
 	user[keyLocalizacion] = this->getLocalizacion();
-	//TODO: ver si no conviene llamar al metodo que calcula el token aca
 	user[keyTokenSesion] = this->token;
+	user[keyPassword] = this->getPassword();
 
 	string str_user = user.toStyledString();
 
@@ -128,6 +142,7 @@ int Usuario::deserealizar(string aDeserealizar){
 		this->setFotoDePerfil(user.get(keyFotoDePerfil, keyDefault).asString());
 		this->setLocalizacion(user.get(keyLocalizacion, keyDefault).asString());
 		this->token = user.get(keyTokenSesion, keyDefault).asString();
+		this->setPassword(user.get(keyPassword,keyDefault).asString());
 	} else {
 		Loger::getLoger()->error("no se pudieron deserializar los datos correctamente");
 	}
@@ -179,4 +194,12 @@ vector<string> Usuario::obtnerIdsConversaciones(){
 
 string Usuario::getToken(){
 	return this->token;
+}
+
+string Usuario::getPassword(){
+	return this->password;
+}
+
+void Usuario::setPassword(string password){
+	this->password = password;
 }
