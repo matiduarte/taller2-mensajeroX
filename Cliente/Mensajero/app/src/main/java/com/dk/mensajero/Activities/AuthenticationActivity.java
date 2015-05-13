@@ -41,9 +41,12 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
                 String phone = etPhoneNumber.getText().toString();
                 String password = etPassword.getText().toString();
 
-                User user = new User(phone, password);
-
-                authenticate(user);
+                if (phone.equals("") || password.equals("")){
+                    showEmptyFieldMessage();
+                } else {
+                    User user = new User(phone, password);
+                    authenticate(user);
+                }
 
                 break;
             case R.id.tvRegisterLink:
@@ -78,8 +81,15 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
 
     private void showErrorMessage(){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AuthenticationActivity.this);
-        dialogBuilder.setMessage("Datos incorrectos");
+        dialogBuilder.setMessage("El usuario no se encuentra registrado");
         dialogBuilder.setPositiveButton("Ok",null);
+        dialogBuilder.show();
+    }
+
+    private void showEmptyFieldMessage(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AuthenticationActivity.this);
+        dialogBuilder.setMessage("No puede haber campos vacios");
+        dialogBuilder.setPositiveButton("Reintentar",null);
         dialogBuilder.show();
     }
 }

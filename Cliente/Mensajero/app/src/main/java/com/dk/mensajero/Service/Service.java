@@ -174,9 +174,7 @@ public class Service {
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
             progressDialog.dismiss();
-            System.out.println("TERMINO1");
             userCallback.done(null);
-            System.out.println("TERMINO2");
             super.onPostExecute(jsonObject);
         }
     }
@@ -204,27 +202,18 @@ public class Service {
             }
 
             String response = client.getResponse();
-            JSONObject jObject = new JSONObject();
             User returnedUser = null;
             try {
-                jObject = new JSONObject(response);
-
+                JSONObject jObject = new JSONObject(response);
                 if (jObject.length() == 0){
                     returnedUser = null;
                 } else {
                     String name = jObject.getString(KEY_USER_NAME);
-
                     returnedUser = new User(user.getPhone(), name, user.getPassword());
                 }
-
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
-
 
             return returnedUser;
         }

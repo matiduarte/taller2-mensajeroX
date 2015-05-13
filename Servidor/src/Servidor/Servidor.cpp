@@ -20,9 +20,11 @@ void Servidor::iniciar(char *puerto){
 	mg_set_option(webServer, "listening_port", puerto);
 
 	printf("Starting on port %s\n", mg_get_option(webServer, "listening_port"));
+
 	for (;;) {
 	  mg_poll_server(webServer, 1000);
 	}
+
 }
 
 void test(){
@@ -82,6 +84,7 @@ tipoDeServicio Servidor::parsearURI(struct mg_connection* conn){
 	}
 
 	if(strcmp(metodo,"GET") == 0){
+
 		if(uri_parseada.find(urlBaseUsuarioConversaciones)!= std::string::npos){
 			return OBTENER_CONVERSACIONES;
 		}
