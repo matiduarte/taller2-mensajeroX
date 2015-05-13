@@ -5,11 +5,14 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.text.format.Time;
 
+import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.User;
+import com.dk.mensajero.Interfaces.GetConversationsCallback;
 import com.dk.mensajero.Interfaces.GetUserCallback;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,6 +25,7 @@ public class Service {
     private String BASE_URL = "http://192.168.1.102:8080/";
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
+    private String USER_COVERSATIONS_URL = "usuarioConversacion/";
 
     ProgressDialog progressDialog;
     public static final int CONNECTION_TIMEOUT = 1000 * 15;
@@ -36,6 +40,12 @@ public class Service {
     private String KEY_USER_PICTURE = "FotoDePerfil";
     private String KEY_USER_STATE = "EstadoDeConexion";
     private String KEY_USER_PHONE = "Telefono";
+    private String KEY_USER_ID = "idUsuario";
+    private String KEY_USER_CONVERSATIONS_PARAM = "idsConversaciones";
+    private String KEY_USER_CONVERSATIONS = "conversaciones";
+
+    private String KEY_PAYLOAD = "payload";
+    private String KEY_SUCCESS = "success";
 
 
     public Service(Context context){
@@ -223,6 +233,62 @@ public class Service {
             progressDialog.dismiss();
             userCallback.done(returnedUser);
             super.onPostExecute(user);
+        }
+    }
+
+    public class fetchConversationsDataAsyncTask extends AsyncTask<Void, Void, ArrayList<Conversation>> {
+
+        User user;
+        GetConversationsCallback conversationsCallback;
+
+        public fetchConversationsDataAsyncTask(User user, GetConversationsCallback callback) {
+            this.user = user;
+            this.conversationsCallback = callback;
+        }
+
+        @Override
+        protected ArrayList<Conversation> doInBackground(Void... params) {
+
+            String url = BASE_URL + USER_COVERSATIONS_URL;
+            RestClient client = new RestClient(url);
+
+            client.addParam(KEY_USER_ID, user.getPhone());
+            client.addParam(KEY_USER_CONVERSATIONS_PARAM, "");
+
+            try {
+                client.execute(RestClient.RequestMethod.GET);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            String response = client.getResponse();
+            ArrayList<Conversation> conversations = new ArrayList<>();
+            try {
+                JSONObject jObject = new JSONObject(response);
+                if (jObject.length() == 0){
+                } else {
+                    String payload = jObject.getString(KEY_PAYLOAD);
+                    JSONObject result = new JSONObject(payload);
+                    JSONArray conversationsJson = result.getJSONArray(KEY_PAYLOAD);
+                    for (int i = 0; i < conversationsJson.length(); i++) {
+                        JSONObject convJson = (JSONObject)conversationsJson.get(i);
+                        String id = convJson.getString("id");
+                        String lastMessage = convJson.getString("ultimoMensaje");
+                        String userName = convJson.getString("usuarioNombre");
+                    }
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return conversations;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Conversation> conversations) {
+            conversationsCallback.done(conversations);
+            super.onPostExecute(conversations);
         }
     }
 

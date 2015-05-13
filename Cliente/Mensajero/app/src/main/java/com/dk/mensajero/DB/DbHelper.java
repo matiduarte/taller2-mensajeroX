@@ -160,7 +160,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
                 User user = new User(id, userId, phone, profilePicture, name);
                 user.setPassword(password);
-                
+
                 users.add(user);
                 c.moveToNext();
                 break;

@@ -313,7 +313,7 @@ void Servicio::obtenerConversaciones(){
 	Json::Value idsConversacionesValue = this->getParametroArray(keyIdConversaciones, keyDefault);
 	vector<string> idsConversaciones = StringUtil::jsonValueToVector(idsConversacionesValue);
 
-	string idUsuario = this->getParametro(keyIdUsuarioParametro, keyDefault);
+	string idUsuario = this->getParametroIdMetodoGET(urlBaseUsuarioConversaciones);
 
 	Usuario* usuario = Usuario::obtenerPorTelefono(idUsuario);
 	if(usuario->getId() != keyIdUsuarioNoEncontrado){
@@ -335,7 +335,22 @@ void Servicio::obtenerConversaciones(){
 			}
 		}
 
-		//TODO: responder la info de las nuevas conversaciones al cliente: ultimo mensaje, usuario, etc.
+		Json::Value respuesta;
+
+		for(unsigned i=0; i<nuevasConversaciones.size();i++){
+			Conversacion* conv = nuevasConversaciones[i];
+
+			vector<Mensaje*> mens = conv->getMensajes();
+			Mensaje* ultimoMensj = mens[mens.size() - 1];
+			Usuario* emisorUltimoMensaje = Usuario::obtener(ultimoMensj->getIdUsuarioEmisor());
+
+			respuesta["conversaciones"][i]["id"] = conv->getId();
+			respuesta["conversaciones"][i]["ultimoMensaje"] = ultimoMensj->getCuerpo();
+			respuesta["conversaciones"][i]["usuarioNombre"] = emisorUltimoMensaje->getNombre();
+
+		}
+
+		this->responder(respuesta.toStyledString(), true);
 
 	}else{
 		Loger::getLoger()->warn("El usuario "+ idUsuario  + " no se encuentra en el sistema");
