@@ -29,7 +29,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     DbHelperContract.UserEntry.USER_ID + TEXT_TYPE + COMMA_SEP +
                     DbHelperContract.UserEntry.PHONE + TEXT_TYPE + COMMA_SEP +
                     DbHelperContract.UserEntry.PROFILE_PICTURE+ TEXT_TYPE + COMMA_SEP +
-                    DbHelperContract.UserEntry.NAME + TEXT_TYPE +
+                    DbHelperContract.UserEntry.NAME + TEXT_TYPE + COMMA_SEP +
+                    DbHelperContract.UserEntry.PASSWORD + TEXT_TYPE +
             " );"
             +
             "CREATE TABLE " + DbHelperContract.ConversationEntry.TABLE_NAME + " (" +
@@ -55,7 +56,7 @@ public class DbHelper extends SQLiteOpenHelper {
             "DROP TABLE IF EXISTS " + DbHelperContract.MessageEntry.TABLE_NAME + ";";
 
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "MensajeroX.db";
 
     public DbHelper(Context context) {
@@ -85,6 +86,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DbHelperContract.UserEntry.PHONE, user.getPhone());
         values.put(DbHelperContract.UserEntry.PROFILE_PICTURE, user.getProfilePicture());
         values.put(DbHelperContract.UserEntry.NAME, user.getName());
+        values.put(DbHelperContract.UserEntry.PASSWORD, user.getPassword());
 
     // Insert the new row, returning the primary key value of the new row
         long newRowId;
@@ -106,6 +108,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DbHelperContract.UserEntry.PHONE, user.getPhone());
         values.put(DbHelperContract.UserEntry.PROFILE_PICTURE, user.getProfilePicture());
         values.put(DbHelperContract.UserEntry.NAME, user.getName());
+        values.put(DbHelperContract.UserEntry.PASSWORD, user.getPassword());
 
         // Define 'where' part of query.
         String selection = DbHelperContract.UserEntry._ID + " = ?";
@@ -127,6 +130,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 DbHelperContract.UserEntry.PHONE,
                 DbHelperContract.UserEntry.PROFILE_PICTURE,
                 DbHelperContract.UserEntry.NAME,
+                DbHelperContract.UserEntry.PASSWORD,
         };
 
         //String selection = DbHelperContract.GameEntry.IS_WISH + " = ?";
@@ -152,9 +156,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 String phone = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.PHONE));
                 String profilePicture = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.PROFILE_PICTURE));
                 String name = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.NAME));
+                String password = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.PASSWORD));
 
                 User user = new User(id, userId, phone, profilePicture, name);
-
+                user.setPassword(password);
+                
                 users.add(user);
                 c.moveToNext();
                 break;
