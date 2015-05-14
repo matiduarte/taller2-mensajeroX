@@ -23,7 +23,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String LONG_TYPE = " LONG";
     private static final String COMMA_SEP = ",";
 
-    private static final String SQL_CREATE_ENTRIES =
+    private static final String SQL_CREATE_ENTRIES_USER =
             "CREATE TABLE " + DbHelperContract.UserEntry.TABLE_NAME + " (" +
                     DbHelperContract.UserEntry._ID + " INTEGER PRIMARY KEY," +
                     DbHelperContract.UserEntry.USER_ID + TEXT_TYPE + COMMA_SEP +
@@ -31,15 +31,16 @@ public class DbHelper extends SQLiteOpenHelper {
                     DbHelperContract.UserEntry.PROFILE_PICTURE+ TEXT_TYPE + COMMA_SEP +
                     DbHelperContract.UserEntry.NAME + TEXT_TYPE + COMMA_SEP +
                     DbHelperContract.UserEntry.PASSWORD + TEXT_TYPE +
-            " );"
-            +
+            " );";
+    private static final String SQL_CREATE_ENTRIES_CONVERSATION =
             "CREATE TABLE " + DbHelperContract.ConversationEntry.TABLE_NAME + " (" +
             DbHelperContract.ConversationEntry._ID + " INTEGER PRIMARY KEY," +
             DbHelperContract.ConversationEntry.CONVERSATION_ID + TEXT_TYPE + COMMA_SEP +
+            DbHelperContract.ConversationEntry.CONTACT_NAME + TEXT_TYPE + COMMA_SEP +
             DbHelperContract.ConversationEntry.CONTACT_ID + TEXT_TYPE +
-            " );"
+            " );";
 
-            +
+    private static final String SQL_CREATE_ENTRIES_MESSAGE =
             "CREATE TABLE " + DbHelperContract.MessageEntry.TABLE_NAME + " (" +
             DbHelperContract.MessageEntry._ID + " INTEGER PRIMARY KEY," +
             DbHelperContract.MessageEntry.CONVERSATION_ID + TEXT_TYPE + COMMA_SEP +
@@ -48,28 +49,34 @@ public class DbHelper extends SQLiteOpenHelper {
             DbHelperContract.MessageEntry.DATE + TEXT_TYPE +
             " );";
 
-    private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + DbHelperContract.UserEntry.TABLE_NAME + ";"
-            +
-            "DROP TABLE IF EXISTS " + DbHelperContract.ConversationEntry.TABLE_NAME + ";"
-            +
+    private static final String SQL_DELETE_ENTRIES_USER =
+            "DROP TABLE IF EXISTS " + DbHelperContract.UserEntry.TABLE_NAME + ";";
+    private static final String SQL_DELETE_ENTRIES_CONVERSATION =
+            "DROP TABLE IF EXISTS " + DbHelperContract.ConversationEntry.TABLE_NAME + ";";
+    private static final String SQL_DELETE_ENTRIES_MESSAGE =
             "DROP TABLE IF EXISTS " + DbHelperContract.MessageEntry.TABLE_NAME + ";";
 
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "MensajeroX.db";
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_ENTRIES);
+        db.execSQL(SQL_CREATE_ENTRIES_USER);
+        db.execSQL(SQL_CREATE_ENTRIES_CONVERSATION);
+        db.execSQL(SQL_CREATE_ENTRIES_MESSAGE);
     }
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
-        db.execSQL(SQL_DELETE_ENTRIES);
-        onCreate(db);
+        if(newVersion > oldVersion) {
+            db.execSQL(SQL_DELETE_ENTRIES_USER);
+            db.execSQL(SQL_DELETE_ENTRIES_CONVERSATION);
+            db.execSQL(SQL_DELETE_ENTRIES_MESSAGE);
+            onCreate(db);
+        }
     }
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
        // onUpgrade(db, oldVersion, newVersion);
@@ -209,5 +216,98 @@ public class DbHelper extends SQLiteOpenHelper {
                 values);
 
         return newRowId;
+    }
+
+    public ArrayList<Conversation> getConversations(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                DbHelperContract.ConversationEntry._ID,
+                DbHelperContract.ConversationEntry.CONVERSATION_ID,
+                DbHelperContract.ConversationEntry.CONTACT_ID,
+                DbHelperContract.ConversationEntry.CONTACT_NAME,
+        };
+
+        //String selection = DbHelperContract.GameEntry.IS_WISH + " = ?";
+        //String[] selectionArgs = { String.valueOf("0") };
+
+        Cursor c = db.query(
+                DbHelperContract.ConversationEntry.TABLE_NAME,  // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+
+        ArrayList<Conversation> conversations = new ArrayList<Conversation>();
+
+        if (c != null && c.moveToFirst()) {
+
+            while (c.isAfterLast() == false) {
+                long id = c.getLong(c.getColumnIndex(DbHelperContract.ConversationEntry._ID));
+                String conversationId = c.getString(c.getColumnIndex(DbHelperContract.ConversationEntry.CONVERSATION_ID));
+                String contactId = c.getString(c.getColumnIndex(DbHelperContract.ConversationEntry.CONTACT_ID));
+                String contactName = c.getString(c.getColumnIndex(DbHelperContract.ConversationEntry.CONTACT_NAME));
+
+                Conversation conversation = new Conversation(id, conversationId, contactId, contactName);
+
+                conversations.add(conversation);
+                c.moveToNext();
+            }
+        }
+
+        return conversations;
+    }
+
+    public ArrayList<Message> getMessagesByConversationId(String conversationId){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                DbHelperContract.MessageEntry._ID,
+                DbHelperContract.MessageEntry.CONVERSATION_ID,
+                DbHelperContract.MessageEntry.MESSAGE_ID,
+                DbHelperContract.MessageEntry.BODY,
+                DbHelperContract.MessageEntry.DATE,
+        };
+
+        String selection = DbHelperContract.MessageEntry.CONVERSATION_ID + " = ?";
+        String[] selectionArgs = { conversationId };
+
+        Cursor c = db.query(
+                DbHelperContract.MessageEntry.TABLE_NAME,  // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+
+        ArrayList<Message> messages = new ArrayList<Message>();
+
+        if (c != null && c.moveToFirst()) {
+
+            while (c.isAfterLast() == false) {
+                long id = c.getLong(c.getColumnIndex(DbHelperContract.MessageEntry._ID));
+                String convId = c.getString(c.getColumnIndex(DbHelperContract.MessageEntry.CONVERSATION_ID));
+                String messageId = c.getString(c.getColumnIndex(DbHelperContract.MessageEntry.MESSAGE_ID));
+                String body = c.getString(c.getColumnIndex(DbHelperContract.MessageEntry.BODY));
+                String date = c.getString(c.getColumnIndex(DbHelperContract.MessageEntry.DATE));
+
+                Message message = new Message(convId, messageId, body, date);
+                message.setId(id);
+
+                messages.add(message);
+                c.moveToNext();
+            }
+        }
+
+        return messages;
     }
 }

@@ -89,4 +89,9 @@ public class User {
         DbHelper helper = new DbHelper(context);
         helper.insertUser(this);
     }
+
+    public static User getUser(Context context){
+        DbHelper helper = new DbHelper(context);
+        return helper.getUser();
+    }
 }

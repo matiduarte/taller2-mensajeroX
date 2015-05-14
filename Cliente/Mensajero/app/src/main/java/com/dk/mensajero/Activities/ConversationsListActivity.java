@@ -9,8 +9,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.dk.mensajero.Adapters.ConversationAdapter;
+import com.dk.mensajero.DB.DbHelper;
 import com.dk.mensajero.Entities.Conversation;
+import com.dk.mensajero.Entities.User;
+import com.dk.mensajero.Interfaces.GetConversationsCallback;
+import com.dk.mensajero.Interfaces.GetUserCallback;
 import com.dk.mensajero.R;
+import com.dk.mensajero.Service.Service;
 
 import java.util.ArrayList;
 
@@ -52,13 +57,10 @@ public class ConversationsListActivity extends ActionBarActivity {
     }
 
     public void getConversations(){
-        ArrayList<Conversation> conversations = new ArrayList<Conversation>();
-        Conversation c = new Conversation(1,"idConv","idContact","Nombre Apellido");
-        conversations.add(c);
-        conversations.add(c);
-        conversations.add(c);
-        conversations.add(c);
-        //TODO: obtener conversaciones desde la base de datos
+        //TODO: esto se tiene que hacer en un servicio que se llame todo el tiempo
+        getConversationsFromService();
+
+        ArrayList<Conversation> conversations = Conversation.getConversationsWithMessages(this);
 
         final ConversationAdapter adapter = new ConversationAdapter(this,
                 android.R.layout.simple_list_item_1, conversations);
@@ -79,5 +81,25 @@ public class ConversationsListActivity extends ActionBarActivity {
                 startActivity(myIntent);*/
             }
         });
+    }
+
+
+    private void getConversationsFromService(){
+        Service serviceRequest = new Service(this);
+
+        serviceRequest.fetchConversationsDataInBackground(User.getUser(this), new GetConversationsCallback() {
+
+            @Override
+            public void done(ArrayList<Conversation> conversations) {
+                //Inserto las nuevas conversaciones
+                for (int i = 0; i < conversations.size(); i++) {
+                    saveConversation(conversations.get(i));
+                }
+            }
+        });
+    }
+
+    private void saveConversation(Conversation c){
+        c.save(this);
     }
 }

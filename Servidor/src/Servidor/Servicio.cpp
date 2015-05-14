@@ -354,6 +354,7 @@ void Servicio::obtenerConversaciones(){
 			respuesta["conversaciones"][i]["id"] = conv->getId();
 			respuesta["conversaciones"][i]["ultimoMensaje"] = ultimoMensj->getCuerpo();
 			respuesta["conversaciones"][i]["usuarioNombre"] = emisorUltimoMensaje->getNombre();
+			respuesta["conversaciones"][i]["usuarioId"] = emisorUltimoMensaje->getId();
 
 		}
 

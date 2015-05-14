@@ -22,12 +22,13 @@ import java.util.ArrayList;
  * Created by quimey on 10/05/15.
  */
 public class Service {
-    private String BASE_URL = "http://192.168.1.102:8080/";
+    private String BASE_URL = "http://192.168.0.20:8080/";
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
     private String USER_COVERSATIONS_URL = "usuarioConversacion/";
 
     ProgressDialog progressDialog;
+    private Context context;
     public static final int CONNECTION_TIMEOUT = 1000 * 15;
 
     //KEYS
@@ -50,6 +51,7 @@ public class Service {
 
 
     public Service(Context context){
+        this.context = context;
         progressDialog = new ProgressDialog(context);
         progressDialog.setCancelable(false);
         progressDialog.setTitle("Procesando");
@@ -143,6 +145,14 @@ public class Service {
     public void fetchUserDataInBackground(User user, GetUserCallback userCallback){
         progressDialog.show();
         new fetchUserDataAsyncTask(user,userCallback).execute();
+    }
+
+    public void fetchConversationsDataInBackground(User user, GetConversationsCallback conversationsCallback){
+        new fetchConversationsDataAsyncTask(user,conversationsCallback).execute();
+    }
+
+    public Context getContext() {
+        return context;
     }
 
 
@@ -254,11 +264,13 @@ public class Service {
         @Override
         protected ArrayList<Conversation> doInBackground(Void... params) {
 
-            String url = BASE_URL + USER_COVERSATIONS_URL;
+            String url = BASE_URL + USER_COVERSATIONS_URL + user.getPhone();
             RestClient client = new RestClient(url);
 
-            client.addParam(KEY_USER_ID, user.getPhone());
-            client.addParam(KEY_USER_CONVERSATIONS_PARAM, "");
+            ArrayList<String> conversationIds = Conversation.getConversationIds(getContext());
+            JSONArray jsArray = new JSONArray(conversationIds);
+
+            client.addParam(KEY_USER_CONVERSATIONS_PARAM, jsArray.toString());
 
             try {
                 client.execute(RestClient.RequestMethod.GET);
@@ -267,19 +279,28 @@ public class Service {
             }
 
             String response = client.getResponse();
-            ArrayList<Conversation> conversations = new ArrayList<>();
+            ArrayList<Conversation> conversations = new ArrayList<Conversation>();
             try {
                 JSONObject jObject = new JSONObject(response);
                 if (jObject.length() == 0){
                 } else {
                     String payload = jObject.getString(KEY_PAYLOAD);
                     JSONObject result = new JSONObject(payload);
-                    JSONArray conversationsJson = result.getJSONArray(KEY_PAYLOAD);
+                    JSONArray conversationsJson = result.getJSONArray("conversaciones");
                     for (int i = 0; i < conversationsJson.length(); i++) {
                         JSONObject convJson = (JSONObject)conversationsJson.get(i);
                         String id = convJson.getString("id");
                         String lastMessage = convJson.getString("ultimoMensaje");
                         String userName = convJson.getString("usuarioNombre");
+                        String userId = convJson.getString("usuarioId");
+
+                        Conversation conv = new Conversation();
+                        conv.setConversationId(id);
+                        conv.setContactName(userName);
+                        conv.setContactId(userId);
+                        conv.setLastMessage(lastMessage);
+
+                        conversations.add(conv);
                     }
 
                 }
