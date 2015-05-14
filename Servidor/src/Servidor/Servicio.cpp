@@ -161,6 +161,7 @@ void Servicio::consultarUsuarioOnline() {
 	Usuario* user = Usuario::obtenerPorTelefono(telefono);
 
 	if (user->getId() != keyIdUsuarioNoEncontrado) {
+		user->registrarUltimaConexion();
 		string nombre = user->getNombre();
 		string password = user->getPassword();
 		string token = user->calcularTokenDeSesion();
