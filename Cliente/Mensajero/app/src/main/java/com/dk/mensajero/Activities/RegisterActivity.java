@@ -49,7 +49,7 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
                     if (!password.equals(passwordConfirmation)) {
                         showWrongPasswordMessage();
                     } else {
-                        User user = new User(phoneNumber, name, password);
+                        User user = new User(phoneNumber, name, password, "0");
                         registerUser(user);
                     }
                 }

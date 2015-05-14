@@ -13,6 +13,7 @@ public class User {
     private String profilePicture = "";
     private String name = "";
     private String password = "";
+    private String tokenSesion = "";
 
     public User(){
     }
@@ -25,10 +26,11 @@ public class User {
         this.name = name;
     }
 
-    public User(String phone, String name, String password){
+    public User(String phone, String name, String password, String tokenSesion){
         this.phone = phone;
         this.name = name;
         this.password = password;
+        this.tokenSesion = tokenSesion;
     }
 
     public User(String phone, String password) {
@@ -45,6 +47,8 @@ public class User {
     public String getUserId(){
         return this.userId;
     }
+
+    public String getTokenSesion() {return this.tokenSesion; }
 
     public String getPhone(){
         return this.phone;

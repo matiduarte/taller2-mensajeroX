@@ -132,6 +132,7 @@ void Servicio::administrarPerfil(){
 	if (user->getId() != keyIdUsuarioNoEncontrado){
 		user->setNombre(nombreUsuario);
 		user->setEstadoConexion(estado);
+		//TODO: Me parece que el token no se tiene que calcular mas aca
 		if(estado && estado != estadoActual){
 			user->calcularTokenDeSesion();
 		}
@@ -162,6 +163,7 @@ void Servicio::consultarUsuarioOnline() {
 	if (user->getId() != keyIdUsuarioNoEncontrado) {
 		string nombre = user->getNombre();
 		string password = user->getPassword();
+		string token = user->calcularTokenDeSesion();
 		Loger::getLoger()->info("Consulta de estado del usuario "+user->getNombre()+ " exitosa.");
 		bool estado = user->getEstadoConexion();
 		string mensaje = "true";
@@ -171,6 +173,7 @@ void Servicio::consultarUsuarioOnline() {
 		Json::Value respuesta;
 		respuesta[keyNombre] = nombre;
 		respuesta[keyPassword] = password;
+		respuesta[keyTokenSesion] = token;
 		this->responder(respuesta.toStyledString(), true);
 
 	} else {

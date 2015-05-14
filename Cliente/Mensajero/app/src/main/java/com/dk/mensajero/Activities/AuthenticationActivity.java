@@ -83,6 +83,7 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
     }
 
     private void logUserIn(User returnedUser) {
+        System.out.println("TOKEEEEEEEEEEN " + returnedUser.getTokenSesion());
         returnedUser.save(this);
         startActivity(new Intent(this, MainActivity.class));
     }

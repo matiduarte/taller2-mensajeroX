@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * Created by quimey on 10/05/15.
  */
 public class Service {
-    private String BASE_URL = "http://192.168.0.20:8080/";
+    private String BASE_URL = "http://192.168.1.102:8080/";
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
     private String USER_COVERSATIONS_URL = "usuarioConversacion/";
@@ -48,6 +48,7 @@ public class Service {
     private String KEY_PAYLOAD = "payload";
     private String KEY_SUCCESS = "success";
     private String KEY_USER_PASSWORD = "Password";
+    private String KEY_TOKEN_SESION = "Token";
 
 
     public Service(Context context){
@@ -230,11 +231,12 @@ public class Service {
                 if (jObject.length() == 0){
                     returnedUser = null;
                 } else {
-                    String data = jObject.getString("payload");
+                    String data = jObject.getString(KEY_PAYLOAD);
                     JSONObject jData = new JSONObject(data);
-                    String name = jData.getString("Nombre");
-                    String password = jData.getString("Password");
-                    returnedUser = new User(user.getPhone(), name, password);
+                    String name = jData.getString(KEY_USER_NAME);
+                    String password = jData.getString(KEY_USER_PASSWORD);
+                    String tokenSesion = jData.getString(KEY_TOKEN_SESION);
+                    returnedUser = new User(user.getPhone(), name, password, tokenSesion);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
