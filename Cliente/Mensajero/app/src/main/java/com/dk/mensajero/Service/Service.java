@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.format.Time;
+import android.util.Log;
 
 import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.User;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
  * Created by quimey on 10/05/15.
  */
 public class Service {
-    private String BASE_URL = "http://192.168.1.102:8080/";
+    private String BASE_URL = "http://192.168.0.20:8080/";
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
     private String USER_COVERSATIONS_URL = "usuarioConversacion/";
@@ -285,6 +286,7 @@ public class Service {
             try {
                 JSONObject jObject = new JSONObject(response);
                 if (jObject.length() == 0){
+                    return conversations;
                 } else {
                     String payload = jObject.getString(KEY_PAYLOAD);
                     JSONObject result = new JSONObject(payload);
@@ -317,6 +319,12 @@ public class Service {
         protected void onPostExecute(ArrayList<Conversation> conversations) {
             conversationsCallback.done(conversations);
             super.onPostExecute(conversations);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            Log.i("Debug", "onCancelled");
         }
     }
 

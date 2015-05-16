@@ -1,7 +1,9 @@
 package com.dk.mensajero.Activities;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,13 +54,18 @@ public class ConversationsListActivity extends ActionBarActivity {
     }
 
     private void initView() {
-
         getConversations();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                getConversationsFromService();
+                handler.postDelayed(this, 1000*2); //cada dos segundos
+            }
+        },  1000*2);
     }
 
     public void getConversations(){
-        //TODO: esto se tiene que hacer en un servicio que se llame todo el tiempo
-        getConversationsFromService();
 
         ArrayList<Conversation> conversations = Conversation.getConversationsWithMessages(this);
 
@@ -88,13 +95,15 @@ public class ConversationsListActivity extends ActionBarActivity {
         Service serviceRequest = new Service(this);
 
         serviceRequest.fetchConversationsDataInBackground(User.getUser(this), new GetConversationsCallback() {
-
             @Override
             public void done(ArrayList<Conversation> conversations) {
                 //Inserto las nuevas conversaciones
                 for (int i = 0; i < conversations.size(); i++) {
                     saveConversation(conversations.get(i));
                 }
+
+                //Cargo de nuevo las conversaciones
+                getConversations();
             }
         });
     }

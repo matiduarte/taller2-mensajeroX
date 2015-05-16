@@ -50,7 +50,7 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
 
 
         TextView lastMessage = (TextView) rowView.findViewById(R.id.conversation_last_message);
-        String message = "Ultimo Mensaje";
+        String message = conversation.getLastMessage();
         lastMessage.setText(message);
 
         TextView contactNameField = (TextView) rowView.findViewById(R.id.contact_name);

@@ -89,10 +89,11 @@ public class Conversation {
         for (int i = 0; i < conversations.size(); i++) {
             Conversation c = conversations.get(i);
             ArrayList<Message> messages = helper.getMessagesByConversationId(c.getConversationId());
-            Message lastMessage = messages.get(messages.size() - 1);
-
-            c.setMessages(messages);
-            c.setLastMessage(lastMessage.getBody());
+            if(messages.size() > 0) {
+                Message lastMessage = messages.get(messages.size() - 1);
+                c.setMessages(messages);
+                c.setLastMessage(lastMessage.getBody());
+            }
             conversationsResult.add(c);
         }
 
