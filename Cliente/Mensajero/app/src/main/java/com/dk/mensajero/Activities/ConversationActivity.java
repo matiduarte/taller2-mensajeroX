@@ -57,15 +57,30 @@ public class ConversationActivity extends ActionBarActivity {
         this.send_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    //TODO: Enviar el mensaje al servidor. Con el id del mensaje que se recibe, guardar en la db
-                    Message message = new Message();
-                    message.setBody(chatText.getText().toString());
-                    chatAdapter.add(new ConversationDataProvider(position, message));
-                    position = !position;
-                    chatText.setText("");
+                //TODO: Enviar el mensaje al servidor. Con el id del mensaje que se recibe, guardar en la db
+                String sendMessage = getMessageToSend(chatText.getText().toString());
 
             }
         });
+    }
+
+    private String getMessageToSend(String textMessage) {
+
+        String sendMessage = "";
+        if (textMessage.startsWith(" ")) {
+            sendMessage = textMessage.trim();
+        }else {
+            sendMessage = textMessage;
+        }
+        if (!(sendMessage.isEmpty())) {
+            Message message = new Message();
+            message.setBody(sendMessage);
+            chatAdapter.add(new ConversationDataProvider(position, message));
+            //position = !position;
+            chatText.setText("");
+        }
+
+        return sendMessage;
     }
 
     @Override
