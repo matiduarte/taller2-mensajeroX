@@ -66,21 +66,29 @@ public class ConversationActivity extends ActionBarActivity {
 
     private String getMessageToSend(String textMessage) {
 
-        String sendMessage = "";
-        if (textMessage.startsWith(" ")) {
-            sendMessage = textMessage.trim();
-        }else {
-            sendMessage = textMessage;
-        }
-        if (!(sendMessage.isEmpty())) {
-            Message message = new Message();
-            message.setBody(sendMessage);
-            chatAdapter.add(new ConversationDataProvider(position, message));
-            //position = !position;
-            chatText.setText("");
+        String formatMessage, returnedMessage = "";
+
+        if (textMessage.startsWith("\n") || textMessage.endsWith("\n")){
+            formatMessage = (textMessage.replaceAll("^\n+","")).replaceAll("\n+$","");
+        } else {
+            formatMessage = textMessage;
         }
 
-        return sendMessage;
+        if (formatMessage.startsWith(" ")) {
+            returnedMessage = formatMessage.trim();
+        } else {
+            returnedMessage = formatMessage;
+        }
+
+        if (!(returnedMessage.isEmpty())) {
+           Message message = new Message();
+           message.setBody(returnedMessage);
+           chatAdapter.add(new ConversationDataProvider(position, message));
+           //position = !position;
+           chatText.setText("");
+        }
+
+        return returnedMessage;
     }
 
     @Override
