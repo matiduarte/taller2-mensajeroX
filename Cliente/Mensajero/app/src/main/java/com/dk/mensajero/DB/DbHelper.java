@@ -185,7 +185,7 @@ public class DbHelper extends SQLiteOpenHelper {
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(DbHelperContract.ConversationEntry.CONVERSATION_ID, conversation.getConversationId());
-        values.put(DbHelperContract.ConversationEntry.CONTACT_ID, conversation.getContactId());
+        values.put(DbHelperContract.ConversationEntry.CONTACT_ID, conversation.getContactPhone());
         values.put(DbHelperContract.ConversationEntry.CONTACT_NAME, conversation.getContactName());
         values.put(DbHelperContract.ConversationEntry.LAST_MESSAGE, conversation.getLastMessage());
 
