@@ -362,7 +362,7 @@ void Servicio::obtenerConversaciones(){
 			respuesta["conversaciones"][i]["id"] = conv->getId();
 			respuesta["conversaciones"][i]["ultimoMensaje"] = ultimoMensj->getCuerpo();
 			respuesta["conversaciones"][i]["usuarioNombre"] = usuarioContacto->getNombre();
-			respuesta["conversaciones"][i]["usuarioId"] = usuarioContacto->getId();
+			respuesta["conversaciones"][i]["usuarioTelefono"] = usuarioContacto->getTelefono();
 
 		}
 

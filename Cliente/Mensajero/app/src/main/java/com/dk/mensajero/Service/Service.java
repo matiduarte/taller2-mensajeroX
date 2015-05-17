@@ -11,8 +11,6 @@ import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.Interfaces.GetConversationsCallback;
 import com.dk.mensajero.Interfaces.GetUserCallback;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +21,7 @@ import java.util.ArrayList;
  * Created by quimey on 10/05/15.
  */
 public class Service {
+
     private String BASE_URL = "http://192.168.0.29:8080/";
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
@@ -296,12 +295,12 @@ public class Service {
                         String id = convJson.getString("id");
                         String lastMessage = convJson.getString("ultimoMensaje");
                         String userName = convJson.getString("usuarioNombre");
-                        String userId = convJson.getString("usuarioId");
+                        String userId = convJson.getString("usuarioTelefono");
 
                         Conversation conv = new Conversation();
                         conv.setConversationId(id);
                         conv.setContactName(userName);
-                        conv.setContactId(userId);
+                        conv.setContactPhone(userId);
                         conv.setLastMessage(lastMessage);
 
                         conversations.add(conv);

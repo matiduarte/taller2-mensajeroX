@@ -1,9 +1,9 @@
 package com.dk.mensajero.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,11 +11,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.dk.mensajero.Adapters.ConversationAdapter;
-import com.dk.mensajero.DB.DbHelper;
 import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.Interfaces.GetConversationsCallback;
-import com.dk.mensajero.Interfaces.GetUserCallback;
 import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
 
@@ -80,12 +78,11 @@ public class ConversationsListActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
                 //TODO: reemplazar la activada por la de la conversacion
 
-                /*Intent myIntent = new Intent(getApplicationContext(), GameInfoActivity.class);
-                Game gameSelected = (Game) listview.getItemAtPosition(position);
+                Intent myIntent = new Intent(getApplicationContext(), ConversationActivity.class);
+                Conversation conversation = (Conversation) listview.getItemAtPosition(position);
 
-                myIntent.putExtra("gameSelectedId",gameSelected.getGameId());
-                myIntent.putExtra("saveInfo",1);
-                startActivity(myIntent);*/
+                myIntent.putExtra("contactPhone", conversation.getContactPhone());
+                startActivity(myIntent);
             }
         });
     }
