@@ -14,6 +14,7 @@ public class User {
     private String name = "";
     private String password = "";
     private String tokenSesion = "";
+    private boolean state = true;
 
     public User(){
     }
@@ -64,6 +65,8 @@ public class User {
 
     public String getPassword(){return this.password; }
 
+    public boolean getState(){return this.state; }
+
     public void setId(long id){
         this.id = id;
     }
@@ -85,6 +88,8 @@ public class User {
     }
 
     public void setPassword(String password){this.password = password; }
+
+    public void setState(boolean state){this.state = state; }
 
 
     //Methods
