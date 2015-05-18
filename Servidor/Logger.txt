@@ -1,8 +1,49 @@
 -----------------------------------------------------------------
-Thu Apr  2 19:05:37 2015
+Sun May 17 22:25:14 2015
 -----------------------------------------------------------------
-Los datos del Usuario Pepe se almacenaron correctamente
-Los datos del Usuario Pepe se almacenaron correctamente
-Los datos del Usuario Jose se almacenaron correctamente
-Los datos del Usuario Pepe fueron extraidos correctamente
-Los datos del Usuario Jose fueron extraidos correctamente
+WARNING: El usuario con clave: 26657d5ff9020d2abefe558796b99584 no se encuentra en la base de datos.
+INFO: Se registro el usuario con Id: 26657d5ff9020d2abefe558796b99584
+INFO: Consulta de estado del usuario juan exitosa.
+INFO: Consulta de estado del usuario juan exitosa.
+INFO: Consulta de estado del usuario juan exitosa.
+INFO: Consulta de estado del usuario elbagallo exitosa.
+INFO: Consulta de estado del usuario juan exitosa.
+WARNING: El usuario con clave: ec8956637a99787bd197eacd77acce5e no se encuentra en la base de datos.
+INFO: Se registro el usuario con Id: ec8956637a99787bd197eacd77acce5e
+INFO: Consulta de estado del usuario juan exitosa.
+INFO: Consulta de estado del usuario juanma exitosa.
+INFO: Consulta de estado del usuario juanma exitosa.
+INFO: Consulta de estado del usuario juanma exitosa.
+INFO: Consulta de estado del usuario juanma exitosa.
+INFO: Consulta de estado del usuario juanma exitosa.
+WARNING: El usuario con clave: aab3238922bcc25a6f606eb525ffdc56 no se encuentra en la base de datos.
+INFO: Se registro el usuario con Id: aab3238922bcc25a6f606eb525ffdc56
+INFO: Consulta de estado del usuario pepe exitosa.
+WARNING: El usuario con clave: 3ef815416f775098fe977004015c6193 no se encuentra en la base de datos.
+INFO: Se registro el usuario con Id: 3ef815416f775098fe977004015c6193
+INFO: Consulta de estado del usuario juanma exitosa.
+WARNING: El usuario con clave: 310dcbbf4cce62f762a2aaa148d556bd no se encuentra en la base de datos.
+INFO: Se registro el usuario con Id: 310dcbbf4cce62f762a2aaa148d556bd
+INFO: Consulta de estado del usuario juan exitosa.
+WARNING: El usuario con clave: 698d51a19d8a121ce581499d7b701668 no se encuentra en la base de datos.
+INFO: Se registro el usuario con Id: 698d51a19d8a121ce581499d7b701668
+INFO: Consulta de estado del usuario juan exitosa.
+INFO: Se modificaron los datos del usuario juanma correctamente.
+WARNING: La conversación con clave: NotFound no se encuentra en la base de datos.
+WARNING: La conversacion NotFound no se encuentra en el sistema
+INFO: Consulta de estado del usuario juanma exitosa.
+INFO: Se modificaron los datos del usuario juanma correctamente.
+WARNING: La conversación con clave: NotFound no se encuentra en la base de datos.
+WARNING: La conversacion NotFound no se encuentra en el sistema
+INFO: Consulta de estado del usuario juanma exitosa.
+INFO: Consulta de estado del usuario juanma exitosa.
+INFO: Consulta de estado del usuario juanma exitosa.
+INFO: Se modificaron los datos del usuario juanma correctamente.
+WARNING: La conversación con clave: NotFound no se encuentra en la base de datos.
+WARNING: La conversacion NotFound no se encuentra en el sistema
+INFO: Consulta de estado del usuario juanma exitosa.
+INFO: Consulta de estado del usuario elbagallo exitosa.
+WARNING: Se intento registrar un usuario ya existente. Id: c81e728d9d4c2f636f067f89cc14862c
+INFO: Consulta de estado del usuario e exitosa.
+INFO: Se modificaron los datos del usuario pol correctamente.
+WARNING: La conversación con clave: NotFound no se encuentra en la base de datos.
