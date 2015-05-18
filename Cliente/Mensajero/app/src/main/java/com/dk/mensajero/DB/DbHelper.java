@@ -38,6 +38,7 @@ public class DbHelper extends SQLiteOpenHelper {
             DbHelperContract.ConversationEntry._ID + " INTEGER PRIMARY KEY," +
             DbHelperContract.ConversationEntry.CONVERSATION_ID + TEXT_TYPE + COMMA_SEP +
             DbHelperContract.ConversationEntry.CONTACT_NAME + TEXT_TYPE + COMMA_SEP +
+            DbHelperContract.ConversationEntry.LAST_MESSAGE + TEXT_TYPE + COMMA_SEP +
             DbHelperContract.ConversationEntry.CONTACT_ID + TEXT_TYPE +
             " );";
 
@@ -58,7 +59,7 @@ public class DbHelper extends SQLiteOpenHelper {
             "DROP TABLE IF EXISTS " + DbHelperContract.MessageEntry.TABLE_NAME + ";";
 
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 6;
+    public static final int DATABASE_VERSION = 7;
     public static final String DATABASE_NAME = "MensajeroX.db";
 
     public DbHelper(Context context) {
@@ -190,8 +191,9 @@ public class DbHelper extends SQLiteOpenHelper {
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(DbHelperContract.ConversationEntry.CONVERSATION_ID, conversation.getConversationId());
-        values.put(DbHelperContract.ConversationEntry.CONTACT_ID, conversation.getContactId());
+        values.put(DbHelperContract.ConversationEntry.CONTACT_ID, conversation.getContactPhone());
         values.put(DbHelperContract.ConversationEntry.CONTACT_NAME, conversation.getContactName());
+        values.put(DbHelperContract.ConversationEntry.LAST_MESSAGE, conversation.getLastMessage());
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId;
@@ -234,6 +236,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 DbHelperContract.ConversationEntry.CONVERSATION_ID,
                 DbHelperContract.ConversationEntry.CONTACT_ID,
                 DbHelperContract.ConversationEntry.CONTACT_NAME,
+                DbHelperContract.ConversationEntry.LAST_MESSAGE,
         };
 
         //String selection = DbHelperContract.GameEntry.IS_WISH + " = ?";
@@ -258,8 +261,10 @@ public class DbHelper extends SQLiteOpenHelper {
                 String conversationId = c.getString(c.getColumnIndex(DbHelperContract.ConversationEntry.CONVERSATION_ID));
                 String contactId = c.getString(c.getColumnIndex(DbHelperContract.ConversationEntry.CONTACT_ID));
                 String contactName = c.getString(c.getColumnIndex(DbHelperContract.ConversationEntry.CONTACT_NAME));
+                String lastMessage = c.getString(c.getColumnIndex(DbHelperContract.ConversationEntry.LAST_MESSAGE));
 
                 Conversation conversation = new Conversation(id, conversationId, contactId, contactName);
+                conversation.setLastMessage(lastMessage);
 
                 conversations.add(conversation);
                 c.moveToNext();

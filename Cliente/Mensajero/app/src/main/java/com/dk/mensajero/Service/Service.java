@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.format.Time;
+import android.util.Log;
 
 import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.User;
@@ -12,8 +13,6 @@ import com.dk.mensajero.Interfaces.GetConversationsCallback;
 import com.dk.mensajero.Interfaces.GetUserCallback;
 import com.dk.mensajero.Interfaces.UpdateProfileCallback;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +23,10 @@ import java.util.ArrayList;
  * Created by quimey on 10/05/15.
  */
 public class Service {
+
     private String BASE_URL = "http://192.168.0.27:8080/";
+    //private String BASE_URL = "http://192.168.1.102:8080/";
+
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
     private String USER_COVERSATIONS_URL = "usuarioConversacion/";
@@ -322,6 +324,7 @@ public class Service {
             try {
                 JSONObject jObject = new JSONObject(response);
                 if (jObject.length() == 0){
+                    return conversations;
                 } else {
                     String payload = jObject.getString(KEY_PAYLOAD);
                     JSONObject result = new JSONObject(payload);
@@ -331,12 +334,12 @@ public class Service {
                         String id = convJson.getString("id");
                         String lastMessage = convJson.getString("ultimoMensaje");
                         String userName = convJson.getString("usuarioNombre");
-                        String userId = convJson.getString("usuarioId");
+                        String userId = convJson.getString("usuarioTelefono");
 
                         Conversation conv = new Conversation();
                         conv.setConversationId(id);
                         conv.setContactName(userName);
-                        conv.setContactId(userId);
+                        conv.setContactPhone(userId);
                         conv.setLastMessage(lastMessage);
 
                         conversations.add(conv);
@@ -354,6 +357,12 @@ public class Service {
         protected void onPostExecute(ArrayList<Conversation> conversations) {
             conversationsCallback.done(conversations);
             super.onPostExecute(conversations);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            Log.i("Debug", "onCancelled");
         }
     }
 

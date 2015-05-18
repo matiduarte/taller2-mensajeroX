@@ -11,7 +11,7 @@ public class Conversation {
 
     private long id = 0;
     private String conversationId = "";
-    private String contactId = "";
+    private String contactPhone = "";
     private String contactName = "";
     private ArrayList<Message> messages = new ArrayList<Message>();
     private String lastMessage = "";
@@ -19,10 +19,10 @@ public class Conversation {
     public Conversation(){
     }
 
-    public Conversation(long id, String conversationId, String contactId, String contactName){
+    public Conversation(long id, String conversationId, String contactPhone, String contactName){
         this.id = id;
         this.conversationId = conversationId;
-        this.contactId = contactId;
+        this.contactPhone = contactPhone;
         this.contactName = contactName;
     }
 
@@ -36,8 +36,8 @@ public class Conversation {
         return this.conversationId;
     }
 
-    public String getContactId(){
-        return this.contactId;
+    public String getContactPhone(){
+        return this.contactPhone;
     }
 
     public String getContactName(){
@@ -51,8 +51,8 @@ public class Conversation {
     public void setConversationId(String conversationId){
         this.conversationId = conversationId;
     }
-    public void setContactId(String contactId){
-        this.contactId = contactId;
+    public void setContactPhone(String contactPhone){
+        this.contactPhone = contactPhone;
     }
 
     public void setContactName(String contactName){
@@ -89,10 +89,11 @@ public class Conversation {
         for (int i = 0; i < conversations.size(); i++) {
             Conversation c = conversations.get(i);
             ArrayList<Message> messages = helper.getMessagesByConversationId(c.getConversationId());
-            Message lastMessage = messages.get(messages.size() - 1);
-
-            c.setMessages(messages);
-            c.setLastMessage(lastMessage.getBody());
+            if(messages.size() > 0) {
+                Message lastMessage = messages.get(messages.size() - 1);
+                c.setMessages(messages);
+                c.setLastMessage(lastMessage.getBody());
+            }
             conversationsResult.add(c);
         }
 

@@ -1,6 +1,7 @@
 package com.dk.mensajero.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ public class ConversationActivity extends ActionBarActivity {
     private boolean position = false;
     private ChatAdapter chatAdapter;
     private Context conversationCtx = this;
+    private String contactPhone = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +38,21 @@ public class ConversationActivity extends ActionBarActivity {
         this.chatAdapter = new ChatAdapter(conversationCtx, R.layout.single_message_layout);
         this.conversationList.setAdapter(chatAdapter);
         this.conversationList.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+
+        getContactPhoneFromIntent();
+
         this.registerDataSetObserver();
         this.setOnClickListener();
 
+    }
+
+    private void getContactPhoneFromIntent() {
+        Intent intentExtras = getIntent();
+        Bundle phoneBundle;
+        if (intentExtras.hasExtra("contactPhone")){
+            phoneBundle = intentExtras.getExtras();
+            this.contactPhone = phoneBundle.getString("contactPhone");
+        }
     }
 
 
@@ -57,15 +71,38 @@ public class ConversationActivity extends ActionBarActivity {
         this.send_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    //TODO: Enviar el mensaje al servidor. Con el id del mensaje que se recibe, guardar en la db
-                    Message message = new Message();
-                    message.setBody(chatText.getText().toString());
-                    chatAdapter.add(new ConversationDataProvider(position, message));
-                    position = !position;
-                    chatText.setText("");
+                //TODO: Enviar el mensaje al servidor. Con el id del mensaje que se recibe, guardar en la db
+                String sendMessage = getMessageToSend(chatText.getText().toString());
 
             }
         });
+    }
+
+    private String getMessageToSend(String textMessage) {
+
+        String formatMessage, returnedMessage = "";
+
+        if (textMessage.startsWith("\n") || textMessage.endsWith("\n")){
+            formatMessage = (textMessage.replaceAll("^\n+","")).replaceAll("\n+$","");
+        } else {
+            formatMessage = textMessage;
+        }
+
+        if (formatMessage.startsWith(" ")) {
+            returnedMessage = formatMessage.trim();
+        } else {
+            returnedMessage = formatMessage;
+        }
+
+        if (!(returnedMessage.isEmpty())) {
+           Message message = new Message();
+           message.setBody(returnedMessage);
+           chatAdapter.add(new ConversationDataProvider(position, message));
+           //position = !position;
+           chatText.setText("");
+        }
+
+        return returnedMessage;
     }
 
     @Override

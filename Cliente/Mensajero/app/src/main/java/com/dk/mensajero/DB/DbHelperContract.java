@@ -23,6 +23,7 @@ public final class DbHelperContract {
         public static final String CONVERSATION_ID = "conversationId";
         public static final String CONTACT_ID = "contactId";
         public static final String CONTACT_NAME = "contactName";
+        public static final String LAST_MESSAGE = "lastMessage";
     }
 
     public static abstract class MessageEntry implements BaseColumns {

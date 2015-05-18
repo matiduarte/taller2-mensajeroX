@@ -216,7 +216,7 @@ void Servicio::almacenarConversacion() {
 		//Obtengo el mensaje:
 		string 		cuerpo 	= this->getParametro(keyCuerpo,keyDefault);
 		string 		fecha 	= this->getParametro(keyFecha,keyDefault);
-		Mensaje*	mensaje	= new Mensaje(cuerpo,idEmisor,fecha);
+		Mensaje*	mensaje	= new Mensaje(cuerpo,emisor->getId(),fecha);
 
 		//almaceno la conversacion (si no existe la creo):
 		Conversacion *conversacion = Conversacion::obtener(emisor->getId()+"-"+receptor->getId());
@@ -348,12 +348,16 @@ void Servicio::obtenerConversaciones(){
 
 			vector<Mensaje*> mens = conv->getMensajes();
 			Mensaje* ultimoMensj = mens[mens.size() - 1];
-			Usuario* emisorUltimoMensaje = Usuario::obtener(ultimoMensj->getIdUsuarioEmisor());
+
+			Usuario* usuarioContacto = conv->getUsuarios().at(0);
+			if(usuarioContacto->getId() == usuario->getId()){
+				usuarioContacto = conv->getUsuarios().at(1);
+			}
 
 			respuesta["conversaciones"][i]["id"] = conv->getId();
 			respuesta["conversaciones"][i]["ultimoMensaje"] = ultimoMensj->getCuerpo();
-			respuesta["conversaciones"][i]["usuarioNombre"] = emisorUltimoMensaje->getNombre();
-			respuesta["conversaciones"][i]["usuarioId"] = emisorUltimoMensaje->getId();
+			respuesta["conversaciones"][i]["usuarioNombre"] = usuarioContacto->getNombre();
+			respuesta["conversaciones"][i]["usuarioTelefono"] = usuarioContacto->getTelefono();
 
 		}
 
