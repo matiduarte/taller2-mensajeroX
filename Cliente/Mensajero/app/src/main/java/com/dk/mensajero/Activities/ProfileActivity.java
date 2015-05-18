@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.dk.mensajero.DB.DbHelper;
 import com.dk.mensajero.Entities.User;
@@ -201,16 +199,4 @@ public class ProfileActivity extends ActionBarActivity {
 
     }
 
-
-
-
-   /* private void getUserPhone(){
-
-        Intent intentExtras = getIntent();
-        Bundle phoneBundle;
-        if (intentExtras.hasExtra("phone")){
-            phoneBundle = intentExtras.getExtras();
-            this.phoneNumber = phoneBundle.getString("phone");
-        }
-    }*/
 }
