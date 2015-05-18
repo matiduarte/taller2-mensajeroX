@@ -1,5 +1,6 @@
 package com.dk.mensajero.Service;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -9,6 +10,7 @@ import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.Interfaces.GetConversationsCallback;
 import com.dk.mensajero.Interfaces.GetUserCallback;
+import com.dk.mensajero.Interfaces.UpdateProfileCallback;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -22,7 +24,7 @@ import java.util.ArrayList;
  * Created by quimey on 10/05/15.
  */
 public class Service {
-    private String BASE_URL = "http://192.168.1.102:8080/";
+    private String BASE_URL = "http://192.168.0.27:8080/";
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
     private String USER_COVERSATIONS_URL = "usuarioConversacion/";
@@ -44,6 +46,7 @@ public class Service {
     private String KEY_USER_ID = "idUsuario";
     private String KEY_USER_CONVERSATIONS_PARAM = "idsConversaciones";
     private String KEY_USER_CONVERSATIONS = "conversaciones";
+    private String KEY_USER_LOCATION = "Localizacion";
 
     private String KEY_PAYLOAD = "payload";
     private String KEY_SUCCESS = "success";
@@ -111,30 +114,62 @@ public class Service {
         return jObject;
     }
 
-    public JSONObject saveProfile(String phone, String name, String picturePath, String state){
-        String url = BASE_URL + USER_URL;
-        RestClient client = new RestClient(url);
+    public void updateUserProfileInBackground(User user, UpdateProfileCallback profileCallback){
+        progressDialog.show();
+        new UpdateUserProfileAsyncTask(user, profileCallback).execute();
+    }
 
-        client.addParam(KEY_USER_NAME, name);
-        client.addParam(KEY_USER_PHONE, phone);
-        client.addParam(KEY_USER_PICTURE, picturePath);
-        client.addParam(KEY_USER_STATE, state);
+    public class UpdateUserProfileAsyncTask extends AsyncTask<Void, Void, JSONObject>{
+        User user;
+        UpdateProfileCallback profileCallback;
 
-        try {
-            client.execute(RestClient.RequestMethod.PUT);
-        } catch (Exception e) {
-            e.printStackTrace();
+        public UpdateUserProfileAsyncTask(User user, UpdateProfileCallback profileCallback){
+            this.user = user;
+            this.profileCallback = profileCallback;
         }
 
-        String response = client.getResponse();
-        JSONObject jObject = new JSONObject();
-        try {
-            jObject = new JSONObject(response);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        @Override
+        protected JSONObject doInBackground(Void... params) {
+            String url = BASE_URL + USER_URL;
+            RestClient client = new RestClient(url);
+
+            client.addParam(KEY_USER_NAME, user.getName());
+            client.addParam(KEY_USER_PHONE, user.getPhone());
+            client.addParam(KEY_USER_PICTURE, user.getProfilePicture());
+            client.addParam(KEY_USER_STATE, String.valueOf(user.getState()) );
+            client.addParam(KEY_USER_LOCATION, "nada");
+            //TODO: Agregar Localizacion.
+
+            try {
+                client.execute(RestClient.RequestMethod.PUT);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            String response = client.getResponse();
+            JSONObject jObject = new JSONObject();
+            try {
+                jObject = new JSONObject(response);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return jObject;
         }
 
-        return jObject;
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            progressDialog.dismiss();
+            boolean result = false;
+            try {
+                result = jsonObject.getBoolean(KEY_SUCCESS);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            profileCallback.done(result);
+            super.onPostExecute(jsonObject);
+        }
     }
 
     public void storeNewUserInBackground(User user, GetUserCallback userCallback){
@@ -155,6 +190,8 @@ public class Service {
     public Context getContext() {
         return context;
     }
+
+
 
 
     public class StoreNewUserAsyncTask extends AsyncTask<Void, Void, JSONObject>{
@@ -318,6 +355,13 @@ public class Service {
             conversationsCallback.done(conversations);
             super.onPostExecute(conversations);
         }
+    }
+
+    public void showFailConnectionServerMessage(Context context){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        dialogBuilder.setMessage("No se pudo conectar con el servidor");
+        dialogBuilder.setPositiveButton("OK",null);
+        dialogBuilder.show();
     }
 
 }
