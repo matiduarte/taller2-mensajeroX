@@ -150,12 +150,7 @@ void Servicio::administrarPerfil(){
 
 }
 
-//TODO: decidir que hacer cuando el usuario no existe.
-/*
- * @return true: si el estado de conexion del usuario es conectado.
- * 		  false: si el estado de conexion del usuario es desconectado
- * 		  		 o bien el usuario no existe.
- */
+
 void Servicio::consultarUsuarioOnline() {
 	string telefono = this->getParametroIdMetodoGET(urlBaseUsuario);
 	Usuario* user = Usuario::obtenerPorTelefono(telefono);
