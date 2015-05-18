@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -18,10 +19,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.dk.mensajero.DB.DbHelper;
 import com.dk.mensajero.Entities.User;
+import com.dk.mensajero.Interfaces.UpdateProfileCallback;
 import com.dk.mensajero.R;
+import com.dk.mensajero.Service.Service;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
@@ -30,14 +34,14 @@ public class ProfileActivity extends ActionBarActivity {
     private static final int SELECT_PICTURE = 1;
     private String phoneNumber;
     EditText etName, etPassword;
+    Button bState;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        DbHelper db = new DbHelper(this);
-        User user = db.getUser();
+        User user = User.getUser(this);
 
         //nombre
         etName = (EditText)findViewById(R.id.profile_etName);
@@ -57,9 +61,12 @@ public class ProfileActivity extends ActionBarActivity {
         }
 
         //estado
-        Button state = (Button) findViewById(R.id.profile_bState);
-        //TODO: pedir el estado al servidor
-        state.setText("Conectado");
+        bState = (Button) findViewById(R.id.profile_bState);
+
+        if (user.getState())
+            bState.setText(R.string.profile_state_connected);
+        else
+            bState.setText(R.string.profile_state_disconnected);
     }
 
     @Override
@@ -104,7 +111,7 @@ public class ProfileActivity extends ActionBarActivity {
                     try{
                         picture.setImageBitmap(getBitmapFromUri(selectedImageUri));
                         DbHelper db = new DbHelper(this);
-                        User user = db.getUser();
+                        User user = User.getUser(this);
                         user.setProfilePicture(getPath(selectedImageUri));
                         db.updateUser(user);
                     }catch (IOException e) {
@@ -153,9 +160,9 @@ public class ProfileActivity extends ActionBarActivity {
             state.setText(R.string.profile_state_connected);
     }
 
-    public void saveProfile(View view){
-        DbHelper db = new DbHelper(this);
-        User user = db.getUser();
+    public void saveProfile(View view) {
+        final User user = User.getUser(this);
+        final DbHelper db = new DbHelper(this);
 
         //guardo el nombre
         etName = (EditText) findViewById(R.id.profile_etName);
@@ -171,17 +178,30 @@ public class ProfileActivity extends ActionBarActivity {
             user.setPassword(sPassword);
         }
 
-        //TODO: actualizar el usuario en el server
+        //guardo el estado
+        bState = (Button) findViewById(R.id.profile_bState);
+        String sState = (String) bState.getText();
+        if (sState.equals("Conectado")) user.setState(true);
+        else user.setState(false);
 
-        //actualizo en la base de datos local
-        db.updateUser(user);
-
-        //vuelvo a la pantalla principal.
-        Intent intent = new Intent(this, PhoneNumberRegisterActivity.class);
-        startActivity(intent);
-
+        final Service serviceRequest = new Service(this);
+        serviceRequest.updateUserProfileInBackground(user, new UpdateProfileCallback() {
+                    @Override
+                    public void done(boolean connectionResult) {
+                        if (connectionResult) {
+                            //actualizo el usuario en la base de datos local
+                            db.updateUser(user);
+                            startActivity(new Intent(ProfileActivity.this, ConversationsListActivity.class));
+                        }else{
+                            serviceRequest.showFailConnectionServerMessage(ProfileActivity.this);
+                        }
+                    }
+                }
+        );
 
     }
+
+
 
 
    /* private void getUserPhone(){
