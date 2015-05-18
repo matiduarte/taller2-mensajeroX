@@ -31,6 +31,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     DbHelperContract.UserEntry.PROFILE_PICTURE+ TEXT_TYPE + COMMA_SEP +
                     DbHelperContract.UserEntry.NAME + TEXT_TYPE + COMMA_SEP +
                     DbHelperContract.UserEntry.PASSWORD + TEXT_TYPE +
+                    //DbHelperContract.UserEntry.STATE + TEXT_TYPE +
             " );";
     private static final String SQL_CREATE_ENTRIES_CONVERSATION =
             "CREATE TABLE " + DbHelperContract.ConversationEntry.TABLE_NAME + " (" +
@@ -105,6 +106,7 @@ public class DbHelper extends SQLiteOpenHelper {
         return newRowId;
     }
 
+
     public void updateUser(User user){
         // Gets the data repository in write mode
         SQLiteDatabase db = this.getWritableDatabase();
@@ -116,6 +118,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DbHelperContract.UserEntry.PROFILE_PICTURE, user.getProfilePicture());
         values.put(DbHelperContract.UserEntry.NAME, user.getName());
         values.put(DbHelperContract.UserEntry.PASSWORD, user.getPassword());
+        //values.put(DbHelperContract.UserEntry.STATE, Boolean.toString(user.getState()) );
 
         // Define 'where' part of query.
         String selection = DbHelperContract.UserEntry._ID + " = ?";
@@ -138,6 +141,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 DbHelperContract.UserEntry.PROFILE_PICTURE,
                 DbHelperContract.UserEntry.NAME,
                 DbHelperContract.UserEntry.PASSWORD,
+                //DbHelperContract.UserEntry.STATE,
         };
 
         //String selection = DbHelperContract.GameEntry.IS_WISH + " = ?";
@@ -164,17 +168,19 @@ public class DbHelper extends SQLiteOpenHelper {
                 String profilePicture = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.PROFILE_PICTURE));
                 String name = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.NAME));
                 String password = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.PASSWORD));
+                //String state = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.STATE));
 
                 User user = new User(id, userId, phone, profilePicture, name);
                 user.setPassword(password);
+               // user.setState(Boolean.valueOf(state));
 
                 users.add(user);
                 c.moveToNext();
-                break;
+                //break;
             }
         }
 
-        return users.get(0);
+        return users.get(users.size()-1);
     }
 
     public long insertConversation(Conversation conversation) {
