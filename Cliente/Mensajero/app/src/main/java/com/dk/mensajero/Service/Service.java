@@ -140,6 +140,7 @@ public class Service {
             client.addParam(KEY_USER_PICTURE, user.getProfilePicture());
             client.addParam(KEY_USER_STATE, String.valueOf(user.getState()) );
             client.addParam(KEY_USER_LOCATION, "nada");
+            client.addParam(KEY_USER_PASSWORD, user.getPassword());
             //TODO: Agregar Localizacion.
 
             try {

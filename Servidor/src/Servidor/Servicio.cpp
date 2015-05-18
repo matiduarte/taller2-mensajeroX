@@ -126,6 +126,7 @@ void Servicio::administrarPerfil(){
 	string fotoDePerfil = this->getParametro(keyFotoDePerfil, keyDefault);
 	bool estado = StringUtil::toBoolean(estadoDeConexion);
 	string localizacion = this->getParametro(keyLocalizacion, keyDefault);
+	string password = this->getParametro(keyPassword, keyDefault);
 	Usuario* user = this->obtenerUsuario();
 	bool estadoActual = user->getEstadoConexion();
 
@@ -138,6 +139,7 @@ void Servicio::administrarPerfil(){
 		}
 		user->setFotoDePerfil(fotoDePerfil);
 		user->setLocalizacion(localizacion);
+		user->setPassword(password);
 		user->persistir();
 		Loger::getLoger()->info("Se modificaron los datos del usuario "+user->getNombre()+ " correctamente.");
 		this->responder("Se modificaron los datos del usuario "+user->getNombre()+ " correctamente. Token:" + user->getToken(), true);
