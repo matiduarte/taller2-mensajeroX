@@ -30,8 +30,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     DbHelperContract.UserEntry.PHONE + TEXT_TYPE + COMMA_SEP +
                     DbHelperContract.UserEntry.PROFILE_PICTURE+ TEXT_TYPE + COMMA_SEP +
                     DbHelperContract.UserEntry.NAME + TEXT_TYPE + COMMA_SEP +
-                    DbHelperContract.UserEntry.PASSWORD + TEXT_TYPE +
-                    //DbHelperContract.UserEntry.STATE + TEXT_TYPE +
+                    DbHelperContract.UserEntry.PASSWORD + TEXT_TYPE + COMMA_SEP +
+                    DbHelperContract.UserEntry.STATE + TEXT_TYPE +
             " );";
     private static final String SQL_CREATE_ENTRIES_CONVERSATION =
             "CREATE TABLE " + DbHelperContract.ConversationEntry.TABLE_NAME + " (" +
@@ -59,7 +59,7 @@ public class DbHelper extends SQLiteOpenHelper {
             "DROP TABLE IF EXISTS " + DbHelperContract.MessageEntry.TABLE_NAME + ";";
 
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 7;
+    public static final int DATABASE_VERSION = 8;
     public static final String DATABASE_NAME = "MensajeroX.db";
 
     public DbHelper(Context context) {
@@ -96,6 +96,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DbHelperContract.UserEntry.PROFILE_PICTURE, user.getProfilePicture());
         values.put(DbHelperContract.UserEntry.NAME, user.getName());
         values.put(DbHelperContract.UserEntry.PASSWORD, user.getPassword());
+        values.put(DbHelperContract.UserEntry.STATE, Boolean.toString(user.getState()));
 
     // Insert the new row, returning the primary key value of the new row
         long newRowId;
@@ -119,7 +120,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DbHelperContract.UserEntry.PROFILE_PICTURE, user.getProfilePicture());
         values.put(DbHelperContract.UserEntry.NAME, user.getName());
         values.put(DbHelperContract.UserEntry.PASSWORD, user.getPassword());
-        //values.put(DbHelperContract.UserEntry.STATE, Boolean.toString(user.getState()) );
+        values.put(DbHelperContract.UserEntry.STATE, Boolean.toString(user.getState()) );
 
         // Define 'where' part of query.
         String selection = DbHelperContract.UserEntry._ID + " = ?";
@@ -142,7 +143,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 DbHelperContract.UserEntry.PROFILE_PICTURE,
                 DbHelperContract.UserEntry.NAME,
                 DbHelperContract.UserEntry.PASSWORD,
-                //DbHelperContract.UserEntry.STATE,
+                DbHelperContract.UserEntry.STATE,
         };
 
         //String selection = DbHelperContract.GameEntry.IS_WISH + " = ?";
@@ -169,11 +170,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 String profilePicture = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.PROFILE_PICTURE));
                 String name = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.NAME));
                 String password = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.PASSWORD));
-                //String state = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.STATE));
+                String state = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.STATE));
 
                 User user = new User(id, userId, phone, profilePicture, name);
                 user.setPassword(password);
-               // user.setState(Boolean.valueOf(state));
+                user.setState(Boolean.valueOf(state));
 
                 users.add(user);
                 c.moveToNext();
