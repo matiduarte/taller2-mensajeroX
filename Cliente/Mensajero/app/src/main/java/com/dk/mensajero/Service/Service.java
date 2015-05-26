@@ -205,7 +205,6 @@ public class Service {
     }
 
 
-
     public class SendNewMessageAsyncTask extends AsyncTask<Void, Void, JSONObject>{
 
         Message message;
@@ -267,28 +266,12 @@ public class Service {
             String url = BASE_URL + COVERSATION_URL + message.getConversationId() + KEY_ID_LAST_MESSAGE + message.getId();
             RestClient client = new RestClient(url);
 
-            try {
-                client.execute(RestClient.RequestMethod.GET);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            String response = client.getResponse();
-            JSONObject jObject = new JSONObject();
-            try {
-                jObject = new JSONObject(response);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
             return null;
         }
 
         @Override
         protected void onPostExecute(ArrayList<Message> listMessage) {
-            progressDialog.dismiss();
-            for (Message m : listMessage ) {
-                messageCallback.done(m);
-            }
+            messageCallback.done(listMessage);
             super.onPostExecute(listMessage);
         }
 

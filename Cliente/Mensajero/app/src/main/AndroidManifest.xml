@@ -64,7 +64,7 @@
                 android:value="com.dk.mensajero.Activities.SettingsActivity" />
         </activity>
         <activity
-            android:name=".Activities.ConversationActivity"
+            android:name=".Activities.ChatActivity"
             android:label="@string/title_activity_conversation"
             android:parentActivityName=".Activities.SettingsActivity" >
             <intent-filter>

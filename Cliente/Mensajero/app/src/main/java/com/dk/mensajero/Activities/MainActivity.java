@@ -56,7 +56,7 @@ public class MainActivity extends ActionBarActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent("com.dk.mensajero.ConversationActivity");
+                        Intent intent = new Intent("com.dk.mensajero.ChatActivity");
                         startActivity(intent);
 
                     }

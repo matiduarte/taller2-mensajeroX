@@ -78,7 +78,7 @@ public class ConversationsListActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
                 //TODO: reemplazar la activada por la de la conversacion
 
-                Intent myIntent = new Intent(getApplicationContext(), ConversationActivity.class);
+                Intent myIntent = new Intent(getApplicationContext(), ChatActivity.class);
                 Conversation conversation = (Conversation) listview.getItemAtPosition(position);
 
                 myIntent.putExtra("contactPhone", conversation.getContactPhone());

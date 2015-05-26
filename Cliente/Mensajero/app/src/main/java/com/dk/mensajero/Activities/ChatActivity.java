@@ -3,6 +3,7 @@ package com.dk.mensajero.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,9 +22,11 @@ import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
-public class ConversationActivity extends ActionBarActivity {
+public class ChatActivity extends ActionBarActivity {
 
     private ListView conversationList;
     private EditText chatText;
@@ -33,11 +36,12 @@ public class ConversationActivity extends ActionBarActivity {
     private Context conversationCtx = this;
     private String contactPhone = "";
     private String userPhone = "";
+    private List<Message> messageList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_conversation);
+        setContentView(R.layout.activity_chat);
         this.conversationList = (ListView) findViewById(R.id.chat_list_view);
         this.chatText = (EditText) findViewById(R.id.chatTxt);
         this.send_button = (Button) findViewById(R.id.send_button);
@@ -45,10 +49,13 @@ public class ConversationActivity extends ActionBarActivity {
         this.conversationList.setAdapter(chatAdapter);
         this.conversationList.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 
+        this.lookForNewMessage();
+
         getContactPhoneFromIntent();
 
         this.registerDataSetObserver();
         this.setOnClickListener();
+
 
     }
 
@@ -82,21 +89,23 @@ public class ConversationActivity extends ActionBarActivity {
                     String date = getDate();
                     //TODO: MODIFICAR CUANDO SE PUEDA OBTENER EL TELEFONO DEL USUARIO EMISOR
                     Message message = new Message("1", contactPhone, sendMessage, date);
-                    sendMessage(message);
+                    sendMessageToServer(message);
+                    messageList.add(message);
                 }
             }
         });
     }
 
 
-    private void sendMessage(Message message){
+    private void sendMessageToServer(Message message){
         Service serviceRequest = new Service(this);
         serviceRequest.sendNewMessageInBackground(message, new GetMessageCallback() {
             @Override
-            public void done(Message returnedMessage) {
+            public void done(ArrayList<Message> messageList) {
                 position = false;
             }
         });
+        message.save(this);
     }
 
     private String getMessageToSend(String textMessage) {
@@ -129,7 +138,7 @@ public class ConversationActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_conversation, menu);
+        getMenuInflater().inflate(R.menu.menu_chat, menu);
         return true;
     }
 
@@ -152,6 +161,36 @@ public class ConversationActivity extends ActionBarActivity {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return df.format(c.getTime());
+    }
+
+    private void lookForNewMessage() {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                getMessageFromService();
+                handler.postDelayed(this, 1000 * 2);
+            }
+        }, 1000 * 2);
+    }
+
+    private void getMessageFromService(){
+
+        int lastMessageId = messageList.size();
+        Service serviceRequest = new Service(this);
+        serviceRequest.fetchNewMessageInBackground(messageList.get(lastMessageId), new GetMessageCallback() {
+            @Override
+            public void done(ArrayList<Message> list) {
+                for (Message m : list) {
+                    messageList.add(m);
+                    saveMessage(m);
+                }
+                position = true;
+            }
+        });
+    }
+
+    public void saveMessage(Message msg){
+        msg.save(this);
     }
 
 }
