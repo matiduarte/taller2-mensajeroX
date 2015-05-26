@@ -8,8 +8,10 @@ import android.text.format.Time;
 import android.util.Log;
 
 import com.dk.mensajero.Entities.Conversation;
+import com.dk.mensajero.Entities.Message;
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.Interfaces.GetConversationsCallback;
+import com.dk.mensajero.Interfaces.GetMessageCallback;
 import com.dk.mensajero.Interfaces.GetUserCallback;
 import com.dk.mensajero.Interfaces.UpdateProfileCallback;
 
@@ -24,7 +26,7 @@ import java.util.ArrayList;
  */
 public class Service {
 
-    private String BASE_URL = "http://192.168.0.27:8080/";
+    private String BASE_URL = "http://192.168.1.102:8080/";
     //private String BASE_URL = "http://192.168.1.102:8080/";
 
     private String USER_URL = "usuario/";
@@ -33,7 +35,6 @@ public class Service {
 
     ProgressDialog progressDialog;
     private Context context;
-    public static final int CONNECTION_TIMEOUT = 1000 * 15;
 
     //KEYS
     private String KEY_ID_LAST_MESSAGE = "/idUltimoMensaje/";
@@ -181,6 +182,15 @@ public class Service {
 
     }
 
+    public void sendNewMessageInBackground(Message message, GetMessageCallback messageCallback){
+        new SendNewMessageAsyncTask(message, messageCallback).execute();
+
+    }
+
+    public void fetchNewMessageInBackground(Message message, GetMessageCallback messageCallback){
+        new FetchNewMessageAsyncTask(message, messageCallback).execute();
+    }
+
     public void fetchUserDataInBackground(User user, GetUserCallback userCallback){
         progressDialog.show();
         new fetchUserDataAsyncTask(user,userCallback).execute();
@@ -196,6 +206,93 @@ public class Service {
 
 
 
+    public class SendNewMessageAsyncTask extends AsyncTask<Void, Void, JSONObject>{
+
+        Message message;
+        GetMessageCallback messageCallback;
+
+        public SendNewMessageAsyncTask(Message message, GetMessageCallback messageCallback) {
+            this.message = message;
+            this.messageCallback = messageCallback;
+        }
+
+        @Override
+        protected JSONObject doInBackground(Void... params) {
+
+            String url = BASE_URL + COVERSATION_URL;
+            RestClient client = new RestClient(url);
+
+            client.addParam(KEY_PHONE_USER, message.getUserPhoneTransmitter());
+            client.addParam(KEY_PHONE_USER_RECEIVER, message.getUserPhoneReceiver());
+            client.addParam(KEY_MESSAGE_BODY, message.getBody());
+            client.addParam(KEY_MESSAGE_DATE, message.getDate());
+
+            try {
+                client.execute(RestClient.RequestMethod.POST);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            String response = client.getResponse();
+            JSONObject jObject = new JSONObject();
+
+            try {
+                jObject = new JSONObject(response);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return jObject;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            messageCallback.done(null);
+            super.onPostExecute(jsonObject);
+        }
+    }
+
+    public class FetchNewMessageAsyncTask extends AsyncTask<Void, Void, ArrayList<Message>>{
+
+        Message message;
+        GetMessageCallback messageCallback;
+
+        public FetchNewMessageAsyncTask(Message message, GetMessageCallback messageCallback) {
+            this.message = message;
+            this.messageCallback = messageCallback;
+        }
+
+        @Override
+        protected ArrayList<Message> doInBackground(Void... params) {
+            String url = BASE_URL + COVERSATION_URL + message.getConversationId() + KEY_ID_LAST_MESSAGE + message.getId();
+            RestClient client = new RestClient(url);
+
+            try {
+                client.execute(RestClient.RequestMethod.GET);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            String response = client.getResponse();
+            JSONObject jObject = new JSONObject();
+            try {
+                jObject = new JSONObject(response);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Message> listMessage) {
+            progressDialog.dismiss();
+            for (Message m : listMessage ) {
+                messageCallback.done(m);
+            }
+            super.onPostExecute(listMessage);
+        }
+
+    }
 
     public class StoreNewUserAsyncTask extends AsyncTask<Void, Void, JSONObject>{
 

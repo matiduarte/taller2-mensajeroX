@@ -12,16 +12,26 @@ public class Message {
     private String messageId = "";
     private String body = "";
     private String date = "";
+    private String userPhoneTransmitter = "";
+    private String userPhoneReceiver = "";
 
     public Message(){
     }
 
-    public Message(String conversationId, String messageId, String body, String date){
+    public Message(String userPhoneTransmitter, String userPhoneReceiver, String body, String date){
+        this.userPhoneTransmitter = userPhoneTransmitter;
+        this.userPhoneReceiver = userPhoneReceiver;
+        this.body = body;
+        this.date = date;
+
+    }
+
+   /* public Message(String conversationId, String messageId, String body, String date){
         this.conversationId = conversationId;
         this.messageId = messageId;
         this.body = body;
         this.date = date;
-    }
+    }*/
 
     //Properties
 
@@ -39,6 +49,14 @@ public class Message {
 
     public String getBody(){
         return this.body;
+    }
+
+    public String getUserPhoneReceiver() {
+        return userPhoneReceiver;
+    }
+
+    public String getUserPhoneTransmitter() {
+        return userPhoneTransmitter;
     }
 
     public String getDate(){
@@ -64,6 +82,7 @@ public class Message {
     public void setDate(String date){
         this.date = date;
     }
+
 
 
     //Methods

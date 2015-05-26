@@ -51,6 +51,7 @@ public class Conversation {
     public void setConversationId(String conversationId){
         this.conversationId = conversationId;
     }
+
     public void setContactPhone(String contactPhone){
         this.contactPhone = contactPhone;
     }

@@ -16,7 +16,12 @@ import android.widget.ListView;
 import com.dk.mensajero.Adapters.ChatAdapter;
 import com.dk.mensajero.Conversations.ConversationDataProvider;
 import com.dk.mensajero.Entities.Message;
+import com.dk.mensajero.Interfaces.GetMessageCallback;
 import com.dk.mensajero.R;
+import com.dk.mensajero.Service.Service;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class ConversationActivity extends ActionBarActivity {
 
@@ -27,6 +32,7 @@ public class ConversationActivity extends ActionBarActivity {
     private ChatAdapter chatAdapter;
     private Context conversationCtx = this;
     private String contactPhone = "";
+    private String userPhone = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +77,24 @@ public class ConversationActivity extends ActionBarActivity {
         this.send_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Enviar el mensaje al servidor. Con el id del mensaje que se recibe, guardar en la db
                 String sendMessage = getMessageToSend(chatText.getText().toString());
+                if (!sendMessage.equals("")) {
+                    String date = getDate();
+                    //TODO: MODIFICAR CUANDO SE PUEDA OBTENER EL TELEFONO DEL USUARIO EMISOR
+                    Message message = new Message("1", contactPhone, sendMessage, date);
+                    sendMessage(message);
+                }
+            }
+        });
+    }
 
+
+    private void sendMessage(Message message){
+        Service serviceRequest = new Service(this);
+        serviceRequest.sendNewMessageInBackground(message, new GetMessageCallback() {
+            @Override
+            public void done(Message returnedMessage) {
+                position = false;
             }
         });
     }
@@ -126,4 +147,11 @@ public class ConversationActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public String getDate(){
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return df.format(c.getTime());
+    }
+
 }
