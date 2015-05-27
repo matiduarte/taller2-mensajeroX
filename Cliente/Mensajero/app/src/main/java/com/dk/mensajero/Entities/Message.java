@@ -26,12 +26,14 @@ public class Message {
 
     }
 
-   /* public Message(String conversationId, String messageId, String body, String date){
-        this.conversationId = conversationId;
-        this.messageId = messageId;
-        this.body = body;
-        this.date = date;
-    }*/
+   public Message(String userPhoneTransmitter, String userPhoneReceiver, String conversationId, String messageId, String body, String date){
+       this.userPhoneTransmitter = userPhoneTransmitter;
+       this.userPhoneReceiver = userPhoneReceiver;
+       this.conversationId = conversationId;
+       this.messageId = messageId;
+       this.body = body;
+       this.date = date;
+    }
 
     //Properties
 

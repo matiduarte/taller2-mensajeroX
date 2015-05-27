@@ -11,6 +11,7 @@ import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.Message;
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.Interfaces.GetConversationsCallback;
+import com.dk.mensajero.Interfaces.GetIdCallback;
 import com.dk.mensajero.Interfaces.GetMessageCallback;
 import com.dk.mensajero.Interfaces.GetUserCallback;
 import com.dk.mensajero.Interfaces.UpdateProfileCallback;
@@ -32,6 +33,7 @@ public class Service {
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
     private String USER_COVERSATIONS_URL = "usuarioConversacion/";
+    private String ID = "id/";
 
     ProgressDialog progressDialog;
     private Context context;
@@ -40,6 +42,8 @@ public class Service {
     private String KEY_ID_LAST_MESSAGE = "/idUltimoMensaje/";
     private String KEY_PHONE_USER = "IdUsuarioEmisor";
     private String KEY_PHONE_USER_RECEIVER = "IdUsuarioReceptor";
+    private String KEY_TRANSMITTER = "TelefonoEmisor";
+    private String KEY_RECEIVER = "TelefonoReceptor";
     private String KEY_MESSAGE_BODY = "Cuerpo";
     private String KEY_MESSAGE_DATE = "Fecha";
     private String KEY_USER_NAME = "Nombre";
@@ -191,6 +195,10 @@ public class Service {
         new FetchNewMessageAsyncTask(message, messageCallback).execute();
     }
 
+    public void fetchNewConversationIdAsyncTask(String transmitterId, String receiverId, GetIdCallback idCallback){
+        new FetchNewConversationIdAsyncTask(transmitterId, receiverId, idCallback).execute();
+    }
+
     public void fetchUserDataInBackground(User user, GetUserCallback userCallback){
         progressDialog.show();
         new fetchUserDataAsyncTask(user,userCallback).execute();
@@ -251,6 +259,58 @@ public class Service {
         }
     }
 
+    public class FetchNewConversationIdAsyncTask extends AsyncTask<Void, Void, String>{
+
+        String transmitterId;
+        String receiverId;
+        GetIdCallback idCallback;
+
+        public FetchNewConversationIdAsyncTask(String transmitterId, String receiverId, GetIdCallback idCallback) {
+            this.transmitterId = transmitterId;
+            this.receiverId = receiverId;
+            this.idCallback = idCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String url = BASE_URL + COVERSATION_URL + ID;
+            RestClient client = new RestClient(url);
+
+            client.addParam(KEY_TRANSMITTER, transmitterId);
+            client.addParam(KEY_RECEIVER, receiverId);
+
+            try {
+                client.execute(RestClient.RequestMethod.GET);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            String response = client.getResponse();
+            String conversationId = null;
+            try {
+                JSONObject jObject = new JSONObject(response);
+                if (jObject.length() == 0){
+                    conversationId = null;
+                } else {
+                    conversationId = jObject.getString(KEY_PAYLOAD);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return conversationId;
+
+        }
+
+        @Override
+        protected void onPostExecute(String returnedId) {
+            idCallback.done(returnedId);
+            super.onPostExecute(returnedId);
+        }
+    }
+
+
     public class FetchNewMessageAsyncTask extends AsyncTask<Void, Void, ArrayList<Message>>{
 
         Message message;
@@ -263,8 +323,39 @@ public class Service {
 
         @Override
         protected ArrayList<Message> doInBackground(Void... params) {
-            String url = BASE_URL + COVERSATION_URL + message.getConversationId() + KEY_ID_LAST_MESSAGE + message.getId();
+
+           /* String url = BASE_URL + COVERSATION_URL + message.getConversationId() + KEY_ID_LAST_MESSAGE + message.getId();
             RestClient client = new RestClient(url);
+
+            try {
+                client.execute(RestClient.RequestMethod.GET);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            String response = client.getResponse();
+            ArrayList<Message> messageList = null;
+            try {
+                JSONObject jObject = new JSONObject(response);
+                if (jObject.length() == 0){
+                    messageList = null;
+                } else {
+                    String payload = jObject.getString(KEY_PAYLOAD);
+                    JSONObject result = new JSONObject(payload);
+                    JSONArray messagesJson = result.getJSONArray("mensajes");
+                    for (int i = 0; i < messagesJson.length(); i++){
+
+                    }
+                    String name = jData.getString(KEY_USER_NAME);
+                    String password = jData.getString(KEY_USER_PASSWORD);
+                    String tokenSesion = jData.getString(KEY_TOKEN_SESION);
+                    //returnedUser = new User(user.getPhone(), name, password, tokenSesion);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return messageList;*/
 
             return null;
         }

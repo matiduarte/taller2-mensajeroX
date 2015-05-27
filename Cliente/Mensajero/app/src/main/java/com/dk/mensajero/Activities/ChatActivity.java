@@ -17,6 +17,7 @@ import android.widget.ListView;
 import com.dk.mensajero.Adapters.ChatAdapter;
 import com.dk.mensajero.Conversations.ConversationDataProvider;
 import com.dk.mensajero.Entities.Message;
+import com.dk.mensajero.Interfaces.GetIdCallback;
 import com.dk.mensajero.Interfaces.GetMessageCallback;
 import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
@@ -36,6 +37,7 @@ public class ChatActivity extends ActionBarActivity {
     private Context conversationCtx = this;
     private String contactPhone = "";
     private String userPhone = "";
+    private String conversationId = "";
     private List<Message> messageList = new ArrayList<>();
 
     @Override
@@ -49,14 +51,27 @@ public class ChatActivity extends ActionBarActivity {
         this.conversationList.setAdapter(chatAdapter);
         this.conversationList.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 
-        this.lookForNewMessage();
-
         getContactPhoneFromIntent();
+
+        //this.lookForNewMessage();
+        this.getConversationId();
+
+
 
         this.registerDataSetObserver();
         this.setOnClickListener();
 
 
+    }
+
+    private void getConversationId() {
+        Service serviceRequest = new Service(this);
+        serviceRequest.fetchNewConversationIdAsyncTask(userPhone, contactPhone, new GetIdCallback() {
+            @Override
+            public void done(String returnedId) {
+                conversationId = returnedId;
+            }
+        });
     }
 
     private void getContactPhoneFromIntent() {
@@ -88,9 +103,9 @@ public class ChatActivity extends ActionBarActivity {
                 if (!sendMessage.equals("")) {
                     String date = getDate();
                     //TODO: MODIFICAR CUANDO SE PUEDA OBTENER EL TELEFONO DEL USUARIO EMISOR
-                    Message message = new Message("1", contactPhone, sendMessage, date);
+                    Message message = new Message("1", "4" , sendMessage, date);
                     sendMessageToServer(message);
-                    messageList.add(message);
+                    //messageList.add(message);
                 }
             }
         });
@@ -128,7 +143,6 @@ public class ChatActivity extends ActionBarActivity {
            Message message = new Message();
            message.setBody(returnedMessage);
            chatAdapter.add(new ConversationDataProvider(position, message));
-           //position = !position;
            chatText.setText("");
         }
 
@@ -181,10 +195,10 @@ public class ChatActivity extends ActionBarActivity {
             @Override
             public void done(ArrayList<Message> list) {
                 for (Message m : list) {
-                    messageList.add(m);
+                    //messageList.add(m);
                     saveMessage(m);
                 }
-                position = true;
+                //position = true;
             }
         });
     }
