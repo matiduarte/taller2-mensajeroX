@@ -53,10 +53,8 @@ public class ChatActivity extends ActionBarActivity {
 
         getContactPhoneFromIntent();
 
-        //this.lookForNewMessage();
         this.getConversationId();
-
-
+        //this.lookForNewMessage()
 
         this.registerDataSetObserver();
         this.setOnClickListener();
@@ -66,10 +64,12 @@ public class ChatActivity extends ActionBarActivity {
 
     private void getConversationId() {
         Service serviceRequest = new Service(this);
-        serviceRequest.fetchNewConversationIdAsyncTask(userPhone, contactPhone, new GetIdCallback() {
+        serviceRequest.fetchNewConversationIdAsyncTask("1", "3", new GetIdCallback() {
             @Override
             public void done(String returnedId) {
                 conversationId = returnedId;
+                Message msg = new Message(conversationId, "2");
+                getMessageFromService(msg);
             }
         });
     }
@@ -103,7 +103,7 @@ public class ChatActivity extends ActionBarActivity {
                 if (!sendMessage.equals("")) {
                     String date = getDate();
                     //TODO: MODIFICAR CUANDO SE PUEDA OBTENER EL TELEFONO DEL USUARIO EMISOR
-                    Message message = new Message("1", "4" , sendMessage, date);
+                    Message message = new Message("1", "3", sendMessage, date);
                     sendMessageToServer(message);
                     //messageList.add(message);
                 }
@@ -112,15 +112,16 @@ public class ChatActivity extends ActionBarActivity {
     }
 
 
-    private void sendMessageToServer(Message message){
+    private void sendMessageToServer(final Message message){
         Service serviceRequest = new Service(this);
         serviceRequest.sendNewMessageInBackground(message, new GetMessageCallback() {
             @Override
             public void done(ArrayList<Message> messageList) {
                 position = false;
+                message.save(ChatActivity.this);
             }
         });
-        message.save(this);
+
     }
 
     private String getMessageToSend(String textMessage) {
@@ -177,7 +178,7 @@ public class ChatActivity extends ActionBarActivity {
         return df.format(c.getTime());
     }
 
-    private void lookForNewMessage() {
+    /*private void lookForNewMessage() {
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
@@ -185,17 +186,18 @@ public class ChatActivity extends ActionBarActivity {
                 handler.postDelayed(this, 1000 * 2);
             }
         }, 1000 * 2);
-    }
+    }*/
 
-    private void getMessageFromService(){
-
-        int lastMessageId = messageList.size();
+    private void getMessageFromService(Message msg){
         Service serviceRequest = new Service(this);
-        serviceRequest.fetchNewMessageInBackground(messageList.get(lastMessageId), new GetMessageCallback() {
+        serviceRequest.fetchNewMessageInBackground(msg, new GetMessageCallback() {
             @Override
             public void done(ArrayList<Message> list) {
                 for (Message m : list) {
                     //messageList.add(m);
+                    Message message = new Message();
+                    message.setBody(m.getBody());
+                    chatAdapter.add(new ConversationDataProvider(position, message));
                     saveMessage(m);
                 }
                 //position = true;

@@ -26,13 +26,9 @@ public class Message {
 
     }
 
-   public Message(String userPhoneTransmitter, String userPhoneReceiver, String conversationId, String messageId, String body, String date){
-       this.userPhoneTransmitter = userPhoneTransmitter;
-       this.userPhoneReceiver = userPhoneReceiver;
-       this.conversationId = conversationId;
-       this.messageId = messageId;
-       this.body = body;
-       this.date = date;
+    public Message(String conversationId, String messageId){
+        this.conversationId = conversationId;
+        this.messageId = messageId;
     }
 
     //Properties
@@ -85,9 +81,15 @@ public class Message {
         this.date = date;
     }
 
+    public void setUserPhoneTransmitter(String userPhoneTransmitter) {
+        this.userPhoneTransmitter = userPhoneTransmitter;
+    }
 
+    public void setUserPhoneReceiver(String userPhoneReceiver) {
+        this.userPhoneReceiver = userPhoneReceiver;
+    }
 
-    //Methods
+//Methods
 
     public void save(Context context) {
         DbHelper helper = new DbHelper(context);

@@ -307,7 +307,7 @@ void Servicio::obtenerConversacion(){
 
 		Json::Value respuesta;
 		for(unsigned i=0; i<mensajesRespuesta.size(); i++){
-			respuesta[i] = mensajesRespuesta[i]->serializar();
+			respuesta["mensajes"][i] = mensajesRespuesta[i]->serializar();
 		}
 		this->responder(respuesta.toStyledString(), true);
 

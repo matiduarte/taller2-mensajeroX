@@ -33,7 +33,7 @@ public class Service {
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
     private String USER_COVERSATIONS_URL = "usuarioConversacion/";
-    private String ID = "id/";
+    private String ID_URL = "id/";
 
     ProgressDialog progressDialog;
     private Context context;
@@ -47,6 +47,8 @@ public class Service {
     private String KEY_MESSAGE_BODY = "Cuerpo";
     private String KEY_MESSAGE_DATE = "Fecha";
     private String KEY_USER_NAME = "Nombre";
+    //TODO: ver de que es este id
+    private String KEY_ID = "Id";
     private String KEY_USER_PICTURE = "FotoDePerfil";
     private String KEY_USER_STATE = "EstadoDeConexion";
     private String KEY_USER_PHONE = "Telefono";
@@ -274,7 +276,7 @@ public class Service {
         @Override
         protected String doInBackground(Void... params) {
 
-            String url = BASE_URL + COVERSATION_URL + ID;
+            String url = BASE_URL + COVERSATION_URL + ID_URL;
             RestClient client = new RestClient(url);
 
             client.addParam(KEY_TRANSMITTER, transmitterId);
@@ -324,8 +326,11 @@ public class Service {
         @Override
         protected ArrayList<Message> doInBackground(Void... params) {
 
-           /* String url = BASE_URL + COVERSATION_URL + message.getConversationId() + KEY_ID_LAST_MESSAGE + message.getId();
+            String url = BASE_URL + COVERSATION_URL + message.getConversationId();
             RestClient client = new RestClient(url);
+
+            //TODO: obtener el id del ultimo mensaje de la BD
+            client.addParam(KEY_ID_LAST_MESSAGE, String.valueOf(message.getId()));
 
             try {
                 client.execute(RestClient.RequestMethod.GET);
@@ -340,24 +345,36 @@ public class Service {
                 if (jObject.length() == 0){
                     messageList = null;
                 } else {
+                    messageList = new ArrayList<>();
                     String payload = jObject.getString(KEY_PAYLOAD);
-                    JSONObject result = new JSONObject(payload);
-                    JSONArray messagesJson = result.getJSONArray("mensajes");
-                    for (int i = 0; i < messagesJson.length(); i++){
+                    JSONObject jData = new JSONObject(payload);
+                    JSONArray messagesJsonArray = jData.getJSONArray("mensajes");
+                    for (int i = 0; i < messagesJsonArray.length(); i++){
 
+                        String msgString = (String)messagesJsonArray.get(i);
+                        JSONObject msgJson = new JSONObject(msgString);
+
+                        String body =  msgJson.getString(KEY_MESSAGE_BODY);
+                        String date = msgJson.getString(KEY_MESSAGE_DATE);
+                        String msgId = msgJson.getString(KEY_ID);
+                        String transmitterId = msgJson.getString(KEY_PHONE_USER);
+
+                        Message returnedMsg = new Message();
+                        returnedMsg.setBody(body);
+                        //TODO: cambiar el setId a String
+                        //returnedMsg.setId(msgId);
+                        returnedMsg.setDate(date);
+                        returnedMsg.setConversationId(transmitterId);
+
+                        messageList.add(returnedMsg);
                     }
-                    String name = jData.getString(KEY_USER_NAME);
-                    String password = jData.getString(KEY_USER_PASSWORD);
-                    String tokenSesion = jData.getString(KEY_TOKEN_SESION);
-                    //returnedUser = new User(user.getPhone(), name, password, tokenSesion);
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            return messageList;*/
-
-            return null;
+            return messageList;
         }
 
         @Override
