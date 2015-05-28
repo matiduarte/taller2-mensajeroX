@@ -10,6 +10,7 @@ import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ import com.dk.mensajero.Interfaces.UpdateProfileCallback;
 import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;
 import java.io.IOException;
 
@@ -197,6 +199,36 @@ public class ProfileActivity extends ActionBarActivity {
                 }
         );
 
+    }
+
+    /**
+     * Convierte un bitmap en string.
+     * @param bitmap la imagen a ser convertida.
+     * @return String la imagen codificada en base64.
+     */
+    private String BitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
+    }
+
+    /**
+     * Convierte un string en bitmap.
+     * @param encodedString el string a transformar en bitmap.
+     * (precondition: encodedString debería estar en base64)
+     * @return bitmap (convertido desde el string recibido.)
+     */
+    private Bitmap StringToBitMap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            Bitmap image_default = BitmapFactory.decodeResource(getBaseContext().getResources(), R.drawable.profile_default);
+            return image_default;
+        }
     }
 
 }
