@@ -83,6 +83,7 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
     }
 
     private void logUserIn(User returnedUser) {
+        returnedUser.setIsLogged(1);
         returnedUser.save(this);
         startActivity(new Intent(this, MainActivity.class));
     }

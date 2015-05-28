@@ -16,6 +16,7 @@ public final class DbHelperContract {
         public static final String NAME = "name";
         public static final String PASSWORD = "password";
         public static final String STATE = "state";
+        public static final String IS_LOGGED = "isLogged";
     }
 
     public static abstract class ConversationEntry implements BaseColumns {

@@ -15,6 +15,7 @@ public class User {
     private String password = "";
     private String tokenSesion = "";
     private boolean state = true;
+    private int isLogged;
 
     public User(){
     }
@@ -102,5 +103,13 @@ public class User {
     public static User getUser(Context context){
         DbHelper helper = new DbHelper(context);
         return helper.getUser();
+    }
+
+    public int getIsLogged() {
+        return isLogged;
+    }
+
+    public void setIsLogged(int isLogged) {
+        this.isLogged = isLogged;
     }
 }
