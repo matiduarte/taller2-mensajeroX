@@ -10,7 +10,7 @@ public class User {
     private long id = 0;
     private String userId = "";
     private String phone = "";
-    private String profilePicture = "";
+    private String profilePicture = "default";
     private String name = "";
     private String password = "";
     private String tokenSesion = "";

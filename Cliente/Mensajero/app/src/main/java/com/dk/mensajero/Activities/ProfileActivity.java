@@ -54,10 +54,11 @@ public class ProfileActivity extends ActionBarActivity {
         //foto de perfil
         ImageButton picture = (ImageButton) findViewById(R.id.profile_ibPicture);
         String profilePicturePath = user.getProfilePicture();
-        if (profilePicturePath.equals("")) {
+        if (profilePicturePath.equals("default")) {
             picture.setImageDrawable(getResources().getDrawable(R.drawable.profile_default));
         } else {
-            picture.setImageDrawable(Drawable.createFromPath(user.getProfilePicture()));
+           // picture.setImageDrawable(Drawable.createFromPath(user.getProfilePicture()));
+            picture.setImageBitmap(stringToBitmap(profilePicturePath));
         }
 
         //estado
@@ -109,10 +110,15 @@ public class ProfileActivity extends ActionBarActivity {
                 if (selectedImageUri != null) {
                     ImageView picture = (ImageView)findViewById(R.id.profile_ibPicture);
                     try{
-                        picture.setImageBitmap(getBitmapFromUri(selectedImageUri));
+                        Bitmap profileBitmap = getBitmapFromUri(selectedImageUri);
+
+                        //String prueba = bitmapToString(profileBitmap);
+                        //profileBitmap = stringToBitmap(prueba);
+
+                        picture.setImageBitmap(profileBitmap);
                         DbHelper db = new DbHelper(this);
                         User user = User.getUser(this);
-                        user.setProfilePicture(getPath(selectedImageUri));
+                        user.setProfilePicture(bitmapToString(profileBitmap));
                         db.updateUser(user);
                     }catch (IOException e) {
                         Log.i("WARNING: ",e.getMessage());
@@ -206,9 +212,9 @@ public class ProfileActivity extends ActionBarActivity {
      * @param bitmap la imagen a ser convertida.
      * @return String la imagen codificada en base64.
      */
-    private String BitMapToString(Bitmap bitmap){
+    private String bitmapToString(Bitmap bitmap){
         ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100, baos);
         byte [] b=baos.toByteArray();
         String temp= Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
@@ -220,7 +226,7 @@ public class ProfileActivity extends ActionBarActivity {
      * (precondition: encodedString debería estar en base64)
      * @return bitmap (convertido desde el string recibido.)
      */
-    private Bitmap StringToBitMap(String encodedString) {
+    private Bitmap stringToBitmap(String encodedString) {
         try {
             byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
