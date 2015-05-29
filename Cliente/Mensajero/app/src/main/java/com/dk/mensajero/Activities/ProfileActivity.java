@@ -32,6 +32,8 @@ import java.io.IOException;
 
 public class ProfileActivity extends ActionBarActivity {
     private static final int SELECT_PICTURE = 1;
+    private static final int widthProfileSize = 280;
+    private static final int heightProfileSize = 400;
     private String phoneNumber;
     EditText etName, etPassword;
     Button bState;
@@ -111,15 +113,12 @@ public class ProfileActivity extends ActionBarActivity {
                     ImageView picture = (ImageView)findViewById(R.id.profile_ibPicture);
                     try{
                         Bitmap profileBitmap = getBitmapFromUri(selectedImageUri);
-
+                        profileBitmap = Bitmap.createScaledBitmap(profileBitmap,widthProfileSize,heightProfileSize,true);
                         picture.setImageBitmap(profileBitmap);
                         DbHelper db = new DbHelper(this);
+                        //TODO: guardarlo en el metodo save.
                         User user = User.getUser(this);
                         user.setProfilePicture(bitmapToString(profileBitmap));
-
-                        //Log.i("IMAGEN: ",user.getProfilePicture());
-
-
                         db.updateUser(user);
                     }catch (IOException e) {
                         Log.i("WARNING: ",e.getMessage());
@@ -213,11 +212,11 @@ public class ProfileActivity extends ActionBarActivity {
      * @param bitmap la imagen a ser convertida.
      * @return String la imagen codificada en base64.
      */
-    private String bitmapToString(Bitmap bitmap){
-        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100, baos);
-        byte [] b=baos.toByteArray();
-        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+    private String bitmapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
     }
 
