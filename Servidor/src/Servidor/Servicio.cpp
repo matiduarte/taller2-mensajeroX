@@ -164,6 +164,7 @@ void Servicio::consultarUsuarioOnline() {
 		respuesta[keyNombre] 			= user->getNombre();
 		respuesta[keyPassword] 			= user->getPassword();
 		respuesta[keyTokenSesion] 		= user->calcularTokenDeSesion();
+		respuesta["idUsuario"]				= user->getId();
 		/*respuesta[keyEstadoDeConexion] 	= StringUtil::toString(user->getEstadoConexion());
 		respuesta[keyFotoDePerfil]		= user->getFotoDePerfil();*/
 		this->responder(respuesta.toStyledString(), true);
