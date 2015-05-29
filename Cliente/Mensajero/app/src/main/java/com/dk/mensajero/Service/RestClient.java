@@ -41,6 +41,7 @@ public class RestClient {
     }
 
     public static final int CONNECTION_TIMEOUT = 1000 * 15;
+    public static final int BUFFER_SIZE = (1024*1024)*2;
     HttpParams httpRequestParams;
     private ArrayList<NameValuePair> params;
     private ArrayList<NameValuePair> headers;
@@ -68,7 +69,7 @@ public class RestClient {
         httpRequestParams = new BasicHttpParams();
         HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);
         HttpConnectionParams.setSoTimeout(httpRequestParams, CONNECTION_TIMEOUT);
-        //HttpConnectionParams.setSocketBufferSize(httpRequestParams,10000);
+        HttpConnectionParams.setSocketBufferSize(httpRequestParams,BUFFER_SIZE);
     }
 
     public void addParam(String name, String value) {
@@ -166,7 +167,7 @@ public class RestClient {
 
     private void executeRequest(HttpUriRequest request, String url) {
         HttpClient client = new DefaultHttpClient(httpRequestParams);
-        //client.getParams().setParameter(CoreConnectionPNames.SOCKET_BUFFER_SIZE, 10000);
+        client.getParams().setParameter(CoreConnectionPNames.SOCKET_BUFFER_SIZE, BUFFER_SIZE);
         HttpResponse httpResponse;
 
         try {
