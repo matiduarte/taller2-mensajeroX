@@ -230,8 +230,6 @@ public class DbHelper extends SQLiteOpenHelper {
                 null                                 // The sort order
         );
 
-        ArrayList<User> users = new ArrayList<User>();
-
         if (c != null && c.moveToFirst()) {
 
             while (c.isAfterLast() == false) {
@@ -251,6 +249,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 return user;
             }
         }
+        //Si no está devuelvo uno default.
         User user_default = new User();
         return user_default;
     }
