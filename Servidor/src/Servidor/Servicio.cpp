@@ -159,21 +159,15 @@ void Servicio::consultarUsuarioOnline() {
 
 	if (user->getId() != keyIdUsuarioNoEncontrado) {
 		user->registrarUltimaConexion();
-		string nombre = user->getNombre();
-		string password = user->getPassword();
-		string token = user->calcularTokenDeSesion();
-		Loger::getLoger()->info("Consulta de estado del usuario "+user->getNombre()+ " exitosa.");
-		bool estado = user->getEstadoConexion();
-		string mensaje = "true";
-		if(!estado){
-			mensaje = "false";
-		}
-		Json::Value respuesta;
-		respuesta[keyNombre] = nombre;
-		respuesta[keyPassword] = password;
-		respuesta[keyTokenSesion] = token;
-		this->responder(respuesta.toStyledString(), true);
 
+		Json::Value respuesta;
+		respuesta[keyNombre] 			= user->getNombre();
+		respuesta[keyPassword] 			= user->getPassword();
+		respuesta[keyTokenSesion] 		= user->calcularTokenDeSesion();
+		respuesta[keyEstadoDeConexion] 	= user->getEstadoConexion();
+		respuesta[keyFotoDePerfil]		= user->getFotoDePerfil();
+		this->responder(respuesta.toStyledString(), true);
+		Loger::getLoger()->info("Consulta del usuario "+user->getNombre()+ " exitosa.");
 	} else {
 		Loger::getLoger()->warn(
 								"No se pudo obtener el estado del usuario con numero: "
