@@ -164,10 +164,12 @@ void Servicio::consultarUsuarioOnline() {
 		respuesta[keyNombre] 			= user->getNombre();
 		respuesta[keyPassword] 			= user->getPassword();
 		respuesta[keyTokenSesion] 		= user->calcularTokenDeSesion();
-		respuesta[keyEstadoDeConexion] 	= user->getEstadoConexion();
+		respuesta[keyEstadoDeConexion] 	= StringUtil::toString(user->getEstadoConexion());
 		respuesta[keyFotoDePerfil]		= user->getFotoDePerfil();
+		cout << user->getFotoDePerfil() << endl;
 		this->responder(respuesta.toStyledString(), true);
 		Loger::getLoger()->info("Consulta del usuario "+user->getNombre()+ " exitosa.");
+
 	} else {
 		Loger::getLoger()->warn(
 								"No se pudo obtener el estado del usuario con numero: "
