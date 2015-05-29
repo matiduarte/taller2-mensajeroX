@@ -39,6 +39,7 @@ public:
 private:
 	Json::Value parametros;
 	struct mg_connection* connexion;
+	static int tamanioBuffer;
 };
 
 #endif /* SRC_SERVIDOR_SERVICIO_H_ */

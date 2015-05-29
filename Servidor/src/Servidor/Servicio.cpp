@@ -7,6 +7,8 @@
 
 #include "Servicio.h"
 
+int Servicio::tamanioBuffer = (1024*1024)*2;
+
 Servicio::Servicio(struct mg_connection *conn) {
 	this->connexion = conn;
 
@@ -22,9 +24,9 @@ Servicio::~Servicio() {
 }
 
 void Servicio::parsearParametros(){
-	char buffer[1000];
+	char buffer[tamanioBuffer];
 	//params es un JSON con toda la data
-	int result = mg_get_var(this->connexion, "params", buffer, 1000);
+	int result = mg_get_var(this->connexion, "params", buffer, tamanioBuffer);
 	if(result < 1){
 		//TODO: loggear error
 		//-1 clave no encontrada
@@ -43,8 +45,8 @@ void Servicio::parsearParametros(){
 
 string Servicio::getParametro(string nombreParametro, string valorDefault){
 	string metodo(this->connexion->request_method);
-	char buffer[1000];
-	int resultado = mg_get_var(this->connexion, nombreParametro.c_str(), buffer, 1000);
+	char buffer[tamanioBuffer];
+	int resultado = mg_get_var(this->connexion, nombreParametro.c_str(), buffer, tamanioBuffer);
 	if(resultado < 1){
 		return valorDefault;
 	}
@@ -128,15 +130,10 @@ void Servicio::administrarPerfil(){
 	string localizacion = this->getParametro(keyLocalizacion, keyDefault);
 	string password = this->getParametro(keyPassword, keyDefault);
 	Usuario* user = this->obtenerUsuario();
-	bool estadoActual = user->getEstadoConexion();
 
 	if (user->getId() != keyIdUsuarioNoEncontrado){
 		user->setNombre(nombreUsuario);
 		user->setEstadoConexion(estado);
-		//TODO: Me parece que el token no se tiene que calcular mas aca
-		if(estado && estado != estadoActual){
-			user->calcularTokenDeSesion();
-		}
 		user->setFotoDePerfil(fotoDePerfil);
 		user->setLocalizacion(localizacion);
 		user->setPassword(password);
@@ -164,8 +161,8 @@ void Servicio::consultarUsuarioOnline() {
 		respuesta[keyNombre] 			= user->getNombre();
 		respuesta[keyPassword] 			= user->getPassword();
 		respuesta[keyTokenSesion] 		= user->calcularTokenDeSesion();
-		/*respuesta[keyEstadoDeConexion] 	= StringUtil::toString(user->getEstadoConexion());
-		respuesta[keyFotoDePerfil]		= user->getFotoDePerfil();*/
+		respuesta[keyEstadoDeConexion] 	= StringUtil::toString(user->getEstadoConexion());
+		respuesta[keyFotoDePerfil]		= user->getFotoDePerfil();
 		this->responder(respuesta.toStyledString(), true);
 		Loger::getLoger()->info("Consulta del usuario "+user->getNombre()+ " exitosa.");
 
