@@ -228,15 +228,23 @@ void Servicio::almacenarConversacion() {
 			delete conversacion;
 		}
 		else{
-			vector<Usuario*> usuarios;
-			usuarios.push_back(emisor);
-			usuarios.push_back(receptor);
-			vector<Mensaje*> mensajes;
-			mensajes.push_back(mensaje);
-			Conversacion *nuevaConversacion = new Conversacion(usuarios,mensajes);
-			nuevaConversacion->persistir();
-			delete nuevaConversacion;
+			Conversacion *conversacion = Conversacion::obtener(receptor->getId()+"-"+emisor->getId());
+			if (conversacion->getId() != keyIdConversacionNoEncontrada) {
+				conversacion->agregarMensaje(mensaje);
+				conversacion->persistir();
+				delete conversacion;
+			}else{
+				vector<Usuario*> usuarios;
+				usuarios.push_back(emisor);
+				usuarios.push_back(receptor);
+				vector<Mensaje*> mensajes;
+				mensajes.push_back(mensaje);
+				Conversacion *nuevaConversacion = new Conversacion(usuarios,mensajes);
+				nuevaConversacion->persistir();
+				delete nuevaConversacion;
+			}
 		}
+
 		this->responder("Mensaje agregado correctamente", true);
 		delete mensaje;
 	}
@@ -254,13 +262,19 @@ void Servicio::obtenerIdConversacion(){
 		vector<Usuario*> usuarios;
 		usuarios.push_back(usuarioEmisor);
 		usuarios.push_back(usuarioReceptor);
-		Conversacion* conversacion = new Conversacion(usuarios, mensajes);
+		Conversacion *conversacion = Conversacion::obtener(usuarioEmisor->getId()+"-"+usuarioReceptor->getId());
+		if (conversacion->getId() == keyIdConversacionNoEncontrada) {
+			conversacion = Conversacion::obtener(usuarioReceptor->getId()+"-"+usuarioEmisor->getId());
+		}
 		string idConversacion = conversacion->getId();
 		if(idConversacion != keyIdUsuarioNoEncontrado){
 			this->responder(idConversacion, true);
 		}else{
-			Loger::getLoger()->warn("Error al obtener el id de la conversacion");
-			this->responder("Error al obtener el id de la conversacion", false);
+			//Si la conversacion no existe devuelvo como id uno default para estos dos usuarios
+			Conversacion* conversacion = new Conversacion(usuarios, mensajes);
+			string idConversacion = conversacion->getId();
+
+			this->responder(idConversacion, false);
 		}
 	}else{
 		Usuario* user;

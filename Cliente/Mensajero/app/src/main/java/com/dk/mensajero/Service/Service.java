@@ -27,9 +27,7 @@ import java.util.ArrayList;
  */
 public class Service {
 
-    private String BASE_URL = "http://192.168.137.52:8080/";
-
-    //private String BASE_URL = "http://192.168.1.102:8080/";
+    private String BASE_URL = "http://192.168.0.20:8080/";
 
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
@@ -48,8 +46,7 @@ public class Service {
     private String KEY_MESSAGE_BODY = "Cuerpo";
     private String KEY_MESSAGE_DATE = "Fecha";
     private String KEY_USER_NAME = "Nombre";
-    //TODO: ver de que es este id
-    private String KEY_ID = "Id";
+    private String KEY_MESSAGE_ID = "Id";
     private String KEY_USER_PICTURE = "FotoDePerfil";
     private String KEY_USER_STATE = "EstadoDeConexion";
     private String KEY_USER_PHONE = "Telefono";
@@ -147,9 +144,10 @@ public class Service {
             client.addParam(KEY_USER_PHONE, user.getPhone());
             client.addParam(KEY_USER_PICTURE, user.getProfilePicture());
             client.addParam(KEY_USER_STATE, String.valueOf(user.getState()) );
+            //TODO: Agregar Localizacion.
             client.addParam(KEY_USER_LOCATION, "nada");
             client.addParam(KEY_USER_PASSWORD, user.getPassword());
-            //TODO: Agregar Localizacion.
+
 
             try {
                 client.execute(RestClient.RequestMethod.PUT);
@@ -357,13 +355,12 @@ public class Service {
 
                         String body =  msgJson.getString(KEY_MESSAGE_BODY);
                         String date = msgJson.getString(KEY_MESSAGE_DATE);
-                        String msgId = msgJson.getString(KEY_ID);
+                        String msgId = msgJson.getString(KEY_MESSAGE_ID);
                         String transmitterId = msgJson.getString(KEY_PHONE_USER);
 
                         Message returnedMsg = new Message();
                         returnedMsg.setBody(body);
-                        //TODO: cambiar el setId a String
-                        //returnedMsg.setId(msgId);
+                        returnedMsg.setMessageId(msgId);
                         returnedMsg.setDate(date);
                         returnedMsg.setConversationId(transmitterId);
 
