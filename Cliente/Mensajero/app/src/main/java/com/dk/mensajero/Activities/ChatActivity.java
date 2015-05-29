@@ -155,6 +155,7 @@ public class ChatActivity extends ActionBarActivity {
             @Override
             public void done(ArrayList<Message> messageList) {
                 position = false;
+                message.setConversationId(conversationId);
                 message.save(ChatActivity.this);
             }
         });
