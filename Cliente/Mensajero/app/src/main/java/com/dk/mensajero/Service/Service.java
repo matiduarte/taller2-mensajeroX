@@ -40,7 +40,7 @@ public class Service {
     private Context context;
 
     //KEYS
-    private String KEY_ID_LAST_MESSAGE = "/idUltimoMensaje/";
+    private String KEY_ID_LAST_MESSAGE = "idUltimoMensaje";
     private String KEY_PHONE_USER = "IdUsuarioEmisor";
     private String KEY_PHONE_USER_RECEIVER = "IdUsuarioReceptor";
     private String KEY_TRANSMITTER = "TelefonoEmisor";
@@ -251,7 +251,7 @@ public class Service {
                     returnedMsg = null;
                 } else {
                     String idMsg = jObject.getString(KEY_PAYLOAD);
-                    returnedMsg = new Message();
+                    returnedMsg = new Message(message.getUserPhoneTransmitter(),message.getUserPhoneReceiver(),message.getBody(), message.getDate());
                     returnedMsg.setMessageId(idMsg);
 
                 }
