@@ -14,6 +14,7 @@ public class Message {
     private String date = "";
     private String userPhoneTransmitter = "";
     private String userPhoneReceiver = "";
+    private String transmitterId = "";
 
     public Message(){
     }
@@ -89,6 +90,14 @@ public class Message {
         this.userPhoneReceiver = userPhoneReceiver;
     }
 
+    public void setTransmitterId(String transmitterId) {
+        this.transmitterId = transmitterId;
+    }
+
+    public String getTransmitterId() {
+
+        return transmitterId;
+    }
 //Methods
 
     public void save(Context context) {

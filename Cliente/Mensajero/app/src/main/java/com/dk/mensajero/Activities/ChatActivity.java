@@ -20,6 +20,7 @@ import android.widget.ListView;
 
 import com.dk.mensajero.Adapters.ChatAdapter;
 import com.dk.mensajero.Conversations.ConversationDataProvider;
+import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.Message;
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.Interfaces.GetIdCallback;
@@ -88,7 +89,8 @@ public class ChatActivity extends ActionBarActivity {
             @Override
             public void done(String returnedId) {
                 conversationId = returnedId;
-                Message msg = new Message(conversationId, "2");
+                String lastMsgId = Conversation.getLastMessageIdByConversationId(ChatActivity.this, conversationId);
+                Message msg = new Message(conversationId, lastMsgId);
                 getMessageFromService(msg);
             }
         });
@@ -142,7 +144,6 @@ public class ChatActivity extends ActionBarActivity {
                     String date = getDate();
                     Message message = new Message(transmitterUserPhone, receiverUserPhone, sendMessage, date);
                     sendMessageToServer(message);
-                    //messageList.add(message);
                 }
             }
         });
@@ -154,9 +155,14 @@ public class ChatActivity extends ActionBarActivity {
         serviceRequest.sendNewMessageInBackground(message, new GetMessageCallback() {
             @Override
             public void done(ArrayList<Message> messageList) {
-                position = false;
-                message.setConversationId(conversationId);
-                message.save(ChatActivity.this);
+                if (messageList != null) {
+                    for (Message msg : messageList) {
+                        position = false;
+                        message.setConversationId(conversationId);
+                        message.setMessageId(msg.getMessageId());
+                        saveMessage(message);
+                    }
+                }
             }
         });
 
@@ -230,10 +236,14 @@ public class ChatActivity extends ActionBarActivity {
         serviceRequest.fetchNewMessageInBackground(msg, new GetMessageCallback() {
             @Override
             public void done(ArrayList<Message> list) {
-                if (list.size() != 0) {
+                if (list != null) {
                     for (Message m : list) {
                         Message message = new Message();
                         message.setBody(m.getBody());
+                        if (m.getTransmitterId().equals(transmitterUser.getUserId()))
+                            position = false;
+                        else
+                            position = true;
                         chatAdapter.add(new ConversationDataProvider(position, message));
                         saveMessage(m);
                     }

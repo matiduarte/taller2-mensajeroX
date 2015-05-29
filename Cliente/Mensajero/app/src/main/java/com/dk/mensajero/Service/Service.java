@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by quimey on 10/05/15.
@@ -215,7 +216,7 @@ public class Service {
     }
 
 
-    public class SendNewMessageAsyncTask extends AsyncTask<Void, Void, JSONObject>{
+    public class SendNewMessageAsyncTask extends AsyncTask<Void, Void, Message>{
 
         Message message;
         GetMessageCallback messageCallback;
@@ -226,7 +227,7 @@ public class Service {
         }
 
         @Override
-        protected JSONObject doInBackground(Void... params) {
+        protected Message doInBackground(Void... params) {
 
             String url = BASE_URL + COVERSATION_URL;
             RestClient client = new RestClient(url);
@@ -243,21 +244,30 @@ public class Service {
             }
 
             String response = client.getResponse();
-            JSONObject jObject = new JSONObject();
-
+            Message returnedMsg = null;
             try {
-                jObject = new JSONObject(response);
+                JSONObject jObject = new JSONObject(response);
+                if (jObject.length() == 0){
+                    returnedMsg = null;
+                } else {
+                    String idMsg = jObject.getString(KEY_PAYLOAD);
+                    returnedMsg = new Message();
+                    returnedMsg.setMessageId(idMsg);
+
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            return jObject;
+            return returnedMsg;
         }
 
         @Override
-        protected void onPostExecute(JSONObject jsonObject) {
-            messageCallback.done(null);
-            super.onPostExecute(jsonObject);
+        protected void onPostExecute(Message returnedMsg) {
+            ArrayList<Message> list = new ArrayList<>();
+            list.add(returnedMsg);
+            messageCallback.done(list);
+            super.onPostExecute(returnedMsg);
         }
     }
 
@@ -329,8 +339,7 @@ public class Service {
             String url = BASE_URL + COVERSATION_URL + message.getConversationId();
             RestClient client = new RestClient(url);
 
-            //TODO: obtener el id del ultimo mensaje de la BD
-            client.addParam(KEY_ID_LAST_MESSAGE, String.valueOf(message.getId()));
+            client.addParam(KEY_ID_LAST_MESSAGE, message.getMessageId());
 
             try {
                 client.execute(RestClient.RequestMethod.GET);
@@ -363,7 +372,8 @@ public class Service {
                         returnedMsg.setBody(body);
                         returnedMsg.setMessageId(msgId);
                         returnedMsg.setDate(date);
-                        returnedMsg.setConversationId(transmitterId);
+                        returnedMsg.setTransmitterId(transmitterId);
+                        returnedMsg.setConversationId(message.getConversationId());
 
                         messageList.add(returnedMsg);
                     }
@@ -463,9 +473,11 @@ public class Service {
                     String name = jData.getString(KEY_USER_NAME);
                     String password = jData.getString(KEY_USER_PASSWORD);
                     String tokenSesion = jData.getString(KEY_TOKEN_SESION);
+                    String userId = jData.getString(KEY_USER_ID);
                     //String state = jData.getString(KEY_USER_STATE);
                     //String picture = jData.getString(KEY_USER_PICTURE);
                     returnedUser = new User(user.getPhone(), name, password, tokenSesion);
+                    returnedUser.setUserId(userId);
                     //returnedUser.setProfilePicture(picture);
                     //returnedUser.setState(Boolean.valueOf(state));
                 }
