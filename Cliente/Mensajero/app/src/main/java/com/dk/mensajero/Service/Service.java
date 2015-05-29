@@ -27,7 +27,8 @@ import java.util.ArrayList;
  */
 public class Service {
 
-    private String BASE_URL = "http://192.168.0.27:8080/";
+    private String BASE_URL = "http://192.168.137.52:8080/";
+
     //private String BASE_URL = "http://192.168.1.102:8080/";
 
     private String USER_URL = "usuario/";

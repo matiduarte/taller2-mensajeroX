@@ -87,6 +87,13 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     public long insertUser(User user){
+        // Si ya existe, lo actualizo. sino lo crea.
+       User oldUser = this.getUserByPhone(user.getPhone());
+        if(oldUser.getId() != 0) {
+            user.setId(oldUser.getId());
+            this.updateUser(user);
+            return user.getId();
+        }
         // Gets the data repository in write mode
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -127,7 +134,6 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DbHelperContract.UserEntry.NAME, user.getName());
         values.put(DbHelperContract.UserEntry.PASSWORD, user.getPassword());
         values.put(DbHelperContract.UserEntry.STATE, Boolean.toString(user.getState()));
-        values.put(DbHelperContract.UserEntry.IS_LOGGED, user.getIsLogged());
 
         // Define 'where' part of query.
         String selection = DbHelperContract.UserEntry._ID + " = ?";
@@ -193,6 +199,63 @@ public class DbHelper extends SQLiteOpenHelper {
 
         return users.get(0);
     }
+
+
+    public User getUserByPhone(String userPhone){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                DbHelperContract.UserEntry._ID,
+                DbHelperContract.UserEntry.USER_ID,
+                DbHelperContract.UserEntry.PHONE,
+                DbHelperContract.UserEntry.PROFILE_PICTURE,
+                DbHelperContract.UserEntry.NAME,
+                DbHelperContract.UserEntry.PASSWORD,
+                DbHelperContract.UserEntry.STATE,
+                DbHelperContract.UserEntry.IS_LOGGED,
+        };
+
+        String selection = DbHelperContract.UserEntry.PHONE + " = ?";
+        String[] selectionArgs = { userPhone };
+
+        Cursor c = db.query(
+                DbHelperContract.UserEntry.TABLE_NAME,  // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+
+        ArrayList<User> users = new ArrayList<User>();
+
+        if (c != null && c.moveToFirst()) {
+
+            while (c.isAfterLast() == false) {
+                long id = c.getLong(c.getColumnIndex(DbHelperContract.UserEntry._ID));
+                String userId = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.USER_ID));
+                String phone = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.PHONE));
+                String profilePicture = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.PROFILE_PICTURE));
+                String name = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.NAME));
+                String password = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.PASSWORD));
+                String state = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.STATE));
+                int isLogged = c.getInt(c.getColumnIndex(DbHelperContract.UserEntry.IS_LOGGED));
+
+                User user = new User(id, userId, phone, profilePicture, name);
+                user.setPassword(password);
+                user.setState(Boolean.valueOf(state));
+                user.setIsLogged(isLogged);
+                return user;
+            }
+        }
+        User user_default = new User();
+        return user_default;
+    }
+
+
 
     public long insertConversation(Conversation conversation) {
         // Gets the data repository in write mode
