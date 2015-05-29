@@ -241,7 +241,7 @@ void Servicio::almacenarConversacion() {
 			}
 		}
 
-		this->responder("Mensaje agregado correctamente", true);
+		this->responder(mensaje->getId(), true);
 		delete mensaje;
 	}
 }
