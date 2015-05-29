@@ -331,4 +331,38 @@ public class DbHelper extends SQLiteOpenHelper {
 
         return messages;
     }
+
+    public String getLastMessageIdByConversationId(String conversationId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                DbHelperContract.MessageEntry.MESSAGE_ID,
+                DbHelperContract.MessageEntry.DATE
+        };
+
+        String selection = DbHelperContract.MessageEntry.CONVERSATION_ID + " = ?";
+        String[] selectionArgs = { conversationId };
+
+        Cursor c = db.query(
+                DbHelperContract.MessageEntry.TABLE_NAME,  // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                DbHelperContract.MessageEntry.DATE+" DESC" // The sort order
+        );
+
+        if (c != null && c.moveToFirst()) {
+
+            while (c.isAfterLast() == false) {
+                String messageId = c.getString(c.getColumnIndex(DbHelperContract.MessageEntry.MESSAGE_ID));
+                return messageId;
+            }
+        }
+
+        return "";
+    }
 }

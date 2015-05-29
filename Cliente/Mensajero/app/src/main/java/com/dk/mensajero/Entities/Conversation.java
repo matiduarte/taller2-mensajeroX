@@ -101,6 +101,11 @@ public class Conversation {
         return conversationsResult;
     }
 
+    public static String getLastMessageIdByConversationId(Context context, String conversationId){
+        DbHelper helper = new DbHelper(context);
+       return  helper.getLastMessageIdByConversationId(conversationId);
+    }
+
 
     public String getLastMessage() {
         return lastMessage;
