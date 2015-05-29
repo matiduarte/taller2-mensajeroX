@@ -14,6 +14,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
@@ -32,8 +33,7 @@ import java.util.ArrayList;
 //TODO: Resolver la descarga de un archivo
 
 public class RestClient {
-    public enum RequestMethod
-    {
+    public enum RequestMethod {
         GET,
         POST,
         PUT,
@@ -43,7 +43,7 @@ public class RestClient {
     public static final int CONNECTION_TIMEOUT = 1000 * 15;
     HttpParams httpRequestParams;
     private ArrayList<NameValuePair> params;
-    private ArrayList <NameValuePair> headers;
+    private ArrayList<NameValuePair> headers;
     private String url;
     private int responseCode;
     private String message;
@@ -61,44 +61,36 @@ public class RestClient {
         return responseCode;
     }
 
-    public RestClient(String url)
-    {
+    public RestClient(String url) {
         this.url = url;
         params = new ArrayList<NameValuePair>();
         headers = new ArrayList<NameValuePair>();
         httpRequestParams = new BasicHttpParams();
         HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);
         HttpConnectionParams.setSoTimeout(httpRequestParams, CONNECTION_TIMEOUT);
+        //HttpConnectionParams.setSocketBufferSize(httpRequestParams,10000);
     }
 
-    public void addParam(String name, String value)
-    {
+    public void addParam(String name, String value) {
         params.add(new BasicNameValuePair(name, value));
     }
 
-    public void addHeader(String name, String value)
-    {
+    public void addHeader(String name, String value) {
         headers.add(new BasicNameValuePair(name, value));
     }
 
-    public void execute(RequestMethod method) throws Exception
-    {
-        switch(method) {
-            case GET:
-            {
+    public void execute(RequestMethod method) throws Exception {
+        switch (method) {
+            case GET: {
                 //add parameters
                 String allParams = "";
-                if(!params.isEmpty()){
+                if (!params.isEmpty()) {
                     allParams += "?";
-                    for(NameValuePair param : params)
-                    {
-                        String paramString = param.getName() + "=" + URLEncoder.encode(param.getValue(),"UTF-8");
-                        if(allParams.length() > 1)
-                        {
-                            allParams  +=  "&" + paramString;
-                        }
-                        else
-                        {
+                    for (NameValuePair param : params) {
+                        String paramString = param.getName() + "=" + URLEncoder.encode(param.getValue(), "UTF-8");
+                        if (allParams.length() > 1) {
+                            allParams += "&" + paramString;
+                        } else {
                             allParams += paramString;
                         }
                     }
@@ -107,63 +99,53 @@ public class RestClient {
                 HttpGet request = new HttpGet(url + allParams);
 
                 //add headers
-                for(NameValuePair header : headers)
-                {
+                for (NameValuePair header : headers) {
                     request.addHeader(header.getName(), header.getValue());
                 }
 
                 executeRequest(request, url);
                 break;
             }
-            case POST:
-            {
+            case POST: {
                 HttpPost request = new HttpPost(url);
 
                 //add headers
-                for(NameValuePair h : headers)
-                {
+                for (NameValuePair h : headers) {
                     request.addHeader(h.getName(), h.getValue());
                 }
 
-                if(!params.isEmpty()){
+                if (!params.isEmpty()) {
                     request.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
                 }
 
                 executeRequest(request, url);
                 break;
             }
-            case PUT:
-            {
+            case PUT: {
                 HttpPut request = new HttpPut(url);
 
                 //add headers
-                for(NameValuePair h : headers)
-                {
+                for (NameValuePair h : headers) {
                     request.addHeader(h.getName(), h.getValue());
                 }
 
-                if(!params.isEmpty()){
+                if (!params.isEmpty()) {
                     request.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
                 }
 
                 executeRequest(request, url);
                 break;
             }
-            case DELETE:
-            {
+            case DELETE: {
                 //add parameters
                 String allParams = "";
-                if(!params.isEmpty()){
+                if (!params.isEmpty()) {
                     allParams += "?";
-                    for(NameValuePair param : params)
-                    {
-                        String paramString = param.getName() + "=" + URLEncoder.encode(param.getValue(),"UTF-8");
-                        if(allParams.length() > 1)
-                        {
-                            allParams  +=  "&" + paramString;
-                        }
-                        else
-                        {
+                    for (NameValuePair param : params) {
+                        String paramString = param.getName() + "=" + URLEncoder.encode(param.getValue(), "UTF-8");
+                        if (allParams.length() > 1) {
+                            allParams += "&" + paramString;
+                        } else {
                             allParams += paramString;
                         }
                     }
@@ -172,8 +154,7 @@ public class RestClient {
                 HttpDelete request = new HttpDelete(url + allParams);
 
                 //add headers
-                for(NameValuePair header : headers)
-                {
+                for (NameValuePair header : headers) {
                     request.addHeader(header.getName(), header.getValue());
                 }
 
@@ -183,10 +164,9 @@ public class RestClient {
         }
     }
 
-    private void executeRequest(HttpUriRequest request, String url)
-    {
+    private void executeRequest(HttpUriRequest request, String url) {
         HttpClient client = new DefaultHttpClient(httpRequestParams);
-
+        //client.getParams().setParameter(CoreConnectionPNames.SOCKET_BUFFER_SIZE, 10000);
         HttpResponse httpResponse;
 
         try {
@@ -205,7 +185,7 @@ public class RestClient {
                 instream.close();
             }
 
-        } catch (ClientProtocolException e)  {
+        } catch (ClientProtocolException e) {
             client.getConnectionManager().shutdown();
             e.printStackTrace();
         } catch (IOException e) {

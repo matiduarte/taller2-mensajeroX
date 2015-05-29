@@ -30,7 +30,7 @@ class Usuario: public Persistible
 	//friend TestUsuario;
 private:
 	string nombre;
-	string fotoDePerfil;
+	string fotoDePerfil = "default";
 	string id;
 	string telefono;
 	bool conectado;

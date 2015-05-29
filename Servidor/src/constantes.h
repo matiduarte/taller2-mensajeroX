@@ -23,6 +23,9 @@ using namespace std;
 const bool Online = true;
 const bool Offline = false;
 
+/*constantes para los usuarios*/
+const string fotoDePerfilDefault = "default";
+
 /*Constantes para Base de Datos*/
 const string path_BaseDeDatos = "Base de Datos";
 const string path_BaseDeDatosTests = "Base de Datos TEST";
@@ -33,8 +36,8 @@ const string keyDefault = "";
 /*Claves principales de los Usuarios*/
 #define keyNombre "Nombre"
 #define keyId "Id"
-#define keyFotoDePerfil "FotodePerfil"
-#define keyEstadoDeConexion "Estado de Conexion"
+#define keyFotoDePerfil "FotoDePerfil"
+#define keyEstadoDeConexion "EstadoDeConexion"
 #define keyUltimaConexion "Ultima Conexion"
 #define keyTelefono "Telefono"
 #define keyLocalizacion "Localizacion"

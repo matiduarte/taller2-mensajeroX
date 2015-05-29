@@ -112,13 +112,14 @@ public class ProfileActivity extends ActionBarActivity {
                     try{
                         Bitmap profileBitmap = getBitmapFromUri(selectedImageUri);
 
-                        //String prueba = bitmapToString(profileBitmap);
-                        //profileBitmap = stringToBitmap(prueba);
-
                         picture.setImageBitmap(profileBitmap);
                         DbHelper db = new DbHelper(this);
                         User user = User.getUser(this);
                         user.setProfilePicture(bitmapToString(profileBitmap));
+
+                        //Log.i("IMAGEN: ",user.getProfilePicture());
+
+
                         db.updateUser(user);
                     }catch (IOException e) {
                         Log.i("WARNING: ",e.getMessage());

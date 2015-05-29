@@ -23,7 +23,7 @@ Usuario::Usuario(string nombre, string fotoDePerfil, string telefono, string pas
 Usuario::Usuario(string nombre, string telefono, string password){
 
 		this->nombre = nombre;
-		this->fotoDePerfil = fotoDePerfil;
+		this->fotoDePerfil = fotoDePerfilDefault;
 		this->telefono = telefono;
 		this->conectado = Online;
 		this->id = md5(telefono);
