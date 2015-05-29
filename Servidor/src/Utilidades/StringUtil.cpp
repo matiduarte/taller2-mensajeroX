@@ -66,9 +66,11 @@ vector<std::string> StringUtil::split(const string &s, char delim) {
 }
 
 bool StringUtil::toBoolean(string value){
+	return (value == "true");
+}
 
-	//TODO: VER SI VA A VENIR 0 O 1 O ONLINE U OFFLINE
-	return (value == "1");
+string StringUtil::toString(bool value) {
+	return value ? "true" : "false";
 }
 
 vector<string> StringUtil::jsonValueToVector(Json::Value vector){
@@ -90,3 +92,5 @@ char* StringUtil::str2Char (string string){
 	strcpy(cstr, string.c_str());
 	return cstr;
 }
+
+

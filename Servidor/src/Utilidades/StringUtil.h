@@ -32,6 +32,7 @@ public:
     static vector<std::string>& split(const string &s, char delim, vector<string> &elems);
     static vector<std::string> split(const string &s, char delim);
     static bool toBoolean(string value);
+    static string toString(bool value);
     static vector<string> jsonValueToVector(Json::Value vector);
     static bool vectorContiene(vector<string> vector, string valor);
     static char* str2Char (string string);
