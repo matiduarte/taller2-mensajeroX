@@ -137,7 +137,7 @@ int Usuario::deserealizar(string aDeserealizar){
 		this->setId(user.get(keyId, keyDefault).asString());
 		this->setNombre(user.get(keyNombre, keyDefault).asString());
 		this->setTelefono(user.get(keyTelefono, keyDefault).asString());
-		this->setEstadoConexion(user.get(keyEstadoDeConexion, keyDefault).asBool());
+		//this->setEstadoConexion(user.get(keyEstadoDeConexion, keyDefault).asBool());
 		this->setUltimaConexion(user.get(keyUltimaConexion, keyDefault).asString());
 		this->setFotoDePerfil(user.get(keyFotoDePerfil, keyDefault).asString());
 		this->setLocalizacion(user.get(keyLocalizacion, keyDefault).asString());

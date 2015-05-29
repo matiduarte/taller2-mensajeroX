@@ -27,7 +27,8 @@ import java.util.ArrayList;
  */
 public class Service {
 
-    private String BASE_URL = "http://192.168.0.35:8080/";
+    //private String BASE_URL = "http://192.168.0.35:8080/";
+    private String BASE_URL = "http://192.168.1.102:8080/";
 
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
@@ -462,11 +463,11 @@ public class Service {
                     String name = jData.getString(KEY_USER_NAME);
                     String password = jData.getString(KEY_USER_PASSWORD);
                     String tokenSesion = jData.getString(KEY_TOKEN_SESION);
-                    String state = jData.getString(KEY_USER_STATE);
-                    String picture = jData.getString(KEY_USER_PICTURE);
+                    //String state = jData.getString(KEY_USER_STATE);
+                    //String picture = jData.getString(KEY_USER_PICTURE);
                     returnedUser = new User(user.getPhone(), name, password, tokenSesion);
-                    returnedUser.setProfilePicture(picture);
-                    returnedUser.setState(Boolean.valueOf(state));
+                    //returnedUser.setProfilePicture(picture);
+                    //returnedUser.setState(Boolean.valueOf(state));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

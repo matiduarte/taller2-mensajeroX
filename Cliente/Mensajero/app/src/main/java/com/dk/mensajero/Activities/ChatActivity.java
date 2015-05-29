@@ -230,14 +230,14 @@ public class ChatActivity extends ActionBarActivity {
         serviceRequest.fetchNewMessageInBackground(msg, new GetMessageCallback() {
             @Override
             public void done(ArrayList<Message> list) {
-                for (Message m : list) {
-                    //messageList.add(m);
-                    Message message = new Message();
-                    message.setBody(m.getBody());
-                    chatAdapter.add(new ConversationDataProvider(position, message));
-                    saveMessage(m);
+                if (list.size() != 0) {
+                    for (Message m : list) {
+                        Message message = new Message();
+                        message.setBody(m.getBody());
+                        chatAdapter.add(new ConversationDataProvider(position, message));
+                        saveMessage(m);
+                    }
                 }
-                //position = true;
             }
         });
     }

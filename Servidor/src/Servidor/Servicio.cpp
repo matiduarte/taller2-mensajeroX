@@ -164,9 +164,8 @@ void Servicio::consultarUsuarioOnline() {
 		respuesta[keyNombre] 			= user->getNombre();
 		respuesta[keyPassword] 			= user->getPassword();
 		respuesta[keyTokenSesion] 		= user->calcularTokenDeSesion();
-		respuesta[keyEstadoDeConexion] 	= StringUtil::toString(user->getEstadoConexion());
-		respuesta[keyFotoDePerfil]		= user->getFotoDePerfil();
-		cout << user->getFotoDePerfil() << endl;
+		/*respuesta[keyEstadoDeConexion] 	= StringUtil::toString(user->getEstadoConexion());
+		respuesta[keyFotoDePerfil]		= user->getFotoDePerfil();*/
 		this->responder(respuesta.toStyledString(), true);
 		Loger::getLoger()->info("Consulta del usuario "+user->getNombre()+ " exitosa.");
 
