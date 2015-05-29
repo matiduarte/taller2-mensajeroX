@@ -163,6 +163,8 @@ void Servicio::consultarUsuarioOnline() {
 		respuesta[keyTokenSesion] 		= user->calcularTokenDeSesion();
 		respuesta[keyEstadoDeConexion] 	= StringUtil::toString(user->getEstadoConexion());
 		respuesta[keyFotoDePerfil]		= user->getFotoDePerfil();
+		respuesta["idUsuario"]			= user->getId();
+
 		this->responder(respuesta.toStyledString(), true);
 		Loger::getLoger()->info("Consulta del usuario "+user->getNombre()+ " exitosa.");
 
@@ -237,7 +239,7 @@ void Servicio::almacenarConversacion() {
 			}
 		}
 
-		this->responder("Mensaje agregado correctamente", true);
+		this->responder(mensaje->getId(), true);
 		delete mensaje;
 	}
 }
