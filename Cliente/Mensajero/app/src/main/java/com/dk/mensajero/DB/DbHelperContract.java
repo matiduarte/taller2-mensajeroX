@@ -33,5 +33,6 @@ public final class DbHelperContract {
         public static final String MESSAGE_ID = "messageId";
         public static final String BODY = "body";
         public static final String DATE = "date";
+        public static final String TRANSMITTER_ID = "transmitterId";
     }
 }

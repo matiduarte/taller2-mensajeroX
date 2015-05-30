@@ -49,7 +49,8 @@ public class DbHelper extends SQLiteOpenHelper {
             DbHelperContract.MessageEntry.CONVERSATION_ID + TEXT_TYPE + COMMA_SEP +
             DbHelperContract.MessageEntry.MESSAGE_ID + TEXT_TYPE + COMMA_SEP +
             DbHelperContract.MessageEntry.BODY + TEXT_TYPE + COMMA_SEP +
-            DbHelperContract.MessageEntry.DATE + TEXT_TYPE +
+            DbHelperContract.MessageEntry.DATE + TEXT_TYPE + COMMA_SEP +
+            DbHelperContract.MessageEntry.TRANSMITTER_ID + TEXT_TYPE +
             " );";
 
     private static final String SQL_DELETE_ENTRIES_USER =
@@ -60,7 +61,7 @@ public class DbHelper extends SQLiteOpenHelper {
             "DROP TABLE IF EXISTS " + DbHelperContract.MessageEntry.TABLE_NAME + ";";
 
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 9;
+    public static final int DATABASE_VERSION = 10;
     public static final String DATABASE_NAME = "MensajeroX.db";
 
     public DbHelper(Context context) {
@@ -287,6 +288,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DbHelperContract.MessageEntry.MESSAGE_ID, message.getMessageId());
         values.put(DbHelperContract.MessageEntry.BODY, message.getBody());
         values.put(DbHelperContract.MessageEntry.DATE, message.getDate());
+        values.put(DbHelperContract.MessageEntry.TRANSMITTER_ID, message.getTransmitterId());
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId;
@@ -357,6 +359,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 DbHelperContract.MessageEntry.MESSAGE_ID,
                 DbHelperContract.MessageEntry.BODY,
                 DbHelperContract.MessageEntry.DATE,
+                DbHelperContract.MessageEntry.TRANSMITTER_ID,
         };
 
         String selection = DbHelperContract.MessageEntry.CONVERSATION_ID + " = ?";
@@ -382,9 +385,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 String messageId = c.getString(c.getColumnIndex(DbHelperContract.MessageEntry.MESSAGE_ID));
                 String body = c.getString(c.getColumnIndex(DbHelperContract.MessageEntry.BODY));
                 String date = c.getString(c.getColumnIndex(DbHelperContract.MessageEntry.DATE));
+                String transmitterId = c.getString(c.getColumnIndex(DbHelperContract.MessageEntry.TRANSMITTER_ID));
 
                 Message message = new Message(convId, messageId, body, date);
                 message.setId(id);
+                message.setTransmitterId(transmitterId);
 
                 messages.add(message);
                 c.moveToNext();
