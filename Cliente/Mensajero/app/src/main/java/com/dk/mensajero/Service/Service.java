@@ -28,8 +28,8 @@ import java.util.List;
  */
 public class Service {
 
-    private String BASE_URL = "http://192.168.0.27:8080/";
-    //private String BASE_URL = "http://192.168.1.102:8080/";
+    //private String BASE_URL = "http://192.168.0.27:8080/";
+    private String BASE_URL = "http://192.168.1.102:8080/";
 
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
@@ -202,7 +202,7 @@ public class Service {
     }
 
     public void fetchUserDataInBackground(User user, GetUserCallback userCallback){
-        progressDialog.show();
+        //progressDialog.show();
         new fetchUserDataAsyncTask(user,userCallback).execute();
     }
 
@@ -490,7 +490,7 @@ public class Service {
 
         @Override
         protected void onPostExecute(User returnedUser) {
-            progressDialog.dismiss();
+            //progressDialog.dismiss();
             userCallback.done(returnedUser);
             super.onPostExecute(user);
         }

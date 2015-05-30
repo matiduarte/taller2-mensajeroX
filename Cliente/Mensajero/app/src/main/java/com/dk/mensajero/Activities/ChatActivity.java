@@ -6,6 +6,7 @@ import android.database.DataSetObserver;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.dk.mensajero.Adapters.ChatAdapter;
 import com.dk.mensajero.Conversations.ConversationDataProvider;
@@ -22,6 +24,7 @@ import com.dk.mensajero.Entities.Message;
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.Interfaces.GetIdCallback;
 import com.dk.mensajero.Interfaces.GetMessageCallback;
+import com.dk.mensajero.Interfaces.GetUserCallback;
 import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
 
@@ -34,19 +37,20 @@ public class ChatActivity extends ActionBarActivity {
     private ListView conversationList;
     private EditText chatText;
     private Button send_button;
-    private boolean position = false;
+    private boolean position;
     private ChatAdapter chatAdapter;
     private Context conversationCtx = this;
     private String receiverUserPhone = "";
     private String transmitterUserPhone = "";
     private String conversationId = "";
     private User transmitterUser;
-    private ArrayList<Message> savedMessagesList = new ArrayList<>();
+    private User receiverUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
         this.conversationList = (ListView) findViewById(R.id.chat_list_view);
         this.chatText = (EditText) findViewById(R.id.chatTxt);
         this.send_button = (Button) findViewById(R.id.send_button);
@@ -55,16 +59,29 @@ public class ChatActivity extends ActionBarActivity {
         this.conversationList.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 
         this.getTransmitterUserPhone();
-        this.getReceiverUserFromIntent();
+        this.getReceiverUserPhoneFromIntent();
         this.getConversationId();
         this.registerDataSetObserver();
         this.setOnClickListener();
 
 
-       /* android.support.v7.app.ActionBar bar = getSupportActionBar();
-        if (bar != null) {
-            bar.setTitle(this.receiverUser.getName());
-        }*/
+    }
+
+    private void customizeActionBar() {
+
+        android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
+        mActionBar.setDisplayShowHomeEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(false);
+        LayoutInflater mInflater = LayoutInflater.from(this);
+
+        View mCustomView = mInflater.inflate(R.layout.activity_chat_action_bar, null);
+        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text_action_bar);
+        mTitleTextView.setText(receiverUser.getName());
+
+        //ImageView profilePicture = (ImageView) mCustomView.findViewById(R.id.profile_picture_action_bar);
+
+        mActionBar.setCustomView(mCustomView);
+        mActionBar.setDisplayShowCustomEnabled(true);
 
     }
 
@@ -88,18 +105,16 @@ public class ChatActivity extends ActionBarActivity {
     private void getSaveMessageList() {
 
         DbHelper helper = new DbHelper(this);
-        this.savedMessagesList = helper.getMessagesByConversationId(this.conversationId);
+        ArrayList<Message> savedMessagesList;
+        savedMessagesList = helper.getMessagesByConversationId(this.conversationId);
         //Muestro los mensajes en la pantalla
         for (Message m : savedMessagesList) {
-            if (m.getTransmitterId().equals(this.transmitterUser.getUserId()))
-                this.position = false;
-            else
-                this.position = true;
+            position = !(m.getTransmitterId().equals(transmitterUser.getUserId()));
             this.chatAdapter.add(new ConversationDataProvider(position, m));
         }
     }
 
-    private void getReceiverUserFromIntent() {
+    private void getReceiverUserPhoneFromIntent() {
 
         Intent intentExtras = getIntent();
         Bundle phoneBundle;
@@ -108,6 +123,29 @@ public class ChatActivity extends ActionBarActivity {
             this.receiverUserPhone = phoneBundle.getString("contactPhone");
         }
 
+        this.fetchReceiverUserFromServer();
+
+    }
+
+
+    private void fetchReceiverUserFromServer(){
+
+        User rUser = new User(this.receiverUserPhone, "0000");
+
+        Service serviceRequest = new Service(this);
+        serviceRequest.fetchUserDataInBackground(rUser, new GetUserCallback() {
+            @Override
+            public void done(User returnedUser) {
+                setReceiverUser(returnedUser);
+            }
+        });
+
+    }
+
+
+    private void setReceiverUser(User returnedUser) {
+        this.receiverUser = returnedUser;
+        this.customizeActionBar();
     }
 
     public void registerDataSetObserver(){
@@ -144,7 +182,7 @@ public class ChatActivity extends ActionBarActivity {
                 if (messageList != null) {
                     for (Message msg : messageList) {
                         position = false;
-                        msg.setConversationId(conversationId);;
+                        msg.setConversationId(conversationId);
                         saveMessage(msg);
                     }
                 }
@@ -155,7 +193,7 @@ public class ChatActivity extends ActionBarActivity {
 
     private String getMessageToSend(String textMessage) {
 
-        String formatMessage, returnedMessage = "";
+        String formatMessage, returnedMessage;
 
         if (textMessage.startsWith("\n") || textMessage.endsWith("\n")){
             formatMessage = (textMessage.replaceAll("^\n+","")).replaceAll("\n+$","");
@@ -214,6 +252,7 @@ public class ChatActivity extends ActionBarActivity {
         handler.postDelayed(new Runnable() {
             public void run() {
                 String lastMsgId = Conversation.getLastMessageIdByConversationId(ChatActivity.this, conversationId);
+                System.out.println("ID ULTIMO MSJ " + lastMsgId);
                 Message msg = new Message(conversationId, lastMsgId);
                 getMessageFromService(msg);
                 handler.postDelayed(this, 1000 * 2);
@@ -229,14 +268,9 @@ public class ChatActivity extends ActionBarActivity {
             public void done(ArrayList<Message> list) {
                 if (list != null) {
                     for (Message m : list) {
-                            /*Message message = new Message();
-                            message.setBody(m.getBody());
-                            if (m.getTransmitterId().equals(transmitterUser.getUserId()))
-                                position = false;
-                            else
-                                position = true;
-                            chatAdapter.add(new ConversationDataProvider(position, message));*/
-                            saveMessage(m);
+                        position = !(m.getTransmitterId().equals(transmitterUser.getUserId()));
+                        chatAdapter.add(new ConversationDataProvider(position, m));
+                        saveMessage(m);
                     }
                 }
                 //getSaveMessageList();
