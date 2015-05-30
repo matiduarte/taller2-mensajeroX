@@ -7,5 +7,5 @@
         android:title="@string/action_settings"
         android:icon="@drawable/ic_action_overflow"
         android:orderInCategory="100"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 </menu>
