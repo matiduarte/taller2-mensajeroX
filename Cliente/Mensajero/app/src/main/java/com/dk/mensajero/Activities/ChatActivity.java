@@ -1,5 +1,6 @@
 package com.dk.mensajero.Activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
@@ -50,7 +51,7 @@ public class ChatActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
+        this.getReceiverUserPhoneFromIntent();
         this.conversationList = (ListView) findViewById(R.id.chat_list_view);
         this.chatText = (EditText) findViewById(R.id.chatTxt);
         this.send_button = (Button) findViewById(R.id.send_button);
@@ -59,10 +60,10 @@ public class ChatActivity extends ActionBarActivity {
         this.conversationList.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 
         this.getTransmitterUserPhone();
-        this.getReceiverUserPhoneFromIntent();
         this.getConversationId();
         this.registerDataSetObserver();
         this.setOnClickListener();
+
 
 
     }
@@ -268,8 +269,8 @@ public class ChatActivity extends ActionBarActivity {
             public void done(ArrayList<Message> list) {
                 if (list != null) {
                     for (Message m : list) {
-                        position = !(m.getTransmitterId().equals(transmitterUser.getUserId()));
-                        chatAdapter.add(new ConversationDataProvider(position, m));
+                        /*position = !(m.getTransmitterId().equals(transmitterUser.getUserId()));
+                        chatAdapter.add(new ConversationDataProvider(position, m));*/
                         saveMessage(m);
                     }
                 }
@@ -283,5 +284,6 @@ public class ChatActivity extends ActionBarActivity {
     public void saveMessage(Message msg){
         msg.save(this);
     }
+
 
 }
