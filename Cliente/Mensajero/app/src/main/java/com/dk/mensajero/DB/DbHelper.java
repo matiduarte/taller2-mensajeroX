@@ -88,15 +88,25 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     public long insertUser(User user){
+        // Gets the data repository in write mode
+        SQLiteDatabase db = this.getWritableDatabase();
+
         // Si ya existe, lo actualizo. sino lo crea.
        User oldUser = this.getUserByPhone(user.getPhone());
         if(oldUser.getId() != 0) {
+            if(oldUser.getIsLogged()== 0 && user.getIsLogged() > 0){
+                //El usuario se esta logueando
+                clearSessionData(db);
+            }
+
             user.setId(oldUser.getId());
             this.updateUser(user);
             return user.getId();
         }
-        // Gets the data repository in write mode
-        SQLiteDatabase db = this.getWritableDatabase();
+
+        if(user.getIsLogged() > 0){
+            clearSessionData(db);
+        }
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -107,11 +117,6 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DbHelperContract.UserEntry.PASSWORD, user.getPassword());
         values.put(DbHelperContract.UserEntry.IS_LOGGED, user.getIsLogged());
 
-        if(user.getIsLogged() > 0){
-            db.execSQL("Update "+ DbHelperContract.UserEntry.TABLE_NAME + " SET " + DbHelperContract.UserEntry.IS_LOGGED
-            + " = 0");
-        }
-
          // Insert the new row, returning the primary key value of the new row
         long newRowId;
         newRowId = db.insert(
@@ -120,6 +125,13 @@ public class DbHelper extends SQLiteOpenHelper {
                 values);
 
         return newRowId;
+    }
+
+    private void clearSessionData(SQLiteDatabase db) {
+        db.execSQL("Update "+ DbHelperContract.UserEntry.TABLE_NAME + " SET " + DbHelperContract.UserEntry.IS_LOGGED
+                + " = 0");
+        db.execSQL("Delete FROM "+ DbHelperContract.MessageEntry.TABLE_NAME);
+        db.execSQL("Delete FROM "+ DbHelperContract.ConversationEntry.TABLE_NAME);
     }
 
 
@@ -135,6 +147,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DbHelperContract.UserEntry.NAME, user.getName());
         values.put(DbHelperContract.UserEntry.PASSWORD, user.getPassword());
         values.put(DbHelperContract.UserEntry.STATE, Boolean.toString(user.getState()));
+        values.put(DbHelperContract.UserEntry.IS_LOGGED, user.getIsLogged());
 
         // Define 'where' part of query.
         String selection = DbHelperContract.UserEntry._ID + " = ?";
@@ -174,8 +187,6 @@ public class DbHelper extends SQLiteOpenHelper {
                 null                                 // The sort order
         );
 
-        ArrayList<User> users = new ArrayList<User>();
-
         if (c != null && c.moveToFirst()) {
 
             while (c.isAfterLast() == false) {
@@ -193,12 +204,10 @@ public class DbHelper extends SQLiteOpenHelper {
                 user.setState(Boolean.valueOf(state));
                 user.setIsLogged(isLogged);
 
-                users.add(user);
-                c.moveToNext();
+                return user;
             }
         }
-
-        return users.get(0);
+        return new User();
     }
 
 
