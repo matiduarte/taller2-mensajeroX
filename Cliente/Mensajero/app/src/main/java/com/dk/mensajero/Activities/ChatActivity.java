@@ -108,6 +108,12 @@ public class ChatActivity extends ActionBarActivity {
         DbHelper helper = new DbHelper(this);
         ArrayList<Message> savedMessagesList;
         savedMessagesList = helper.getMessagesByConversationId(this.conversationId);
+
+        this.chatAdapter = new ChatAdapter(conversationCtx, R.layout.single_message_layout);
+        this.registerDataSetObserver();
+        this.conversationList.setAdapter(chatAdapter);
+        this.conversationList.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+
         //Muestro los mensajes en la pantalla
         for (Message m : savedMessagesList) {
             position = !(m.getTransmitterId().equals(transmitterUser.getUserId()));
@@ -274,7 +280,7 @@ public class ChatActivity extends ActionBarActivity {
                         saveMessage(m);
                     }
                 }
-                //getSaveMessageList();
+                getSaveMessageList();
             }
         });
 
