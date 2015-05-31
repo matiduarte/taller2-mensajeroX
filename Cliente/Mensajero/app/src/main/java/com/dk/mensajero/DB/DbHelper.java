@@ -396,7 +396,9 @@ public class DbHelper extends SQLiteOpenHelper {
                 String date = c.getString(c.getColumnIndex(DbHelperContract.MessageEntry.DATE));
                 String transmitterId = c.getString(c.getColumnIndex(DbHelperContract.MessageEntry.TRANSMITTER_ID));
 
-                Message message = new Message(convId, messageId, body, date);
+                Message message = new Message(convId, messageId);
+                message.setBody(body);
+                message.setDate(date);
                 message.setId(id);
                 message.setTransmitterId(transmitterId);
 
