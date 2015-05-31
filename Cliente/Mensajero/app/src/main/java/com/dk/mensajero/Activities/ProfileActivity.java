@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
@@ -19,13 +19,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-
-import com.dk.mensajero.DB.DbHelper;
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.Interfaces.UpdateProfileCallback;
 import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;
 import java.io.IOException;
@@ -34,9 +31,10 @@ public class ProfileActivity extends ActionBarActivity {
     private static final int SELECT_PICTURE = 1;
     private static final int widthProfileSize = 280;
     private static final int heightProfileSize = 400;
-    private String phoneNumber;
+    private boolean defaultPicture;
     EditText etName, etPassword;
     Button bState;
+    ImageButton ibPicture;
 
 
     @Override
@@ -54,13 +52,13 @@ public class ProfileActivity extends ActionBarActivity {
         etPassword.setHint(R.string.newPassword);
 
         //foto de perfil
-        ImageButton picture = (ImageButton) findViewById(R.id.profile_ibPicture);
-        String profilePicturePath = user.getProfilePicture();
-        if (profilePicturePath.equals("default")) {
-            picture.setImageDrawable(getResources().getDrawable(R.drawable.profile_default));
+        ibPicture = (ImageButton) findViewById(R.id.profile_ibPicture);
+        String profilePicture = user.getProfilePicture();
+        defaultPicture = profilePicture.equals("default");
+        if (defaultPicture) {
+            ibPicture.setImageDrawable(getResources().getDrawable(R.drawable.profile_default));
         } else {
-           // picture.setImageDrawable(Drawable.createFromPath(user.getProfilePicture()));
-            picture.setImageBitmap(stringToBitmap(profilePicturePath));
+            ibPicture.setImageBitmap(stringToBitmap(profilePicture));
         }
 
         //estado
@@ -115,11 +113,7 @@ public class ProfileActivity extends ActionBarActivity {
                         Bitmap profileBitmap = getBitmapFromUri(selectedImageUri);
                         profileBitmap = Bitmap.createScaledBitmap(profileBitmap,widthProfileSize,heightProfileSize,true);
                         picture.setImageBitmap(profileBitmap);
-                        DbHelper db = new DbHelper(this);
-                        //TODO: guardarlo en el metodo save.
-                        User user = User.getUser(this);
-                        user.setProfilePicture(bitmapToString(profileBitmap));
-                        db.updateUser(user);
+                        defaultPicture = false;
                     }catch (IOException e) {
                         Log.i("WARNING: ",e.getMessage());
                     }
@@ -166,9 +160,9 @@ public class ProfileActivity extends ActionBarActivity {
             state.setText(R.string.profile_state_connected);
     }
 
+
     public void saveProfile(View view) {
         final User user = User.getUser(this);
-        final DbHelper db = new DbHelper(this);
 
         //guardo el nombre
         etName = (EditText) findViewById(R.id.profile_etName);
@@ -190,13 +184,22 @@ public class ProfileActivity extends ActionBarActivity {
         if (sState.equals("Conectado")) user.setState(true);
         else user.setState(false);
 
+        //guardo la foto de perfil
+        if (!defaultPicture) {
+            ibPicture = (ImageButton) findViewById(R.id.profile_ibPicture);
+            Bitmap bitmapPicture = ((BitmapDrawable) ibPicture.getDrawable()).getBitmap();
+            user.setProfilePicture(bitmapToString(bitmapPicture));
+        }
+
+
+
         final Service serviceRequest = new Service(this);
         serviceRequest.updateUserProfileInBackground(user, new UpdateProfileCallback() {
                     @Override
                     public void done(boolean connectionResult) {
                         if (connectionResult) {
                             //actualizo el usuario en la base de datos local
-                            db.updateUser(user);
+                            user.save(ProfileActivity.this);
                             startActivity(new Intent(ProfileActivity.this, ConversationsListActivity.class));
                         }else{
                             serviceRequest.showFailConnectionServerMessage(ProfileActivity.this);
