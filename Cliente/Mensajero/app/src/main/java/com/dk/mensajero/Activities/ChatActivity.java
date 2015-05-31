@@ -189,8 +189,9 @@ public class ChatActivity extends ActionBarActivity {
                 if (messageList != null) {
                     for (Message msg : messageList) {
                         position = false;
-                        msg.setConversationId(conversationId);
-                        saveMessage(msg);
+                        //TODO: comento esto porque sino se duplican los mensajes. Se insertaba aca y despues en el get de mensajes
+                        //msg.setConversationId(conversationId);
+                       // saveMessage(msg);
                     }
                 }
             }
@@ -217,7 +218,7 @@ public class ChatActivity extends ActionBarActivity {
         if (!(returnedMessage.isEmpty())) {
            Message message = new Message();
            message.setBody(returnedMessage);
-           chatAdapter.add(new ConversationDataProvider(position, message));
+           chatAdapter.add(new ConversationDataProvider(false, message));
            chatText.setText("");
         }
 
@@ -259,7 +260,6 @@ public class ChatActivity extends ActionBarActivity {
         handler.postDelayed(new Runnable() {
             public void run() {
                 String lastMsgId = Conversation.getLastMessageIdByConversationId(ChatActivity.this, conversationId);
-                System.out.println("ID ULTIMO MSJ " + lastMsgId);
                 Message msg = new Message(conversationId, lastMsgId);
                 getMessageFromService(msg);
                 handler.postDelayed(this, 1000 * 2);
