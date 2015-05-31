@@ -64,6 +64,14 @@
                 android:value="com.dk.mensajero.Activities.SettingsActivity" />
         </activity>
         <activity
+            android:name=".Activities.ContactsListActivity"
+            android:label="@string/title_activity_contacts"
+            android:parentActivityName=".Activities.SettingsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dk.mensajero.Activities.SettingsActivity" />
+        </activity>
+        <activity
             android:name=".Activities.ChatActivity"
             android:label="@string/title_activity_conversation"
             android:parentActivityName=".Activities.ConversationsListActivity" >

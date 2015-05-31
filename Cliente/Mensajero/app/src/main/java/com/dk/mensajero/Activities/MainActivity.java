@@ -93,6 +93,11 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
+    public void showContacts(View view) {
+        Intent intent = new Intent(this, ContactsListActivity.class);
+        startActivity(intent);
+    }
+
     public void showSettings(View view) {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
