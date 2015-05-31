@@ -274,10 +274,25 @@ public class ChatActivity extends ActionBarActivity {
             @Override
             public void done(ArrayList<Message> list) {
                 if (list != null) {
+                    DbHelper helper = new DbHelper(ChatActivity.this);
+                    ArrayList<Message> currentMessages = helper.getMessagesByConversationId(ChatActivity.this.conversationId);
+
                     for (Message m : list) {
                         /*position = !(m.getTransmitterId().equals(transmitterUser.getUserId()));
                         chatAdapter.add(new ConversationDataProvider(position, m));*/
-                        saveMessage(m);
+
+                        //HACK: para evitar mensajes duplicados en la db
+                        boolean found = false;
+                        for (Message currentMessage : currentMessages) {
+                            if(currentMessage.getMessageId().equals(m.getMessageId())){
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if(!found) {
+                            saveMessage(m);
+                        }
                     }
                 }
                 getSaveMessageList();
@@ -290,6 +305,5 @@ public class ChatActivity extends ActionBarActivity {
     public void saveMessage(Message msg){
         msg.save(this);
     }
-
 
 }
