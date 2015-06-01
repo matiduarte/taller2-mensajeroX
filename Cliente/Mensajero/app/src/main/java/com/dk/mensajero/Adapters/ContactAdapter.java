@@ -58,9 +58,8 @@ public class ContactAdapter extends ArrayAdapter<User> {
         if (!contact.getProfilePicture().equals("default")) {
             ImageView contactPictureField = (ImageView) rowView.findViewById(R.id.contact_image);
             Bitmap picture = Utilities.stringToBitmap(contact.getProfilePicture());
-            contactPictureField.setImageBitmap(picture);
+            contactPictureField.setImageDrawable(Utilities.createRoundImage(picture));
         }
-
         return rowView;
     }
 }

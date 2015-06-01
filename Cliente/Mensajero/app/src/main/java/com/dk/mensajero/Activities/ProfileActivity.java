@@ -1,15 +1,12 @@
 package com.dk.mensajero.Activities;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.Interfaces.UpdateProfileCallback;
 import com.dk.mensajero.R;
@@ -29,12 +26,13 @@ import java.io.IOException;
 
 public class ProfileActivity extends ActionBarActivity {
     private static final int SELECT_PICTURE = 1;
-    private static final int widthProfileSize = 280;
-    private static final int heightProfileSize = 400;
-    private boolean defaultPicture;
+    private static final int widthProfileSize = 200;
+    private static final int heightProfileSize = 200;
+    private String userPicture;
     EditText etName, etPassword;
     Button bState;
     ImageButton ibPicture;
+
 
 
     @Override
@@ -53,12 +51,13 @@ public class ProfileActivity extends ActionBarActivity {
 
         //foto de perfil
         ibPicture = (ImageButton) findViewById(R.id.profile_ibPicture);
-        String profilePicture = user.getProfilePicture();
-        defaultPicture = profilePicture.equals("default");
-        if (defaultPicture) {
+        userPicture = user.getProfilePicture();
+
+        if (userPicture.equals("default")) {
             ibPicture.setImageDrawable(getResources().getDrawable(R.drawable.profile_default));
         } else {
-            ibPicture.setImageBitmap(Utilities.stringToBitmap(profilePicture));
+            Bitmap picture = Utilities.stringToBitmap(userPicture);
+            ibPicture.setImageDrawable(Utilities.createRoundImage(picture));
         }
 
         //estado
@@ -108,12 +107,15 @@ public class ProfileActivity extends ActionBarActivity {
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
                 if (selectedImageUri != null) {
-                    ImageView picture = (ImageView)findViewById(R.id.profile_ibPicture);
+
                     try{
                         Bitmap profileBitmap = getBitmapFromUri(selectedImageUri);
+                        profileBitmap = Utilities.cutCentredSquare(profileBitmap);
                         profileBitmap = Bitmap.createScaledBitmap(profileBitmap,widthProfileSize,heightProfileSize,true);
-                        picture.setImageBitmap(profileBitmap);
-                        defaultPicture = false;
+
+                        userPicture = Utilities.bitmapToString(profileBitmap);
+                        ibPicture = (ImageButton) findViewById(R.id.profile_ibPicture);
+                        ibPicture.setImageDrawable(Utilities.createRoundImage(profileBitmap));
                     }catch (IOException e) {
                         Log.i("WARNING: ",e.getMessage());
                     }
@@ -121,23 +123,6 @@ public class ProfileActivity extends ActionBarActivity {
                 }
             }
         }
-    }
-
-
-    public String getPath(Uri uri) {
-
-        // try to retrieve the image from the media store first
-        // this will only work for images selected from gallery
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        if( cursor != null ){
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
-        // this is our fallback here
-        return uri.getPath();
     }
 
 
@@ -185,12 +170,7 @@ public class ProfileActivity extends ActionBarActivity {
         else user.setState(false);
 
         //guardo la foto de perfil
-        if (!defaultPicture) {
-            ibPicture = (ImageButton) findViewById(R.id.profile_ibPicture);
-            Bitmap bitmapPicture = ((BitmapDrawable) ibPicture.getDrawable()).getBitmap();
-            user.setProfilePicture(Utilities.bitmapToString(bitmapPicture));
-        }
-
+        user.setProfilePicture(userPicture);
 
 
         final Service serviceRequest = new Service(this);

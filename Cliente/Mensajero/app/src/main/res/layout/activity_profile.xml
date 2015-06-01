@@ -11,11 +11,12 @@
 
     <ImageButton
         android:id="@+id/profile_ibPicture"
-        android:layout_width="160dp"
-        android:layout_height="165dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:adjustViewBounds="true"
         android:onClick="selectPicture"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
+        android:background="@android:color/transparent"
         android:src="@drawable/profile_default" />
 
     <TextView

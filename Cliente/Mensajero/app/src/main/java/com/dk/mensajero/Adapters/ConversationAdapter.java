@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.R;
+import com.dk.mensajero.RoundImage;
 import com.dk.mensajero.Utilities;
 
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ public class ConversationAdapter extends ArrayAdapter<Conversation> {
         if (!conversation.getContactProfilePicture().equals("default")) {
             ImageView contactPictureField = (ImageView) rowView.findViewById(R.id.contact_image);
             Bitmap picture = Utilities.stringToBitmap(conversation.getContactProfilePicture());
-            contactPictureField.setImageBitmap(picture);
+            contactPictureField.setImageDrawable(Utilities.createRoundImage(picture));
         }
 
         return rowView;
