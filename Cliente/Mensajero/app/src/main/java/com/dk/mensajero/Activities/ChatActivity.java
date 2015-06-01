@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ import com.dk.mensajero.Interfaces.GetMessageCallback;
 import com.dk.mensajero.Interfaces.GetUserCallback;
 import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
+import com.dk.mensajero.Utilities;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -79,7 +81,10 @@ public class ChatActivity extends ActionBarActivity {
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text_action_bar);
         mTitleTextView.setText(receiverUser.getName());
 
-        //ImageView profilePicture = (ImageView) mCustomView.findViewById(R.id.profile_picture_action_bar);
+        if (!receiverUser.getProfilePicture().equals("default")) {
+            ImageView profilePicture = (ImageView) mCustomView.findViewById(R.id.profile_picture_action_bar);
+            profilePicture.setImageBitmap(Utilities.stringToBitmap(receiverUser.getProfilePicture()));
+        }
 
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
