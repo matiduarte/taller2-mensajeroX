@@ -1,12 +1,10 @@
 package com.dk.mensajero;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.util.Base64;
 import android.util.Log;
-
-import com.dk.mensajero.Activities.ProfileActivity;
 
 import java.io.ByteArrayOutputStream;
 
@@ -44,4 +42,31 @@ public class Utilities {
             return null;
         }
     }
+
+    public static Bitmap cutCentredSquare(Bitmap bitmap){
+        if (bitmap.getWidth() >= bitmap.getHeight()){
+            bitmap = Bitmap.createBitmap(
+                    bitmap,
+                    bitmap.getWidth()/2 - bitmap.getHeight()/2,
+                    0,
+                    bitmap.getHeight(),
+                    bitmap.getHeight()
+            );
+        }else{
+            bitmap = Bitmap.createBitmap(
+                    bitmap,
+                    0,
+                    bitmap.getHeight()/2 - bitmap.getWidth()/2,
+                    bitmap.getWidth(),
+                    bitmap.getWidth()
+            );
+        }
+        return bitmap;
+    }
+
+
+    public static Drawable createRoundImage(Bitmap bitmap){
+        return new RoundImage(bitmap);
+    }
+
 }
