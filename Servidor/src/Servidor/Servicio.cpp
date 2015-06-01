@@ -368,6 +368,7 @@ void Servicio::obtenerConversaciones(){
 			respuesta["conversaciones"][i]["ultimoMensaje"] = ultimoMensj->getCuerpo();
 			respuesta["conversaciones"][i]["usuarioNombre"] = usuarioContacto->getNombre();
 			respuesta["conversaciones"][i]["usuarioTelefono"] = usuarioContacto->getTelefono();
+			respuesta["conversaciones"][i]["usuarioFotoDePerfil"] = usuarioContacto->getFotoDePerfil();
 
 		}
 
