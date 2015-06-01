@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import com.dk.mensajero.Interfaces.GetIdCallback;
 import com.dk.mensajero.Interfaces.GetMessageCallback;
 import com.dk.mensajero.Interfaces.GetUserCallback;
 import com.dk.mensajero.R;
+import com.dk.mensajero.RoundImage;
 import com.dk.mensajero.Service.Service;
 import com.dk.mensajero.Utilities;
 
@@ -83,7 +85,8 @@ public class ChatActivity extends ActionBarActivity {
 
         if (!receiverUser.getProfilePicture().equals("default")) {
             ImageView profilePicture = (ImageView) mCustomView.findViewById(R.id.profile_picture_action_bar);
-            profilePicture.setImageBitmap(Utilities.stringToBitmap(receiverUser.getProfilePicture()));
+            Bitmap bitmapPicture = Utilities.stringToBitmap(receiverUser.getProfilePicture());
+            profilePicture.setImageDrawable(Utilities.createRoundImage(bitmapPicture));
         }
 
         mActionBar.setCustomView(mCustomView);
