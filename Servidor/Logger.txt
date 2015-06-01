@@ -61,3 +61,8 @@ WARNING: La conversación con clave: NotFound no se encuentra en la base de dato
 WARNING: La conversacion NotFound no se encuentra en el sistema
 WARNING: La conversación con clave: NotFound no se encuentra en la base de datos.
 WARNING: La conversacion NotFound no se encuentra en el sistema
+WARNING: La conversación con clave: NotFound no se encuentra en la base de datos.
+WARNING: La conversacion NotFound no se encuentra en el sistema
+WARNING: La conversación con clave: NotFound no se encuentra en la base de datos.
+WARNING: La conversacion NotFound no se encuentra en el sistema
+WARNING: La conversación con clave: NotFound no se encuentra en la base de datos.

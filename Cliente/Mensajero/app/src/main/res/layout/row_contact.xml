@@ -15,28 +15,15 @@
         android:src="@drawable/profile_default" />
 
     <TextView
-        android:id="@+id/conversation_last_message"
-        android:layout_width="fill_parent"
-        android:layout_height="26dip"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/contact_image"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:text="Description"
-        android:textSize="12sp" />
-
-    <TextView
         android:id="@+id/contact_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/conversation_last_message"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
         android:layout_toRightOf="@id/contact_image"
         android:gravity="center_vertical"
-        android:text="Example application"
+        android:text="Contact name"
         android:textSize="16sp" />
 
 </RelativeLayout>

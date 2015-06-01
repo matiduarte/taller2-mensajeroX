@@ -9,6 +9,7 @@ import android.util.Log;
 import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.Message;
 import com.dk.mensajero.Entities.User;
+import com.dk.mensajero.Interfaces.GetContactsCallback;
 import com.dk.mensajero.Interfaces.GetConversationsCallback;
 import com.dk.mensajero.Interfaces.GetIdCallback;
 import com.dk.mensajero.Interfaces.GetMessageCallback;
@@ -17,6 +18,8 @@ import com.dk.mensajero.Interfaces.UpdateProfileCallback;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+
 import java.util.ArrayList;
 
 /**
@@ -30,6 +33,7 @@ public class Service {
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
     private String USER_COVERSATIONS_URL = "usuarioConversacion/";
+    private String CONTACTS_URL = "contactos/";
     private String ID_URL = "id/";
 
     ProgressDialog progressDialog;
@@ -50,8 +54,8 @@ public class Service {
     private String KEY_USER_PHONE = "Telefono";
     private String KEY_USER_ID = "idUsuario";
     private String KEY_USER_CONVERSATIONS_PARAM = "idsConversaciones";
-    private String KEY_USER_CONVERSATIONS = "conversaciones";
     private String KEY_USER_LOCATION = "Localizacion";
+    private String KEY_CONTACTS_PARAM = "ContactosTelefono";
 
     private String KEY_PAYLOAD = "payload";
     private String KEY_SUCCESS = "success";
@@ -204,6 +208,11 @@ public class Service {
 
     public void fetchConversationsDataInBackground(User user, GetConversationsCallback conversationsCallback){
         new fetchConversationsDataAsyncTask(user,conversationsCallback).execute();
+    }
+
+    public void fetchContactsDataInBackground(ArrayList<String> phoneNumbers, GetContactsCallback userCallback){
+        //progressDialog.show();
+        new fetchContactsDataAsyncTask(phoneNumbers, userCallback).execute();
     }
 
     public Context getContext() {
@@ -560,6 +569,81 @@ public class Service {
 
         @Override
         protected void onCancelled() {
+            super.onCancelled();
+            Log.i("Debug", "onCancelled");
+        }
+    }
+
+    public class fetchContactsDataAsyncTask extends AsyncTask<Void, Void, ArrayList<User>> {
+
+        ArrayList<String> phoneNumbers;
+        GetContactsCallback contactsCallback;
+
+        public fetchContactsDataAsyncTask(ArrayList<String> phoneNumbers, GetContactsCallback callback) {
+            this.phoneNumbers = phoneNumbers;
+            this.contactsCallback = callback;
+        }
+
+        @Override
+        protected ArrayList<User> doInBackground(Void... params) {
+
+            String url = BASE_URL + CONTACTS_URL;
+            RestClient client = new RestClient(url);
+
+            JSONArray jsArray = new JSONArray(this.phoneNumbers);
+
+            client.addParam(KEY_CONTACTS_PARAM, jsArray.toString());
+
+            try {
+                client.execute(RestClient.RequestMethod.GET);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            String response = client.getResponse();
+            ArrayList<User> users = new ArrayList<User>();
+            try {
+                JSONObject jObject = new JSONObject(response);
+                if (jObject.length() == 0){
+                    return users;
+                } else {
+                    String payload = jObject.getString(KEY_PAYLOAD);
+                    JSONObject result = new JSONObject(payload);
+
+                    JSONArray contactsJson = result.getJSONArray("contactos");
+                    for (int i = 0; i < contactsJson.length(); i++) {
+                        JSONObject contactJson = (JSONObject)contactsJson.get(i);
+
+                        String name = contactJson.getString("Nombre");
+                        String phone = contactJson.getString("Telefono");
+                        String profilePicture = contactJson.getString("FotoDePerfil");
+
+                        User user = new User();
+                        user.setName(name);
+                        user.setPhone(phone);
+                        user.setProfilePicture(profilePicture);
+
+                        users.add(user);
+                    }
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return users;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<User> users) {
+            progressDialog.dismiss();
+            contactsCallback.done(users);
+            super.onPostExecute(users);
+        }
+
+        @Override
+        protected void onCancelled() {
+            progressDialog.dismiss();
             super.onCancelled();
             Log.i("Debug", "onCancelled");
         }

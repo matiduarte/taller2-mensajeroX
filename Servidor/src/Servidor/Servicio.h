@@ -34,6 +34,7 @@ public:
 	void obtenerConversaciones();
 	void obtenerIdConversacion();
 	void consultarUsuarioOnline();
+	void obtenerContactos();
 	void responder(string mensaje, bool error);
 
 private:

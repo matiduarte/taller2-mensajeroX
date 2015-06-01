@@ -74,6 +74,7 @@ const string urlBaseUsuario = "/usuario/";
 const string urlBaseConversacion = "/conversacion/";
 const string urlBaseConversacionId = "/conversacion/id/";
 const string urlBaseUsuarioConversaciones = "/usuarioConversacion/";
+const string urlBaseContactos = "/contactos/";
 
 /*Constantes de parametros para Servicios*/
 #define keyIdUltimoMensaje "idUltimoMensaje"
@@ -83,6 +84,7 @@ const string urlBaseUsuarioConversaciones = "/usuarioConversacion/";
 #define keySuccess "success"
 #define keyTelefonoEmisor "TelefonoEmisor"
 #define keyTelefonoReceptor "TelefonoReceptor"
+#define keyContantosTelefono "ContactosTelefono"
 
 /*Constantes para el manejo de errores*/
 const string keyDatoNoEncontrado = "NotFound";

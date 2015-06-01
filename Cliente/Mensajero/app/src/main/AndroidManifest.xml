@@ -3,8 +3,8 @@
     package="com.dk.mensajero" >
     
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -58,6 +58,14 @@
         <activity
             android:name=".Activities.ConversationsListActivity"
             android:label="@string/title_activity_conversations"
+            android:parentActivityName=".Activities.SettingsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dk.mensajero.Activities.SettingsActivity" />
+        </activity>
+        <activity
+            android:name=".Activities.ContactsListActivity"
+            android:label="@string/title_activity_contacts"
             android:parentActivityName=".Activities.SettingsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
