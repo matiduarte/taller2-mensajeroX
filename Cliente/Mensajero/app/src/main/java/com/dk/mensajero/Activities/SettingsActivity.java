@@ -16,6 +16,8 @@ public class SettingsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
+        mActionBar.hide();
     }
 
     @Override

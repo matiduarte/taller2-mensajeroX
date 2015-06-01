@@ -1,5 +1,6 @@
 package com.dk.mensajero.Activities;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +27,8 @@ public class ConversationsListActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversations_list);
+        android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
+        mActionBar.hide();
         initView();
     }
 

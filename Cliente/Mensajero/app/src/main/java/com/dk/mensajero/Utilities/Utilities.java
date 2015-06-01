@@ -1,4 +1,4 @@
-package com.dk.mensajero;
+package com.dk.mensajero.Utilities;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;

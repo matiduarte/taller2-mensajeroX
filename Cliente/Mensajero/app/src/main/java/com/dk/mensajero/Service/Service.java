@@ -3,7 +3,10 @@ package com.dk.mensajero.Service;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
+import android.text.format.Formatter;
 import android.text.format.Time;
 import android.util.Log;
 import com.dk.mensajero.Entities.Conversation;
@@ -20,15 +23,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 /**
  * Created by quimey on 10/05/15.
  */
 public class Service {
 
-    private String BASE_URL = "http://192.168.0.27:8080/";
+
+    //private String BASE_URL = "http://192.168.0.27:8080/";
     //private String BASE_URL = "http://192.168.0.20:8080/";
+    private String BASE_URL = "http://192.168.1.102:8080/";
 
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
@@ -652,8 +662,9 @@ public class Service {
     public void showFailConnectionServerMessage(Context context){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         dialogBuilder.setMessage("No se pudo conectar con el servidor");
-        dialogBuilder.setPositiveButton("OK",null);
+        dialogBuilder.setPositiveButton("REINTENTAR",null);
         dialogBuilder.show();
     }
+
 
 }

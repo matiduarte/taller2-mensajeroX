@@ -22,7 +22,7 @@ import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.Interfaces.UpdateProfileCallback;
 import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
-import com.dk.mensajero.Utilities;
+import com.dk.mensajero.Utilities.Utilities;
 
 import java.io.FileDescriptor;
 import java.io.IOException;

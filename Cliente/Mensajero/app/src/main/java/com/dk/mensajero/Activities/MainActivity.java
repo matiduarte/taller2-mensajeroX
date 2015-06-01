@@ -1,30 +1,75 @@
 package com.dk.mensajero.Activities;
 
+import android.app.ActionBar;
+import android.app.TabActivity;
 import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TabHost;
 import android.widget.Toast;
 
+import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Service.GPSTracker;
 import com.dk.mensajero.R;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends TabActivity {
 
-    private static Button button_chat;
+    /*private static Button button_chat;
     private static Button button_show_location;
+    private TabHost mTabHost;
     GPSTracker gps;
+*/
 
+    private TabHost mTabHost;
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mTabHost = getTabHost();
+        TabHost.TabSpec spec;
+        Intent intent;
+
+        //Contac tab
+        intent = new Intent(this, ContactsListActivity.class);
+
+        spec = mTabHost.newTabSpec("contactos")
+                .setIndicator("Contactos")
+                .setContent(intent);
+        mTabHost.addTab(spec);
+
+        //Chats tab
+        intent = new Intent(this, Conversation.class);
+
+        spec = mTabHost.newTabSpec("chats")
+                .setIndicator("Chats")
+                .setContent(intent);
+        mTabHost.addTab(spec);
+
+        //Ajustes tab
+        intent = new Intent(this, SettingsActivity.class);
+
+        spec = mTabHost.newTabSpec("ajustes")
+                .setIndicator("Ajustes")
+                .setContent(intent);
+        mTabHost.addTab(spec);
+
+        mTabHost.setCurrentTab(0);
+    }
+
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         onChatButtonListener();
         onGSPButtonListener();
+        prueba();
     }
 
 
@@ -35,12 +80,12 @@ public class MainActivity extends ActionBarActivity {
            public void onClick(View v) {
                gps = new GPSTracker(MainActivity.this);
 
-               if (gps.canGetLocation()){
+               if (gps.canGetLocation()) {
                    double latitude = gps.getLatitude();
                    double longitude = gps.getLongitude();
 
                    Toast.makeText(getApplicationContext(), "Su localizacion es -\nLat: " + latitude + " Long: "
-                           + longitude, Toast.LENGTH_LONG ).show();
+                           + longitude, Toast.LENGTH_LONG).show();
                } else {
                    gps.showSettignsAlert();
                }
@@ -102,4 +147,26 @@ public class MainActivity extends ActionBarActivity {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
+
+    private void prueba(){
+
+
+
+
+    }
+
+    @Override
+    public void onTabSelected(android.support.v7.app.ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
+    }
+
+    @Override
+    public void onTabUnselected(android.support.v7.app.ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
+    }
+
+    @Override
+    public void onTabReselected(android.support.v7.app.ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
+    }*/
 }
