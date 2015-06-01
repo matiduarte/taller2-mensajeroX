@@ -27,7 +27,7 @@ import java.util.ArrayList;
  */
 public class Service {
 
-    private String BASE_URL = "http://192.168.0.27:8080/";
+    private String BASE_URL = "http://192.168.0.35:8080/";
     //private String BASE_URL = "http://192.168.0.20:8080/";
 
     private String USER_URL = "usuario/";
@@ -543,12 +543,14 @@ public class Service {
                         String lastMessage = convJson.getString("ultimoMensaje");
                         String userName = convJson.getString("usuarioNombre");
                         String userId = convJson.getString("usuarioTelefono");
+                        String userPicture = convJson.getString("usuarioFotoDePerfil");
 
                         Conversation conv = new Conversation();
                         conv.setConversationId(id);
                         conv.setContactName(userName);
                         conv.setContactPhone(userId);
                         conv.setLastMessage(lastMessage);
+                        conv.setContactProfilePicture(userPicture);
 
                         conversations.add(conv);
                     }

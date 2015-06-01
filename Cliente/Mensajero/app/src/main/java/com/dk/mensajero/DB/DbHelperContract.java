@@ -25,6 +25,7 @@ public final class DbHelperContract {
         public static final String CONTACT_ID = "contactId";
         public static final String CONTACT_NAME = "contactName";
         public static final String LAST_MESSAGE = "lastMessage";
+        public static final String CONTACT_PICTURE = "contactPicture";
     }
 
     public static abstract class MessageEntry implements BaseColumns {
