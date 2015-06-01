@@ -9,10 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.dk.mensajero.Conversations.ConversationDataProvider;
 import com.dk.mensajero.R;
-
 import java.util.ArrayList;
 import java.util.List;
 

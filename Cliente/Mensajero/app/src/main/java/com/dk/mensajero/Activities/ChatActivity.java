@@ -1,13 +1,12 @@
 package com.dk.mensajero.Activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +17,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.dk.mensajero.Adapters.ChatAdapter;
 import com.dk.mensajero.Conversations.ConversationDataProvider;
 import com.dk.mensajero.DB.DbHelper;
@@ -29,10 +27,8 @@ import com.dk.mensajero.Interfaces.GetIdCallback;
 import com.dk.mensajero.Interfaces.GetMessageCallback;
 import com.dk.mensajero.Interfaces.GetUserCallback;
 import com.dk.mensajero.R;
-import com.dk.mensajero.RoundImage;
 import com.dk.mensajero.Service.Service;
-import com.dk.mensajero.Utilities;
-
+import com.dk.mensajero.Utilities.Utilities;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -270,9 +266,9 @@ public class ChatActivity extends ActionBarActivity {
                 String lastMsgId = Conversation.getLastMessageIdByConversationId(ChatActivity.this, conversationId);
                 Message msg = new Message(conversationId, lastMsgId);
                 getMessageFromService(msg);
-                handler.postDelayed(this, 1000 * 2);
+                handler.postDelayed(this, 1000 );
             }
-        }, 1000 * 2);
+        }, 1000);
     }
 
     private void getMessageFromService(Message msg){

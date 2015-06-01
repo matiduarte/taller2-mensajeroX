@@ -8,11 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.R;
-import com.dk.mensajero.Utilities;
+import com.dk.mensajero.Utilities.Utilities;
 
 import java.util.ArrayList;
 

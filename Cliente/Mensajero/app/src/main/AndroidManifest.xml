@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dk.mensajero" >
-    
+
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -42,39 +44,32 @@
         <activity
             android:name=".Activities.InformationActivity"
             android:label="@string/title_activity_informacion"
-            android:parentActivityName=".Activities.SettingsActivity" >
+            android:parentActivityName=".Activities.TabLayoutActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.SettingsActivity" />
+                android:value=".Activities.TabLayoutActivity" />
         </activity>
         <activity
             android:name=".Activities.ProfileActivity"
             android:label="@string/title_activity_profile"
-            android:parentActivityName=".Activities.SettingsActivity" >
+            android:parentActivityName=".Activities.TabLayoutActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dk.mensajero.Activities.SettingsActivity" />
+                android:value="com.dk.mensajero.Activities.TabLayoutActivity" />
         </activity>
         <activity
             android:name=".Activities.ConversationsListActivity"
-            android:label="@string/title_activity_conversations"
-            android:parentActivityName=".Activities.SettingsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dk.mensajero.Activities.SettingsActivity" />
+            android:label="@string/title_activity_conversations">
         </activity>
         <activity
             android:name=".Activities.ContactsListActivity"
-            android:label="@string/title_activity_contacts"
-            android:parentActivityName=".Activities.SettingsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dk.mensajero.Activities.SettingsActivity" />
+            android:label="@string/title_activity_contacts">
+
         </activity>
         <activity
             android:name=".Activities.ChatActivity"
             android:label="@string/title_activity_conversation"
-            android:parentActivityName=".Activities.ConversationsListActivity" >
+            android:parentActivityName=".Activities.TabLayoutActivity" >
             <intent-filter>
                 <action android:name="com.dk.mensajero.ChatActivity" />
 
@@ -83,7 +78,7 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dk.mensajero.Activities.SettingsActivity" />
+                android:value="com.dk.mensajero.Activities.TabLayoutActivity" />
         </activity>
         <activity
             android:name=".Activities.RegisterActivity"
@@ -97,6 +92,16 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.TabLayoutActivity"
+            android:label="@string/title_activity_tab_layout" >
+            <intent-filter>
+                <action android:name="com.dk.mensajero.TabLayoutActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
         </activity>
     </application>
 

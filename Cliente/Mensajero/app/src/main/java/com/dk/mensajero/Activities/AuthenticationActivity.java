@@ -1,5 +1,6 @@
 package com.dk.mensajero.Activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -85,7 +86,7 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
     private void logUserIn(User returnedUser) {
         returnedUser.setIsLogged(1);
         returnedUser.save(this);
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, TabLayoutActivity.class));
     }
 
     private void showErrorMessage(){

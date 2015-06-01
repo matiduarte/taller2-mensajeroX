@@ -18,8 +18,6 @@ import com.dk.mensajero.Interfaces.UpdateProfileCallback;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-
 import java.util.ArrayList;
 
 /**
@@ -27,8 +25,8 @@ import java.util.ArrayList;
  */
 public class Service {
 
-    private String BASE_URL = "http://192.168.0.35:8080/";
     //private String BASE_URL = "http://192.168.0.20:8080/";
+    private String BASE_URL = "http://192.168.1.102:8080/";
 
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
@@ -654,8 +652,9 @@ public class Service {
     public void showFailConnectionServerMessage(Context context){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         dialogBuilder.setMessage("No se pudo conectar con el servidor");
-        dialogBuilder.setPositiveButton("OK",null);
+        dialogBuilder.setPositiveButton("REINTENTAR",null);
         dialogBuilder.show();
     }
+
 
 }
