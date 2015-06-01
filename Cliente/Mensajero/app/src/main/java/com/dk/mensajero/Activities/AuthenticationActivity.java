@@ -24,6 +24,13 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        User userLogged = User.getUser(this);
+        //Si hay un usuario logueado, redirijo a la pantalla principal
+        if(userLogged.getId() > 0){
+            startActivity(new Intent(this, TabLayoutActivity.class));
+        }
+
         setContentView(R.layout.activity_authentication);
 
         etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);

@@ -6,6 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.util.Base64;
 import android.util.Log;
 
+import com.dk.mensajero.RoundImage;
+
 import java.io.ByteArrayOutputStream;
 
 /**
