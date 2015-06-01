@@ -378,3 +378,26 @@ void Servicio::obtenerConversaciones(){
 	}
 
 }
+
+void Servicio::obtenerContactos(){
+	Json::Value contactosTelefonoValue = this->getParametroArray(keyContantosTelefono, keyDefault);
+	vector<string> contactosTelefono = StringUtil::jsonValueToVector(contactosTelefonoValue);
+
+	Json::Value respuesta;
+	int counter = 0;
+	for(unsigned i=0; i<contactosTelefono.size();i++){
+		string telefonoActual = contactosTelefono[i];
+		Usuario* usuario = Usuario::obtenerPorTelefono(telefonoActual);
+
+		//Agrego los usuarios que estan registrados y que se encuentran conectados
+
+		if(usuario->getId() != keyIdUsuarioNoEncontrado && usuario->getEstadoConexion()){
+			respuesta["contactos"][counter][keyNombre] = usuario->getNombre();
+			respuesta["contactos"][counter][keyTelefono] = usuario->getTelefono();
+			respuesta["contactos"][counter][keyFotoDePerfil] = usuario->getFotoDePerfil();
+			counter++;
+		}
+	}
+
+	this->responder(respuesta.toStyledString(), true);
+}

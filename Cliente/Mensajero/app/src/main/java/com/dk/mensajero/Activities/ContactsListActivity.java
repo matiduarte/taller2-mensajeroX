@@ -1,8 +1,10 @@
 package com.dk.mensajero.Activities;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import com.dk.mensajero.Adapters.ContactAdapter;
 import com.dk.mensajero.Adapters.ConversationAdapter;
 import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.User;
+import com.dk.mensajero.Interfaces.GetContactsCallback;
 import com.dk.mensajero.Interfaces.GetConversationsCallback;
 import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
@@ -53,19 +56,10 @@ public class ContactsListActivity extends ActionBarActivity {
     }
 
     private void initView() {
-        getContacts();
+        getContactsFromService();
     }
 
-    public void getContacts(){
-
-        ArrayList<User> contacts = new ArrayList<User>();
-        User u = new User();
-        u.setName("juan");
-
-        contacts.add(u);
-        contacts.add(u);
-        contacts.add(u);
-
+    public void showContacts(ArrayList<User> contacts){
         final ContactAdapter adapter = new ContactAdapter(this,
                 android.R.layout.simple_list_item_1, contacts);
 
@@ -75,13 +69,50 @@ public class ContactsListActivity extends ActionBarActivity {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                //TODO: reemplazar la activada por la de la conversacion
-
                 Intent myIntent = new Intent(getApplicationContext(), ChatActivity.class);
                 User user = (User) listview.getItemAtPosition(position);
 
                 myIntent.putExtra("contactPhone", user.getPhone());
                 startActivity(myIntent);
+            }
+        });
+    }
+
+    public ArrayList<String> getContactsNumbers(){
+        ArrayList<String> numbers = new ArrayList<String>();
+        Cursor cursor = null;
+        try {
+            cursor = this.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+            int nameIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+            int phoneNumberIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+            cursor.moveToFirst();
+            do {
+                String name = cursor.getString(nameIdx);
+                String phoneNumber = cursor.getString(phoneNumberIdx);
+                numbers.add(phoneNumber);
+            } while (cursor.moveToNext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return numbers;
+    }
+
+    private void getContactsFromService(){
+        Service serviceRequest = new Service(this);
+
+        ArrayList<String> numbersInDevice = this.getContactsNumbers();
+
+        serviceRequest.fetchContactsDataInBackground(numbersInDevice, new GetContactsCallback()
+        {
+
+            @Override
+            public void done(ArrayList<User> contacts) {
+                showContacts(contacts);
             }
         });
     }
