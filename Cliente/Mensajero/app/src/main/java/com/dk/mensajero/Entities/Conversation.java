@@ -13,6 +13,7 @@ public class Conversation {
     private String conversationId = "";
     private String contactPhone = "";
     private String contactName = "";
+    private String contactProfilePicture = "default";
     private ArrayList<Message> messages = new ArrayList<Message>();
     private String lastMessage = "";
 
@@ -44,6 +45,8 @@ public class Conversation {
         return this.contactName;
     }
 
+    public String getContactProfilePicture() {return this.contactProfilePicture; }
+
     public void setId(long id){
         this.id = id;
     }
@@ -59,6 +62,8 @@ public class Conversation {
     public void setContactName(String contactName){
         this.contactName = contactName;
     }
+
+    public void setContactProfilePicture(String profilePicture) {this.contactProfilePicture = profilePicture;}
 
     public ArrayList<Message> getMessages() {
         return messages;

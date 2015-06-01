@@ -36,12 +36,13 @@ public class DbHelper extends SQLiteOpenHelper {
             " );";
     private static final String SQL_CREATE_ENTRIES_CONVERSATION =
             "CREATE TABLE " + DbHelperContract.ConversationEntry.TABLE_NAME + " (" +
-            DbHelperContract.ConversationEntry._ID + " INTEGER PRIMARY KEY," +
-            DbHelperContract.ConversationEntry.CONVERSATION_ID + TEXT_TYPE + COMMA_SEP +
-            DbHelperContract.ConversationEntry.CONTACT_NAME + TEXT_TYPE + COMMA_SEP +
-            DbHelperContract.ConversationEntry.LAST_MESSAGE + TEXT_TYPE + COMMA_SEP +
-            DbHelperContract.ConversationEntry.CONTACT_ID + TEXT_TYPE +
-            " );";
+                    DbHelperContract.ConversationEntry._ID + " INTEGER PRIMARY KEY," +
+                    DbHelperContract.ConversationEntry.CONVERSATION_ID + TEXT_TYPE + COMMA_SEP +
+                    DbHelperContract.ConversationEntry.CONTACT_NAME + TEXT_TYPE + COMMA_SEP +
+                    DbHelperContract.ConversationEntry.LAST_MESSAGE + TEXT_TYPE + COMMA_SEP +
+                    DbHelperContract.ConversationEntry.CONTACT_PICTURE + TEXT_TYPE + COMMA_SEP +
+                    DbHelperContract.ConversationEntry.CONTACT_ID + TEXT_TYPE +
+                    " );";
 
     private static final String SQL_CREATE_ENTRIES_MESSAGE =
             "CREATE TABLE " + DbHelperContract.MessageEntry.TABLE_NAME + " (" +
@@ -61,7 +62,7 @@ public class DbHelper extends SQLiteOpenHelper {
             "DROP TABLE IF EXISTS " + DbHelperContract.MessageEntry.TABLE_NAME + ";";
 
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 10;
+    public static final int DATABASE_VERSION = 11;
     public static final String DATABASE_NAME = "MensajeroX.db";
 
     public DbHelper(Context context) {
@@ -276,6 +277,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DbHelperContract.ConversationEntry.CONTACT_ID, conversation.getContactPhone());
         values.put(DbHelperContract.ConversationEntry.CONTACT_NAME, conversation.getContactName());
         values.put(DbHelperContract.ConversationEntry.LAST_MESSAGE, conversation.getLastMessage());
+        values.put(DbHelperContract.ConversationEntry.CONTACT_PICTURE, conversation.getContactProfilePicture());
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId;
@@ -319,6 +321,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 DbHelperContract.ConversationEntry.CONVERSATION_ID,
                 DbHelperContract.ConversationEntry.CONTACT_ID,
                 DbHelperContract.ConversationEntry.CONTACT_NAME,
+                DbHelperContract.ConversationEntry.CONTACT_PICTURE,
                 DbHelperContract.ConversationEntry.LAST_MESSAGE,
         };
 
@@ -344,10 +347,12 @@ public class DbHelper extends SQLiteOpenHelper {
                 String conversationId = c.getString(c.getColumnIndex(DbHelperContract.ConversationEntry.CONVERSATION_ID));
                 String contactId = c.getString(c.getColumnIndex(DbHelperContract.ConversationEntry.CONTACT_ID));
                 String contactName = c.getString(c.getColumnIndex(DbHelperContract.ConversationEntry.CONTACT_NAME));
+                String contactPicture = c.getString(c.getColumnIndex(DbHelperContract.ConversationEntry.CONTACT_PICTURE));
                 String lastMessage = c.getString(c.getColumnIndex(DbHelperContract.ConversationEntry.LAST_MESSAGE));
 
                 Conversation conversation = new Conversation(id, conversationId, contactId, contactName);
                 conversation.setLastMessage(lastMessage);
+                conversation.setContactProfilePicture(contactPicture);
 
                 conversations.add(conversation);
                 c.moveToNext();
