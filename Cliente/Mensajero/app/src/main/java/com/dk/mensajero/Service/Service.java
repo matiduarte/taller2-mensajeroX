@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.text.format.Time;
 import android.util.Log;
-
 import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.Message;
 import com.dk.mensajero.Entities.User;
@@ -15,22 +14,18 @@ import com.dk.mensajero.Interfaces.GetIdCallback;
 import com.dk.mensajero.Interfaces.GetMessageCallback;
 import com.dk.mensajero.Interfaces.GetUserCallback;
 import com.dk.mensajero.Interfaces.UpdateProfileCallback;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by quimey on 10/05/15.
  */
 public class Service {
 
-    //private String BASE_URL = "http://192.168.0.27:8080/";
+    private String BASE_URL = "http://192.168.0.27:8080/";
     //private String BASE_URL = "http://192.168.0.20:8080/";
-    private String BASE_URL = "http://192.168.0.20:8080/";
 
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
@@ -480,7 +475,6 @@ public class Service {
                     returnedUser.setState(Boolean.valueOf(state));
                     String userId = jData.getString(KEY_USER_ID);
                     returnedUser.setUserId(userId);
-
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

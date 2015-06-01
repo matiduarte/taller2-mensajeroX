@@ -39,4 +39,6 @@
     <string name="title_activity_register">RegisterActivity</string>
     <string name="profile_password">Contraseña</string>
     <string name="newPassword">nueva contraseña</string>
+    <string name="information">Información</string>
+    <string name="profile">Editar Perfil</string>
 </resources>

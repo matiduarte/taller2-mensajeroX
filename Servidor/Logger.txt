@@ -47,3 +47,17 @@ WARNING: Se intento registrar un usuario ya existente. Id: c81e728d9d4c2f636f067
 INFO: Consulta de estado del usuario e exitosa.
 INFO: Se modificaron los datos del usuario pol correctamente.
 WARNING: La conversación con clave: NotFound no se encuentra en la base de datos.
+WARNING: La conversación con clave: NotFound no se encuentra en la base de datos.
+WARNING: La conversacion NotFound no se encuentra en el sistema
+WARNING: La conversación con clave: NotFound no se encuentra en la base de datos.
+WARNING: La conversacion NotFound no se encuentra en el sistema
+WARNING: La conversación con clave: NotFound no se encuentra en la base de datos.
+WARNING: La conversacion NotFound no se encuentra en el sistema
+WARNING: La conversación con clave: NotFound no se encuentra en la base de datos.
+WARNING: La conversacion NotFound no se encuentra en el sistema
+WARNING: La conversación con clave: NotFound no se encuentra en la base de datos.
+WARNING: La conversacion NotFound no se encuentra en el sistema
+WARNING: La conversación con clave: NotFound no se encuentra en la base de datos.
+WARNING: La conversacion NotFound no se encuentra en el sistema
+WARNING: La conversación con clave: NotFound no se encuentra en la base de datos.
+WARNING: La conversacion NotFound no se encuentra en el sistema

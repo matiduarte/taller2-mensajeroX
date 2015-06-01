@@ -50,5 +50,12 @@ public class SettingsActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
+    public void logout(View view){
+        User user = User.getUser(this);
+        user.setIsLogged(0);
+        user.save(this);
+        Intent intent = new Intent(this, AuthenticationActivity.class);
+        startActivity(intent);
+    }
 
 }

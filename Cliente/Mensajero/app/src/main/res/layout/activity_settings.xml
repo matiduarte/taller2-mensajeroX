@@ -1,37 +1,42 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.dk.mensajero.Activities.SettingsActivity" >
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Información"
-        android:id="@+id/boton_Informacion"
+        android:text="@string/information"
+        android:id="@+id/settings_bInformation"
         android:textStyle="bold"
         android:background="#FFFFFF"
         android:onClick="showInformation"
         android:layout_marginTop="90dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:text="Perfil"
-        android:id="@+id/boton_perfilUsuario"
+        android:text="@string/profile"
+        android:id="@+id/settings_bProfile"
         android:layout_marginTop="15dp"
         android:background="#FFFFFF"
         android:textStyle="bold"
         android:onClick="showProfileConfiguration"
-        android:layout_below="@+id/boton_Informacion"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cerrar Sesion"
+        android:id="@+id/settings_bLogout"
+        android:layout_marginTop="75dp"
+        android:background="#FFFFFF"
+        android:textStyle="bold"
+        android:onClick="logout"
+        />
 
 
-
-
-</RelativeLayout>
+</LinearLayout>
