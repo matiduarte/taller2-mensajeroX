@@ -180,7 +180,7 @@ public class ProfileActivity extends ActionBarActivity {
                         if (connectionResult) {
                             //actualizo el usuario en la base de datos local
                             user.save(ProfileActivity.this);
-                            startActivity(new Intent(ProfileActivity.this, ConversationsListActivity.class));
+                            startActivity(new Intent(ProfileActivity.this, TabLayoutActivity.class));
                         }else{
                             serviceRequest.showFailConnectionServerMessage(ProfileActivity.this);
                         }
