@@ -30,6 +30,21 @@ public class ChatAdapter extends ArrayAdapter<ConversationDataProvider>{
 
     @Override
     public void add(ConversationDataProvider object) {
+        List<ConversationDataProvider> chatListCurrent = new ArrayList<ConversationDataProvider>(this.chatList);
+
+        for (int i = 0; i < chatList.size(); i++) {
+            //Si no tiene messageId fue porque se agrego antes de mandar al servidor. Tengo que sacarlo para poner el que viene del server
+            if(chatList.get(i).messageId.equals("")) {
+                chatListCurrent.remove(i);
+            }
+
+            //Si ya esta agregado no lo vuelvo a agregar
+            if(chatList.get(i).messageId.equals(object.messageId)) {
+                return;
+            }
+        }
+
+        chatList = chatListCurrent;
         chatList.add(object);
         super.add(object);
 

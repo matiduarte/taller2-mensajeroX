@@ -8,9 +8,11 @@ import com.dk.mensajero.Entities.Message;
 public class ConversationDataProvider {
     public boolean position;
     public String message;
+    public String messageId;
 
     public ConversationDataProvider(boolean position, Message message) {
         this.position = position;
         this.message = message.getBody();
+        this.messageId = message.getMessageId();
     }
 }

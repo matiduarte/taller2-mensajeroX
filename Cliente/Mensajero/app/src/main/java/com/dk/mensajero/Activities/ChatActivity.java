@@ -63,9 +63,7 @@ public class ChatActivity extends ActionBarActivity {
         this.getConversationId();
         this.registerDataSetObserver();
         this.setOnClickListener();
-
-
-
+        this.getSaveMessageList();
     }
 
     private void customizeActionBar() {
@@ -113,10 +111,10 @@ public class ChatActivity extends ActionBarActivity {
         ArrayList<Message> savedMessagesList;
         savedMessagesList = helper.getMessagesByConversationId(this.conversationId);
 
-        this.chatAdapter = new ChatAdapter(conversationCtx, R.layout.single_message_layout);
+        /*this.chatAdapter = new ChatAdapter(conversationCtx, R.layout.single_message_layout);
         this.registerDataSetObserver();
         this.conversationList.setAdapter(chatAdapter);
-        this.conversationList.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        this.conversationList.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);*/
 
         //Muestro los mensajes en la pantalla
         for (Message m : savedMessagesList) {
@@ -194,8 +192,8 @@ public class ChatActivity extends ActionBarActivity {
                     for (Message msg : messageList) {
                         position = false;
                         //TODO: comento esto porque sino se duplican los mensajes. Se insertaba aca y despues en el get de mensajes
-                        //msg.setConversationId(conversationId);
-                       // saveMessage(msg);
+                       //msg.setConversationId(conversationId);
+                       //saveMessage(msg);
                     }
                 }
             }
