@@ -144,7 +144,7 @@ public class ChatActivity extends ActionBarActivity {
         Service serviceRequest = new Service(this);
         serviceRequest.fetchUserDataInBackground(rUser, new GetUserCallback() {
             @Override
-            public void done(User returnedUser, boolean success) {
+            public void done(User returnedUser, boolean success, boolean check) {
                 setReceiverUser(returnedUser);
             }
         });

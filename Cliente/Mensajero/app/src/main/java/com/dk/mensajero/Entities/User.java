@@ -16,6 +16,7 @@ public class User {
     private String tokenSesion = "";
     private boolean state = true;
     private int isLogged;
+    private boolean exist;
 
     public User(){
     }
@@ -92,8 +93,14 @@ public class User {
 
     public void setState(boolean state){this.state = state; }
 
+    public void setExist(boolean exist) {
+        this.exist = exist;
+    }
 
-    //Methods
+    public boolean isExist() {
+        return exist;
+    }
+//Methods
 
     public void save(Context context) {
         DbHelper helper = new DbHelper(context);

@@ -59,11 +59,15 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
         final Service serviceRequest = new Service(this);
         serviceRequest.storeNewUserInBackground(user, new GetUserCallback() {
             @Override
-            public void done(User returnedUser, boolean success) {
-                if (!success){
+            public void done(User returnedUser, boolean successfulConnection, boolean existingUser) {
+                if (!successfulConnection){
                     serviceRequest.showFailConnectionServerMessage(RegisterActivity.this);
                 } else {
-                    startActivity(new Intent(RegisterActivity.this, AuthenticationActivity.class));
+                    if (existingUser) {
+                        showExistingUserMessage();
+                    } else {
+                        startActivity(new Intent(RegisterActivity.this, AuthenticationActivity.class));
+                    }
                 }
             }
         });
@@ -88,6 +92,13 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
     private void showEmptyFieldMessage(){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(RegisterActivity.this);
         dialogBuilder.setMessage("No puede haber campos vacios");
+        dialogBuilder.setPositiveButton("Reintentar",null);
+        dialogBuilder.show();
+    }
+
+    private void showExistingUserMessage(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(RegisterActivity.this);
+        dialogBuilder.setMessage("El usuario ya se encuentra registrado");
         dialogBuilder.setPositiveButton("Reintentar",null);
         dialogBuilder.show();
     }

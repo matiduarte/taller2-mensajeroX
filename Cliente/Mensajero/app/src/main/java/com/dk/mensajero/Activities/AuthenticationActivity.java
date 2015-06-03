@@ -72,11 +72,11 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
         serviceRequest.fetchUserDataInBackground(user, new GetUserCallback() {
 
             @Override
-            public void done(User returnedUser, boolean success) {
-                if (!success){
+            public void done(User returnedUser, boolean success, boolean findUser) {
+                if (!success) {
                     serviceRequest.showFailConnectionServerMessage(AuthenticationActivity.this);
                 } else {
-                    if (returnedUser == null) {
+                    if (!findUser) {
                         showErrorMessage();
                     } else {
                         if (insertedPassword.equals(returnedUser.getPassword())) {

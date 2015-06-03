@@ -7,6 +7,6 @@ import com.dk.mensajero.Entities.User;
  */
 public interface GetUserCallback {
 
-    public abstract void done(User returnedUser, boolean success);
+    public abstract void done(User returnedUser, boolean check1, boolean check2 );
 
 }

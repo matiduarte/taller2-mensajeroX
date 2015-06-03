@@ -440,8 +440,16 @@ public class Service {
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
             progressDialog.dismiss();
-            boolean response = jsonObject != null ? true : false;
-            userCallback.done(null, response);
+            boolean response = jsonObject != null;
+            boolean existingUser = false;
+            if (response) {
+                try {
+                    existingUser = !jsonObject.getBoolean(KEY_SUCCESS);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            userCallback.done(null, response, existingUser);
             super.onPostExecute(jsonObject);
         }
     }
@@ -476,18 +484,26 @@ public class Service {
                     if (jObject.length() == 0) {
                         returnedUser = null;
                     } else {
-                        String data = jObject.getString(KEY_PAYLOAD);
-                        JSONObject jData = new JSONObject(data);
-                        String name = jData.getString(KEY_USER_NAME);
-                        String password = jData.getString(KEY_USER_PASSWORD);
-                        String tokenSesion = jData.getString(KEY_TOKEN_SESION);
-                        String state = jData.getString(KEY_USER_STATE);
-                        String picture = jData.getString(KEY_USER_PICTURE);
-                        returnedUser = new User(user.getPhone(), name, password, tokenSesion);
-                        returnedUser.setProfilePicture(picture);
-                        returnedUser.setState(Boolean.valueOf(state));
-                        String userId = jData.getString(KEY_USER_ID);
-                        returnedUser.setUserId(userId);
+                        Boolean success = jObject.getBoolean(KEY_SUCCESS);
+                        if (success) {
+                            String data = jObject.getString(KEY_PAYLOAD);
+                            JSONObject jData = new JSONObject(data);
+                            String name = jData.getString(KEY_USER_NAME);
+                            String password = jData.getString(KEY_USER_PASSWORD);
+                            String tokenSesion = jData.getString(KEY_TOKEN_SESION);
+                            String state = jData.getString(KEY_USER_STATE);
+                            String picture = jData.getString(KEY_USER_PICTURE);
+                            returnedUser = new User(user.getPhone(), name, password, tokenSesion);
+                            returnedUser.setProfilePicture(picture);
+                            returnedUser.setState(Boolean.valueOf(state));
+                            String userId = jData.getString(KEY_USER_ID);
+                            returnedUser.setUserId(userId);
+                            returnedUser.setExist(true);
+                        } else {
+                            //HACK
+                            returnedUser = new User();
+                            returnedUser.setExist(false);
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -501,7 +517,10 @@ public class Service {
         protected void onPostExecute(User returnedUser) {
             //progressDialog.dismiss();
             boolean response = returnedUser != null ? true : false;
-            userCallback.done(returnedUser, response);
+            boolean findUser = false;
+            if (response)
+                findUser = returnedUser.isExist();
+            userCallback.done(returnedUser, response, findUser);
             super.onPostExecute(user);
         }
     }
