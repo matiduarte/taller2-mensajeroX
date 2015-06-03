@@ -1,10 +1,9 @@
 package com.dk.mensajero.Activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -69,19 +68,22 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
 
         final String insertedPassword = user.getPassword();
 
-        Service serviceRequest = new Service(this);
+        final Service serviceRequest = new Service(this);
         serviceRequest.fetchUserDataInBackground(user, new GetUserCallback() {
 
             @Override
-            public void done(User returnedUser) {
-                if (returnedUser == null){
-                    showErrorMessage();
+            public void done(User returnedUser, boolean success) {
+                if (!success){
+                    serviceRequest.showFailConnectionServerMessage(AuthenticationActivity.this);
                 } else {
-                    if (insertedPassword.equals(returnedUser.getPassword())) {
-                        logUserIn(returnedUser);
-                    }
-                    else {
-                        showWrongPasswordMessage();
+                    if (returnedUser == null) {
+                        showErrorMessage();
+                    } else {
+                        if (insertedPassword.equals(returnedUser.getPassword())) {
+                            logUserIn(returnedUser);
+                        } else {
+                            showWrongPasswordMessage();
+                        }
                     }
                 }
             }

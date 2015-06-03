@@ -2,10 +2,8 @@ package com.dk.mensajero.Activities;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,11 +56,15 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
     }
 
     private void registerUser(User user) {
-        Service serviceRequest = new Service(this);
+        final Service serviceRequest = new Service(this);
         serviceRequest.storeNewUserInBackground(user, new GetUserCallback() {
             @Override
-            public void done(User returnedUser) {
-                startActivity(new Intent(RegisterActivity.this, AuthenticationActivity.class));
+            public void done(User returnedUser, boolean success) {
+                if (!success){
+                    serviceRequest.showFailConnectionServerMessage(RegisterActivity.this);
+                } else {
+                    startActivity(new Intent(RegisterActivity.this, AuthenticationActivity.class));
+                }
             }
         });
     }
