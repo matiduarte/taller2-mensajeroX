@@ -97,9 +97,21 @@ public class ConversationsListActivity extends ActionBarActivity {
         serviceRequest.fetchConversationsDataInBackground(User.getUser(this), new GetConversationsCallback() {
             @Override
             public void done(ArrayList<Conversation> conversations) {
+                ArrayList<Conversation> currentConversations = Conversation.getConversations(ConversationsListActivity.this);
                 //Inserto las nuevas conversaciones
                 for (int i = 0; i < conversations.size(); i++) {
-                    saveConversation(conversations.get(i));
+                    //Chequeo que la conversation no haya sido agregada
+                    boolean found = false;
+                    for (Conversation currentConversation : currentConversations) {
+                        if(currentConversation.getConversationId().equals(conversations.get(i).getConversationId())){
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if(!found) {
+                        saveConversation(conversations.get(i));
+                    }
                 }
 
                 //Cargo de nuevo las conversaciones
