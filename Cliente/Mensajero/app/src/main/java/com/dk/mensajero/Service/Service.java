@@ -29,8 +29,10 @@ import java.util.ArrayList;
  */
 public class Service {
 
-    private String BASE_URL = "http://192.168.0.27:8080/";
+
+    private String BASE_URL = "http://192.168.0.35:8080/";
     //private String BASE_URL = "http://192.168.1.102:8080/";
+
 
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
@@ -77,63 +79,10 @@ public class Service {
     static public <T> void executeAsyncTask(AsyncTask<T, ?, ?> task, T... params) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
-        }
-        else {
+        } else {
             task.execute(params);
         }
     }
-
-
-    /*public JSONObject getConversation(String conversationId, String lastMessageId){
-        String url = BASE_URL + COVERSATION_URL + conversationId + KEY_ID_LAST_MESSAGE + lastMessageId;
-        RestClient client = new RestClient(url);
-
-        try {
-            client.execute(RestClient.RequestMethod.GET);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        String response = client.getResponse();
-        JSONObject jObject = new JSONObject();
-        try {
-            jObject = new JSONObject(response);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return jObject;
-    }
-
-    public JSONObject saveConversation(String phone, String receiverPhone, String message){
-        String url = BASE_URL + COVERSATION_URL;
-        RestClient client = new RestClient(url);
-
-        Time time = new Time();
-        time.setToNow();
-        String date = Long.toString(time.toMillis(false));
-
-        client.addParam(KEY_PHONE_USER, phone);
-        client.addParam(KEY_PHONE_USER_RECEIVER, receiverPhone);
-        client.addParam(KEY_MESSAGE_BODY, message);
-        client.addParam(KEY_MESSAGE_DATE, date);
-
-        try {
-            client.execute(RestClient.RequestMethod.POST);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        String response = client.getResponse();
-        JSONObject jObject = new JSONObject();
-        try {
-            jObject = new JSONObject(response);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return jObject;
-    }*/
 
     public void updateUserProfileInBackground(User user, UpdateProfileCallback profileCallback){
         progressDialog.show();
@@ -170,12 +119,13 @@ public class Service {
 
             String response = client.getResponse();
             JSONObject jObject = new JSONObject();
-            try {
-                jObject = new JSONObject(response);
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (response != null) {
+                try {
+                    jObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-
             return jObject;
         }
 
@@ -191,6 +141,11 @@ public class Service {
 
             profileCallback.done(result);
             super.onPostExecute(jsonObject);
+        }
+
+        @Override
+        protected void onPreExecute(){
+
         }
     }
 
@@ -215,7 +170,7 @@ public class Service {
 
     public void fetchUserDataInBackground(User user, GetUserCallback userCallback){
         //progressDialog.show();
-        executeAsyncTask(new fetchUserDataAsyncTask(user,userCallback));
+        executeAsyncTask(new fetchUserDataAsyncTask(user, userCallback));
         /*if(Build.VERSION.SDK_INT >= 11) {
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } else {
@@ -224,7 +179,7 @@ public class Service {
     }
 
     public void fetchConversationsDataInBackground(User user, GetConversationsCallback conversationsCallback){
-        executeAsyncTask(new fetchConversationsDataAsyncTask(user,conversationsCallback));
+        executeAsyncTask(new fetchConversationsDataAsyncTask(user, conversationsCallback));
     }
 
     public void fetchContactsDataInBackground(ArrayList<String> phoneNumbers, GetContactsCallback userCallback){
@@ -266,20 +221,23 @@ public class Service {
 
             String response = client.getResponse();
             Message returnedMsg = null;
-            try {
-                JSONObject jObject = new JSONObject(response);
-                if (jObject.length() == 0){
-                    returnedMsg = null;
-                } else {
-                    String idMsg = jObject.getString(KEY_PAYLOAD);
-                    returnedMsg = new Message(message.getUserPhoneTransmitter(),message.getUserPhoneReceiver(),message.getBody(), message.getDate());
-                    returnedMsg.setMessageId(idMsg);
+            if (response != null) {
+                try {
+                    JSONObject jObject = new JSONObject(response);
+                    if (jObject.length() == 0) {
+                        returnedMsg = null;
+                    } else {
+                        String idMsg = jObject.getString(KEY_PAYLOAD);
+                        returnedMsg = new Message(message.getUserPhoneTransmitter(), message.getUserPhoneReceiver(), message.getBody(), message.getDate());
+                        returnedMsg.setMessageId(idMsg);
 
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } else {
+                System.out.println("ENTRE SendNewMessageAsyncTask");
             }
-
             return returnedMsg;
         }
 
@@ -321,17 +279,20 @@ public class Service {
 
             String response = client.getResponse();
             String conversationId = null;
-            try {
-                JSONObject jObject = new JSONObject(response);
-                if (jObject.length() == 0){
-                    conversationId = null;
-                } else {
-                    conversationId = jObject.getString(KEY_PAYLOAD);
+            if (response != null) {
+                try {
+                    JSONObject jObject = new JSONObject(response);
+                    if (jObject.length() == 0) {
+                        conversationId = null;
+                    } else {
+                        conversationId = jObject.getString(KEY_PAYLOAD);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            }else {
+                System.out.println("ENTRE FetchNewConversationIdAsyncTask");
             }
-
             return conversationId;
 
         }
@@ -370,38 +331,42 @@ public class Service {
 
             String response = client.getResponse();
             ArrayList<Message> messageList = null;
-            try {
-                JSONObject jObject = new JSONObject(response);
-                if (jObject.length() == 0){
-                    messageList = null;
-                } else {
-                    messageList = new ArrayList<>();
-                    String payload = jObject.getString(KEY_PAYLOAD);
-                    JSONObject jData = new JSONObject(payload);
-                    JSONArray messagesJsonArray = jData.getJSONArray("mensajes");
-                    for (int i = 0; i < messagesJsonArray.length(); i++){
+            if (response != null) {
+                try {
+                    JSONObject jObject = new JSONObject(response);
+                    if (jObject.length() == 0) {
+                        messageList = null;
+                    } else {
+                        messageList = new ArrayList<>();
+                        String payload = jObject.getString(KEY_PAYLOAD);
+                        JSONObject jData = new JSONObject(payload);
+                        JSONArray messagesJsonArray = jData.getJSONArray("mensajes");
+                        for (int i = 0; i < messagesJsonArray.length(); i++) {
 
-                        String msgString = (String)messagesJsonArray.get(i);
-                        JSONObject msgJson = new JSONObject(msgString);
+                            String msgString = (String) messagesJsonArray.get(i);
+                            JSONObject msgJson = new JSONObject(msgString);
 
-                        String body =  msgJson.getString(KEY_MESSAGE_BODY);
-                        String date = msgJson.getString(KEY_MESSAGE_DATE);
-                        String msgId = msgJson.getString(KEY_MESSAGE_ID);
-                        String transmitterId = msgJson.getString(KEY_PHONE_USER);
+                            String body = msgJson.getString(KEY_MESSAGE_BODY);
+                            String date = msgJson.getString(KEY_MESSAGE_DATE);
+                            String msgId = msgJson.getString(KEY_MESSAGE_ID);
+                            String transmitterId = msgJson.getString(KEY_PHONE_USER);
 
-                        Message returnedMsg = new Message();
-                        returnedMsg.setBody(body);
-                        returnedMsg.setMessageId(msgId);
-                        returnedMsg.setDate(date);
-                        returnedMsg.setTransmitterId(transmitterId);
-                        returnedMsg.setConversationId(message.getConversationId());
+                            Message returnedMsg = new Message();
+                            returnedMsg.setBody(body);
+                            returnedMsg.setMessageId(msgId);
+                            returnedMsg.setDate(date);
+                            returnedMsg.setTransmitterId(transmitterId);
+                            returnedMsg.setConversationId(message.getConversationId());
 
-                        messageList.add(returnedMsg);
+                            messageList.add(returnedMsg);
+                        }
+
                     }
-
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } else {
+                System.out.println("ENTRE FetchNewMessageAsyncTask");
             }
 
             return messageList;
@@ -449,6 +414,8 @@ public class Service {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            } else {
+                System.out.println("ENTRE StoreNewUserAsyncTask");
             }
 
             return jObject;
@@ -525,15 +492,13 @@ public class Service {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            } else {
+                System.out.println("ENTRE fetchUserDataAsyncTask");
             }
 
             return returnedUser;
         }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
 
         @Override
         protected void onPostExecute(User returnedUser) {
@@ -576,35 +541,39 @@ public class Service {
 
             String response = client.getResponse();
             ArrayList<Conversation> conversations = new ArrayList<>();
-            try {
-                JSONObject jObject = new JSONObject(response);
-                if (jObject.length() == 0){
-                    return conversations;
-                } else {
-                    String payload = jObject.getString(KEY_PAYLOAD);
-                    JSONObject result = new JSONObject(payload);
-                    JSONArray conversationsJson = result.getJSONArray("conversaciones");
-                    for (int i = 0; i < conversationsJson.length(); i++) {
-                        JSONObject convJson = (JSONObject)conversationsJson.get(i);
-                        String id = convJson.getString("id");
-                        String lastMessage = convJson.getString("ultimoMensaje");
-                        String userName = convJson.getString("usuarioNombre");
-                        String userId = convJson.getString("usuarioTelefono");
-                        String userPicture = convJson.getString("usuarioFotoDePerfil");
+            if (response != null) {
+                try {
+                    JSONObject jObject = new JSONObject(response);
+                    if (jObject.length() == 0) {
+                        return conversations;
+                    } else {
+                        String payload = jObject.getString(KEY_PAYLOAD);
+                        JSONObject result = new JSONObject(payload);
+                        JSONArray conversationsJson = result.getJSONArray("conversaciones");
+                        for (int i = 0; i < conversationsJson.length(); i++) {
+                            JSONObject convJson = (JSONObject) conversationsJson.get(i);
+                            String id = convJson.getString("id");
+                            String lastMessage = convJson.getString("ultimoMensaje");
+                            String userName = convJson.getString("usuarioNombre");
+                            String userId = convJson.getString("usuarioTelefono");
+                            String userPicture = convJson.getString("usuarioFotoDePerfil");
 
-                        Conversation conv = new Conversation();
-                        conv.setConversationId(id);
-                        conv.setContactName(userName);
-                        conv.setContactPhone(userId);
-                        conv.setLastMessage(lastMessage);
-                        conv.setContactProfilePicture(userPicture);
+                            Conversation conv = new Conversation();
+                            conv.setConversationId(id);
+                            conv.setContactName(userName);
+                            conv.setContactPhone(userId);
+                            conv.setLastMessage(lastMessage);
+                            conv.setContactProfilePicture(userPicture);
 
-                        conversations.add(conv);
+                            conversations.add(conv);
+                        }
+
                     }
-
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } else {
+                System.out.println("ENTRE fetchConversationsDataAsyncTask");
             }
 
             return conversations;
@@ -651,33 +620,37 @@ public class Service {
 
             String response = client.getResponse();
             ArrayList<User> users = new ArrayList<>();
-            try {
-                JSONObject jObject = new JSONObject(response);
-                if (jObject.length() == 0){
-                    return users;
-                } else {
-                    String payload = jObject.getString(KEY_PAYLOAD);
-                    JSONObject result = new JSONObject(payload);
+            if (response != null) {
+                try {
+                    JSONObject jObject = new JSONObject(response);
+                    if (jObject.length() == 0) {
+                        return users;
+                    } else {
+                        String payload = jObject.getString(KEY_PAYLOAD);
+                        JSONObject result = new JSONObject(payload);
 
-                    JSONArray contactsJson = result.getJSONArray("contactos");
-                    for (int i = 0; i < contactsJson.length(); i++) {
-                        JSONObject contactJson = (JSONObject)contactsJson.get(i);
+                        JSONArray contactsJson = result.getJSONArray("contactos");
+                        for (int i = 0; i < contactsJson.length(); i++) {
+                            JSONObject contactJson = (JSONObject) contactsJson.get(i);
 
-                        String name = contactJson.getString("Nombre");
-                        String phone = contactJson.getString("Telefono");
-                        String profilePicture = contactJson.getString("FotoDePerfil");
+                            String name = contactJson.getString("Nombre");
+                            String phone = contactJson.getString("Telefono");
+                            String profilePicture = contactJson.getString("FotoDePerfil");
 
-                        User user = new User();
-                        user.setName(name);
-                        user.setPhone(phone);
-                        user.setProfilePicture(profilePicture);
+                            User user = new User();
+                            user.setName(name);
+                            user.setPhone(phone);
+                            user.setProfilePicture(profilePicture);
 
-                        users.add(user);
+                            users.add(user);
+                        }
+
                     }
-
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } else {
+            System.out.println("ENTRE fetchContactsDataAsyncTask");
             }
 
             return users;

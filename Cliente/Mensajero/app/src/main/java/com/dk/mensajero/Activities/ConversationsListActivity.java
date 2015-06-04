@@ -1,6 +1,5 @@
 package com.dk.mensajero.Activities;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -103,13 +102,13 @@ public class ConversationsListActivity extends ActionBarActivity {
                     //Chequeo que la conversation no haya sido agregada
                     boolean found = false;
                     for (Conversation currentConversation : currentConversations) {
-                        if(currentConversation.getConversationId().equals(conversations.get(i).getConversationId())){
+                        if (currentConversation.getConversationId().equals(conversations.get(i).getConversationId())) {
                             found = true;
                             break;
                         }
                     }
 
-                    if(!found) {
+                    if (!found) {
                         saveConversation(conversations.get(i));
                     }
                 }
@@ -122,5 +121,13 @@ public class ConversationsListActivity extends ActionBarActivity {
 
     private void saveConversation(Conversation c){
         c.save(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
     }
 }

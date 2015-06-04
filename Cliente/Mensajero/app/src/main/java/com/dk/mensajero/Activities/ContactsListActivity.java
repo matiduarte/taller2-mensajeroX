@@ -3,7 +3,6 @@ package com.dk.mensajero.Activities;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -13,11 +12,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.dk.mensajero.Adapters.ContactAdapter;
-import com.dk.mensajero.Adapters.ConversationAdapter;
-import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.Interfaces.GetContactsCallback;
-import com.dk.mensajero.Interfaces.GetConversationsCallback;
 import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
 
@@ -41,6 +37,7 @@ public class ContactsListActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -117,5 +114,13 @@ public class ContactsListActivity extends ActionBarActivity {
                 showContacts(contacts);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
     }
 }

@@ -1,16 +1,12 @@
 package com.dk.mensajero.Activities;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
 
-import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.R;
 
 public class TabLayoutActivity extends TabActivity {
@@ -73,5 +69,8 @@ public class TabLayoutActivity extends TabActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 
 }
