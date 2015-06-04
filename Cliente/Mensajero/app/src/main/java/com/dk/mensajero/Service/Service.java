@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 
 import com.dk.mensajero.Entities.Conversation;
@@ -203,7 +204,11 @@ public class Service {
 
     public void fetchUserDataInBackground(User user, GetUserCallback userCallback){
         //progressDialog.show();
-        new fetchUserDataAsyncTask(user,userCallback).execute();
+        fetchUserDataAsyncTask task = new fetchUserDataAsyncTask(user,userCallback);
+        if(Build.VERSION.SDK_INT >= 11)
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        else
+            task.execute();
     }
 
     public void fetchConversationsDataInBackground(User user, GetConversationsCallback conversationsCallback){
@@ -511,6 +516,11 @@ public class Service {
             }
 
             return returnedUser;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
         }
 
         @Override
