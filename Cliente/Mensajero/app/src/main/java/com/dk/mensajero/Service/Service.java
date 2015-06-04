@@ -1,11 +1,13 @@
 package com.dk.mensajero.Service;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.text.format.Time;
+import android.os.Build;
 import android.util.Log;
+
 import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.Message;
 import com.dk.mensajero.Entities.User;
@@ -15,9 +17,11 @@ import com.dk.mensajero.Interfaces.GetIdCallback;
 import com.dk.mensajero.Interfaces.GetMessageCallback;
 import com.dk.mensajero.Interfaces.GetUserCallback;
 import com.dk.mensajero.Interfaces.UpdateProfileCallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -25,8 +29,8 @@ import java.util.ArrayList;
  */
 public class Service {
 
-    //private String BASE_URL = "http://192.168.0.20:8080/";
-    private String BASE_URL = "http://192.168.1.102:8080/";
+    private String BASE_URL = "http://192.168.0.20:8080/";
+    //private String BASE_URL = "http://192.168.1.102:8080/";
 
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
@@ -69,8 +73,18 @@ public class Service {
         progressDialog.setMessage("Por favor espere...");
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    static public <T> void executeAsyncTask(AsyncTask<T, ?, ?> task, T... params) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
+        }
+        else {
+            task.execute(params);
+        }
+    }
 
-    public JSONObject getConversation(String conversationId, String lastMessageId){
+
+    /*public JSONObject getConversation(String conversationId, String lastMessageId){
         String url = BASE_URL + COVERSATION_URL + conversationId + KEY_ID_LAST_MESSAGE + lastMessageId;
         RestClient client = new RestClient(url);
 
@@ -119,7 +133,7 @@ public class Service {
         }
 
         return jObject;
-    }
+    }*/
 
     public void updateUserProfileInBackground(User user, UpdateProfileCallback profileCallback){
         progressDialog.show();
@@ -182,35 +196,40 @@ public class Service {
 
     public void storeNewUserInBackground(User user, GetUserCallback userCallback){
         progressDialog.show();
-        new StoreNewUserAsyncTask(user, userCallback).execute();
+        executeAsyncTask(new StoreNewUserAsyncTask(user, userCallback));
 
     }
 
     public void sendNewMessageInBackground(Message message, GetMessageCallback messageCallback){
-        new SendNewMessageAsyncTask(message, messageCallback).execute();
+        executeAsyncTask(new SendNewMessageAsyncTask(message, messageCallback));
 
     }
 
     public void fetchNewMessageInBackground(Message message, GetMessageCallback messageCallback){
-        new FetchNewMessageAsyncTask(message, messageCallback).execute();
+        executeAsyncTask(new FetchNewMessageAsyncTask(message, messageCallback));
     }
 
     public void fetchNewConversationIdAsyncTask(String transmitterId, String receiverId, GetIdCallback idCallback){
-        new FetchNewConversationIdAsyncTask(transmitterId, receiverId, idCallback).execute();
+        executeAsyncTask(new FetchNewConversationIdAsyncTask(transmitterId, receiverId, idCallback));
     }
 
     public void fetchUserDataInBackground(User user, GetUserCallback userCallback){
         //progressDialog.show();
-        new fetchUserDataAsyncTask(user,userCallback).execute();
+        executeAsyncTask(new fetchUserDataAsyncTask(user,userCallback));
+        /*if(Build.VERSION.SDK_INT >= 11) {
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else {
+            task.execute();
+        }*/
     }
 
     public void fetchConversationsDataInBackground(User user, GetConversationsCallback conversationsCallback){
-        new fetchConversationsDataAsyncTask(user,conversationsCallback).execute();
+        executeAsyncTask(new fetchConversationsDataAsyncTask(user,conversationsCallback));
     }
 
     public void fetchContactsDataInBackground(ArrayList<String> phoneNumbers, GetContactsCallback userCallback){
         //progressDialog.show();
-        new fetchContactsDataAsyncTask(phoneNumbers, userCallback).execute();
+        executeAsyncTask(new fetchContactsDataAsyncTask(phoneNumbers, userCallback));
     }
 
     public Context getContext() {
@@ -423,11 +442,13 @@ public class Service {
             }
 
             String response = client.getResponse();
-            JSONObject jObject = new JSONObject();
-            try {
-                jObject = new JSONObject(response);
-            } catch (JSONException e) {
-                e.printStackTrace();
+            JSONObject jObject = null;
+            if (response != null){
+                try {
+                    jObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             return jObject;
@@ -436,7 +457,16 @@ public class Service {
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
             progressDialog.dismiss();
-            userCallback.done(null);
+            boolean response = jsonObject != null;
+            boolean existingUser = false;
+            if (response) {
+                try {
+                    existingUser = !jsonObject.getBoolean(KEY_SUCCESS);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            userCallback.done(null, response, existingUser);
             super.onPostExecute(jsonObject);
         }
     }
@@ -465,35 +495,54 @@ public class Service {
 
             String response = client.getResponse();
             User returnedUser = null;
-            try {
-                JSONObject jObject = new JSONObject(response);
-                if (jObject.length() == 0){
-                    returnedUser = null;
-                } else {
-                    String data = jObject.getString(KEY_PAYLOAD);
-                    JSONObject jData = new JSONObject(data);
-                    String name = jData.getString(KEY_USER_NAME);
-                    String password = jData.getString(KEY_USER_PASSWORD);
-                    String tokenSesion = jData.getString(KEY_TOKEN_SESION);
-                    String state = jData.getString(KEY_USER_STATE);
-                    String picture = jData.getString(KEY_USER_PICTURE);
-                    returnedUser = new User(user.getPhone(), name, password, tokenSesion);
-                    returnedUser.setProfilePicture(picture);
-                    returnedUser.setState(Boolean.valueOf(state));
-                    String userId = jData.getString(KEY_USER_ID);
-                    returnedUser.setUserId(userId);
+            if (response != null) {
+                try {
+                    JSONObject jObject = new JSONObject(response);
+                    if (jObject.length() == 0) {
+                        returnedUser = null;
+                    } else {
+                        Boolean success = jObject.getBoolean(KEY_SUCCESS);
+                        if (success) {
+                            String data = jObject.getString(KEY_PAYLOAD);
+                            JSONObject jData = new JSONObject(data);
+                            String name = jData.getString(KEY_USER_NAME);
+                            String password = jData.getString(KEY_USER_PASSWORD);
+                            String tokenSesion = jData.getString(KEY_TOKEN_SESION);
+                            String state = jData.getString(KEY_USER_STATE);
+                            String picture = jData.getString(KEY_USER_PICTURE);
+                            returnedUser = new User(user.getPhone(), name, password, tokenSesion);
+                            returnedUser.setProfilePicture(picture);
+                            returnedUser.setState(Boolean.valueOf(state));
+                            String userId = jData.getString(KEY_USER_ID);
+                            returnedUser.setUserId(userId);
+                            returnedUser.setExist(true);
+                        } else {
+                            //HACK
+                            returnedUser = new User();
+                            returnedUser.setExist(false);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
 
             return returnedUser;
         }
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
         protected void onPostExecute(User returnedUser) {
             //progressDialog.dismiss();
-            userCallback.done(returnedUser);
+            boolean response = returnedUser != null ? true : false;
+            boolean findUser = false;
+            if (response)
+                findUser = returnedUser.isExist();
+            userCallback.done(returnedUser, response, findUser);
             super.onPostExecute(user);
         }
     }
@@ -526,7 +575,7 @@ public class Service {
             }
 
             String response = client.getResponse();
-            ArrayList<Conversation> conversations = new ArrayList<Conversation>();
+            ArrayList<Conversation> conversations = new ArrayList<>();
             try {
                 JSONObject jObject = new JSONObject(response);
                 if (jObject.length() == 0){
@@ -601,7 +650,7 @@ public class Service {
             }
 
             String response = client.getResponse();
-            ArrayList<User> users = new ArrayList<User>();
+            ArrayList<User> users = new ArrayList<>();
             try {
                 JSONObject jObject = new JSONObject(response);
                 if (jObject.length() == 0){

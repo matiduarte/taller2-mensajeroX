@@ -61,9 +61,9 @@ public class ChatActivity extends ActionBarActivity {
 
         this.getTransmitterUserPhone();
         this.getConversationId();
+        this.getSaveMessageList();
         this.registerDataSetObserver();
         this.setOnClickListener();
-        this.getSaveMessageList();
     }
 
     private void customizeActionBar() {
@@ -144,7 +144,7 @@ public class ChatActivity extends ActionBarActivity {
         Service serviceRequest = new Service(this);
         serviceRequest.fetchUserDataInBackground(rUser, new GetUserCallback() {
             @Override
-            public void done(User returnedUser) {
+            public void done(User returnedUser, boolean success, boolean check) {
                 setReceiverUser(returnedUser);
             }
         });
