@@ -61,9 +61,9 @@ public class ChatActivity extends ActionBarActivity {
 
         this.getTransmitterUserPhone();
         this.getConversationId();
+        this.getSaveMessageList();
         this.registerDataSetObserver();
         this.setOnClickListener();
-        this.getSaveMessageList();
     }
 
     private void customizeActionBar() {
