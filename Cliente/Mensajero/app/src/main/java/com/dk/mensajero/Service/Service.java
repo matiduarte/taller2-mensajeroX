@@ -1,5 +1,6 @@
 package com.dk.mensajero.Service;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -28,8 +29,8 @@ import java.util.ArrayList;
  */
 public class Service {
 
-    //private String BASE_URL = "http://192.168.0.20:8080/";
-    private String BASE_URL = "http://192.168.1.102:8080/";
+    private String BASE_URL = "http://192.168.0.20:8080/";
+    //private String BASE_URL = "http://192.168.1.102:8080/";
 
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
@@ -70,6 +71,16 @@ public class Service {
         progressDialog.setCancelable(false);
         progressDialog.setTitle("Procesando");
         progressDialog.setMessage("Por favor espere...");
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    static public <T> void executeAsyncTask(AsyncTask<T, ?, ?> task, T... params) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
+        }
+        else {
+            task.execute(params);
+        }
     }
 
 
@@ -185,39 +196,40 @@ public class Service {
 
     public void storeNewUserInBackground(User user, GetUserCallback userCallback){
         progressDialog.show();
-        new StoreNewUserAsyncTask(user, userCallback).execute();
+        executeAsyncTask(new StoreNewUserAsyncTask(user, userCallback));
 
     }
 
     public void sendNewMessageInBackground(Message message, GetMessageCallback messageCallback){
-        new SendNewMessageAsyncTask(message, messageCallback).execute();
+        executeAsyncTask(new SendNewMessageAsyncTask(message, messageCallback));
 
     }
 
     public void fetchNewMessageInBackground(Message message, GetMessageCallback messageCallback){
-        new FetchNewMessageAsyncTask(message, messageCallback).execute();
+        executeAsyncTask(new FetchNewMessageAsyncTask(message, messageCallback));
     }
 
     public void fetchNewConversationIdAsyncTask(String transmitterId, String receiverId, GetIdCallback idCallback){
-        new FetchNewConversationIdAsyncTask(transmitterId, receiverId, idCallback).execute();
+        executeAsyncTask(new FetchNewConversationIdAsyncTask(transmitterId, receiverId, idCallback));
     }
 
     public void fetchUserDataInBackground(User user, GetUserCallback userCallback){
         //progressDialog.show();
-        fetchUserDataAsyncTask task = new fetchUserDataAsyncTask(user,userCallback);
-        if(Build.VERSION.SDK_INT >= 11)
+        executeAsyncTask(new fetchUserDataAsyncTask(user,userCallback));
+        /*if(Build.VERSION.SDK_INT >= 11) {
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        else
+        } else {
             task.execute();
+        }*/
     }
 
     public void fetchConversationsDataInBackground(User user, GetConversationsCallback conversationsCallback){
-        new fetchConversationsDataAsyncTask(user,conversationsCallback).execute();
+        executeAsyncTask(new fetchConversationsDataAsyncTask(user,conversationsCallback));
     }
 
     public void fetchContactsDataInBackground(ArrayList<String> phoneNumbers, GetContactsCallback userCallback){
         //progressDialog.show();
-        new fetchContactsDataAsyncTask(phoneNumbers, userCallback).execute();
+        executeAsyncTask(new fetchContactsDataAsyncTask(phoneNumbers, userCallback));
     }
 
     public Context getContext() {
