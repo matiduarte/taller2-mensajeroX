@@ -28,15 +28,16 @@ Una vez finalizado, ejecutar el servidor con ./Servidor
 -----------
 Instalar plug-in Postman en el navegador web y seguir los siguientes pasos para probar los diferentes servicios:  
 
-###Usuario
+###POST
 
 ####Registrar Usuario:
 
->URL: http://localhost:8080/registrarUsuario
+>URL: http://localhost:808/usuario
 
 Parámetros:   
-key: params  
-value: {"Telefono":"1234", "Nombre":"jose"}  
+key: Nombre    value: Juan
+key: Telefono  value: 1112345678
+key: Password  value: goku
 ```
 Respuesta Ejemplo: 
 {
