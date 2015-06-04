@@ -34,10 +34,10 @@ Instalar plug-in Postman en el navegador web y seguir los siguientes pasos para 
 
 >URL: http://localhost:808/usuario
 
-Parámetros:   
-key: Nombre    value: Juan
-key: Telefono  value: 1112345678
-key: Password  value: goku
+Parámetros:  
+key: Nombre    value: Juan  
+key: Telefono  value: 1112345678  
+key: Password  value: goku  
 ```
 Respuesta Ejemplo: 
 {
@@ -45,89 +45,55 @@ Respuesta Ejemplo:
    "success" : "true"
 }
 ```
+####Enviar Mensaje:
 
-####Consultar Usuario Online:
+>URL: http://localhost:808/conversacion
 
->URL: http://localhost:8080/consultarUsuarioOnline
-
-Parámetros:  
-key: params  
-value: {"Telefono":"1234""}  
+Parametros:  
+key: IdUsuarioEmisor	value: 11223344  
+key: IdUsuarioReceptor	value: 11334455  
+key: Cuerpo		value: Hola  
+key: Fecha		value: 2015-06-03 18:30:23  
+key: Token		value: g231lsaqwe123129fjq2j123  
 ```
 Respuesta Ejemplo: 
 {
-   "payload" : "true",
+   "payload" : "188c3d61cf52bda68a52f7afe6070727",
    "success" : "true"
 }
 ```
-####Desconectar Usuario:
 
->URL: http://localhost:8080/desconectarUsuario
+###PUT
+
+####Registrar Usuario:
+
+>URL: http://localhost:8080/usuario
 
 Parámetros:  
-key: params  
-value: {"Telefono":"1234"}  
+key: Nombre		value: Juan  
+key: Telefono	        value: 112233  
+key: Password	        value: goku  
+key: FotoDePerfil	value: default  
+key Token		value: kasd912jdsr12jjajs291283192  
+key: EstadoDeConexion	value: true  
 ```
-Respuesta Ejemplo: 
+Respuesta Ejemplo:
 {
-   "payload" : "El usuario jose cerro sesion correctamente",
+   "payload" : "Se modificaron los datos del usuario Juan correctamente. Token:",
    "success" : "true"
 }
 ```
-####Autenticar Usuario:
 
->URL: http://localhost:8080/autenticarUsuario
+###GET
 
-Parámetros:  
-key: params  
-value: {"Telefono":"1234"}  
+####Consultar usuario:
+
+>URL: http://localhost:8080/usuario/112233
 ```
-Respuesta Ejemplo: 
+Respuesta Ejemplo:
 {
-   "payload" : "El usuario jose inicio sesion correctamente. Token: e255da3ce8f92a313557e734d67a9a24",
+   "payload" : "{\n   \"EstadoDeConexion\" : \"true\",\n   \"FotoDePerfil\" : \"default\",\n   \"Nombre\" : \"Juan\",\n   \"Password\" : \"goku\",\n   \"Token\" : \"b1d3cc2ebd0d1ebfcdeb16de173e99b6\",\n   \"idUsuario\" : \"0a0625f4dba80e60e7bb4e37114f744f\"\n}\n",
    "success" : "true"
 }
-```
-###Conversación
 
-####Almacenar Conversación:
-
->URL: http://localhost:8080/almacenarConversacion
-
-Parámetros:  
-key: params  
-value: {"IdUsuarioEmisor":"123", "IdUsuarioReceptor":"1234", "Cuerpo":"esto es un mensaje","Fecha":"una fecha"}  
-```
-Respuesta Ejemplo: 
-{
-   "payload" : "Mensaje agregado correctamente",
-   "success" : "true"
-}
-```
-####Obtener Id Conversación:
-
->URL: http://localhost:8080/obtenerIdConversacion
-
-Parámetros:  
-key: params  
-value: {"TelefonoEmisor":"123", "TelefonoReceptor":"1234"}  
-```
-Respuesta Ejemplo: 
-{
-   "payload" : "202cb962ac59075b964b07152d234b70-81dc9bdb52d04dc20036dbd8313ed055",
-   "success" : "true"
-}
-```
-####Obtener Conversación:
-
->URL: http://localhost:8080/enviarConversacion
-
-Parámetros:  
-key: params  
-value: {"Id":"202cb962ac59075b964b07152d234b70-81dc9bdb52d04dc20036dbd8313ed055"}  
-```
-Respuesta Ejemplo: 
-{
-   "payload" : "[\n   \"{\\n   \\\"Cuerpo\\\" : \\\"esto es un mensaje\\\",\\n   \\\"Fecha\\\" : \\\"una fecha\\\",\\n   \\\"Id\\\" : \\\"e70d1f3c9c0b6a013a4f4fef1e2231e3\\\",\\n   \\\"IdUsuarioEmisor\\\" : \\\"123\\\"\\n}\\n\",\n   \"{\\n   \\\"Cuerpo\\\" : \\\"esto es un mensaje\\\",\\n   \\\"Fecha\\\" : \\\"una fecha\\\",\\n   \\\"Id\\\" : \\\"e70d1f3c9c0b6a013a4f4fef1e2231e3\\\",\\n   \\\"IdUsuarioEmisor\\\" : \\\"123\\\"\\n}\\n\",\n   \"{\\n   \\\"Cuerpo\\\" : \\\"esto es un mensaje\\\",\\n   \\\"Fecha\\\" : \\\"una fecha\\\",\\n   \\\"Id\\\" : \\\"e70d1f3c9c0b6a013a4f4fef1e2231e3\\\",\\n   \\\"IdUsuarioEmisor\\\" : \\\"123\\\"\\n}\\n\",\n   \"{\\n   \\\"Cuerpo\\\" : \\\"esto es un mensaje\\\",\\n   \\\"Fecha\\\" : \\\"una fecha\\\",\\n   \\\"Id\\\" : \\\"e70d1f3c9c0b6a013a4f4fef1e2231e3\\\",\\n   \\\"IdUsuarioEmisor\\\" : \\\"123\\\"\\n}\\n\",\n   \"{\\n   \\\"Cuerpo\\\" : \\\"esto es un mensaje\\\",\\n   \\\"Fecha\\\" : \\\"una fecha\\\",\\n   \\\"Id\\\" : \\\"e70d1f3c9c0b6a013a4f4fef1e2231e3\\\",\\n   \\\"IdUsuarioEmisor\\\" : \\\"123\\\"\\n}\\n\"\n]\n",
-   "succe
 ```
