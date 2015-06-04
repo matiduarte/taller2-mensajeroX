@@ -88,7 +88,8 @@ Respuesta Ejemplo:
 
 ####Consultar usuario:
 
->URL: http://localhost:8080/usuario/112233
+>URL: http://localhost:8080/usuario/112233  
+
 ```
 Respuesta Ejemplo:
 {
@@ -97,3 +98,15 @@ Respuesta Ejemplo:
 }
 
 ```
+
+####Obtener conversacion:
+
+>URL: http://localhost:8080/usuarioConversacion/1112233  
+
+```
+respuesta:
+{
+   "payload" : "{\n   \"conversaciones\" : [\n      {\n         \"id\" : \"0a0625f4dba80e60e7bb4e37114f744f-8ca745744c1910342bb2441b61951494\",\n         \"ultimoMensaje\" : \"Todo bien. ¿Vos?\",\n         \"usuarioFotoDePerfil\" : \"default\",\n         \"usuarioNombre\" : \"Pepe\",\n         \"usuarioTelefono\" : \"1111223344\"\n      }\n   ]\n}\n",
+   "success" : "true"
+}
+```  
