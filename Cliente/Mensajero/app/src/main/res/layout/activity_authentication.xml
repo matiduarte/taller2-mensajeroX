@@ -36,6 +36,7 @@
     <Button
         android:id="@+id/bLogin"
         android:text="Iniciar Sesión"
+        android:textColor="@android:color/white"
         android:textStyle="bold"
         android:layout_margin="10dp"
         android:layout_width="match_parent"

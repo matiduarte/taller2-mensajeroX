@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:text="@string/yes_button"
             android:id="@+id/yesButton"
-            android:textColor="#1E90FF"
+            android:textColor="@android:color/white"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:text="@string/edit_button"
             android:id="@+id/editButton"
-            android:textColor="#1E90FF"
+            android:textColor="@android:color/white"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />

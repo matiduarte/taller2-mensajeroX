@@ -52,6 +52,7 @@
         android:text="Finalizar Registro"
         android:textStyle="bold"
         android:layout_margin="10dp"
+        android:textColor="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

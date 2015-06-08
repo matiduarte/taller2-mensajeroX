@@ -1,42 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- File created by the Android Action Bar Style Generator
 
-<!-- Generated with http://android-holo-colors.com -->
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+     Copyright (C) 2011 The Android Open Source Project
+     Copyright (C) 2012 readyState Software Ltd
 
-  <style name="EditTextMsjxStyle" parent="android:Widget.EditText">
-	  <item name="android:background">@drawable/msjxstyle_edit_text_holo_light</item>
-	  <item name="android:textColor">#000000</item>
-  </style>
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
 
-  <style name="ButtonMsjxStyle" parent="android:Widget.Button">
-	  <item name="android:background">@drawable/msjxstyle_btn_default_holo_light</item>
-	  <item name="android:minHeight">48dip</item>
-	  <item name="android:minWidth">64dip</item>
-	  <item name="android:textColor">#000000</item>
-  </style>
+<resources>
 
-  <style name="ImageButtonMsjxStyle" parent="android:Widget.ImageButton">
-	  <item name="android:background">@drawable/msjxstyle_btn_default_holo_light</item>
-  </style>
+    <style name="Theme.Msjxstyle" parent="MsjxComponentStyle">
+        <item name="actionBarItemBackground">@drawable/selectable_background_msjxstyle</item>
+        <item name="popupMenuStyle">@style/PopupMenu.Msjxstyle</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.Msjxstyle</item>
+        <item name="actionBarTabStyle">@style/ActionBarTabStyle.Msjxstyle</item>
+        <item name="actionDropDownStyle">@style/DropDownNav.Msjxstyle</item>
+        <item name="actionBarStyle">@style/ActionBar.Solid.Msjxstyle</item>
+        <item name="actionModeBackground">@drawable/cab_background_top_msjxstyle</item>
+        <item name="actionModeSplitBackground">@drawable/cab_background_bottom_msjxstyle</item>
+        <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Msjxstyle</item>
 
-  <style name="TabMsjxStyle">
-      <item name="android:gravity">center_horizontal</item>
-      <item name="android:paddingLeft">16dip</item>
-      <item name="android:paddingRight">16dip</item>
-      <item name="android:background">@drawable/msjxstyle_tab_indicator_holo</item>
-      <item name="android:layout_width">0dip</item>
-      <item name="android:layout_weight">1</item>
-      <item name="android:minWidth">80dip</item>
-  </style>
+                <!-- Light.DarkActionBar specific -->
+        <item name="actionBarWidgetTheme">@style/Theme.Msjxstyle.Widget</item>
 
-  <style name="TabTextMsjxStyle">
-	  <item name="android:textColor">#000000</item>
-      <item name="android:textSize">12sp</item>
-      <item name="android:textStyle">bold</item>
-      <!-- v14 <item name="android:textAllCaps">true</item> -->
-      <item name="android:ellipsize">marquee</item>
-      <item name="android:maxLines">2</item>
-      <item name="android:maxWidth">180dip</item>
-  </style>
+    </style>
+
+    <style name="ActionBar.Solid.Msjxstyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="background">@drawable/ab_solid_msjxstyle</item>
+        <item name="backgroundStacked">@drawable/ab_stacked_solid_msjxstyle</item>
+        <item name="backgroundSplit">@drawable/ab_bottom_solid_msjxstyle</item>
+        <item name="progressBarStyle">@style/ProgressBar.Msjxstyle</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Msjxstyle" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="background">@drawable/ab_transparent_msjxstyle</item>
+        <item name="progressBarStyle">@style/ProgressBar.Msjxstyle</item>
+    </style>
+	
+    <style name="PopupMenu.Msjxstyle" parent="@style/Widget.AppCompat.PopupMenu">	
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_msjxstyle</item>	
+    </style>
+	
+    <style name="DropDownListView.Msjxstyle" parent="@style/Widget.AppCompat.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_msjxstyle</item>
+    </style>
+
+    <style name="ActionBarTabStyle.Msjxstyle" parent="@style/Widget.AppCompat.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_msjxstyle</item>
+    </style>
+	
+    <style name="DropDownNav.Msjxstyle" parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar">
+        <item name="android:background">@drawable/spinner_background_ab_msjxstyle</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_msjxstyle</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_msjxstyle</item>
+    </style>
+    
+    <style name="ProgressBar.Msjxstyle" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_msjxstyle</item>
+    </style>
+    
+    <style name="ActionButton.CloseMode.Msjxstyle" parent="@style/Widget.AppCompat.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_msjxstyle</item>
+    </style>
+    
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Msjxstyle.Widget" parent="@style/Theme.AppCompat">
+        <item name="popupMenuStyle">@style/PopupMenu.Msjxstyle</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.Msjxstyle</item>
+    </style>
 
 </resources>

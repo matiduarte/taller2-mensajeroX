@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="MsjxComponentStyle" parent="@style/_MsjxComponentStyle"/>
+
+  <style name="_MsjxComponentStyle" parent="Theme.AppCompat.Light.DarkActionBar">
+
+    <item name="android:editTextStyle">@style/EditTextMsjxComponentStyle</item>
+
+    <item name="android:textColorHighlight">#99009c58</item>
+
+    <item name="android:checkboxStyle">@style/CheckBoxMsjxComponentStyle</item>
+
+    <item name="android:buttonStyle">@style/ButtonMsjxComponentStyle</item>
+
+    <item name="android:imageButtonStyle">@style/ImageButtonMsjxComponentStyle</item>
+
+    <item name="android:spinnerStyle">@style/SpinnerMsjxComponentStyle</item>
+
+    <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemMsjxComponentStyle</item>
+
+    <item name="android:progressBarStyleHorizontal">@style/ProgressBarMsjxComponentStyle</item>
+
+    <item name="android:listViewStyle">@style/ListViewMsjxComponentStyle</item>
+
+    <item name="android:listViewWhiteStyle">@style/ListViewMsjxComponentStyle.White</item>
+
+    <item name="android:spinnerItemStyle">@style/SpinnerItemMsjxComponentStyle</item>
+
+  </style>
+
+</resources>

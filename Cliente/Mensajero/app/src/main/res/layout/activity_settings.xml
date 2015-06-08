@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFFFFF"
     tools:context="com.dk.mensajero.Activities.SettingsActivity" >
 
     <Button
@@ -11,6 +10,7 @@
         android:layout_height="wrap_content"
         android:text="@string/information"
         android:id="@+id/settings_bInformation"
+        android:textColor="@android:color/white"
         android:textStyle="bold"
         android:onClick="showInformation"
         android:layout_marginTop="90dp"
@@ -22,6 +22,7 @@
         android:text="@string/profile"
         android:id="@+id/settings_bProfile"
         android:layout_marginTop="15dp"
+        android:textColor="@android:color/white"
         android:textStyle="bold"
         android:onClick="showProfileConfiguration"
         />
@@ -32,7 +33,7 @@
         android:text="Cerrar Sesion"
         android:id="@+id/settings_bLogout"
         android:layout_marginTop="75dp"
-
+        android:textColor="@android:color/white"
         android:textStyle="bold"
         android:onClick="logout"
         />
