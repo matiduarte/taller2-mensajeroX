@@ -61,7 +61,7 @@ Json::Value Servicio::getParametroArray(string nombreParametro, string valorDefa
 	Json::Value valorParams;
 	Json::Reader reader;
 
-	bool parseoExitoso = reader.parse(parametro, valorParams);
+	reader.parse(parametro, valorParams);
 	return valorParams;
 }
 
