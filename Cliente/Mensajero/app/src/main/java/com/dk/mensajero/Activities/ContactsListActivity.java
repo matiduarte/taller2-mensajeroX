@@ -1,27 +1,40 @@
 package com.dk.mensajero.Activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dk.mensajero.Adapters.ContactAdapter;
+import com.dk.mensajero.Conversations.ConversationDataProvider;
+import com.dk.mensajero.Entities.Message;
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.Interfaces.GetContactsCallback;
+import com.dk.mensajero.Interfaces.GetMessageCallback;
 import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class ContactsListActivity extends ActionBarActivity {
 
+    private String transmitterUserPhone = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +68,49 @@ public class ContactsListActivity extends ActionBarActivity {
     }
 
     private void initView() {
+        this.transmitterUserPhone = User.getUser(this).getPhone();
+
+        Button button = (Button) findViewById(R.id.button_show_broadcast_dialog);
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                showBroadcastDialog();
+            }
+        });
+
         getContactsFromService();
+    }
+
+    private void showBroadcastDialog() {
+        LayoutInflater layoutInflater = LayoutInflater.from(ContactsListActivity.this);
+        View promptView = layoutInflater.inflate(R.layout.dialog_broadcast, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ContactsListActivity.this);
+        alertDialogBuilder.setView(promptView);
+
+        final EditText editText = (EditText) promptView.findViewById(R.id.broadcast_message);
+        // setup a dialog window
+        alertDialogBuilder.setCancelable(false)
+                .setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String sendMessage = getMessageToSend(editText.getText().toString());
+                        if (!sendMessage.equals("")) {
+                            String date = getDate();
+                            Message message = new Message(transmitterUserPhone, "", sendMessage, date);
+                            sendMessageToServer(message);
+                        }
+                    }
+                })
+                .setNegativeButton("Cancelar",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        // create an alert dialog
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
     }
 
     public void showContacts(ArrayList<User> contacts){
@@ -122,5 +177,44 @@ public class ContactsListActivity extends ActionBarActivity {
         startMain.addCategory(Intent.CATEGORY_HOME);
         startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(startMain);
+    }
+
+    private void sendMessageToServer(Message message){
+        Service serviceRequest = new Service(this);
+        serviceRequest.sendNewBroadcastInBackground(message, this.getContactsNumbers(), new GetMessageCallback() {
+            @Override
+            public void done(ArrayList<Message> messageList) {
+                if (messageList != null) {
+                    Toast.makeText(getApplicationContext(), "Lista de difusión enviada correctamente",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+    }
+
+    private String getMessageToSend(String textMessage) {
+
+        String formatMessage, returnedMessage;
+
+        if (textMessage.startsWith("\n") || textMessage.endsWith("\n")){
+            formatMessage = (textMessage.replaceAll("^\n+","")).replaceAll("\n+$","");
+        } else {
+            formatMessage = textMessage;
+        }
+
+        if (formatMessage.startsWith(" ")) {
+            returnedMessage = formatMessage.trim();
+        } else {
+            returnedMessage = formatMessage;
+        }
+
+        return returnedMessage;
+    }
+
+    public String getDate(){
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return df.format(c.getTime());
     }
 }

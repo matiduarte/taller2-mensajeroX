@@ -75,6 +75,7 @@ const string urlBaseConversacion = "/conversacion/";
 const string urlBaseConversacionId = "/conversacion/id/";
 const string urlBaseUsuarioConversaciones = "/usuarioConversacion/";
 const string urlBaseContactos = "/contactos/";
+const string urlBaseListaDifusion = "/difusion/";
 
 /*Constantes de parametros para Servicios*/
 #define keyIdUltimoMensaje "idUltimoMensaje"

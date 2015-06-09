@@ -8,4 +8,9 @@
         android:id="@+id/list_contacts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/button_show_broadcast_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/broadcast_button" />
 </LinearLayout>

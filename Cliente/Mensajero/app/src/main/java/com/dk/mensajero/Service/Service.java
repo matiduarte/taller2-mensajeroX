@@ -30,7 +30,7 @@ import java.util.ArrayList;
 public class Service {
 
 
-    private String BASE_URL = "http://192.168.0.35:8080/";
+    private String BASE_URL = "http://192.168.0.20:8080/";
     //private String BASE_URL = "http://192.168.1.102:8080/";
 
 
@@ -39,6 +39,7 @@ public class Service {
     private String USER_COVERSATIONS_URL = "usuarioConversacion/";
     private String CONTACTS_URL = "contactos/";
     private String ID_URL = "id/";
+    private String BROADCAST_URL = "difusion/";
 
     ProgressDialog progressDialog;
     private Context context;
@@ -186,6 +187,13 @@ public class Service {
         //progressDialog.show();
         executeAsyncTask(new fetchContactsDataAsyncTask(phoneNumbers, userCallback));
     }
+
+    public void sendNewBroadcastInBackground(Message message, ArrayList<String> phoneNumbers,GetMessageCallback messageCallback){
+        progressDialog.show();
+        executeAsyncTask(new SendNewBroadcastAsyncTask(message, phoneNumbers,messageCallback));
+
+    }
+
 
     public Context getContext() {
         return context;
@@ -668,6 +676,69 @@ public class Service {
             progressDialog.dismiss();
             super.onCancelled();
             Log.i("Debug", "onCancelled");
+        }
+    }
+
+    public class SendNewBroadcastAsyncTask extends AsyncTask<Void, Void, Message>{
+
+        Message message;
+        GetMessageCallback messageCallback;
+        ArrayList<String> phoneNumbers;
+
+        public SendNewBroadcastAsyncTask(Message message, ArrayList<String> phoneNumbers,GetMessageCallback messageCallback) {
+            this.message = message;
+            this.phoneNumbers = phoneNumbers;
+            this.messageCallback = messageCallback;
+        }
+
+        @Override
+        protected Message doInBackground(Void... params) {
+
+            String url = BASE_URL + BROADCAST_URL;
+            RestClient client = new RestClient(url);
+
+            client.addParam(KEY_PHONE_USER, message.getUserPhoneTransmitter());
+            client.addParam(KEY_MESSAGE_BODY, message.getBody());
+            client.addParam(KEY_MESSAGE_DATE, message.getDate());
+
+            JSONArray jsArray = new JSONArray(this.phoneNumbers);
+            client.addParam(KEY_CONTACTS_PARAM, jsArray.toString());
+
+            try {
+                client.execute(RestClient.RequestMethod.POST);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            String response = client.getResponse();
+            Message returnedMsg = null;
+            if (response != null) {
+                try {
+                    JSONObject jObject = new JSONObject(response);
+                    if (jObject.length() == 0) {
+                        returnedMsg = null;
+                    } else {
+                        String idMsg = jObject.getString(KEY_PAYLOAD);
+                        returnedMsg = new Message(message.getUserPhoneTransmitter(), message.getUserPhoneReceiver(), message.getBody(), message.getDate());
+                        returnedMsg.setMessageId(idMsg);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("ENTRE SendBroadcastMessageAsyncTask");
+            }
+            return returnedMsg;
+        }
+
+        @Override
+        protected void onPostExecute(Message returnedMsg) {
+            ArrayList<Message> list = new ArrayList<>();
+            list.add(returnedMsg);
+            messageCallback.done(list);
+            progressDialog.dismiss();
+            super.onPostExecute(returnedMsg);
         }
     }
 
