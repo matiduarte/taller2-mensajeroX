@@ -402,3 +402,68 @@ void Servicio::obtenerContactos(){
 
 	this->responder(respuesta.toStyledString(), true);
 }
+
+/*
+ * Agrega el mensaje que envió el cliente a la conversacion correspondiente y luego la almacena en
+ * la Base de Datos.
+ *
+ */
+void Servicio::almacenarListaDifusion() {
+	string idEmisor   = this->getParametro(keyIdUsuarioEmisor,keyDefault);
+
+	Json::Value contactosTelefonoValue = this->getParametroArray(keyContantosTelefono, keyDefault);
+	vector<string> contactosTelefono = StringUtil::jsonValueToVector(contactosTelefonoValue);
+
+	//chequeo que los usuarios existan:
+	Usuario *emisor   =  Usuario::obtenerPorTelefono(idEmisor);
+
+	if (emisor->getId() == keyIdUsuarioNoEncontrado){
+		string msj_warning = "No se pudo almacenar la lista de difusion porque el emisor no existe";
+		this->responder(msj_warning, false);
+		Loger::getLoger()->warn(msj_warning);
+		Loger::getLoger()->guardarEstado();
+	}
+	else{
+		//Obtengo el mensaje:
+		string 		cuerpo 	= this->getParametro(keyCuerpo,keyDefault);
+		string 		fecha 	= this->getParametro(keyFecha,keyDefault);
+		Mensaje*	mensaje	= new Mensaje(cuerpo,emisor->getId(),fecha);
+
+		//Recorro los contactos del telefono para verificar cuales estan registrados y conectados
+		for(unsigned i=0; i<contactosTelefono.size();i++){
+			string telefonoActual = contactosTelefono[i];
+			Usuario* usuario = Usuario::obtenerPorTelefono(telefonoActual);
+
+			//Envío mensaje a los usuarios que estan registrados y que se encuentran conectados
+			if(usuario->getId() != keyIdUsuarioNoEncontrado && usuario->getEstadoConexion()){
+				//almaceno la conversacion (si no existe la creo):
+				Conversacion *conversacion = Conversacion::obtener(emisor->getId()+"-"+usuario->getId());
+				if (conversacion->getId() != keyIdConversacionNoEncontrada) {
+					conversacion->agregarMensaje(mensaje);
+					conversacion->persistir();
+					delete conversacion;
+				}
+				else{
+					Conversacion *conversacion = Conversacion::obtener(usuario->getId()+"-"+emisor->getId());
+					if (conversacion->getId() != keyIdConversacionNoEncontrada) {
+						conversacion->agregarMensaje(mensaje);
+						conversacion->persistir();
+						delete conversacion;
+					}else{
+						vector<Usuario*> usuarios;
+						usuarios.push_back(emisor);
+						usuarios.push_back(usuario);
+						vector<Mensaje*> mensajes;
+						mensajes.push_back(mensaje);
+						Conversacion *nuevaConversacion = new Conversacion(usuarios,mensajes);
+						nuevaConversacion->persistir();
+						delete nuevaConversacion;
+					}
+				}
+			}
+		}
+
+		this->responder("Lista de difusion enviada correctamente", true);
+		delete mensaje;
+	}
+}
