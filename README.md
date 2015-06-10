@@ -28,10 +28,9 @@ Una vez finalizado, ejecutar el servidor con ./Servidor
 -----------
 Instalar plug-in Postman en el navegador web y seguir los siguientes pasos para probar los diferentes servicios:  
 
-###POST
 
 ####Registrar Usuario:
-
+operación: POST
 >URL: http://localhost:808/usuario
 
 Parámetros:  
@@ -46,7 +45,7 @@ Respuesta Ejemplo:
 }
 ```
 ####Enviar Mensaje:
-
+operación: POST
 >URL: http://localhost:808/conversacion
 
 Parametros:  
@@ -63,10 +62,9 @@ Respuesta Ejemplo:
 }
 ```
 
-###PUT
 
-####Registrar Usuario:
-
+####Editar Perfil:
+operación: PUT
 >URL: http://localhost:8080/usuario
 
 Parámetros:  
@@ -84,10 +82,9 @@ Respuesta Ejemplo:
 }
 ```
 
-###GET
 
 ####Consultar usuario:
-
+operación: GET
 >URL: http://localhost:8080/usuario/112233  
 
 ```
@@ -100,7 +97,7 @@ Respuesta Ejemplo:
 ```
 
 ####Obtener conversacion:
-
+operación: GET
 >URL: http://localhost:8080/usuarioConversacion/1112233  
 
 ```
