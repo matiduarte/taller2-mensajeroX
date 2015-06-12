@@ -15,6 +15,11 @@ $ cd taller2-mensajero/Servidor
 Dependencias
 
 ```
+
+$ cd Servidor/lib/rocksdb-master/
+$ make static_lib
+$ mv -i librocksdb.a ../
+
 $ sudo apt-get install libsnappy-dev
 $ sudo apt-get install zlib1g-dev
 $ sudo apt-get install libbz2-dev
