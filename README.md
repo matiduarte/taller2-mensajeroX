@@ -12,6 +12,14 @@ $ git clone https://github.com/matiduarte/taller2-mensajeroX.git
 $ cd taller2-mensajero/Servidor  
 ```
 
+Dependencias
+
+```
+$ sudo apt-get install libsnappy-dev
+$ sudo apt-get install zlib1g-dev
+$ sudo apt-get install libbz2-dev
+```
+
 ### Compilación
 
 En la carpeta del servidor escribir:
