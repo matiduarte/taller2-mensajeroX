@@ -1,10 +1,3 @@
-/*
- * Servidor.h
- *
- *  Created on: 24/3/2015
- *      Author: matias
- */
-
 #ifndef SRC_SERVIDOR_SERVIDOR_H_
 #define SRC_SERVIDOR_SERVIDOR_H_
 
@@ -34,6 +27,10 @@ enum tipoDeServicio{
 	INVALIDO,
 };
 
+
+/**
+ * Esta clase se encarga de proveer un servidor de servicios REST.
+ */
 class Servidor {
 private:
 	static Servicio* servicio;

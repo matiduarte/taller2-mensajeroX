@@ -15,6 +15,10 @@ Servidor::~Servidor() {
 	mg_destroy_server(&webServer);
 }
 
+/**
+ * Incia el servidor en el puerto especificado.
+ * @param puerto El puerto a ser utilizado.
+ */
 void Servidor::iniciar(char *puerto){
 	webServer = mg_create_server(NULL, ev_handler);
 	mg_set_option(webServer, "listening_port", puerto);
@@ -44,6 +48,9 @@ int Servidor::ev_handler(struct mg_connection *conn, enum mg_event ev){
 	return MG_FALSE;
 }
 
+/**
+ * Se encarga de llamar al servicio que resuelve la request.
+ */
 void Servidor::administrarServicio(struct mg_connection* conn){
 	int servicioRequerido = parsearURI(conn);
 
@@ -55,10 +62,10 @@ void Servidor::administrarServicio(struct mg_connection* conn){
 	case ADMINISTRAR_PERFIL:		servicio->administrarPerfil(); 		break;
 	case ALMACENAR_CONVERSACION:	servicio->almacenarConversacion();	break;
 	case OBTENER_ID_CONVERSACION:	servicio->obtenerIdConversacion();	break;
-	case OBTENER_CONVERSACION:	servicio->obtenerConversacion();	break;
+	case OBTENER_CONVERSACION:		servicio->obtenerConversacion();	break;
 	case OBTENER_CONVERSACIONES:	servicio->obtenerConversaciones();	break;
 	case CONSULTAR_USUARIO_ONLINE:	servicio->consultarUsuarioOnline();	break;
-	case OBTENER_CONTACTOS:	servicio->obtenerContactos();	break;
+	case OBTENER_CONTACTOS:			servicio->obtenerContactos();		break;
 	case ALMACENAR_LISTA_DIFUSION:	servicio->almacenarListaDifusion();	break;
 	case INVALIDO: 	cout << "servicio no encontrado." << endl;	break;
 	default: 		cout << "default." << endl;
