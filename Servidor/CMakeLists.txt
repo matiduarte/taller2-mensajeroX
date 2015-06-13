@@ -13,11 +13,10 @@ set(ROCKSDB_ROOT_DIR "${PROJECT_SOURCE_DIR}/lib/rocksdb/")
 set(JSONCPP_ROOT_DIR "${PROJECT_SOURCE_DIR}/src/json/")
 set (CPPUNIT_ROOT_DIR "${PROJECT_SOURCE_DIR}/lib/cppunit/")
 
-
 find_package(BZ2)
 find_package(Snappy)
+find_package(Zlib)
 find_package(RocksDB)
-find_package(ZLIB)
 find_package(JsonCpp)
 find_package(CppUnit)
 
@@ -48,7 +47,7 @@ include_directories(${JSONCPP_INCLUDE_DIRS})
 include_directories(${CPPUNIT_INCLUDE_DIRS})
 include_directories(src)
 
-message(STATUS "SNAPPY_FOUND = ${SNAPPY_FOUND}")
+#message(STATUS "ZLIB_FOUND = ${ZLIB_FOUND}")
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/src/")
 #add_subdirectory(${TEST_PATH})
@@ -66,5 +65,5 @@ add_subdirectory(${UTILIDADES_PATH})
 #enable_testing()
 
 add_executable(Servidor main.cpp)
-target_link_libraries(Servidor ${SNAPPY_LIBRARIES} ${ZLIB_LIBRARIES} ${BZ2_LIBRARIES} basededatos servidor)
+target_link_libraries(Servidor ${ROCKSDB_LIBRARIES} ${SNAPPY_LIBRARIES} ${BZ2_LIBRARIES}  basededatos servidor)
 
