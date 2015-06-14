@@ -56,7 +56,7 @@ public class SettingsActivity extends ActionBarActivity {
         User user = User.getUser(this);
         user.setIsLogged(0);
         user.save(this);
-        Intent intent = new Intent(this, AuthenticationActivity.class);
+        Intent intent  = new Intent(getBaseContext(), AuthenticationActivity.class);
         startActivity(intent);
     }
 

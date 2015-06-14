@@ -23,7 +23,6 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         User userLogged = User.getUser(this);
         //Si hay un usuario logueado, redirijo a la pantalla principal
         if(userLogged.getId() > 0){
@@ -101,7 +100,7 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
     private void showErrorMessage(){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AuthenticationActivity.this);
         dialogBuilder.setMessage("El usuario no se encuentra registrado");
-        dialogBuilder.setPositiveButton("Ok",null);
+        dialogBuilder.setPositiveButton("Ok", null);
         dialogBuilder.show();
     }
 
@@ -118,6 +117,7 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
         dialogBuilder.setPositiveButton("Reintentar",null);
         dialogBuilder.show();
     }
+
 }
 
 
