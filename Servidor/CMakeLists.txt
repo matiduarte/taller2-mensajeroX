@@ -47,10 +47,11 @@ include_directories(${JSONCPP_INCLUDE_DIRS})
 include_directories(${CPPUNIT_INCLUDE_DIRS})
 include_directories(src)
 
-#message(STATUS "ZLIB_FOUND = ${ZLIB_FOUND}")
+#message(STATUS "CPPUNIT_FOUND = ${CPPUNIT_FOUND}")
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/src/")
-#add_subdirectory(${TEST_PATH})
+#add_subdirectory(${TEST_PATH}/Usuario/)
+#add_subdirectory(${TEST_PATH}/Conversacion/)
 add_subdirectory(${ENTIDADES_PATH})
 add_subdirectory(${SERVIDOR_PATH})
 add_subdirectory(${BD_PATH})
@@ -58,12 +59,17 @@ add_subdirectory(${LOG_PATH})
 add_subdirectory(${UTILIDADES_PATH})
 
 
-# Modulos
-
-
 # Tests
-#enable_testing()
+enable_testing()
+add_subdirectory(${TEST_PATH})
 
 add_executable(Servidor main.cpp)
+#add_test(NAME test/Conversacion/TestConversacion COMMAND Servidor)
+#add_test(NAME test/Usuario/TestUsuario.cpp COMMAND Servidor)
+#add_test(NAME testSerializacionDeDatosDeUnUsuario COMMAND Servidor)
+#add_test(NAME testModificacionDeDatosDelUsuario COMMAND Servidor)
+#add_test(NAME test/StringUtil/TestStringUtil COMMAND Servidor)
+#add_test(NAME test/BaseDeDatos/BaseDeDatosTests COMMAND Servidor)
+
 target_link_libraries(Servidor ${ROCKSDB_LIBRARIES} ${SNAPPY_LIBRARIES} ${BZ2_LIBRARIES}  basededatos servidor)
 

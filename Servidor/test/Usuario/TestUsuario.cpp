@@ -38,7 +38,7 @@ void TestUsuario::testSerializacionDeDatosDeUnUsuario(){
 }
 
 void TestUsuario::testModificacionDeDatosDelUsuario(){
-
+	printf("entrooo");
 	Usuario* unUsuario = new Usuario("Pedro" , "foto" , "123456789");
 	string nuevoNombre = "Roberto";
 	string nuevaFoto = "OtraFoto";

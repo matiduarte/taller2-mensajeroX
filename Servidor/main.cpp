@@ -1,21 +1,19 @@
 #include <stdio.h>
 #include <string.h>
 #include "src/Servidor/Servidor.h"
-
 #include "src/BaseDeDatos/BaseDeDatos.h"
-
 #include "src/Entidades/Usuario.h"
 #include <iostream>
-//#include <cppunit/TestSuite.h>
-//#include <cppunit/ui/text/TestRunner.h>
-//#include "test/Usuario/TestUsuario.h"
-//
-//#include <cppunit/BriefTestProgressListener.h>
-//#include <cppunit/CompilerOutputter.h>
-//#include <cppunit/extensions/TestFactoryRegistry.h>
-//#include <cppunit/TestResult.h>
-//#include <cppunit/TestResultCollector.h>
-//#include <cppunit/TestRunner.h>
+
+#include <cppunit/TestSuite.h>
+#include <cppunit/ui/text/TestRunner.h>
+#include "test/Usuario/TestUsuario.h"
+#include <cppunit/BriefTestProgressListener.h>
+#include <cppunit/CompilerOutputter.h>
+#include <cppunit/extensions/TestFactoryRegistry.h>
+#include <cppunit/TestResult.h>
+#include <cppunit/TestResultCollector.h>
+#include <cppunit/ui/text/TestRunner.h>
 
 #include "src/Log/Loger.h"
 
@@ -42,7 +40,5 @@ int main(void) {
 //
 //	CPPUNIT_NS::CompilerOutputter outputter(&result, CPPUNIT_NS::stdCOut());
 //	outputter.write();
-
-
   return 0;
 }

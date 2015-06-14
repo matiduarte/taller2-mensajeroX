@@ -1,11 +1,17 @@
-project(taller2-mensajero)
 
-include_directories(${PROJECT_SOURCE_DIR}/../src)
+add_executable(TestUsuario Usuario/TestUsuario.cpp main.cpp)
+target_link_libraries(TestUsuario entidades  basededatos loger)
 
-set (TEST_USUARIO_PATH "${TEST_PATH}/Usuario/")
+add_executable(TestConversacion Conversacion/TestConversacion.cpp main.cpp)
+target_link_libraries(TestConversacion entidades basededatos loger)
 
-add_subdirectory(${TEST_USUARIO_PATH})
+add_executable(TestBaseDeDatos BaseDeDatos/BaseDeDatosTests.cpp main.cpp)
+target_link_libraries(TestBaseDeDatos entidades loger)
 
-#add_executable(test main.cpp)
+add_executable(TestStringUtil StringUtil/TestStringUtil.cpp main.cpp)
+target_link_libraries(TestStringUtil utilidades cppunit jsoncpp)
 
-#target_link_libraries(test cppunit testUsuario)
+add_test(NAME "TestUsuario" COMMAND TestUsuario)
+add_test(NAME "TestConversacion" COMMAND TestConversacion)
+add_test(NAME "TestStringUtil" COMMAND TestStringUtil)
+add_test(NAME "TestBaseDeDatos" COMMAND TestBaseDeDatos)

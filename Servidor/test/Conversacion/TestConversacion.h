@@ -26,5 +26,6 @@ public:
 
 };
 
+//CPPUNIT_TEST_SUITE_NAMED_REGISTRATION(TestConversacion, TestConversacion);
 
 #endif /* TEST_TESTUSUARIO_H_ */
