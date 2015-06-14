@@ -12,7 +12,7 @@ $ git clone https://github.com/matiduarte/taller2-mensajeroX.git
 $ cd taller2-mensajero/Servidor  
 ```
 
-Dependencias
+### Dependencias
 
 ```
 

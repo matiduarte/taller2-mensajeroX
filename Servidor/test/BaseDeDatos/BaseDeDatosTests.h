@@ -5,8 +5,8 @@
  *      Author: juanma
  */
 
-#ifndef TEST_BASE_DE_DATOS_BASEDEDATOSTESTS_H_
-#define TEST_BASE_DE_DATOS_BASEDEDATOSTESTS_H_
+#ifndef TEST_BASEDEDATOS_BASEDEDATOSTESTS_H_
+#define TEST_BASEDEDATOS_BASEDEDATOSTESTS_H_
 
 #include <cppunit/extensions/HelperMacros.h>
 #include "../../src/BaseDeDatos/BaseDeDatos.h"
@@ -33,4 +33,4 @@ protected:
 	void guardarUsuario();
 };
 
-#endif /* TEST_BASE_DE_DATOS_BASEDEDATOSTESTS_H_ */
+#endif /* TEST_BASEDEDATOS_BASEDEDATOSTESTS_H_ */
