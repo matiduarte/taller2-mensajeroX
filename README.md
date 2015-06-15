@@ -46,14 +46,17 @@ Para ver el resultado de las pruebas en detalle
 ```
 $ ctest -V
 ```
-### Covertura
+### Cobertura  
 
-Se debe tener instalado lcov para realizar el informe de cobertura: http://ltp.sourceforge.net/coverage/lcov.php
+Desde la consola ingresar:  
+```
+sudo apt-get install lcov
+```
 
-Se agrega un script que recoge la información de cobertura a través de las pruebas y la muestra en un explorador web. Para correr este script, en la carpeta root del servidor:
+Se agrega un script que recoge la información de cobertura a través de las pruebas y la muestra en un explorador web. Para correr este script, dirigirse desde la consola a la carpeta del Servidor e ingresar:
 
 ```
-$ sh convertura.sh
+$ sh cobertura.sh
 ```
 
 
