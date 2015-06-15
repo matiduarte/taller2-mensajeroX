@@ -48,7 +48,7 @@ $ ctest -V
 ```
 ### Covertura
 
-Se debe tener instalado lcov para realizar el informe de convertura: http://ltp.sourceforge.net/coverage/lcov.php
+Se debe tener instalado lcov para realizar el informe de cobertura: http://ltp.sourceforge.net/coverage/lcov.php
 
 Se agrega un script que recoge la información de cobertura a través de las pruebas y la muestra en un explorador web. Para correr este script, en la carpeta root del servidor:
 
