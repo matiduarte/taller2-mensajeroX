@@ -6,27 +6,27 @@ import com.dk.mensajero.DB.DbHelper;
 
 /**
  * @author DK
- * Represents a registered User in the system.
+ * Representa a un usuario registrado en el sistema.
  */
 public class User {
 
     private long id = 0;
     private String userId = "";
     /**
-     * User's phone number, it can't be modified
+     * Numero de telefono de un usuario, no puede ser modificado.
      */
     private String phone = "";
     /**
-     * User's profile picture, it's set null by default
+     * Foto de perfil de un usuario, por defecto, un usuario no tiene asignada ninguna foto.
      */
     private String profilePicture = "default";
     /**
-     * User's nickname, it can be modified
+     * Nick de un usuario, puede modificarlo.
      */
     private String name = "";
     /**
-     * User's password, it can be modified
-     * Let the user to log in the system
+     * Contrasena de un usuario.
+     * Permite al usuario, junto con su telefono, loguearse en el sistema.
      */
     private String password = "";
     private String tokenSesion = "";
@@ -35,18 +35,18 @@ public class User {
     private boolean exist;
 
     /**
-     * Creates an empty user.
+     * Crea un usuario vacio.
      */
     public User(){
     }
 
     /**
-     * Creates an User with id, userId, phone, profilePicture and a name.
-     * @param id: id for the DB.
-     * @param userId: hash phone number.
-     * @param phone: phone number.
-     * @param profilePicture: profile picture.
-     * @param name: nickname.
+     * Crea un usuario con id, id de usuario, telefono, foto de perfil y nombre.
+     * @param id: identificador para la base de datos.
+     * @param userId: telefono hasheado.
+     * @param phone: numero de telefono.
+     * @param profilePicture: foto de perfil.
+     * @param name: nick del usuario.
      */
     public User(long id, String userId, String phone, String profilePicture, String name){
         this.id = id;
@@ -57,11 +57,11 @@ public class User {
     }
 
     /**
-     * Creates an User with phone, profilePicture and a name.
-     * @param phone: phone number.
-     * @param name: nickname.
-     * @param password: pass to log in.
-     * @param tokenSesion: security field.
+     * Crea un usuario con nombre, telefono, contrasena y token de sesion.
+     * @param phone: numero de telefono.
+     * @param password: contrasena para loguearse.
+     * @param name: nick del usuario.
+     * @param tokenSesion: token para la seguridad de la sesion.
      */
     public User(String phone, String name, String password, String tokenSesion){
         this.phone = phone;
@@ -71,9 +71,9 @@ public class User {
     }
 
     /**
-     * Creates an User with a phone number and a password.
-     * @param phone: phone number.
-     * @param password: pass to log in.
+     * Crea un usuario con un numero de telefono y una contrasena
+     * @param phone: numero de telfono.
+     * @param password: contrasena para loguerase.
      */
     public User(String phone, String password) {
         this.phone = phone;
@@ -84,14 +84,14 @@ public class User {
 
     /**
      * Getter.
-     * @return id: id for the DB.
+     * @return id: identificador para la base de datos
      */
     public long getId(){
         return this.id;
     }
     /**
      * Getter.
-     * @return userId: hash phone number.
+     * @return userId: telefono hasheado.
      */
     public String getUserId(){
         return this.userId;
@@ -99,12 +99,12 @@ public class User {
 
     /**
      * Getter.
-     * @return tokenSesion: security field.
+     * @return tokenSesion: token de seguridad.
      */
     public String getTokenSesion() {return this.tokenSesion; }
     /**
      * Getter.
-     * @return phone: phone number.
+     * @return phone: numero de telefono.
      */
     public String getPhone(){
         return this.phone;
@@ -130,65 +130,65 @@ public class User {
     public String getPassword(){return this.password; }
     /**
      * Getter.
-     * @return state: true if the user is logged in, otherwise false.
+     * @return state: verdadero si el usuario se encuentra logueado, falso sino.
      */
     public boolean getState(){return this.state; }
 
     /**
      * Setter.
-     * @param id: DB id.
+     * @param id: identificador de la base de datos.
      */
     public void setId(long id){
         this.id = id;
     }
     /**
      * Setter
-     * @param userId: new user id.
+     * @param userId:
      */
     public void setUserId(String userId){
         this.userId = userId;
     }
     /**
      * Setter
-     * @param phone: user's phone number.
+     * @param phone:
      */
     public void setPhone(String phone){
         this.phone = phone;
     }
     /**
      * Setter
-     * @param profilePicture: user's profile picture.
+     * @param profilePicture:
      */
     public void setProfilePicture(String profilePicture){
         this.profilePicture = profilePicture;
     }
     /**
      * Setter
-     * @param name: user's new nickname.
+     * @param name:
      */
     public void setName(String name){
         this.name = name;
     }
     /**
      * Setter
-     * @param password: user's new password.
+     * @param password:
      */
     public void setPassword(String password){this.password = password; }
     /**
      * Setter
-     * @param state: user's new state, true or false.
+     * @param state:
      */
     public void setState(boolean state){this.state = state; }
     /**
      * Setter
-     * @param exist: true if the user exists, otherwise false.
+     * @param exist: verdadero si el usuario existe, falso sino.
      */
     public void setExist(boolean exist) {
         this.exist = exist;
     }
     /**
      * Setter
-     * @return exist: true if the user exists, otherwise false.
+     * @return exist: verdadero si el usuario existe, falso sino.
      */
     public boolean isExist() {
         return exist;
@@ -196,7 +196,7 @@ public class User {
 //Methods
 
     /**
-     * Save User's data on the Data Base.
+     * Almacena un usuario en la base de datos.
      * @param context: this.
      */
     public void save(Context context) {
@@ -205,7 +205,7 @@ public class User {
     }
 
     /**
-     * Get User's data from the Data Base.
+     * Devuelve un usuario de la base de datos.
      * @param context: this.
      * @return User.
      */
@@ -216,14 +216,14 @@ public class User {
 
     /**
      * Getter.
-     * @return isLogged: true if user is logged, otherwise false.
+     * @return isLogged: verdadero si el usuario esta logueado, falso sino.
      */
     public int getIsLogged() {
         return isLogged;
     }
     /**
      * Setter.
-     * @param isLogged: true if user is logged, otherwise false.
+     * @param isLogged: isLogged: verdadero si el usuario esta logueado, falso sino.
      */
     public void setIsLogged(int isLogged) {
         this.isLogged = isLogged;
