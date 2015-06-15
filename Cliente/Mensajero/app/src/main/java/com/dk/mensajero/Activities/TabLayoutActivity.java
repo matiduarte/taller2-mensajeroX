@@ -20,26 +20,19 @@ public class TabLayoutActivity extends TabActivity {
         mTabHost = getTabHost();
         TabHost.TabSpec spec;
 
-
         //Contac tab
-
-
         spec = mTabHost.newTabSpec("contactos")
                 .setIndicator("Contactos")
                 .setContent(new Intent(this, ContactsListActivity.class));
         mTabHost.addTab(spec);
 
         //Chats tab
-
-
         spec = mTabHost.newTabSpec("chats")
                 .setIndicator("Chats")
                 .setContent(new Intent(this, ConversationsListActivity.class));
         mTabHost.addTab(spec);
 
         //Ajustes tab
-
-
         spec = mTabHost.newTabSpec("ajustes")
                 .setIndicator("Ajustes")
                 .setContent(new Intent(this, SettingsActivity.class));
