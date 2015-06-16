@@ -2,7 +2,7 @@ project(taller2-mensajero)
 
 cmake_minimum_required(VERSION 2.8)
 
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lz -pthread -lrt -std=c++11 -Wall -Wextra")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -lz -pthread -lrt -std=c++11 -Wall -Wextra")
 
 # Bibliotecas 
 

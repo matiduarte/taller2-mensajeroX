@@ -36,6 +36,30 @@ $ make
 ```
 Una vez finalizado, ejecutar el servidor con ./Servidor  
 
+### Pruebas
+```
+$ make 
+$ make test 
+```
+
+Para ver el resultado de las pruebas en detalle
+```
+$ ctest -V
+```
+### Cobertura  
+
+Desde la consola ingresar:  
+```
+sudo apt-get install lcov
+```
+
+Se agrega un script que recoge la información de cobertura a través de las pruebas y la muestra en un explorador web. Para correr este script, dirigirse desde la consola a la carpeta del Servidor e ingresar:
+
+```
+$ sh cobertura.sh
+```
+
+
 
 ##API REST
 -----------
