@@ -15,14 +15,11 @@
 #include <algorithm>
 #include "../json/json.h"
 #include "../constantes.h"
-//#include "../test/StringUtil/TestStringUtil.h"
 
 using namespace std;
 
-//class TestStringUtil;
-
 class StringUtil {
-	//friend TestStringUtil;
+
 public:
 	StringUtil();
 	virtual ~StringUtil();

@@ -27,6 +27,4 @@ int main(void) {
 	runner.addTest( test_to_run );
 	bool failed = runner.run("", false);
 	return !failed;
-
-  return 1;
 }

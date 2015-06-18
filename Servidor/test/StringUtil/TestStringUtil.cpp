@@ -36,11 +36,8 @@ void TestStringUtil::testToUpperDeberiaPasarTodoAMayuscula(){
 	CPPUNIT_ASSERT( "USUARIO" == enMayuscula );
 }
 
-void TestStringUtil::testToBooleanDeberiaConvertirLaCadenaEnUnBool(){
+void TestStringUtil::testStringToBoolean(){
 
-	string conectado = "1";
-	string desconectado = "0";
-
-	CPPUNIT_ASSERT(StringUtil::toBoolean(conectado) == Online);
-	CPPUNIT_ASSERT(StringUtil::toBoolean(desconectado) == Offline);
+	CPPUNIT_ASSERT_EQUAL(StringUtil::toBoolean("true") , true);
+	CPPUNIT_ASSERT_EQUAL(StringUtil::toBoolean("false") , false);
 }
