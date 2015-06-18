@@ -15,9 +15,11 @@ using namespace std;
  * Clase que se encarga de proveer la localización geográfica.
  */
 class Localizacion {
-	static Json::Value ubicaciones;
-	static void cargarUbicaciones(string pathArchivoUbicaciones);
+	friend class TestLocalizacion;
+	static Json::Value lugares;
 	static double calcularDistancia(Json::Value coordenadasA, Json::Value coordenadasB);
+public:
+	static void cargarLugares(string pathArchivoLugares);
 	static string calcularUbicacion(Json::Value coordenadas);
 };
 

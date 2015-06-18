@@ -1,0 +1,32 @@
+[
+   {
+      "latitud" : -34.609019,
+      "longitud" : -58.421458,
+      "nombre" : "Almagro",
+      "radio" : 0.012
+   },
+   {
+      "latitud" : -34.576923,
+      "longitud" : -58.418206,
+      "nombre" : "Palermo",
+      "radio" : 0.018
+   },
+   {
+      "latitud" : -34.617634,
+      "longitud" : -58.368160,
+      "nombre" : "Facultad de Ingeniería",
+      "radio" : 0.0006
+   },
+   {
+      "latitud" : -34.620073,
+      "longitud" : -58.372252,
+      "nombre" : "San Telmo",
+      "radio" : 0.0064
+   },
+   {
+      "latitud" : -34.607427,
+      "longitud" : -58.445743,
+      "nombre" : "Ciudad Autónoma de Buenos Aires",
+      "radio" : 0.089
+   }
+]
