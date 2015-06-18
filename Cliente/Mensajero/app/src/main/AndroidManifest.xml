@@ -101,6 +101,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activities.IpPortActivity"
+            android:label="@string/title_activity_ip_port" >
+            <intent-filter>
+                <action android:name="com.dk.mensajero.IpPortActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
