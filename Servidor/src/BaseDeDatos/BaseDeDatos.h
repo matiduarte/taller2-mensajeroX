@@ -14,19 +14,19 @@
 #include "rocksdb/slice.h"
 #include "rocksdb/options.h"
 
-#include "../../test/BaseDeDatos/BaseDeDatosTests.h"
+#include "../../test/BaseDeDatos/TestBaseDeDatos.h"
 #include "../constantes.h"
 #include "../Entidades/Usuario.h"
 #include "../Entidades/Conversacion.h"
 
 using namespace rocksdb;
-class BaseDeDatosTests;
+class TestBaseDeDatos;
 
 class Conversacion;
 class Usuario;
 
 class BaseDeDatos {
-	friend BaseDeDatosTests;
+	friend TestBaseDeDatos;
 private:
 	static BaseDeDatos* pBaseDeDatos;
 	static void destruirBaseDeDatos();

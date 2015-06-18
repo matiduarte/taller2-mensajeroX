@@ -5,8 +5,8 @@
  *      Author: juanma
  */
 
-#ifndef TEST_BASEDEDATOS_BASEDEDATOSTESTS_H_
-#define TEST_BASEDEDATOS_BASEDEDATOSTESTS_H_
+#ifndef TEST_BASEDEDATOS_TESTBASEDEDATOS_H_
+#define TEST_BASEDEDATOS_TESTBASEDEDATOS_H_
 
 #include <cppunit/extensions/HelperMacros.h>
 #include "../../src/BaseDeDatos/BaseDeDatos.h"
@@ -15,22 +15,20 @@
 using namespace CPPUNIT_NS;
 using namespace std;
 
-class BaseDeDatosTests: public TestFixture {
+class TestBaseDeDatos: public TestFixture {
 
-	CPPUNIT_TEST_SUITE(BaseDeDatosTests);
+	CPPUNIT_TEST_SUITE(TestBaseDeDatos);
 	CPPUNIT_TEST(guardarUnDato);
-	CPPUNIT_TEST(getDatoInvalido);
+	CPPUNIT_TEST(obtenerDatoInvalido);
 	CPPUNIT_TEST(guardarUsuario);
-
 	CPPUNIT_TEST_SUITE_END();
-public:
-	BaseDeDatosTests();
 
-protected:
 	BaseDeDatos *baseDeDatos;
+public:
+	TestBaseDeDatos();
 	void guardarUnDato();
-	void getDatoInvalido();
+	void obtenerDatoInvalido();
 	void guardarUsuario();
 };
 
-#endif /* TEST_BASEDEDATOS_BASEDEDATOSTESTS_H_ */
+#endif /* TEST_BASEDEDATOS_TESTBASEDEDATOS_H_ */
