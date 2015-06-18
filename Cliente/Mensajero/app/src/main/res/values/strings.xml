@@ -46,5 +46,8 @@
     <string name="broadcast_button">Lista de difusión</string>
     <string name="broadcast_label">Mensaje</string>
     <string name="broadcast_description_text">Ingrese aquí el mensaje..</string>
+    <string name="ip_label">IP</string>
+    <string name="ip_description">Número de Ip...</string>
+    <string name="title_activity_ip_port">IpPortActivity</string>
 
 </resources>
