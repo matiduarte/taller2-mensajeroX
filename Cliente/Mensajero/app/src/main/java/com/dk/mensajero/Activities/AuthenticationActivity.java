@@ -37,6 +37,13 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
         registerLink = (TextView) findViewById(R.id.tvRegisterLink);
         bLogin.setOnClickListener(this);
         registerLink.setOnClickListener(this);
+/*
+        ImageView icon = new ImageView(this); // Create an icon
+        icon.setImageResource(R.drawable.ic_launcher);
+
+        FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
+                .setContentView(icon)
+                .build();*/
 
     }
 
