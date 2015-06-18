@@ -60,6 +60,7 @@ add_subdirectory(${UTILIDADES_PATH})
 
 
 # Tests
+file(COPY "${PROJECT_SOURCE_DIR}/test/Localizacion/LugaresTest.txt" DESTINATION "${PROJECT_SOURCE_DIR}/build/test/Localizacion")
 enable_testing()
 add_subdirectory(${TEST_PATH})
 

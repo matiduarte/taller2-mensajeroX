@@ -9,6 +9,10 @@
 #define SRC_UTILIDADES_LOCALIZACION_H_
 
 #include "../json/json.h"
+#include <fstream>
+#include <iostream>
+#include <math.h>
+
 using namespace std;
 
 /**

@@ -6,7 +6,6 @@
  */
 
 #include "../Localizacion/TestLocalizacion.h"
-#include "../../src/Utilidades/Localizacion.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TestLocalizacion);
 
@@ -22,7 +21,7 @@ void TestLocalizacion::testCargarArchivoInvalido() {
 
 void TestLocalizacion::testCargarArchivoValido() {
 
-	CPPUNIT_ASSERT_NO_THROW(Localizacion::cargarLugares("test/Localizacion/LugaresTest.txt"));
+	CPPUNIT_ASSERT_NO_THROW(Localizacion::cargarLugares("Localizacion/LugaresTest.txt"));
 	CPPUNIT_ASSERT(Localizacion::lugares[0]["nombre"] == "Almagro" );
 }
 

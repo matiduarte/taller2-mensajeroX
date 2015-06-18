@@ -18,13 +18,13 @@
 
 using namespace std;
 
-//int main(void) {
-//	TextUi::TestRunner runner;
-//	TestFactoryRegistry& registry = TestFactoryRegistry::getRegistry();
-//
-//	// run all tests if none specified on command line
-//	Test* test_to_run = registry.makeTest();
-//	runner.addTest( test_to_run );
-//	bool failed = runner.run("", false);
-//	return !failed;
-//}
+int main(void) {
+	TextUi::TestRunner runner;
+	TestFactoryRegistry& registry = TestFactoryRegistry::getRegistry();
+
+	// run all tests if none specified on command line
+	Test* test_to_run = registry.makeTest();
+	runner.addTest( test_to_run );
+	bool failed = runner.run("", false);
+	return !failed;
+}

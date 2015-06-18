@@ -6,9 +6,6 @@
  */
 
 #include "Localizacion.h"
-#include <fstream>
-#include <iostream>
-#include <math.h>
 
 Json::Value Localizacion::lugares = Json::Value(Json::arrayValue);
 

@@ -9,6 +9,7 @@
 #define TEST_TESTLOCALIZACION_H_
 
 #include <cppunit/extensions/HelperMacros.h>
+#include "../../src/Utilidades/Localizacion.h"
 
 using namespace CPPUNIT_NS;
 using namespace std;
