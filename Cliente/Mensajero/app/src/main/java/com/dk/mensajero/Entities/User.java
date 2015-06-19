@@ -8,7 +8,7 @@ import com.dk.mensajero.DB.DbHelper;
  * @author DK
  * Representa a un usuario registrado en el sistema.
  */
-public class User {
+public class User{
 
     private long id = 0;
     private String userId = "";
@@ -33,7 +33,6 @@ public class User {
     private boolean connected = true;
     private int isLogged;
     private boolean exist;
-
     /**
      * Crea un usuario vacio.
      */
@@ -79,6 +78,7 @@ public class User {
         this.phone = phone;
         this.password = password;
     }
+
 
     //Properties
 
@@ -228,4 +228,6 @@ public class User {
     public void setIsLogged(int isLogged) {
         this.isLogged = isLogged;
     }
+
+
 }

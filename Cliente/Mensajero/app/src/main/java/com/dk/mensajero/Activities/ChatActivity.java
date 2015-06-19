@@ -17,11 +17,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.dk.mensajero.Adapters.ChatAdapter;
 import com.dk.mensajero.Conversations.ConversationDataProvider;
 import com.dk.mensajero.DB.DbHelper;
 import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.Message;
+import com.dk.mensajero.Entities.ParcelableUser;
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.Interfaces.GetIdCallback;
 import com.dk.mensajero.Interfaces.GetMessageCallback;
@@ -29,11 +31,12 @@ import com.dk.mensajero.Interfaces.GetUserCallback;
 import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
 import com.dk.mensajero.Utilities.Utilities;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class ChatActivity extends ActionBarActivity {
+public class ChatActivity extends ActionBarActivity{
 
     private ListView conversationList;
     private EditText chatText;
@@ -77,6 +80,7 @@ public class ChatActivity extends ActionBarActivity {
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text_action_bar);
         mTitleTextView.setText(receiverUser.getName());
 
+
         if (!receiverUser.getProfilePicture().equals("default")) {
             ImageView profilePicture = (ImageView) mCustomView.findViewById(R.id.profile_picture_action_bar);
             Bitmap bitmapPicture = Utilities.stringToBitmap(receiverUser.getProfilePicture());
@@ -111,11 +115,6 @@ public class ChatActivity extends ActionBarActivity {
         ArrayList<Message> savedMessagesList;
         savedMessagesList = helper.getMessagesByConversationId(this.conversationId);
 
-        /*this.chatAdapter = new ChatAdapter(conversationCtx, R.layout.single_message_layout);
-        this.registerDataSetObserver();
-        this.conversationList.setAdapter(chatAdapter);
-        this.conversationList.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);*/
-
         //Muestro los mensajes en la pantalla
         for (Message m : savedMessagesList) {
             position = !(m.getTransmitterId().equals(transmitterUser.getUserId()));
@@ -147,7 +146,7 @@ public class ChatActivity extends ActionBarActivity {
             public void done(User returnedUser, boolean success, boolean check) {
                 setReceiverUser(returnedUser);
             }
-        },false);
+        }, false);
 
     }
 
@@ -191,9 +190,6 @@ public class ChatActivity extends ActionBarActivity {
                 if (messageList != null) {
                     for (Message msg : messageList) {
                         position = false;
-                        //TODO: comento esto porque sino se duplican los mensajes. Se insertaba aca y despues en el get de mensajes
-                       //msg.setConversationId(conversationId);
-                       //saveMessage(msg);
                     }
                 }
             }
@@ -231,6 +227,7 @@ public class ChatActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_chat, menu);
+
         return true;
     }
 
@@ -239,13 +236,21 @@ public class ChatActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.contact_info:
+                ParcelableUser parcelabeUser = new ParcelableUser();
+                parcelabeUser.setName(this.receiverUser.getName());
+                parcelabeUser.setProfilePicture(this.receiverUser.getProfilePicture());
+                parcelabeUser.setPhone(this.receiverUser.getPhone());
+                Intent i = new Intent(this, ContactInfoActivity.class);
+                i.putExtra("contactUserInfo", parcelabeUser);
+                startActivity(i);
+                return true;
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public String getDate(){
@@ -264,12 +269,12 @@ public class ChatActivity extends ActionBarActivity {
                 String lastMsgId = Conversation.getLastMessageIdByConversationId(ChatActivity.this, conversationId);
                 Message msg = new Message(conversationId, lastMsgId);
                 getMessageFromService(msg);
-                handler.postDelayed(this, 1000 );
+                handler.postDelayed(this, 1000);
             }
         }, 1000);
     }
 
-    private void getMessageFromService(Message msg){
+    private void getMessageFromService(Message msg) {
 
         Service serviceRequest = new Service(this);
         serviceRequest.fetchNewMessageInBackground(msg, new GetMessageCallback() {
@@ -280,19 +285,15 @@ public class ChatActivity extends ActionBarActivity {
                     ArrayList<Message> currentMessages = helper.getMessagesByConversationId(ChatActivity.this.conversationId);
 
                     for (Message m : list) {
-                        /*position = !(m.getTransmitterId().equals(transmitterUser.getUserId()));
-                        chatAdapter.add(new ConversationDataProvider(position, m));*/
-
-                        //HACK: para evitar mensajes duplicados en la db
                         boolean found = false;
                         for (Message currentMessage : currentMessages) {
-                            if(currentMessage.getMessageId().equals(m.getMessageId())){
+                            if (currentMessage.getMessageId().equals(m.getMessageId())) {
                                 found = true;
                                 break;
                             }
                         }
 
-                        if(!found) {
+                        if (!found) {
                             saveMessage(m);
                         }
                     }
@@ -306,6 +307,13 @@ public class ChatActivity extends ActionBarActivity {
 
     public void saveMessage(Message msg){
         msg.save(this);
+    }
+
+    @Override
+    public void onStop() {
+        Service service = new Service(this);
+        service.cancelCurrentServices();
+        super.onStop();
     }
 
 }

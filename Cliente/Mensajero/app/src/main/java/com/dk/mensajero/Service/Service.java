@@ -70,6 +70,7 @@ public class Service {
 
     private static ArrayList<AsyncTask> currentActiveServices = new ArrayList<AsyncTask>();
 
+
     public Service(Context context){
         this.context = context;
         progressDialog = new ProgressDialog(context);
@@ -97,7 +98,6 @@ public class Service {
 
     public void updateUserProfileInBackground(User user, UpdateProfileCallback profileCallback){
         progressDialog.show();
-        //new UpdateUserProfileAsyncTask(user, profileCallback).execute();
         executeAsyncTask(new UpdateUserProfileAsyncTask(user, profileCallback));
     }
 
@@ -184,11 +184,6 @@ public class Service {
         if (showProgressDialog)
             progressDialog.show();
         executeAsyncTask(new fetchUserDataAsyncTask(user, userCallback));
-        /*if(Build.VERSION.SDK_INT >= 11) {
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            task.execute();
-        }*/
     }
 
     public void fetchConversationsDataInBackground(User user, GetConversationsCallback conversationsCallback){
@@ -504,7 +499,6 @@ public class Service {
                             returnedUser.setUserId(userId);
                             returnedUser.setExist(true);
                         } else {
-                            //HACK
                             returnedUser = new User();
                             returnedUser.setExist(false);
                         }
