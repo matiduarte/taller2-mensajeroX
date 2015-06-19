@@ -21,6 +21,7 @@ using namespace std;
 class Localizacion {
 	friend class TestLocalizacion;
 	static Json::Value lugares;
+	static double distanciaMaxima;
 	static double calcularDistancia(Json::Value coordenadasA, Json::Value coordenadasB);
 public:
 	static void cargarLugares(string pathArchivoLugares);
