@@ -23,6 +23,7 @@ $ mv -i librocksdb.a ../
 $ sudo apt-get install libsnappy-dev
 $ sudo apt-get install zlib1g-dev
 $ sudo apt-get install libbz2-dev
+$ sudo apt-get install libcppunit-dev
 ```
 
 ### Compilación
