@@ -68,6 +68,7 @@ public class Service {
     private String KEY_USER_PASSWORD = "Password";
     private String KEY_TOKEN_SESION = "Token";
 
+    private static ArrayList<AsyncTask> currentActiveServices = new ArrayList<AsyncTask>();
 
     public Service(Context context){
         this.context = context;
@@ -75,6 +76,14 @@ public class Service {
         progressDialog.setCancelable(false);
         progressDialog.setTitle("Procesando");
         progressDialog.setMessage("Por favor espere...");
+    }
+
+    public void cancelCurrentServices(){
+        for (int i = 0; i < currentActiveServices.size(); i++) {
+            currentActiveServices.get(i).cancel(true);
+        }
+
+        currentActiveServices = new ArrayList<AsyncTask>();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -88,7 +97,8 @@ public class Service {
 
     public void updateUserProfileInBackground(User user, UpdateProfileCallback profileCallback){
         progressDialog.show();
-        new UpdateUserProfileAsyncTask(user, profileCallback).execute();
+        //new UpdateUserProfileAsyncTask(user, profileCallback).execute();
+        executeAsyncTask(new UpdateUserProfileAsyncTask(user, profileCallback));
     }
 
     public class UpdateUserProfileAsyncTask extends AsyncTask<Void, Void, JSONObject>{

@@ -60,12 +60,12 @@ public class ConversationsListActivity extends ActionBarActivity {
         handler.postDelayed(new Runnable() {
             public void run() {
                 getConversationsFromService();
-                handler.postDelayed(this, 1000*2); //cada dos segundos
+                handler.postDelayed(this, 1000 * 2); //cada dos segundos
             }
-        },  1000*2);
+        }, 1000 * 2);
     }
 
-    public void getConversations(){
+    public void getConversations() {
 
         ArrayList<Conversation> conversations = Conversation.getConversationsWithMessages(this);
 
@@ -90,7 +90,7 @@ public class ConversationsListActivity extends ActionBarActivity {
     }
 
 
-    private void getConversationsFromService(){
+    private void getConversationsFromService() {
         Service serviceRequest = new Service(this);
 
         serviceRequest.fetchConversationsDataInBackground(User.getUser(this), new GetConversationsCallback() {
@@ -119,7 +119,7 @@ public class ConversationsListActivity extends ActionBarActivity {
         });
     }
 
-    private void saveConversation(Conversation c){
+    private void saveConversation(Conversation c) {
         c.save(this);
     }
 
@@ -129,5 +129,12 @@ public class ConversationsListActivity extends ActionBarActivity {
         startMain.addCategory(Intent.CATEGORY_HOME);
         startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(startMain);
+    }
+
+    @Override
+    public void onStop() {
+        Service service = new Service(this);
+        service.cancelCurrentServices();
+        super.onStop();
     }
 }
