@@ -34,7 +34,7 @@ $ cd /build
 $ cmake ..  
 $ make  
 ```
-Una vez finalizado, ejecutar el servidor con ./Servidor -p <puerto>
+Una vez finalizado, ejecutar el servidor con ./Servidor -p PUERTO
 
 En caso de no recibir puerto como argumento, se seteará el puerto 8080 por defecto.
 
