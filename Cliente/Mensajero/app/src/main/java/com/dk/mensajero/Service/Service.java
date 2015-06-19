@@ -32,7 +32,7 @@ public class Service {
 
     //private String BASE_URL = "http://192.168.0.20:8080/";
     //public static String BASE_URL = "http://192.168.1.102:8080/";
-    public static String BASE_URL = "http://192.168.1.102:8080/";
+    private static String BASE_URL;
 
 
     private String USER_URL = "usuario/";
@@ -751,5 +751,8 @@ public class Service {
         dialogBuilder.show();
     }
 
+    public static void setIp(String ipAddress){
+        BASE_URL = ipAddress;
+    }
 
 }
