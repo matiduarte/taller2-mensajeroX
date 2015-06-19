@@ -32,7 +32,7 @@ public class Service {
 
     //private String BASE_URL = "http://192.168.0.20:8080/";
     //public static String BASE_URL = "http://192.168.1.102:8080/";
-    public static String BASE_URL = "http://192.168.1.102:8080/";
+    private static String BASE_URL;
 
 
     private String USER_URL = "usuario/";
@@ -170,8 +170,9 @@ public class Service {
         executeAsyncTask(new FetchNewConversationIdAsyncTask(transmitterId, receiverId, idCallback));
     }
 
-    public void fetchUserDataInBackground(User user, GetUserCallback userCallback){
-        //progressDialog.show();
+    public void fetchUserDataInBackground(User user, GetUserCallback userCallback, boolean showProgressDialog){
+        if (showProgressDialog)
+            progressDialog.show();
         executeAsyncTask(new fetchUserDataAsyncTask(user, userCallback));
         /*if(Build.VERSION.SDK_INT >= 11) {
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -511,7 +512,7 @@ public class Service {
 
         @Override
         protected void onPostExecute(User returnedUser) {
-            //progressDialog.dismiss();
+            progressDialog.dismiss();
             boolean response = returnedUser != null ? true : false;
             boolean findUser = false;
             if (response)
@@ -750,5 +751,8 @@ public class Service {
         dialogBuilder.show();
     }
 
+    public static void setIp(String ipAddress){
+        BASE_URL = ipAddress;
+    }
 
 }

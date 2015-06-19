@@ -7,12 +7,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.Interfaces.GetUserCallback;
 import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 
 public class AuthenticationActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -37,13 +39,26 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
         registerLink = (TextView) findViewById(R.id.tvRegisterLink);
         bLogin.setOnClickListener(this);
         registerLink.setOnClickListener(this);
-/*
-        ImageView icon = new ImageView(this); // Create an icon
-        icon.setImageResource(R.drawable.ic_launcher);
+
+
+        this.ipPortFloatingButton();
+
+    }
+
+    public void ipPortFloatingButton(){
+        ImageView icon = new ImageView(this);
+        icon.setImageResource(R.drawable.ic_ipport);
 
         FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
                 .setContentView(icon)
-                .build();*/
+                .build();
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AuthenticationActivity.this, IpPortActivity.class));
+            }
+        });
+
 
     }
 
@@ -93,7 +108,7 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
                     }
                 }
             }
-        });
+        }, true);
 
 
     }

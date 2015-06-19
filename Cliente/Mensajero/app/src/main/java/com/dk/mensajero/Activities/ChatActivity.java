@@ -147,7 +147,7 @@ public class ChatActivity extends ActionBarActivity {
             public void done(User returnedUser, boolean success, boolean check) {
                 setReceiverUser(returnedUser);
             }
-        });
+        },false);
 
     }
 

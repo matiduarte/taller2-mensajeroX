@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import com.dk.mensajero.Interfaces.GetContactsCallback;
 import com.dk.mensajero.Interfaces.GetMessageCallback;
 import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -70,11 +72,15 @@ public class ContactsListActivity extends ActionBarActivity {
     private void initView() {
         this.transmitterUserPhone = User.getUser(this).getPhone();
 
-        Button button = (Button) findViewById(R.id.button_show_broadcast_dialog);
-        button.setOnClickListener(new View.OnClickListener() {
+        ImageView icon = new ImageView(this);
+        icon.setImageResource(R.drawable.ic_broadcast_list);
 
+        FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
+                .setContentView(icon)
+                .build();
+        actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 showBroadcastDialog();
             }
         });
