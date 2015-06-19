@@ -23,7 +23,7 @@ void TestUsuario::testSerializacionDeDatosDeUnUsuario(){
 	Json::Value usuario;
 	Json::Reader reader;
 	reader.parse(usuarioSerializado,usuario);
-	cout << usuario << endl;
+
 	CPPUNIT_ASSERT(usuario.get(keyNombre,"").asString() == "Pedro");
 	CPPUNIT_ASSERT(usuario.get(keyPassword,"").asString() == "contraseña");
 	CPPUNIT_ASSERT(usuario.get(keyTelefono,"").asString() == "123456789");

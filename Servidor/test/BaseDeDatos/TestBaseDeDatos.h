@@ -22,16 +22,18 @@ class TestBaseDeDatos: public TestFixture {
 	CPPUNIT_TEST(obtenerDatoInvalido);
 	CPPUNIT_TEST(guardarUsuario);
 	CPPUNIT_TEST(eliminarUsuario);
+	CPPUNIT_TEST(obtenerConversacionInexistente);
 	CPPUNIT_TEST_SUITE_END();
 
 	BaseDeDatos *baseDeDatos;
 public:
 	TestBaseDeDatos();
-	~TestBaseDeDatos();
+	virtual ~TestBaseDeDatos();
 	void guardarUnDato();
 	void obtenerDatoInvalido();
 	void guardarUsuario();
 	void eliminarUsuario();
+	void obtenerConversacionInexistente();
 };
 
 #endif /* TEST_BASEDEDATOS_TESTBASEDEDATOS_H_ */

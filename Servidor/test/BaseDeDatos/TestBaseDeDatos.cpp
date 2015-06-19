@@ -66,3 +66,11 @@ void TestBaseDeDatos::eliminarUsuario() {
 
 	CPPUNIT_ASSERT(keyIdUsuarioNoEncontrado == unUsuario->getId());
 }
+
+void TestBaseDeDatos::obtenerConversacionInexistente() {
+
+	Conversacion* pConversacion = baseDeDatos->getConversacion("clave inexistente.");
+	CPPUNIT_ASSERT(pConversacion->getId() == keyIdConversacionNoEncontrada);
+
+	delete pConversacion;
+}
