@@ -4,6 +4,9 @@
 #include "src/BaseDeDatos/BaseDeDatos.h"
 #include "src/Entidades/Usuario.h"
 #include <iostream>
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
 
 #include <cppunit/TestSuite.h>
 #include <cppunit/ui/text/TestRunner.h>
@@ -20,10 +23,24 @@
 
 using namespace std;
 
-int main(void) {
+int main(int argc,char *argv[]) {
 	BaseDeDatos::setPath(path_BaseDeDatosTests);
 	Servidor *servidor = new Servidor();
+
 	char* puerto = StringUtil::str2Char(puertoDefault);
+
+	char tmp;
+	while((tmp=getopt(argc,argv,"p"))!=-1)
+	  {
+	    switch(tmp)
+	    {
+	      case 'p':
+	    	  puerto = argv[optind];
+	    	  break;
+	    }
+	  }
+
+
 	servidor->iniciar(puerto);
 	delete puerto;
 
