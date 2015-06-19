@@ -147,7 +147,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DbHelperContract.UserEntry.PROFILE_PICTURE, user.getProfilePicture());
         values.put(DbHelperContract.UserEntry.NAME, user.getName());
         values.put(DbHelperContract.UserEntry.PASSWORD, user.getPassword());
-        values.put(DbHelperContract.UserEntry.STATE, Boolean.toString(user.getState()));
+        values.put(DbHelperContract.UserEntry.STATE, Boolean.toString(user.isConnected()));
         values.put(DbHelperContract.UserEntry.IS_LOGGED, user.getIsLogged());
 
         // Define 'where' part of query.
@@ -202,7 +202,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
                 User user = new User(id, userId, phone, profilePicture, name);
                 user.setPassword(password);
-                user.setState(Boolean.valueOf(state));
+                user.setConnected(Boolean.valueOf(state));
                 user.setIsLogged(isLogged);
 
                 return user;
@@ -255,7 +255,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
                 User user = new User(id, userId, phone, profilePicture, name);
                 user.setPassword(password);
-                user.setState(Boolean.valueOf(state));
+                user.setConnected(Boolean.valueOf(state));
                 user.setIsLogged(isLogged);
                 return user;
             }
