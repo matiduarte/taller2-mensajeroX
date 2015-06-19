@@ -9,13 +9,13 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TestBaseDeDatos);
 
-//void TestBaseDeDatos::setUp(){
-//	baseDeDatos = BaseDeDatos::getInstance();
-//}
-//
-//void TestBaseDeDatos::tearDown(){
-//	baseDeDatos->destruirBaseDeDatos();
-//}
+TestBaseDeDatos::TestBaseDeDatos() {
+	BaseDeDatos::setPath(path_BaseDeDatosTests);
+	this->baseDeDatos = BaseDeDatos::getInstance();
+}
+
+TestBaseDeDatos::~TestBaseDeDatos() {
+}
 
 void TestBaseDeDatos::guardarUnDato() {
 
@@ -26,10 +26,7 @@ void TestBaseDeDatos::guardarUnDato() {
 
 }
 
-TestBaseDeDatos::TestBaseDeDatos() {
-	BaseDeDatos::setPath(path_BaseDeDatosTests);
-	this->baseDeDatos = BaseDeDatos::getInstance();
-}
+
 
 void TestBaseDeDatos::obtenerDatoInvalido() {
 
@@ -57,3 +54,15 @@ void TestBaseDeDatos::guardarUsuario() {
 
 }
 
+
+
+void TestBaseDeDatos::eliminarUsuario() {
+	Usuario *unUsuario = new Usuario("Juan", "foto", "1234");
+	baseDeDatos->setUsuario(unUsuario);
+
+	baseDeDatos->eliminarUsuario(unUsuario->getId());
+
+	unUsuario = baseDeDatos->getUsuario(unUsuario->getId());
+
+	CPPUNIT_ASSERT(keyIdUsuarioNoEncontrado == unUsuario->getId());
+}
