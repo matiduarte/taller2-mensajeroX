@@ -10,12 +10,10 @@
 CPPUNIT_TEST_SUITE_REGISTRATION(TestConversacion);
 
 TestConversacion::TestConversacion() {
-	// TODO Auto-generated constructor stub
-
+	BaseDeDatos::setPath(path_BaseDeDatosTests);
 }
 
 TestConversacion::~TestConversacion() {
-	// TODO Auto-generated destructor stub
 }
 
 void TestConversacion::testSerializacionDeDatosUnaConversacion(){
@@ -55,7 +53,6 @@ void TestConversacion::testSerializacionDeDatosUnaConversacion(){
 
 	CPPUNIT_ASSERT(user2->getNombre() == usuariosDeserealizados[1]->getNombre());
 	CPPUNIT_ASSERT(user2->getId() == usuariosDeserealizados[1]->getId());
-
 
 	delete user;
 	delete user2;

@@ -11,7 +11,8 @@ BaseDeDatos* BaseDeDatos::pBaseDeDatos = NULL;
 string BaseDeDatos::pathBaseDeDatos = path_BaseDeDatos;
 
 /**
- * Abre o crea si no esta creada la base de datos.
+ * Abre la base de datos.
+ * En caso que no exista, la crea.
  */
 BaseDeDatos::BaseDeDatos() {
 	claveBaseUsuario = "usuario_";
@@ -20,7 +21,6 @@ BaseDeDatos::BaseDeDatos() {
 	options.IncreaseParallelism();
 	options.OptimizeLevelStyleCompaction();
 	options.create_if_missing = true;
-	//TODO: decidir que hacer cuando hay problemas para abrir la base de datos.
 	estado = DB::Open(options, pathBaseDeDatos, &db);
 	if (!estado.ok()){
 			Loger::getLoger()->error("No se pudo abrir la Base De Datos con path: "+BaseDeDatos::pathBaseDeDatos);
@@ -32,7 +32,7 @@ BaseDeDatos::BaseDeDatos() {
 BaseDeDatos* BaseDeDatos::getInstance() {
 	if (pBaseDeDatos == NULL) {
 		pBaseDeDatos = new BaseDeDatos();
-		atexit(&destruirBaseDeDatos);    // At exit, destroy the singleton
+		atexit(&destruirBaseDeDatos);
 	}
 	return pBaseDeDatos;
 }
@@ -53,7 +53,11 @@ void BaseDeDatos::setPath(string path) {
 
 BaseDeDatos::~BaseDeDatos() {}
 
-
+/**
+ * Almacena un dato en la base de datos.
+ * @param clave es la clave del dato a almacenar.
+ * @param valor dato a ser guardado.
+ */
 void BaseDeDatos::setDato(string clave, string valor) {
 	estado = db->Put(WriteOptions(), clave, valor);
 	if (!estado.ok()){
@@ -69,8 +73,6 @@ string BaseDeDatos::getDato(string clave) {
 
 	if (estado.IsNotFound())
 		valor = keyDatoNoEncontrado;
-	else if (!estado.ok())
-		throw new std::runtime_error("No se pudo obtener el dato: "+estado.ToString());
 
 	return valor;
 }
@@ -80,21 +82,22 @@ void BaseDeDatos::setUsuario(Usuario* usuario) {
 	setDato(claveBaseUsuario+usuario->getId(), usuario->serializar());
 }
 
-
+/**
+ * Devuelve el usuario con clave igual a la pasada por parámetro.
+ * Si no lo encuentra, devuelve un usuario por defecto.
+ */
 Usuario* BaseDeDatos::getUsuario(string clave) {
-	try {
-		string valor = getDato(claveBaseUsuario + clave);
-		if (valor != keyDatoNoEncontrado)
-			return new Usuario(valor);
-		else{
-			Loger::getLoger()->warn("El usuario con clave: " +clave+ " no se encuentra en la base de datos.");
-			Loger::getLoger()->guardarEstado();
-		}
-	} catch (std::runtime_error &e) {
-		Loger::getLoger()->error(string(e.what()));
+
+	string valor = getDato(claveBaseUsuario + clave);
+	if (valor == keyDatoNoEncontrado) {
+		Loger::getLoger()->warn(
+				"El usuario con clave: " + clave
+						+ " no se encuentra en la base de datos.");
 		Loger::getLoger()->guardarEstado();
+		return new Usuario();
+	} else {
+		return new Usuario(valor);
 	}
-	return new Usuario();
 }
 
 
@@ -121,22 +124,24 @@ vector<string> BaseDeDatos::getIdsConversacionPorIdUsuario(string claveUsuario) 
 	return StringUtil::split(valor, SeparadorListaBD);
 }
 
-
+/**
+ * Devuelve la conversación almacenada con la clave que recibe
+ * por parámetro. Si no la encuentra devuelve una conversación
+ * por defecto.
+ */
 Conversacion* BaseDeDatos::getConversacion(string clave) {
 
-	try {
-		string valor = getDato(claveBaseConversacion + clave);
-		if (valor != keyDatoNoEncontrado)
-			return new Conversacion(valor);
-		else{
-			Loger::getLoger()->warn("La conversación con clave: " +clave+ " no se encuentra en la base de datos.");
-			Loger::getLoger()->guardarEstado();
-		}
-	} catch (std::runtime_error &e) {
-		Loger::getLoger()->error(string(e.what()));
+	string valor = getDato(claveBaseConversacion + clave);
+	if (valor == keyDatoNoEncontrado) {
+		Loger::getLoger()->warn(
+				"La conversación con clave: " + clave
+						+ " no se encuentra en la base de datos.");
 		Loger::getLoger()->guardarEstado();
+		return new Conversacion();
+	} else {
+		return new Conversacion(valor);
 	}
-	return new Conversacion();
+
 }
 
 
