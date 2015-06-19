@@ -63,7 +63,7 @@ public class ProfileActivity extends ActionBarActivity {
         //estado
         bState = (Button) findViewById(R.id.profile_bState);
 
-        if (user.getState())
+        if (user.isConnected())
             bState.setText(R.string.profile_state_connected);
         else
             bState.setText(R.string.profile_state_disconnected);
@@ -166,8 +166,8 @@ public class ProfileActivity extends ActionBarActivity {
         //guardo el estado
         bState = (Button) findViewById(R.id.profile_bState);
         String sState = (String) bState.getText();
-        if (sState.equals("Conectado")) user.setState(true);
-        else user.setState(false);
+        if (sState.equals("Conectado")) user.setConnected(true);
+        else user.setConnected(false);
 
         //guardo la foto de perfil
         user.setProfilePicture(userPicture);

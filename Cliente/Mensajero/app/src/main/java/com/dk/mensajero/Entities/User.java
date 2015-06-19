@@ -30,7 +30,7 @@ public class User {
      */
     private String password = "";
     private String tokenSesion = "";
-    private boolean state = true;
+    private boolean connected = true;
     private int isLogged;
     private boolean exist;
 
@@ -130,9 +130,9 @@ public class User {
     public String getPassword(){return this.password; }
     /**
      * Getter.
-     * @return state: verdadero si el usuario se encuentra logueado, falso sino.
+     * @return connected: verdadero si el usuario se encuentra logueado, falso sino.
      */
-    public boolean getState(){return this.state; }
+    public boolean isConnected(){return this.connected; }
 
     /**
      * Setter.
@@ -176,9 +176,9 @@ public class User {
     public void setPassword(String password){this.password = password; }
     /**
      * Setter
-     * @param state:
+     * @param connected:
      */
-    public void setState(boolean state){this.state = state; }
+    public void setConnected(boolean connected){this.connected = connected; }
     /**
      * Setter
      * @param exist: verdadero si el usuario existe, falso sino.

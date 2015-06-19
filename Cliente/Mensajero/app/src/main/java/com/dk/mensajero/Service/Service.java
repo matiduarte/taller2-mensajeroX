@@ -108,7 +108,7 @@ public class Service {
             client.addParam(KEY_USER_NAME, user.getName());
             client.addParam(KEY_USER_PHONE, user.getPhone());
             client.addParam(KEY_USER_PICTURE, user.getProfilePicture());
-            client.addParam(KEY_USER_STATE, String.valueOf(user.getState()) );
+            client.addParam(KEY_USER_STATE, String.valueOf(user.isConnected()) );
             //TODO: Agregar Localizacion.
             client.addParam(KEY_USER_LOCATION, "nada");
             client.addParam(KEY_USER_PASSWORD, user.getPassword());
@@ -489,7 +489,7 @@ public class Service {
                             String picture = jData.getString(KEY_USER_PICTURE);
                             returnedUser = new User(user.getPhone(), name, password, tokenSesion);
                             returnedUser.setProfilePicture(picture);
-                            returnedUser.setState(Boolean.valueOf(state));
+                            returnedUser.setConnected(Boolean.valueOf(state));
                             String userId = jData.getString(KEY_USER_ID);
                             returnedUser.setUserId(userId);
                             returnedUser.setExist(true);

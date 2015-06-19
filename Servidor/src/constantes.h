@@ -19,9 +19,6 @@ using namespace std;
 #define Info "info"
 #define Debug "debug"
 
-/*constantes para estado de conexion*/
-const bool Online = true;
-const bool Offline = false;
 
 /*constantes para los usuarios*/
 const string fotoDePerfilDefault = "default";

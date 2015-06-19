@@ -33,7 +33,7 @@ private:
 	string fotoDePerfil = "default";
 	string id;
 	string telefono;
-	bool conectado;
+	bool conectado = true;
 	string localizacion;
 	string ultimaConexion;
 	string token;
