@@ -19,6 +19,8 @@ class TestLocalizacion: public TestFixture {
 	CPPUNIT_TEST(testCargarArchivoInvalido);
 	CPPUNIT_TEST(testCargarArchivoValido);
 	CPPUNIT_TEST(testCalcularDistancia);
+	CPPUNIT_TEST(testCalcularUbicacion);
+	CPPUNIT_TEST(testCalcularUbicacionSinCargarLugares);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -27,6 +29,8 @@ public:
 	void testCargarArchivoInvalido();
 	void testCargarArchivoValido();
 	void testCalcularDistancia();
+	void testCalcularUbicacion();
+	void testCalcularUbicacionSinCargarLugares();
 
 };
 

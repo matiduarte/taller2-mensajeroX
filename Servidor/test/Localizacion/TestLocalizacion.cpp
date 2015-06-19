@@ -33,3 +33,22 @@ void TestLocalizacion::testCalcularDistancia() {
 	coordenadasB["longitud"] = 6;
 	CPPUNIT_ASSERT(5 == Localizacion::calcularDistancia(coordenadasA,coordenadasB));
 }
+
+void TestLocalizacion::testCalcularUbicacion() {
+	Localizacion::cargarLugares("Localizacion/LugaresTest.txt");
+
+	Json::Value coordenadasFIUBA;
+	coordenadasFIUBA["latitud"] = -34.617630;
+	coordenadasFIUBA["longitud"] = -58.368254;
+
+	CPPUNIT_ASSERT(Localizacion::calcularUbicacion(coordenadasFIUBA) == "Facultad de Ingeniería");
+}
+
+void TestLocalizacion::testCalcularUbicacionSinCargarLugares() {
+	Localizacion::lugares.clear();
+	Json::Value coordenadas;
+	coordenadas["latitud"] = -34.617630;
+	coordenadas["longitud"] = -58.368254;
+
+	CPPUNIT_ASSERT(Localizacion::calcularUbicacion(coordenadas) == "desconocido");
+}
