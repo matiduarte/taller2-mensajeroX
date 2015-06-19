@@ -20,12 +20,14 @@ class TestStringUtil: public TestFixture {
 	CPPUNIT_TEST(testToLowerDeberiaPasarTodoAMinuscula);
 	CPPUNIT_TEST(testToUpperDeberiaPasarTodoAMayuscula);
 	CPPUNIT_TEST(testStringToBoolean);
+	CPPUNIT_TEST(testBooleanToString);
 	CPPUNIT_TEST_SUITE_END();
 public:
 	TestStringUtil();
     void testToLowerDeberiaPasarTodoAMinuscula();
     void testToUpperDeberiaPasarTodoAMayuscula();
     void testStringToBoolean();
+    void testBooleanToString();
 	virtual ~TestStringUtil();
 };
 

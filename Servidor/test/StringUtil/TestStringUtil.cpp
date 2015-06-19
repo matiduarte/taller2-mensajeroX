@@ -14,6 +14,11 @@ TestStringUtil::TestStringUtil() {
 
 }
 
+void TestStringUtil::testBooleanToString() {
+	CPPUNIT_ASSERT("true" == StringUtil::toString(true));
+	CPPUNIT_ASSERT("false" == StringUtil::toString(false));
+}
+
 TestStringUtil::~TestStringUtil() {
 	// TODO Auto-generated destructor stub
 }
