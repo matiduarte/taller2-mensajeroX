@@ -10,36 +10,30 @@
 CPPUNIT_TEST_SUITE_REGISTRATION(TestUsuario);
 
 TestUsuario::TestUsuario() {
-	// TODO Auto-generated constructor stub
-
+	BaseDeDatos::setPath(path_BaseDeDatosTests);
 }
 
 TestUsuario::~TestUsuario() {
-	// TODO Auto-generated destructor stub
 }
 
 void TestUsuario::testSerializacionDeDatosDeUnUsuario(){
-
-	Usuario* unUsuario = new Usuario("Pepe" , "foto" , "123456789");
+	Usuario* unUsuario = new Usuario("Pedro" , "123456789" , "contraseña");
 	string usuarioSerializado = unUsuario->serializar();
 
-	Json::Value user;
+	Json::Value usuario;
 	Json::Reader reader;
-
-	reader.parse(usuarioSerializado, user);
-
-	CPPUNIT_ASSERT("Pepe" == user.get(keyNombre, "").asString() );
-	CPPUNIT_ASSERT("123456789" == user.get(keyTelefono, "").asString());
-	CPPUNIT_ASSERT("foto" == user.get(keyFotoDePerfil, "").asString());
-
+	reader.parse(usuarioSerializado,usuario);
+	cout << usuario << endl;
+	CPPUNIT_ASSERT(usuario.get(keyNombre,"").asString() == "Pedro");
+	CPPUNIT_ASSERT(usuario.get(keyPassword,"").asString() == "contraseña");
+	CPPUNIT_ASSERT(usuario.get(keyTelefono,"").asString() == "123456789");
 
 	delete unUsuario;
-
 }
 
 void TestUsuario::testModificacionDeDatosDelUsuario(){
-	printf("entrooo");
-	Usuario* unUsuario = new Usuario("Pedro" , "foto" , "123456789");
+
+	Usuario* unUsuario = new Usuario("Pedro" ,"foto", "123456789" , "contraseña");
 	string nuevoNombre = "Roberto";
 	string nuevaFoto = "OtraFoto";
 	unUsuario->setNombre(nuevoNombre);
