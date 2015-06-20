@@ -50,6 +50,19 @@ Para ver el resultado de las pruebas en detalle
 ```
 $ ctest -V
 ```
+### Pruebas REST API
+
+Se incluye un script en python para realizar las pruebas sobre la REST API. 
+Dicho script se encuentra en Servidor/TestRestApi/restTester.py
+
+Dentro de la carpeta TestRestApi/ se encuentra un archivo de configuración de ejemplo: restTest.cfg.sample. Para la ejecución de pruebas se debe crear un archivo restTest.cfg, identico al sample.
+
+Finalmente para correr las pruebas (el servidor debe estar corriendo):
+```
+$ python restTester.py
+```
+
+
 ### Cobertura  
 
 Desde la consola ingresar:  
