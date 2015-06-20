@@ -34,7 +34,12 @@
         </activity>
         <activity
             android:name=".Activities.SettingsActivity"
-            android:label="@string/title_activity_ajustes" >
+            android:label="@string/title_activity_ajustes"
+            android:parentActivityName=".Activities.TabLayoutActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dk.mensajero.Activities.TabLayoutActivity" />
+
             <intent-filter>
                 <action android:name="com.dk.mensajero.AjustesActivity" />
 
@@ -44,18 +49,18 @@
         <activity
             android:name=".Activities.InformationActivity"
             android:label="@string/title_activity_informacion"
-            android:parentActivityName=".Activities.TabLayoutActivity" >
+            android:parentActivityName=".Activities.SettingsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.TabLayoutActivity" />
+                android:value=".Activities.SettingsActivity" />
         </activity>
         <activity
             android:name=".Activities.ProfileActivity"
             android:label="@string/title_activity_profile"
-            android:parentActivityName=".Activities.TabLayoutActivity" >
+            android:parentActivityName=".Activities.SettingsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dk.mensajero.Activities.TabLayoutActivity" />
+                android:value="com.dk.mensajero.Activities.SettingsActivity" />
         </activity>
         <activity
             android:name=".Activities.ConversationsListActivity"
@@ -117,8 +122,18 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.dk.mensajero.Activities.ChatActivity" />
+
             <intent-filter>
                 <action android:name="com.dk.mensajero.ContactInfoActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.LocationActivity"
+            android:label="@string/title_activity_location" >
+            <intent-filter>
+                <action android:name="com.dk.mensajero.LocationActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
