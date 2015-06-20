@@ -16,6 +16,11 @@
 
 class BaseDeDatos;
 class Usuario;
+
+/**
+ * Clase que modela una conversacion entre dos usuarios
+ *
+ */
 class Conversacion : public Persistible {
 private:
 	string id;

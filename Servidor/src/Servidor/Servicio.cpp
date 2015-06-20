@@ -17,6 +17,10 @@ Servicio::Servicio(struct mg_connection *conn) {
 Servicio::~Servicio() {
 }
 
+/**
+ * Parsea los parametros en una llamada a servicio
+ *
+ */
 void Servicio::parsearParametros(){
 	char buffer[tamanioBuffer];
 	//params es un JSON con toda la data
@@ -37,6 +41,12 @@ void Servicio::parsearParametros(){
 	}
 }
 
+/**
+ * Devuelve un parametro cuando se realizar una llamada a servicio
+ * @param nombreParametro El nombre del parametro
+ * @param valorDefault Valor default que se devuelve si no se encuetra el parametro
+ *
+ */
 string Servicio::getParametro(string nombreParametro, string valorDefault){
 	string metodo(this->connexion->request_method);
 	char buffer[tamanioBuffer];
@@ -49,6 +59,13 @@ string Servicio::getParametro(string nombreParametro, string valorDefault){
 	return parametro;
 }
 
+
+/**
+ * Devuelve un parametro array cuando se realizar una llamada a servicio
+ * @param nombreParametro El nombre del parametro
+ * @param valorDefault Valor default que se devuelve si no se encuetra el parametro
+ *
+ */
 Json::Value Servicio::getParametroArray(string nombreParametro, string valorDefault){
 	string parametro =  this->getParametro(nombreParametro, valorDefault);
 
@@ -59,6 +76,11 @@ Json::Value Servicio::getParametroArray(string nombreParametro, string valorDefa
 	return valorParams;
 }
 
+/**
+ * Devuelve el id del recurso al realizar una llamada por GET
+ * @param urlBase La url de la que se obtendra el id
+ *
+ */
 string Servicio::getParametroIdMetodoGET(string urlBase){
 	string parametrosUri = urlBase + "%s";
 
@@ -70,6 +92,12 @@ string Servicio::getParametroIdMetodoGET(string urlBase){
 	return "";
 }
 
+/**
+ * Se utiliza para responder al cliente
+ * @param mensaje La respuesta al cliente
+ * @param success Si la consulta fue satisfactoria
+ *
+ */
 void Servicio::responder(string mensaje, bool success){
 	Json::Value respuesta;
 	respuesta[keyPayload] = mensaje;
@@ -85,6 +113,10 @@ void Servicio::prueba(){
 	cout << "Esto es una prueba." << endl;
 }
 
+/**
+ * Registra un usuario en el sistema
+ *
+ */
 void Servicio::registrarUsuario(){
 
 	Usuario* user = this->obtenerUsuario();
@@ -239,6 +271,10 @@ void Servicio::almacenarConversacion() {
 	}
 }
 
+/**
+ * Devuelve el id de una conversacion a partir de dos telefonos
+ *
+ */
 void Servicio::obtenerIdConversacion(){
 	string telefonoUsuarioEmisor = this->getParametro(keyTelefonoEmisor,keyDefault);;
 	string telefonoUsuarioRecceptor = this->getParametro(keyTelefonoReceptor,keyDefault);
@@ -280,6 +316,10 @@ void Servicio::obtenerIdConversacion(){
 	delete usuarioReceptor;
 }
 
+/**
+ * Devuelve una conversacion a partir de dos telefonos
+ *
+ */
 void Servicio::obtenerConversacion(){
 	string idConversacion = this->getParametroIdMetodoGET(urlBaseConversacion);
 	string idUltimoMensaje = this->getParametro(keyIdUltimoMensaje,keyDefault);
@@ -319,6 +359,12 @@ void Servicio::obtenerConversacion(){
 		this->responder("La conversacion "+ idConversacion + " no se encuentra en el sistema", false);
 	}
 }
+
+/**
+ * Devuelve las conversciones a partir de un usuario. Recibe un arreglo de de ids de conversaciones,
+ * y devuelve las que no estan en ese arreglo
+ *
+ */
 
 void Servicio::obtenerConversaciones(){
 	Json::Value idsConversacionesValue = this->getParametroArray(keyIdConversaciones, keyDefault);
@@ -375,6 +421,11 @@ void Servicio::obtenerConversaciones(){
 
 }
 
+/**
+ * Obtiene los contactos que se encuentran registrados en el sistemas y estan conectados,
+ * a partir de numeros de telefono que recibe
+ *
+ */
 void Servicio::obtenerContactos(){
 	Json::Value contactosTelefonoValue = this->getParametroArray(keyContantosTelefono, keyDefault);
 	vector<string> contactosTelefono = StringUtil::jsonValueToVector(contactosTelefonoValue);

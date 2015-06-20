@@ -54,6 +54,10 @@ void Conversacion::agregarMensaje(Mensaje* mensaje){
 	this->mensajes.push_back(mensaje);
 }
 
+/**
+ * Serializa la conversacion a formato JSON
+ *
+ */
 string Conversacion::serializar(){
 	Json::Value conversacion;
 
@@ -83,6 +87,10 @@ string Conversacion::serializar(){
 	return conversacionJSON;
 }
 
+/**
+ * Obtiene una conversacion a partir de un JSON
+ *
+ */
 int Conversacion::deserealizar(string aDeserealizar){
 	Json::Value conversacion;
 	Json::Reader reader;
@@ -117,21 +125,40 @@ int Conversacion::deserealizar(string aDeserealizar){
 	}
 }
 
+/**
+ * Guarda la conversacion en la base de datos
+ *
+ */
 void Conversacion::persistir(){
 	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
 	baseDeDatos->setConversacion(this);
 }
 
+/**
+ * Obtiene una conversacion de la base de datos
+ * @param clave Clave con la que se guarda la conversacion en la base de datos
+ *
+ */
 Conversacion* Conversacion::obtener(string clave){
 	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
 	return baseDeDatos->getConversacion(clave);
 }
 
+/**
+ * Devuelve ids de conversaciones asociadas a un usuario
+ * @param claveUsuario Identificador del usuario
+ *
+ */
 vector<string> Conversacion::obtenerIdsPorIdUsuario(string claveUsuario){
 	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
 	return baseDeDatos->getIdsConversacionPorIdUsuario(claveUsuario);
 }
 
+/**
+ * Elimina una convesacion de la base de datos
+ * @param clave Clave indentificadora de la conversacion
+ *
+ */
 void Conversacion::eliminar(string clave) {
 	BaseDeDatos *baseDeDatos = BaseDeDatos::getInstance();
 	baseDeDatos->eliminarConversacion(clave);
