@@ -35,8 +35,13 @@ public class User implements Parcelable{
     private boolean connected = true;
     private int isLogged;
     private boolean exist;
+    private String status;
+
+
+
     /**
      * Crea un usuario vacio.
+
      */
     public User(){
     }
@@ -180,6 +185,23 @@ public class User implements Parcelable{
      * @param password:
      */
     public void setPassword(String password){this.password = password; }
+
+    /**
+     * Getter
+     * @return true si esta conectado, falso sino.
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * Setter
+     * @param status: true si esta conectado, falso sino.
+     */
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     /**
      * Setter
      * @param connected:
@@ -260,12 +282,14 @@ public class User implements Parcelable{
         dest.writeString(this.name);
         dest.writeString(this.profilePicture);
         dest.writeString(this.phone);
+        dest.writeString(this.status);
     }
 
     private void readFromParcel(Parcel in) {
         name = in.readString();
         profilePicture = in.readString();
         phone = in.readString();
+        status = in.readString();
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {

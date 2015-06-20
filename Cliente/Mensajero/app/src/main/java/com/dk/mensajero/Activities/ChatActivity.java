@@ -241,6 +241,10 @@ public class ChatActivity extends ActionBarActivity{
                 parcelabeUser.setName(this.receiverUser.getName());
                 parcelabeUser.setProfilePicture(this.receiverUser.getProfilePicture());
                 parcelabeUser.setPhone(this.receiverUser.getPhone());
+                if(this.receiverUser.isConnected())
+                    parcelabeUser.setStatus("Conectado");
+                else
+                    parcelabeUser.setStatus("Desconectado");
                 Intent i = new Intent(this, ContactInfoActivity.class);
                 i.putExtra("contactUserInfo", parcelabeUser);
                 startActivity(i);
