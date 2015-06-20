@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
+import com.dk.mensajero.Utilities.IpHandler;
 
 public class IpPortActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -49,6 +50,10 @@ public class IpPortActivity extends ActionBarActivity implements View.OnClickLis
     private void setIpPort(String ip, String port) {
         StringBuilder sB = new StringBuilder();
         sB.append("http://" + ip + ":" + port + "/");
+
+        IpHandler ipHandler = new IpHandler(ip,port);
+        ipHandler.save(this);
+
         Service.setIp(sB.toString());
         startActivity(new Intent(this, AuthenticationActivity.class));
     }

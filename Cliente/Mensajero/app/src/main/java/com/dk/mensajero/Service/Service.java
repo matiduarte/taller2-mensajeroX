@@ -17,6 +17,7 @@ import com.dk.mensajero.Interfaces.GetIdCallback;
 import com.dk.mensajero.Interfaces.GetMessageCallback;
 import com.dk.mensajero.Interfaces.GetUserCallback;
 import com.dk.mensajero.Interfaces.UpdateProfileCallback;
+import com.dk.mensajero.Utilities.IpHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -113,7 +114,7 @@ public class Service {
 
         @Override
         protected JSONObject doInBackground(Void... params) {
-            String url = BASE_URL + USER_URL;
+            String url = getBaseUrl(context) + USER_URL;
             RestClient client = new RestClient(url);
 
             client.addParam(KEY_USER_NAME, user.getName());
@@ -221,7 +222,7 @@ public class Service {
         @Override
         protected Message doInBackground(Void... params) {
 
-            String url = BASE_URL + COVERSATION_URL;
+            String url = getBaseUrl(context) + COVERSATION_URL;
             RestClient client = new RestClient(url);
 
             client.addParam(KEY_PHONE_USER, message.getUserPhoneTransmitter());
@@ -281,7 +282,7 @@ public class Service {
         @Override
         protected String doInBackground(Void... params) {
 
-            String url = BASE_URL + COVERSATION_URL + ID_URL;
+            String url = getBaseUrl(context) + COVERSATION_URL + ID_URL;
             RestClient client = new RestClient(url);
 
             client.addParam(KEY_TRANSMITTER, transmitterId);
@@ -334,7 +335,7 @@ public class Service {
         @Override
         protected ArrayList<Message> doInBackground(Void... params) {
 
-            String url = BASE_URL + COVERSATION_URL + message.getConversationId();
+            String url = getBaseUrl(context) + COVERSATION_URL + message.getConversationId();
             RestClient client = new RestClient(url);
 
             client.addParam(KEY_ID_LAST_MESSAGE, message.getMessageId());
@@ -409,7 +410,7 @@ public class Service {
         @Override
         protected JSONObject doInBackground(Void... params) {
 
-            String url = BASE_URL + USER_URL;
+            String url = getBaseUrl(context) + USER_URL;
             RestClient client = new RestClient(url);
 
             client.addParam(KEY_USER_PHONE, user.getPhone());
@@ -467,7 +468,7 @@ public class Service {
         @Override
         protected User doInBackground(Void... params) {
 
-            String url = BASE_URL + USER_URL + user.getPhone();
+            String url = getBaseUrl(context) + USER_URL + user.getPhone();
             RestClient client = new RestClient(url);
 
             try {
@@ -540,7 +541,7 @@ public class Service {
         @Override
         protected ArrayList<Conversation> doInBackground(Void... params) {
 
-            String url = BASE_URL + USER_COVERSATIONS_URL + user.getPhone();
+            String url = getBaseUrl(context) + USER_COVERSATIONS_URL + user.getPhone();
             RestClient client = new RestClient(url);
 
             ArrayList<String> conversationIds = Conversation.getConversationIds(getContext());
@@ -620,7 +621,7 @@ public class Service {
         @Override
         protected ArrayList<User> doInBackground(Void... params) {
 
-            String url = BASE_URL + CONTACTS_URL;
+            String url = getBaseUrl(context) + CONTACTS_URL;
             RestClient client = new RestClient(url);
 
             JSONArray jsArray = new JSONArray(this.phoneNumbers);
@@ -701,7 +702,7 @@ public class Service {
         @Override
         protected Message doInBackground(Void... params) {
 
-            String url = BASE_URL + BROADCAST_URL;
+            String url = getBaseUrl(context) + BROADCAST_URL;
             RestClient client = new RestClient(url);
 
             client.addParam(KEY_PHONE_USER, message.getUserPhoneTransmitter());
@@ -758,6 +759,19 @@ public class Service {
 
     public static void setIp(String ipAddress){
         BASE_URL = ipAddress;
+    }
+
+    public static String getBaseUrl(Context context){
+        if(BASE_URL != null){
+            return BASE_URL;
+        }
+
+        IpHandler ipHandler = IpHandler.getIpHandler(context);
+        if(!ipHandler.getIpPort().equals("")){
+            BASE_URL = ipHandler.getIpPort();
+            return BASE_URL;
+        }
+        return "";
     }
 
 }

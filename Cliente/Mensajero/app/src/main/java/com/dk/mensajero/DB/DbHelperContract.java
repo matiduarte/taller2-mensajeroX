@@ -36,4 +36,9 @@ public final class DbHelperContract {
         public static final String DATE = "date";
         public static final String TRANSMITTER_ID = "transmitterId";
     }
+
+    public static abstract class IpHandlerEntry implements BaseColumns {
+        public static final String TABLE_NAME = "IpHandler";
+        public static final String IP_PORT = "ipPort";
+    }
 }

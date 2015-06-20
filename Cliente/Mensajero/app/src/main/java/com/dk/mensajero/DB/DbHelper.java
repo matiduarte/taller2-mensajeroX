@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.Message;
 import com.dk.mensajero.Entities.User;
+import com.dk.mensajero.Utilities.IpHandler;
 
 import java.util.ArrayList;
 
@@ -54,15 +55,24 @@ public class DbHelper extends SQLiteOpenHelper {
             DbHelperContract.MessageEntry.TRANSMITTER_ID + TEXT_TYPE +
             " );";
 
+    private static final String SQL_CREATE_ENTRIES_IP_HANDLER =
+            "CREATE TABLE " + DbHelperContract.IpHandlerEntry.TABLE_NAME + " (" +
+                    DbHelperContract.IpHandlerEntry._ID + " INTEGER PRIMARY KEY," +
+                    DbHelperContract.IpHandlerEntry.IP_PORT + TEXT_TYPE +
+                    " );";
+
     private static final String SQL_DELETE_ENTRIES_USER =
             "DROP TABLE IF EXISTS " + DbHelperContract.UserEntry.TABLE_NAME + ";";
     private static final String SQL_DELETE_ENTRIES_CONVERSATION =
             "DROP TABLE IF EXISTS " + DbHelperContract.ConversationEntry.TABLE_NAME + ";";
     private static final String SQL_DELETE_ENTRIES_MESSAGE =
             "DROP TABLE IF EXISTS " + DbHelperContract.MessageEntry.TABLE_NAME + ";";
+    private static final String SQL_DELETE_ENTRIES_IP_HELPER =
+            "DROP TABLE IF EXISTS " + DbHelperContract.IpHandlerEntry.TABLE_NAME + ";";
+
 
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 11;
+    public static final int DATABASE_VERSION = 12;
     public static final String DATABASE_NAME = "MensajeroX.db";
 
     public DbHelper(Context context) {
@@ -72,6 +82,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_ENTRIES_USER);
         db.execSQL(SQL_CREATE_ENTRIES_CONVERSATION);
         db.execSQL(SQL_CREATE_ENTRIES_MESSAGE);
+        db.execSQL(SQL_CREATE_ENTRIES_IP_HANDLER);
     }
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
@@ -80,6 +91,7 @@ public class DbHelper extends SQLiteOpenHelper {
             db.execSQL(SQL_DELETE_ENTRIES_USER);
             db.execSQL(SQL_DELETE_ENTRIES_CONVERSATION);
             db.execSQL(SQL_DELETE_ENTRIES_MESSAGE);
+            db.execSQL(SQL_DELETE_ENTRIES_IP_HELPER);
             onCreate(db);
         }
     }
@@ -447,5 +459,55 @@ public class DbHelper extends SQLiteOpenHelper {
         }
 
         return "";
+    }
+
+    public void insertIpHandler(IpHandler ipHandler) {
+        // Gets the data repository in write mode
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //Borro la ip anterior
+        db.execSQL("Delete FROM "+ DbHelperContract.IpHandlerEntry.TABLE_NAME);
+
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(DbHelperContract.IpHandlerEntry.IP_PORT, ipHandler.getIpPort());
+
+        db.insert(
+            DbHelperContract.IpHandlerEntry.TABLE_NAME,
+            DbHelperContract.IpHandlerEntry._ID,
+            values);
+
+    }
+
+    public IpHandler getIpHandler() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                DbHelperContract.IpHandlerEntry._ID,
+                DbHelperContract.IpHandlerEntry.IP_PORT,
+        };
+
+        Cursor c = db.query(
+                DbHelperContract.IpHandlerEntry.TABLE_NAME,  // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+
+        if (c != null && c.moveToFirst()) {
+
+            while (c.isAfterLast() == false) {
+                String ipPort = c.getString(c.getColumnIndex(DbHelperContract.IpHandlerEntry.IP_PORT));
+                IpHandler ipHandler = new IpHandler();
+                ipHandler.setIpPort(ipPort);
+                return ipHandler;
+            }
+        }
+        return new IpHandler();
     }
 }
