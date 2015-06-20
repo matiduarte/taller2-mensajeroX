@@ -41,22 +41,25 @@ public class User implements Parcelable{
 
     /**
      * Crea un usuario vacio.
-
      */
     public User(){
     }
 
+    /**
+     * Crea un objeto usuario parcelable.
+     * @param in Objeto Parcelable
+     */
     public User(Parcel in) {
         readFromParcel(in);
     }
 
     /**
      * Crea un usuario con id, id de usuario, telefono, foto de perfil y nombre.
-     * @param id: identificador para la base de datos.
-     * @param userId: telefono hasheado.
-     * @param phone: numero de telefono.
-     * @param profilePicture: foto de perfil.
-     * @param name: nick del usuario.
+     * @param id identificador para la base de datos.
+     * @param userId telefono hasheado.
+     * @param phone numero de telefono.
+     * @param profilePicture foto de perfil.
+     * @param name nick del usuario.
      */
     public User(long id, String userId, String phone, String profilePicture, String name){
         this.id = id;
@@ -68,10 +71,10 @@ public class User implements Parcelable{
 
     /**
      * Crea un usuario con nombre, telefono, contrasena y token de sesion.
-     * @param phone: numero de telefono.
-     * @param password: contrasena para loguearse.
-     * @param name: nick del usuario.
-     * @param tokenSesion: token para la seguridad de la sesion.
+     * @param phone numero de telefono.
+     * @param password contrasena para loguearse.
+     * @param name nick del usuario.
+     * @param tokenSesion token para la seguridad de la sesion.
      */
     public User(String phone, String name, String password, String tokenSesion){
         this.phone = phone;
@@ -82,8 +85,8 @@ public class User implements Parcelable{
 
     /**
      * Crea un usuario con un numero de telefono y una contrasena
-     * @param phone: numero de telfono.
-     * @param password: contrasena para loguerase.
+     * @param phone numero de telfono.
+     * @param password contrasena para loguerase.
      */
     public User(String phone, String password) {
         this.phone = phone;
@@ -147,48 +150,48 @@ public class User implements Parcelable{
 
     /**
      * Setter.
-     * @param id: identificador de la base de datos.
+     * @param id identificador de la base de datos.
      */
     public void setId(long id){
         this.id = id;
     }
     /**
      * Setter
-     * @param userId:
+     * @param userId
      */
     public void setUserId(String userId){
         this.userId = userId;
     }
     /**
      * Setter
-     * @param phone:
+     * @param phone
      */
     public void setPhone(String phone){
         this.phone = phone;
     }
     /**
      * Setter
-     * @param profilePicture:
+     * @param profilePicture
      */
     public void setProfilePicture(String profilePicture){
         this.profilePicture = profilePicture;
     }
     /**
      * Setter
-     * @param name:
+     * @param name
      */
     public void setName(String name){
         this.name = name;
     }
     /**
      * Setter
-     * @param password:
+     * @param password
      */
     public void setPassword(String password){this.password = password; }
 
     /**
      * Getter
-     * @return true si esta conectado, falso sino.
+     * @return status: verdadero si esta conectado, falso sino.
      */
     public String getStatus() {
         return status;
@@ -196,7 +199,7 @@ public class User implements Parcelable{
 
     /**
      * Setter
-     * @param status: true si esta conectado, falso sino.
+     * @param status verdadero si esta conectado, falso sino.
      */
     public void setStatus(String status) {
         this.status = status;
@@ -204,12 +207,12 @@ public class User implements Parcelable{
 
     /**
      * Setter
-     * @param connected:
+     * @param connected verdadero si esta conectado, falso sino.
      */
     public void setConnected(boolean connected){this.connected = connected; }
     /**
      * Setter
-     * @param exist: verdadero si el usuario existe, falso sino.
+     * @param exist verdadero si el usuario existe, falso sino.
      */
     public void setExist(boolean exist) {
         this.exist = exist;
@@ -225,7 +228,7 @@ public class User implements Parcelable{
 
     /**
      * Almacena un usuario en la base de datos.
-     * @param context: this.
+     * @param context this.
      */
     public void save(Context context) {
         DbHelper helper = new DbHelper(context);
@@ -234,7 +237,7 @@ public class User implements Parcelable{
 
     /**
      * Devuelve un usuario de la base de datos.
-     * @param context: this.
+     * @param context this.
      * @return User.
      */
     public static User getUser(Context context){
@@ -251,7 +254,7 @@ public class User implements Parcelable{
     }
     /**
      * Setter.
-     * @param isLogged: isLogged: verdadero si el usuario esta logueado, falso sino.
+     * @param isLogged isLogged: verdadero si el usuario esta logueado, falso sino.
      */
     public void setIsLogged(int isLogged) {
         this.isLogged = isLogged;
@@ -285,6 +288,10 @@ public class User implements Parcelable{
         dest.writeString(this.status);
     }
 
+    /**
+     * Obtiene los atributos almacenados en el objeto parcelable.
+     * @param in usuario parcelable
+     */
     private void readFromParcel(Parcel in) {
         name = in.readString();
         profilePicture = in.readString();
@@ -292,6 +299,9 @@ public class User implements Parcelable{
         status = in.readString();
     }
 
+    /**
+     * Metodo estatico que crea un usuario parcelable
+     */
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public User createFromParcel(Parcel in) {
             return new User(in); }

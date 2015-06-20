@@ -22,9 +22,13 @@ import com.dk.mensajero.R;
 import static android.widget.AdapterView.*;
 import static com.dk.mensajero.Activities.PhoneNumberRegisterActivity.country.*;
 
-
+/**
+ * Pantalla para que el usuario ingrese su numero de telefono al registrarse.
+ */
 public class PhoneNumberRegisterActivity extends ActionBarActivity implements OnItemSelectedListener {
-
+    /**
+     * Lista de paises desplegables.
+     */
     enum country{
         ARGENTINA,
         BRASIL,
@@ -45,6 +49,10 @@ public class PhoneNumberRegisterActivity extends ActionBarActivity implements On
     Spinner expList;
     ArrayAdapter<CharSequence> adapter;
 
+    /**
+     * Inicializa todos los atributos de la pantalla.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +69,9 @@ public class PhoneNumberRegisterActivity extends ActionBarActivity implements On
 
     }
 
+    /**
+     * Muestra la lista de paises desplegables.
+     */
     public void expandableListCountries(){
         expList = (Spinner)findViewById(R.id.expandableListCountries);
         this.adapter = ArrayAdapter.createFromResource(this, R.array.Paises, android.R.layout.simple_spinner_item);
@@ -70,21 +81,24 @@ public class PhoneNumberRegisterActivity extends ActionBarActivity implements On
     }
 
     /**
-     * Create a Bundle with the user phone and pass it to the profileActivity
+     * Crea un Bundle con el numero de telefono del usuario y se lo pasa a la pantalla de registro.
      */
     private void startRegisterActivity(){
 
         Intent registerIntent = new Intent(this, RegisterActivity.class);
         Bundle bundlePhone = new Bundle();
-        bundlePhone.putString("phone",this.phoneNumber.getText().toString());
+        bundlePhone.putString("phone", this.phoneNumber.getText().toString());
         registerIntent.putExtras(bundlePhone);
         startActivity(registerIntent);
     }
 
+    /**
+     * Detecta cuando el boton Si es presionando.
+     */
      public void onYesButtonClick(){
         button_yes = (Button)findViewById(R.id.yesButton);
         button_yes.setOnClickListener(
-                new View.OnClickListener(){
+                new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         startRegisterActivity();
@@ -95,6 +109,9 @@ public class PhoneNumberRegisterActivity extends ActionBarActivity implements On
 
     }
 
+    /**
+     * Detecta cuando el boton Editar es presionado.
+     */
     public void onEditButtonClick(){
         button_edit = (Button)findViewById(R.id.editButton);
         button_edit.setOnClickListener(
@@ -134,26 +151,44 @@ public class PhoneNumberRegisterActivity extends ActionBarActivity implements On
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Setter.
+     */
     public void setArgCode(){
         areaCode.setText("+54");
     }
-
+    /**
+     * Setter.
+     */
     public void setBraCode(){
         areaCode.setText("+55");
     }
-
+    /**
+     * Setter.
+     */
     public void setChiCode(){
         areaCode.setText("+56");
     }
-
+    /**
+     * Setter.
+     */
     public void setUruCode(){
         areaCode.setText("+598");
     }
-
+    /**
+     * Setter.
+     */
     public void setParCode(){
         areaCode.setText("+595");
     }
 
+    /**
+     * Detecta el pais selecionado por el usuario y visualizar el codigo de area correspondiente.
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -181,9 +216,11 @@ public class PhoneNumberRegisterActivity extends ActionBarActivity implements On
 
     }
 
+
     private void showPhoneNumber(){
         this.phoneNumber.setVisibility(VISIBLE);
     }
+
 
     private void showAreaCode(){
         this.areaCode.setVisibility(VISIBLE);
@@ -193,11 +230,11 @@ public class PhoneNumberRegisterActivity extends ActionBarActivity implements On
         this.phoneNumber.setVisibility(INVISIBLE);
     }
 
+
     private void hideAreaCode(){
         this.areaCode.setVisibility(INVISIBLE);
     }
-
-
+    
     private void showUserPhone(){
         this.showNumberConfirmationRL();
         this.userPhone = (TextView) findViewById(R.id.number);
@@ -205,6 +242,7 @@ public class PhoneNumberRegisterActivity extends ActionBarActivity implements On
         CharSequence enterPhone = phoneNumber.getText();
         userPhone.setText(code + " " + enterPhone);
     }
+
 
     private void hideSpinner(){
         this.expList.setVisibility(INVISIBLE);
@@ -225,7 +263,6 @@ public class PhoneNumberRegisterActivity extends ActionBarActivity implements On
     private void showNumberConfirmationRL(){
         numberConfirmationMessage_rl.setVisibility(VISIBLE);
     }
-
     private void hideNumberConfirmationRL(){
         numberConfirmationMessage_rl.setVisibility(INVISIBLE);
     }
@@ -243,6 +280,11 @@ public class PhoneNumberRegisterActivity extends ActionBarActivity implements On
         this.areaCodeView.setVisibility(VISIBLE);
     }
 
+    /**
+     * Devuelve el pais selecionado.
+     * @param id identificador de pais.
+     * @return country: pais selecionado.
+     */
     private country getCountry(int id) {
         if (id == 0)
             return ARGENTINA;
@@ -258,12 +300,14 @@ public class PhoneNumberRegisterActivity extends ActionBarActivity implements On
         return INVALID;
     }
 
+    /**
+     * Verifica cuando se presiona el boton Hecho y muestra la pantalla de confirmacion de datos.
+     */
     public void onEditActionListener(){
 
         this.phoneNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                //verifies what key is pressed, in our case verifies if the DONE key is pressed
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     String phone = phoneNumber.getText().toString();
                     if (phone.equals("")){
@@ -283,6 +327,9 @@ public class PhoneNumberRegisterActivity extends ActionBarActivity implements On
 
     }
 
+    /**
+     * Muestra un mensaje de si no se ingresa ningun numero de telefono.
+     */
     private void showEmptyPhoneMessage(){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PhoneNumberRegisterActivity.this);
         dialogBuilder.setMessage("No se ingreso ningun número");
