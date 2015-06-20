@@ -74,3 +74,6 @@ add_executable(Servidor main.cpp)
 
 target_link_libraries(Servidor ${ROCKSDB_LIBRARIES} ${SNAPPY_LIBRARIES} ${BZ2_LIBRARIES}  basededatos servidor)
 
+#Copia el archivo de Lugares en la carpeta raiz.
+file(COPY "${PROJECT_SOURCE_DIR}/Lugares.txt" DESTINATION "${PROJECT_SOURCE_DIR}/build")
+
