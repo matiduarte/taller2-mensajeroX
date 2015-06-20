@@ -54,6 +54,7 @@ const string keyDefault = "";
 
 
 
+
 #define SeparadorListaBD '#'
 
 /*Constantes para Servicios*/
@@ -62,7 +63,7 @@ const string keyDefault = "";
 #define urlAutenticarUsuario "/autenticarUsuario"
 #define urlAdministrarPerfil "/administrarPerfil"
 #define urlConsultarUsuarioOnline "/consultarUsuarioOnline"
-#define urlCheckinUsuario "/checkinUsuario"
+#define urlCheckinUsuario "/usuario/checkIn"
 #define urlDesconectarUsuario "/desconectarUsuario"
 #define urlAlmacenarConversacion "/almacenarConversacion"
 #define urlObtenerIdConversacion "/obtenerIdConversacion"
@@ -83,6 +84,8 @@ const string urlBaseListaDifusion = "/difusion/";
 #define keyTelefonoEmisor "TelefonoEmisor"
 #define keyTelefonoReceptor "TelefonoReceptor"
 #define keyContantosTelefono "ContactosTelefono"
+#define keyLatitud "latitud"
+#define keyLongitud "longitud"
 
 /*Constantes para el manejo de errores*/
 const string keyDatoNoEncontrado = "NotFound";

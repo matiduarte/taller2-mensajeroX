@@ -21,7 +21,6 @@ Usuario::Usuario(string nombre, string fotoDePerfil, string telefono, string pas
 	this->telefono = telefono;
 	this->id = md5(telefono);
 	this->registrarUltimaConexion();
-	this->localizacion = "";
 	this->token = "";
 	this->password = password;
 }
@@ -38,7 +37,6 @@ Usuario::Usuario(string nombre, string telefono, string password){
 		this->telefono = telefono;
 		this->id = md5(telefono);
 		this->registrarUltimaConexion();
-		this->localizacion = "";
 		this->token = "";
 		this->password = password;
 }

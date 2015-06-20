@@ -67,6 +67,7 @@ void Servidor::administrarServicio(struct mg_connection* conn){
 	case CONSULTAR_USUARIO_ONLINE:	servicio->consultarUsuarioOnline();	break;
 	case OBTENER_CONTACTOS:			servicio->obtenerContactos();		break;
 	case ALMACENAR_LISTA_DIFUSION:	servicio->almacenarListaDifusion();	break;
+	case CHECKIN_USUARIO:			servicio->checkIn();				break;
 	case INVALIDO: 	cout << "servicio no encontrado." << endl;	break;
 	default: 		cout << "default." << endl;
 
@@ -118,9 +119,9 @@ tipoDeServicio Servidor::parsearURI(struct mg_connection* conn){
 		if(uri_parseada == urlBaseUsuario){
 			return ADMINISTRAR_PERFIL;
 		}
-//		if(uri_parseada == urlBaseConversacion){
-//			return ALMACENAR_CONVERSACION;
-//		}
+		if(uri_parseada.find(urlCheckinUsuario)!= std::string::npos){
+			return CHECKIN_USUARIO;
+		}
 	}
 
 
