@@ -128,7 +128,9 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DbHelperContract.UserEntry.PROFILE_PICTURE, user.getProfilePicture());
         values.put(DbHelperContract.UserEntry.NAME, user.getName());
         values.put(DbHelperContract.UserEntry.PASSWORD, user.getPassword());
+        values.put(DbHelperContract.UserEntry.STATE, Boolean.toString(user.isConnected()));
         values.put(DbHelperContract.UserEntry.IS_LOGGED, user.getIsLogged());
+
 
          // Insert the new row, returning the primary key value of the new row
         long newRowId;

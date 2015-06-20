@@ -14,13 +14,7 @@ Servicio::Servicio(struct mg_connection *conn) {
 
 }
 
-Servicio::Servicio() {
-	// TODO Auto-generated constructor stub
-
-}
-
 Servicio::~Servicio() {
-	// TODO Auto-generated destructor stub
 }
 
 void Servicio::parsearParametros(){
@@ -164,6 +158,7 @@ void Servicio::consultarUsuarioOnline() {
 		respuesta[keyEstadoDeConexion] 	= StringUtil::toString(user->getEstadoConexion());
 		respuesta[keyFotoDePerfil]		= user->getFotoDePerfil();
 		respuesta["idUsuario"]			= user->getId();
+		respuesta[keyLocalizacion]		= user->getLocalizacion();
 
 		this->responder(respuesta.toStyledString(), true);
 		Loger::getLoger()->info("Consulta del usuario "+user->getNombre()+ " exitosa.");
@@ -467,3 +462,29 @@ void Servicio::almacenarListaDifusion() {
 		delete mensaje;
 	}
 }
+
+/**
+ * Se encarga de calcular en que lugar se encuentra el cliente
+ * en base a sus coordenadas geográficas y los lugares precargados.
+ *
+ */
+void Servicio::checkIn() {
+	Json::Value coordenadas;
+	string latitud  = this->getParametro(keyLatitud, keyDefault);
+	string longitud = this->getParametro(keyLongitud, keyDefault);
+	coordenadas["latitud"] = atof(latitud.c_str());
+	coordenadas["longitud"] = atof(longitud.c_str());
+
+	Usuario* usuario = this->obtenerUsuario();
+	if(usuario->getId() != keyIdUsuarioNoEncontrado){
+		usuario->setLocalizacion(Localizacion::calcularUbicacion(coordenadas));
+		this->responder(usuario->getLocalizacion(), true);
+	}else
+	{
+		this->responder("el usuario no existe.",false);
+	}
+}
+
+
+
+

@@ -13,6 +13,7 @@
 #include "../WebServer/mongoose.h"
 #include "../json/json.h"
 #include "../Log/Loger.h"
+#include "../Utilidades/Localizacion.h"
 
 class Servicio {
 public:
@@ -36,6 +37,7 @@ public:
 	void consultarUsuarioOnline();
 	void obtenerContactos();
 	void almacenarListaDifusion();
+	void checkIn();
 	void responder(string mensaje, bool error);
 
 private:

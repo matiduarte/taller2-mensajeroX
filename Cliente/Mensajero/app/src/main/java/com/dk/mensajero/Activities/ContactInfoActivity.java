@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dk.mensajero.Entities.ParcelableUser;
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.R;
 import com.dk.mensajero.Utilities.Utilities;
@@ -18,7 +17,7 @@ public class ContactInfoActivity extends ActionBarActivity {
 
     TextView tvName, tvState, tvLocation;
     ImageView contactPicture;
-    ParcelableUser contactUser;
+    User contactUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

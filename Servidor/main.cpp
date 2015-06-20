@@ -25,6 +25,13 @@ using namespace std;
 
 int main(int argc,char *argv[]) {
 	BaseDeDatos::setPath(path_BaseDeDatosTests);
+
+	try{
+		Localizacion::cargarLugares("Lugares.txt");
+	}catch(const runtime_error & e){
+		Loger::getLoger()->warn(e.what());
+	}
+
 	Servidor *servidor = new Servidor();
 
 	char* puerto = StringUtil::str2Char(puertoDefault);
