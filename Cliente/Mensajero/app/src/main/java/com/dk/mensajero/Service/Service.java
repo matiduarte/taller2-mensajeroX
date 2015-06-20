@@ -89,6 +89,7 @@ public class Service {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     static public <T> void executeAsyncTask(AsyncTask<T, ?, ?> task, T... params) {
+        currentActiveServices.add(task);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
         } else {
