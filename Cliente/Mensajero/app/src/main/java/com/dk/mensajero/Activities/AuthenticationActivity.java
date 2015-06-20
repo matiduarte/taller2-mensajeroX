@@ -16,12 +16,31 @@ import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 
+
+/**
+ * Pantalla para loguearse en el sistema, es la primera en aparecer cuando se inicia la aplicacion.
+ * Posee dos campos: nombre y contrasena.
+ * Posee ademas un boton para registrar un usuario nuevo.
+ */
 public class AuthenticationActivity extends ActionBarActivity implements View.OnClickListener {
 
+    /**
+     * Boton que permite iniciar sesion.
+     */
     Button bLogin;
+    /**
+     * Campos que contienen el nombre y la contrasena ingresados.
+     */
     EditText etPhoneNumber, etPassword;
+    /**
+     * Boton para registrar un usuario nuevo.
+     */
     TextView registerLink;
 
+    /**
+     * Se encarga de inicializar todos los atributos de la pantalla.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +64,9 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
 
     }
 
+    /**
+     * Crea un boton flotante para ingresar ip y puerto
+     */
     public void ipPortFloatingButton(){
         ImageView icon = new ImageView(this);
         icon.setImageResource(R.drawable.ic_ipport);
@@ -62,6 +84,10 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
 
     }
 
+    /**
+     * Permite detectar que boton es presionado por el usuario.
+     * @param v vista que identifica a los botones de la pantalla.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -85,6 +111,11 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
         }
     }
 
+    /**
+     * Se encarga de verificar si los datos del usuario ingresados son correctos.
+     * Para ello verifica en el servidor si el usuario existe.
+     * @param user objeto usuario con sus atributos.
+     */
     private void authenticate(User user){
 
         final String insertedPassword = user.getPassword();
@@ -113,12 +144,19 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
 
     }
 
+    /**
+     * Almacena en la base de datos la informacion del usuario logueado.
+     * @param returnedUser entidad usuario que proviene del servidor.
+     */
     private void logUserIn(User returnedUser) {
         returnedUser.setIsLogged(1);
         returnedUser.save(this);
         startActivity(new Intent(this, TabLayoutActivity.class));
     }
 
+    /**
+     * Muestra un mensaje cuando el usuario ingresado no se encuentra registrado en el sistema.
+     */
     private void showErrorMessage(){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AuthenticationActivity.this);
         dialogBuilder.setMessage("El usuario no se encuentra registrado");
@@ -126,6 +164,9 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
         dialogBuilder.show();
     }
 
+    /**
+     * Muestra un mensaje cuando se deja algun campo vacio.
+     */
     private void showEmptyFieldMessage(){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AuthenticationActivity.this);
         dialogBuilder.setMessage("No puede haber campos vacios");
@@ -133,6 +174,9 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
         dialogBuilder.show();
     }
 
+    /**
+     * Muestra un mensaje cuando la contrasena ingresada es incorrecta.
+     */
     private void showWrongPasswordMessage(){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AuthenticationActivity.this);
         dialogBuilder.setMessage("Contraseña incorrecta");

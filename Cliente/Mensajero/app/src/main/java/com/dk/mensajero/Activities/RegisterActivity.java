@@ -13,12 +13,27 @@ import com.dk.mensajero.Interfaces.GetUserCallback;
 import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
 
+/**
+ * Pantalla que se encarga de registrar un usuario nuevo.
+ */
 public class RegisterActivity extends ActionBarActivity implements View.OnClickListener {
-
+    /**
+     * Boton para finalizar el registro.
+     */
     Button bRegister;
+    /**
+     * Campos editables donde se ingresan nombre, contrasena y confirmacion de contrasena.
+     */
     EditText etName, etPassword, etPasswordConfirmation;
+    /**
+     * numero de telefono del usuario.
+     */
     String phoneNumber;
 
+    /**
+     * Inicializa todos los atributos de la pantalla.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +49,11 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
         bRegister.setOnClickListener(this);
     }
 
+    /**
+     * Se encarga de detectar cuando el usuario presiona el boton de finalizaciom de registro.
+     * Ademas verifica que las contrasenas ingresadas coincidan.
+     * @param v vista que permite identificar el boton presionado por el usuario.
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -55,6 +75,11 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
         }
     }
 
+    /**
+     * Almacena los datos del usuario ingresados en el servidor.
+     *
+     * @param user entidad usuario con los datos del registro.
+     */
     private void registerUser(User user) {
         final Service serviceRequest = new Service(this);
         serviceRequest.storeNewUserInBackground(user, new GetUserCallback() {
@@ -73,6 +98,9 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
         });
     }
 
+    /**
+     * Obtiene el telefono del usuario ingresado desde otroa pantalla.
+     */
     private void getUserPhone(){
 
         Intent intentExtras = getIntent();
@@ -82,6 +110,10 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
             this.phoneNumber = phoneBundle.getString("phone");
         }
     }
+
+    /**
+     * Muestra un mensaje de error si las contrasenas no coinciden.
+     */
     private void showWrongPasswordMessage(){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(RegisterActivity.this);
         dialogBuilder.setMessage("La contraseña no coincide");
@@ -89,6 +121,9 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
         dialogBuilder.show();
     }
 
+    /**
+     * Muestra un mensaje de error si se dejan campos libres.
+     */
     private void showEmptyFieldMessage(){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(RegisterActivity.this);
         dialogBuilder.setMessage("No puede haber campos vacios");
@@ -96,6 +131,9 @@ public class RegisterActivity extends ActionBarActivity implements View.OnClickL
         dialogBuilder.show();
     }
 
+    /**
+     * Muestra un mensaje de erro en caso de que se intente registrar un usuario existente.
+     */
     private void showExistingUserMessage(){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(RegisterActivity.this);
         dialogBuilder.setMessage("El usuario ya se encuentra registrado");
