@@ -71,7 +71,7 @@ Instalar plug-in Postman en el navegador web y seguir los siguientes pasos para 
 
 ####Registrar Usuario:
 operación: POST
->URL: http://localhost:808/usuario
+>URL: http://localhost:8080/usuario/
 
 Parámetros:  
 key: Nombre    value: Juan  
@@ -86,7 +86,7 @@ Respuesta Ejemplo:
 ```
 ####Enviar Mensaje:
 operación: POST
->URL: http://localhost:808/conversacion
+>URL: http://localhost:8080/conversacion
 
 Parametros:  
 key: IdUsuarioEmisor	value: 11223344  
@@ -105,7 +105,7 @@ Respuesta Ejemplo:
 
 ####Editar Perfil:
 operación: PUT
->URL: http://localhost:8080/usuario
+>URL: http://localhost:8080/usuario/
 
 Parámetros:  
 key: Nombre		value: Juan  
