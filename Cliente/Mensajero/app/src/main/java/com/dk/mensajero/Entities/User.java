@@ -1,6 +1,8 @@
 package com.dk.mensajero.Entities;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.dk.mensajero.DB.DbHelper;
 
@@ -8,7 +10,7 @@ import com.dk.mensajero.DB.DbHelper;
  * @author DK
  * Representa a un usuario registrado en el sistema.
  */
-public class User {
+public class User implements Parcelable{
 
     private long id = 0;
     private String userId = "";
@@ -33,11 +35,14 @@ public class User {
     private boolean connected = true;
     private int isLogged;
     private boolean exist;
-
     /**
      * Crea un usuario vacio.
      */
     public User(){
+    }
+
+    public User(Parcel in) {
+        readFromParcel(in);
     }
 
     /**
@@ -79,6 +84,7 @@ public class User {
         this.phone = phone;
         this.password = password;
     }
+
 
     //Properties
 
@@ -228,4 +234,44 @@ public class User {
     public void setIsLogged(int isLogged) {
         this.isLogged = isLogged;
     }
+
+
+    /**
+     * Describe the kinds of special objects contained in this Parcelable's
+     * marshalled representation.
+     *
+     * @return a bitmask indicating the set of special object types marshalled
+     * by the Parcelable.
+     */
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    /**
+     * Flatten this object in to a Parcel.
+     *
+     * @param dest  The Parcel in which the object should be written.
+     * @param flags Additional flags about how the object should be written.
+     *              May be 0 or {@link #PARCELABLE_WRITE_RETURN_VALUE}.
+     */
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeString(this.profilePicture);
+        dest.writeString(this.phone);
+    }
+
+    private void readFromParcel(Parcel in) {
+        name = in.readString();
+        profilePicture = in.readString();
+        phone = in.readString();
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public User createFromParcel(Parcel in) {
+            return new User(in); }
+        public User[] newArray(int size) {
+            return new User[size]; }
+    };
 }

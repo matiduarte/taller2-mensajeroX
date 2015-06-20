@@ -69,15 +69,15 @@
             android:name=".Activities.ChatActivity"
             android:label="@string/title_activity_conversation"
             android:parentActivityName=".Activities.TabLayoutActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dk.mensajero.Activities.TabLayoutActivity" />
+
             <intent-filter>
                 <action android:name="com.dk.mensajero.ChatActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dk.mensajero.Activities.TabLayoutActivity" />
         </activity>
         <activity
             android:name=".Activities.RegisterActivity"
@@ -106,6 +106,19 @@
             android:label="@string/title_activity_ip_port" >
             <intent-filter>
                 <action android:name="com.dk.mensajero.IpPortActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.ContactInfoActivity"
+            android:label="@string/title_activity_contact_info"
+            android:parentActivityName=".Activities.ChatActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dk.mensajero.Activities.ChatActivity" />
+            <intent-filter>
+                <action android:name="com.dk.mensajero.ContactInfoActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

@@ -3,9 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.dk.mensajero.Activities.ChatActivity">
 
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+    <item
         android:icon="@drawable/ic_action_overflow"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
+        app:showAsAction="always"
+        android:title="@string/action_settings">
+        <menu>
+            <item
+                android:id="@+id/contact_info"
+                android:title="@string/contact_info"/>
+        </menu>
+    </item>
+
+
 </menu>

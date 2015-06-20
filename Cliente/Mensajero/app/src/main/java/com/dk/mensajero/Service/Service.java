@@ -68,6 +68,8 @@ public class Service {
     private String KEY_USER_PASSWORD = "Password";
     private String KEY_TOKEN_SESION = "Token";
 
+    private static ArrayList<AsyncTask> currentActiveServices = new ArrayList<AsyncTask>();
+
 
     public Service(Context context){
         this.context = context;
@@ -77,8 +79,17 @@ public class Service {
         progressDialog.setMessage("Por favor espere...");
     }
 
+    public void cancelCurrentServices(){
+        for (int i = 0; i < currentActiveServices.size(); i++) {
+            currentActiveServices.get(i).cancel(true);
+        }
+
+        currentActiveServices = new ArrayList<AsyncTask>();
+    }
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     static public <T> void executeAsyncTask(AsyncTask<T, ?, ?> task, T... params) {
+        currentActiveServices.add(task);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
         } else {
@@ -88,7 +99,7 @@ public class Service {
 
     public void updateUserProfileInBackground(User user, UpdateProfileCallback profileCallback){
         progressDialog.show();
-        new UpdateUserProfileAsyncTask(user, profileCallback).execute();
+        executeAsyncTask(new UpdateUserProfileAsyncTask(user, profileCallback));
     }
 
     public class UpdateUserProfileAsyncTask extends AsyncTask<Void, Void, JSONObject>{
@@ -174,11 +185,6 @@ public class Service {
         if (showProgressDialog)
             progressDialog.show();
         executeAsyncTask(new fetchUserDataAsyncTask(user, userCallback));
-        /*if(Build.VERSION.SDK_INT >= 11) {
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            task.execute();
-        }*/
     }
 
     public void fetchConversationsDataInBackground(User user, GetConversationsCallback conversationsCallback){
@@ -494,7 +500,6 @@ public class Service {
                             returnedUser.setUserId(userId);
                             returnedUser.setExist(true);
                         } else {
-                            //HACK
                             returnedUser = new User();
                             returnedUser.setExist(false);
                         }

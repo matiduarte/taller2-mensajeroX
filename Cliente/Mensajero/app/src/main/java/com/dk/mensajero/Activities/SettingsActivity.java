@@ -58,6 +58,7 @@ public class SettingsActivity extends ActionBarActivity {
         user.save(this);
         Intent intent  = new Intent(this, AuthenticationActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override
