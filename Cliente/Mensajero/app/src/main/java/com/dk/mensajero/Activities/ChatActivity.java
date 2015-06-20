@@ -23,7 +23,6 @@ import com.dk.mensajero.Conversations.ConversationDataProvider;
 import com.dk.mensajero.DB.DbHelper;
 import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.Message;
-import com.dk.mensajero.Entities.ParcelableUser;
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.Interfaces.GetIdCallback;
 import com.dk.mensajero.Interfaces.GetMessageCallback;
@@ -238,7 +237,7 @@ public class ChatActivity extends ActionBarActivity{
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.contact_info:
-                ParcelableUser parcelabeUser = new ParcelableUser();
+                User parcelabeUser = new User();
                 parcelabeUser.setName(this.receiverUser.getName());
                 parcelabeUser.setProfilePicture(this.receiverUser.getProfilePicture());
                 parcelabeUser.setPhone(this.receiverUser.getPhone());

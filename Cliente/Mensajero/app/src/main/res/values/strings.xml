@@ -50,6 +50,6 @@
     <string name="ip_description">Número de Ip...</string>
     <string name="title_activity_ip_port">IpPortActivity</string>
     <string name="contact_info">Info Contacto</string>
-    <string name="title_activity_contact_info">ContactInfoActivity</string>
+    <string name="title_activity_contact_info">Info. del contacto</string>
 
 </resources>
