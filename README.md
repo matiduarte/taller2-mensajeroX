@@ -76,7 +76,20 @@ Se agrega un script que recoge la información de cobertura a través de las pru
 $ sh cobertura.sh
 ```
 
+### Documentacion del codigo  
 
+Para genera la documentación del código es necesario tener instalado Doxygen
+
+```
+sudo apt-get install doxygen
+```
+
+Se incluye un script que genera la documentación del código, tanto del Servidor como del Cliente, en formato html y lates.
+Para correr este script, en la carpeta Informe (se abrirá por defecto al versión html de la documentación en un explorador web):
+
+```
+$ sh documentacionCodigo.sh
+```
 
 ##API REST
 -----------
