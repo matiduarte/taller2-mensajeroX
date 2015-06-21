@@ -67,7 +67,7 @@ $ python restTester.py
 
 Desde la consola ingresar:  
 ```
-sudo apt-get install lcov
+$ sudo apt-get install lcov
 ```
 
 Se agrega un script que recoge la información de cobertura a través de las pruebas y la muestra en un explorador web. Para correr este script, dirigirse desde la consola a la carpeta del Servidor e ingresar:
@@ -81,10 +81,10 @@ $ sh cobertura.sh
 Para genera la documentación del código es necesario tener instalado Doxygen
 
 ```
-sudo apt-get install doxygen
+$ sudo apt-get install doxygen
 ```
 
-Se incluye un script que genera la documentación del código, tanto del Servidor como del Cliente, en formato html y lates.
+Se incluye un script que genera la documentación del código, tanto del Servidor como del Cliente, en formato html y latex.
 Para correr este script, en la carpeta Informe (se abrirá por defecto al versión html de la documentación en un explorador web):
 
 ```
