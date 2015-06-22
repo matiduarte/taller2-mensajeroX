@@ -116,6 +116,7 @@ public class Service {
         protected JSONObject doInBackground(Void... params) {
             String url = getBaseUrl(context) + USER_URL;
             RestClient client = new RestClient(url);
+            User user = User.getUser(context);
 
             client.addParam(KEY_USER_NAME, user.getName());
             client.addParam(KEY_USER_PHONE, user.getPhone());
@@ -124,6 +125,7 @@ public class Service {
             //TODO: Agregar Localizacion.
             client.addParam(KEY_USER_LOCATION, "nada");
             client.addParam(KEY_USER_PASSWORD, user.getPassword());
+            client.addParam(KEY_TOKEN_SESION, user.getTokenSesion());
 
             try {
                 client.execute(RestClient.RequestMethod.PUT);
@@ -224,11 +226,13 @@ public class Service {
 
             String url = getBaseUrl(context) + COVERSATION_URL;
             RestClient client = new RestClient(url);
+            User user = User.getUser(context);
 
             client.addParam(KEY_PHONE_USER, message.getUserPhoneTransmitter());
             client.addParam(KEY_PHONE_USER_RECEIVER, message.getUserPhoneReceiver());
             client.addParam(KEY_MESSAGE_BODY, message.getBody());
             client.addParam(KEY_MESSAGE_DATE, message.getDate());
+            client.addParam(KEY_TOKEN_SESION, user.getTokenSesion());
 
             try {
                 client.execute(RestClient.RequestMethod.POST);
@@ -704,10 +708,12 @@ public class Service {
 
             String url = getBaseUrl(context) + BROADCAST_URL;
             RestClient client = new RestClient(url);
+            User user = User.getUser(context);
 
             client.addParam(KEY_PHONE_USER, message.getUserPhoneTransmitter());
             client.addParam(KEY_MESSAGE_BODY, message.getBody());
             client.addParam(KEY_MESSAGE_DATE, message.getDate());
+            client.addParam(KEY_TOKEN_SESION, user.getTokenSesion());
 
             JSONArray jsArray = new JSONArray(this.phoneNumbers);
             client.addParam(KEY_CONTACTS_PARAM, jsArray.toString());

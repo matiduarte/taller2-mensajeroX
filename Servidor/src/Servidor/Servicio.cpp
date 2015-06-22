@@ -156,16 +156,23 @@ void Servicio::administrarPerfil(){
 	string localizacion = this->getParametro(keyLocalizacion, keyDefault);
 	string password = this->getParametro(keyPassword, keyDefault);
 	Usuario* user = this->obtenerUsuario();
+	string token = this->getParametro(keyTokenSesion, keyDefault);
 
 	if (user->getId() != keyIdUsuarioNoEncontrado){
-		user->setNombre(nombreUsuario);
-		user->setEstadoConexion(estado);
-		user->setFotoDePerfil(fotoDePerfil);
-		user->setLocalizacion(localizacion);
-		user->setPassword(password);
-		user->persistir();
-		Loger::getLoger()->info("Se modificaron los datos del usuario "+user->getNombre()+ " correctamente.");
-		this->responder("Se modificaron los datos del usuario "+user->getNombre()+ " correctamente. Token:" + user->getToken(), true);
+		if(user->getToken() == token){
+			user->setNombre(nombreUsuario);
+			user->setEstadoConexion(estado);
+			user->setFotoDePerfil(fotoDePerfil);
+			user->setLocalizacion(localizacion);
+			user->setPassword(password);
+			user->persistir();
+			Loger::getLoger()->info("Se modificaron los datos del usuario "+user->getNombre()+ " correctamente.");
+			this->responder("Se modificaron los datos del usuario "+user->getNombre()+ " correctamente. Token:" + user->getToken(), true);
+		}else{
+			Loger::getLoger()->warn("El usuario "+user->getNombre()+ " no posee un token de session correcto");
+			this->responder("El usuario "+user->getNombre()+ " no posee un token de session correcto", false);
+		}
+
 	} else {
 		Loger::getLoger()->warn("El usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
 		this->responder("El usuario "+user->getNombre()+ " no se encuentra registrado en el sistema", false);
@@ -191,6 +198,7 @@ void Servicio::consultarUsuarioOnline() {
 		respuesta[keyFotoDePerfil]		= user->getFotoDePerfil();
 		respuesta["idUsuario"]			= user->getId();
 		respuesta[keyLocalizacion]		= user->getLocalizacion();
+		user->persistir();
 
 		this->responder(respuesta.toStyledString(), true);
 		Loger::getLoger()->info("Consulta del usuario "+user->getNombre()+ " exitosa.");
@@ -228,12 +236,19 @@ void Servicio::almacenarConversacion() {
 	if (	emisor	->getId() 	== keyIdUsuarioNoEncontrado ||
 			receptor->getId() 	== keyIdUsuarioNoEncontrado		)
 	{
-		string msj_warning = "No se pudo almacenar la conversacion porque: ";
-		if(emisor->getId()	 == keyIdUsuarioNoEncontrado) msj_warning.append("el emisor no existe.");
-		if(receptor->getId() == keyIdUsuarioNoEncontrado) msj_warning.append(" el receptor no existe.");
-		this->responder(msj_warning, false);
-		Loger::getLoger()->warn(msj_warning);
-		Loger::getLoger()->guardarEstado();
+		string token = this->getParametro(keyTokenSesion, keyDefault);
+		if(emisor->getToken() == token){
+			string msj_warning = "No se pudo almacenar la conversacion porque: ";
+			if(emisor->getId()	 == keyIdUsuarioNoEncontrado) msj_warning.append("el emisor no existe.");
+			if(receptor->getId() == keyIdUsuarioNoEncontrado) msj_warning.append(" el receptor no existe.");
+			this->responder(msj_warning, false);
+			Loger::getLoger()->warn(msj_warning);
+			Loger::getLoger()->guardarEstado();
+		}else{
+			Loger::getLoger()->warn("El usuario "+emisor->getNombre()+ " no posee un token de session correcto");
+			this->responder("El usuario "+emisor->getNombre()+ " no posee un token de session correcto", false);
+		}
+
 	}
 	else{
 		//Obtengo el mensaje:
@@ -456,6 +471,7 @@ void Servicio::obtenerContactos(){
  */
 void Servicio::almacenarListaDifusion() {
 	string idEmisor   = this->getParametro(keyIdUsuarioEmisor,keyDefault);
+	string token = this->getParametro(keyTokenSesion, keyDefault);
 
 	Json::Value contactosTelefonoValue = this->getParametroArray(keyContantosTelefono, keyDefault);
 	vector<string> contactosTelefono = StringUtil::jsonValueToVector(contactosTelefonoValue);
@@ -468,6 +484,10 @@ void Servicio::almacenarListaDifusion() {
 		this->responder(msj_warning, false);
 		Loger::getLoger()->warn(msj_warning);
 		Loger::getLoger()->guardarEstado();
+	}
+	else if(emisor->getToken() != token){
+		Loger::getLoger()->warn("El usuario "+emisor->getNombre()+ " no posee un token de session correcto");
+		this->responder("El usuario "+emisor->getNombre()+ " no posee un token de session correcto", false);
 	}
 	else{
 		//Obtengo el mensaje:

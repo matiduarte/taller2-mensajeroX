@@ -21,7 +21,7 @@ Loger::Loger(){
 void Loger::escribir(string texto){
 	this->archivo->write(texto.c_str(), strlen(texto.c_str()));
 	this->archivo->write("\n", strlen("\n"));
-
+	this->guardarEstado();
 }
 
 void Loger::guardarEstado(){

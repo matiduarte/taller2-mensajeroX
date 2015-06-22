@@ -66,7 +66,10 @@ void BaseDeDatos::setDato(string clave, string valor) {
 	}
 }
 
-
+/**
+ * Obtiene un dato en la base de datos.
+ * @param clave es la clave del dato a obtener.
+ */
 string BaseDeDatos::getDato(string clave) {
 	string valor;
 	estado = db->Get(ReadOptions(), clave, &valor);
