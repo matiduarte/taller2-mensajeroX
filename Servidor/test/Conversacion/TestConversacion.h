@@ -17,13 +17,14 @@ using namespace std;
 class TestConversacion: public TestFixture {
 	CPPUNIT_TEST_SUITE(TestConversacion);
 	CPPUNIT_TEST(testSerializacionDeDatosUnaConversacion);
+	CPPUNIT_TEST(testGuardarConversacion);
 
 	CPPUNIT_TEST_SUITE_END();
 public:
 	TestConversacion();
 	virtual ~TestConversacion();
     void testSerializacionDeDatosUnaConversacion();
-
+    void testGuardarConversacion();
 };
 
 //CPPUNIT_TEST_SUITE_NAMED_REGISTRATION(TestConversacion, TestConversacion);

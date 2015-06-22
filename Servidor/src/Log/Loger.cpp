@@ -98,3 +98,8 @@ Loger* Loger::getLoger(){
 	return logInstancia;
 }
 
+void Loger::destruirLoger(){
+	delete logInstancia;
+	logInstancia = NULL;
+}
+

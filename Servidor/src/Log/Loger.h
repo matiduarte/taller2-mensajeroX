@@ -34,6 +34,7 @@ public:
 	void debug(string texto);
 	void guardarEstado();
 	void modificarNivel(string nivel);
+	void destruirLoger();
 	~Loger();
 };
 

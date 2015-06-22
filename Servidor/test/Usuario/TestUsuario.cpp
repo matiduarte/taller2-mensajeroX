@@ -45,3 +45,15 @@ void TestUsuario::testModificacionDeDatosDelUsuario(){
 
 	delete unUsuario;
 }
+
+void TestUsuario::testEliminarUsuario(){
+
+	Usuario* unUsuario = new Usuario("Pedro" ,"foto", "123456789" , "contraseña");
+	unUsuario->persistir();
+	CPPUNIT_ASSERT(Usuario::obtener(unUsuario->getId())->getId() != keyIdUsuarioNoEncontrado );
+
+	Usuario::eliminar(unUsuario->getId());
+	CPPUNIT_ASSERT(Usuario::obtenerPorTelefono(unUsuario->getTelefono())->getId() == keyIdUsuarioNoEncontrado );
+
+	delete unUsuario;
+}

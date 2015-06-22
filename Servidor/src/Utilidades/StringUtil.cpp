@@ -7,15 +7,6 @@
 
 #include "StringUtil.h"
 
-StringUtil::StringUtil() {
-	// TODO Auto-generated constructor stub
-
-}
-
-StringUtil::~StringUtil() {
-	// TODO Auto-generated destructor stub
-}
-
 string StringUtil::toLower(string str){
         char* lower = (char*)str.c_str();
         int i = 0;
