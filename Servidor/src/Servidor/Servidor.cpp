@@ -68,7 +68,7 @@ void Servidor::administrarServicio(struct mg_connection* conn){
 	case OBTENER_CONTACTOS:			servicio->obtenerContactos();		break;
 	case ALMACENAR_LISTA_DIFUSION:	servicio->almacenarListaDifusion();	break;
 	case CHECKIN_USUARIO:			servicio->checkIn();				break;
-	case INVALIDO: 	cout << "servicio no encontrado." << endl;	break;
+	case INVALIDO: 	mg_printf_data(conn, "Servicio no encontrado");	break;
 	default: 		cout << "default." << endl;
 
 	};

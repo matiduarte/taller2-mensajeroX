@@ -116,7 +116,6 @@ public class Service {
         protected JSONObject doInBackground(Void... params) {
             String url = getBaseUrl(context) + USER_URL;
             RestClient client = new RestClient(url);
-            User user = User.getUser(context);
 
             client.addParam(KEY_USER_NAME, user.getName());
             client.addParam(KEY_USER_PHONE, user.getPhone());
@@ -125,6 +124,8 @@ public class Service {
             //TODO: Agregar Localizacion.
             client.addParam(KEY_USER_LOCATION, "nada");
             client.addParam(KEY_USER_PASSWORD, user.getPassword());
+
+            User user = User.getUser(context);
             client.addParam(KEY_TOKEN_SESION, user.getTokenSesion());
 
             try {
