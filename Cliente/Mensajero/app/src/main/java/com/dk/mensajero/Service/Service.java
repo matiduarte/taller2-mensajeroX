@@ -11,6 +11,7 @@ import android.util.Log;
 import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.Message;
 import com.dk.mensajero.Entities.User;
+import com.dk.mensajero.Interfaces.CheckInCallback;
 import com.dk.mensajero.Interfaces.GetContactsCallback;
 import com.dk.mensajero.Interfaces.GetConversationsCallback;
 import com.dk.mensajero.Interfaces.GetIdCallback;
@@ -64,6 +65,8 @@ public class Service {
     private String KEY_USER_CONVERSATIONS_PARAM = "idsConversaciones";
     private String KEY_USER_LOCATION = "Localizacion";
     private String KEY_CONTACTS_PARAM = "ContactosTelefono";
+    private String KEY_USER_LATITUDE = "latitud";
+    private String KEY_USER_LONGITUDE = "longitud";
 
     private String KEY_PAYLOAD = "payload";
     private String KEY_SUCCESS = "success";
@@ -98,6 +101,7 @@ public class Service {
             task.execute(params);
         }
     }
+
 
     public void updateUserProfileInBackground(User user, UpdateProfileCallback profileCallback){
         progressDialog.show();
@@ -157,6 +161,73 @@ public class Service {
             }
 
             profileCallback.done(result);
+            super.onPostExecute(jsonObject);
+        }
+
+        @Override
+        protected void onPreExecute(){
+
+        }
+    }
+
+    public void checkInUserInBackgroud(CheckInCallback checkInCallback){
+        progressDialog.show();
+        executeAsyncTask(new checkInUserAsyncTask(checkInCallback));
+    }
+
+    public class checkInUserAsyncTask extends AsyncTask<Void, Void, JSONObject>{
+        CheckInCallback checkInCallback;
+
+        public checkInUserAsyncTask(CheckInCallback checkInCallback){
+            this.checkInCallback = checkInCallback;
+        }
+
+        @Override
+        protected JSONObject doInBackground(Void... params) {
+            String url = getBaseUrl(context) + USER_URL + CHECKIN_URL;
+            RestClient client = new RestClient(url);
+            User user = User.getUser(context);
+            GPSTracker gps = new GPSTracker(context);
+
+            client.addParam(KEY_USER_PHONE, user.getPhone());
+            client.addParam(KEY_USER_LATITUDE,String.valueOf(gps.getLatitude()));
+            client.addParam(KEY_USER_LONGITUDE,String.valueOf(gps.getLatitude()));
+            client.addParam(KEY_TOKEN_SESION, user.getTokenSesion());
+
+            try {
+                client.execute(RestClient.RequestMethod.PUT);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            String response = client.getResponse();
+            JSONObject jObject = new JSONObject();
+            if (response != null) {
+                try {
+                    jObject = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            return jObject;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            progressDialog.dismiss();
+            String userLocation = "desconocida";
+            boolean success = false;
+
+            try {
+                userLocation = jsonObject.getString(KEY_PAYLOAD);
+                success = jsonObject.getBoolean(KEY_SUCCESS);
+                User user = User.getUser(context);
+                user.setLocation(userLocation);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            checkInCallback.done(userLocation,success);
             super.onPostExecute(jsonObject);
         }
 
