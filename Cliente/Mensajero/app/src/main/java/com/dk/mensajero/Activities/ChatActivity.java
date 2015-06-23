@@ -245,6 +245,7 @@ public class ChatActivity extends ActionBarActivity{
                     parcelabeUser.setStatus("Conectado");
                 else
                     parcelabeUser.setStatus("Desconectado");
+                parcelabeUser.setLocation(this.receiverUser.getLocation());
                 Intent i = new Intent(this, ContactInfoActivity.class);
                 i.putExtra("contactUserInfo", parcelabeUser);
                 startActivity(i);
