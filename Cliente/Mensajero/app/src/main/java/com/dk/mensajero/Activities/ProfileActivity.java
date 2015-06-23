@@ -29,7 +29,7 @@ public class ProfileActivity extends ActionBarActivity {
     private static final int widthProfileSize = 200;
     private static final int heightProfileSize = 200;
     private String userPicture;
-    EditText etName, etPassword;
+    EditText etName, etPassword,etLocation;
     Button bState;
     ImageButton ibPicture;
 
@@ -48,6 +48,10 @@ public class ProfileActivity extends ActionBarActivity {
         //contraseña
         etPassword = (EditText)findViewById(R.id.profile_etPassword);
         etPassword.setHint(R.string.newPassword);
+
+        //ubicacion
+        etLocation = (EditText)findViewById(R.id.profile_etLocation);
+        etLocation.setText(user.getLocation());
 
         //foto de perfil
         ibPicture = (ImageButton) findViewById(R.id.profile_ibPicture);

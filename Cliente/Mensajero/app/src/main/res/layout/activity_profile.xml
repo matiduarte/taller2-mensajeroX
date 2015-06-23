@@ -11,8 +11,8 @@
 
     <ImageButton
         android:id="@+id/profile_ibPicture"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:adjustViewBounds="true"
         android:onClick="selectPicture"
         android:scaleType="centerCrop"
@@ -23,7 +23,7 @@
         android:id="@+id/textView_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="9dp"
         android:text="@string/profile_name"
         android:textStyle="bold"
         android:phoneNumber="true"
@@ -33,7 +33,7 @@
         android:id="@+id/profile_etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
+        android:textSize="@dimen/abc_text_size_small_material"
         android:inputType="textPersonName"
         android:textStyle="bold"
         android:textColor="#000000" />
@@ -43,7 +43,7 @@
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="9dp"
         android:text="@string/profile_password"
         android:textSize="@dimen/abc_text_size_medium_material"/>
 
@@ -51,11 +51,28 @@
         android:id="@+id/profile_etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
+        android:textSize="@dimen/abc_text_size_small_material"
         android:textStyle="bold"
         android:inputType="textPassword"
         android:textColor="#000000" />
 
+    <TextView
+        android:id="@+id/profile_tvLocation"
+        android:layout_width="wrap_content"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:text="@string/profile_location"
+        android:layout_marginTop="9dp"
+        android:textSize="@dimen/abc_text_size_medium_material" />
+
+    <EditText
+        android:id="@+id/profile_etLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/abc_text_size_small_material"
+        android:textStyle="bold"
+        android:inputType="textPersonName"
+        android:textColor="#000000" />
 
     <TextView
         android:id="@+id/profile_tvState"
@@ -63,7 +80,7 @@
         android:textStyle="bold"
         android:layout_height="wrap_content"
         android:text="@string/profile_state"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="9dp"
         android:textSize="@dimen/abc_text_size_medium_material" />
 
     <Button
@@ -73,7 +90,7 @@
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
         android:textStyle="bold"
-        android:textSize="15sp"
+        android:textSize="@dimen/abc_text_size_small_material"
         android:onClick="changeState"
         android:text="" />
 
@@ -84,7 +101,7 @@
         android:textColor="@android:color/white"
         android:onClick="saveProfile"
         android:text="@string/profile_save_button"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="9dp"
         android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.dk.mensajero.Activities;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -7,7 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import com.dk.mensajero.Entities.User;
+import com.dk.mensajero.Interfaces.CheckInCallback;
 import com.dk.mensajero.R;
+import com.dk.mensajero.Service.Service;
 
 
 public class SettingsActivity extends ActionBarActivity {
@@ -50,6 +53,28 @@ public class SettingsActivity extends ActionBarActivity {
     public void showProfileConfiguration(View view) {
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
+    }
+
+    public void doCheckIn(View view){
+        Service serviceRequest = new Service(this);
+        serviceRequest.checkInUserInBackgroud(new CheckInCallback() {
+            @Override
+            public void done(String location, boolean success) {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(SettingsActivity.this);
+                if(success){
+                    User user = User.getUser(SettingsActivity.this);
+                    user.setLocation(location);
+                    user.save(SettingsActivity.this);
+                    dialogBuilder.setMessage("Se encuentra en: "+location);
+                    dialogBuilder.setPositiveButton("ACEPTAR",null);
+                    dialogBuilder.show();
+                }else {
+                    dialogBuilder.setMessage("No se pudo calcular su ubicación. ");
+                    dialogBuilder.setPositiveButton("ACEPTAR", null);
+                    dialogBuilder.show();
+                }
+            }
+        });
     }
 
     public void logout(View view){

@@ -52,5 +52,7 @@
     <string name="contact_info">Info Contacto</string>
     <string name="title_activity_contact_info">Info. del contacto</string>
     <string name="title_activity_location">LocationActivity</string>
+    <string name="checkIn">Check-In</string>
+    <string name="profile_location">Ubicación</string>
 
 </resources>

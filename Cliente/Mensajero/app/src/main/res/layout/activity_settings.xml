@@ -31,6 +31,17 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/checkIn"
+        android:id="@+id/settings_bCheckIn"
+        android:layout_marginTop="15dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:onClick="doCheckIn"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Cerrar Sesion"
         android:id="@+id/settings_bLogout"
         android:layout_marginTop="75dp"
