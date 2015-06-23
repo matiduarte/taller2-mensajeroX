@@ -33,7 +33,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     DbHelperContract.UserEntry.NAME + TEXT_TYPE + COMMA_SEP +
                     DbHelperContract.UserEntry.PASSWORD + TEXT_TYPE + COMMA_SEP +
                     DbHelperContract.UserEntry.IS_LOGGED + INT_TYPE + COMMA_SEP +
-                    DbHelperContract.UserEntry.STATE + TEXT_TYPE +
+                    DbHelperContract.UserEntry.STATE + TEXT_TYPE + COMMA_SEP +
+                    DbHelperContract.UserEntry.LOCATION + TEXT_TYPE +
             " );";
     private static final String SQL_CREATE_ENTRIES_CONVERSATION =
             "CREATE TABLE " + DbHelperContract.ConversationEntry.TABLE_NAME + " (" +
@@ -72,7 +73,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 12;
+    public static final int DATABASE_VERSION = 13;
     public static final String DATABASE_NAME = "MensajeroX.db";
 
     public DbHelper(Context context) {
@@ -130,6 +131,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DbHelperContract.UserEntry.PASSWORD, user.getPassword());
         values.put(DbHelperContract.UserEntry.STATE, Boolean.toString(user.isConnected()));
         values.put(DbHelperContract.UserEntry.IS_LOGGED, user.getIsLogged());
+        values.put(DbHelperContract.UserEntry.LOCATION, user.getLocation());
 
 
          // Insert the new row, returning the primary key value of the new row
@@ -163,6 +165,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(DbHelperContract.UserEntry.PASSWORD, user.getPassword());
         values.put(DbHelperContract.UserEntry.STATE, Boolean.toString(user.isConnected()));
         values.put(DbHelperContract.UserEntry.IS_LOGGED, user.getIsLogged());
+        values.put(DbHelperContract.UserEntry.LOCATION, user.getLocation());
 
         // Define 'where' part of query.
         String selection = DbHelperContract.UserEntry._ID + " = ?";
@@ -187,6 +190,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 DbHelperContract.UserEntry.PASSWORD,
                 DbHelperContract.UserEntry.STATE,
                 DbHelperContract.UserEntry.IS_LOGGED,
+                DbHelperContract.UserEntry.LOCATION,
         };
 
         String selection = DbHelperContract.UserEntry.IS_LOGGED + " = ?";
@@ -212,12 +216,14 @@ public class DbHelper extends SQLiteOpenHelper {
                 String name = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.NAME));
                 String password = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.PASSWORD));
                 String state = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.STATE));
+                String location = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.LOCATION));
                 int isLogged = c.getInt(c.getColumnIndex(DbHelperContract.UserEntry.IS_LOGGED));
 
                 User user = new User(id, userId, phone, profilePicture, name);
                 user.setPassword(password);
                 user.setConnected(Boolean.valueOf(state));
                 user.setIsLogged(isLogged);
+                user.setLocation(location);
 
                 return user;
             }
@@ -240,6 +246,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 DbHelperContract.UserEntry.PASSWORD,
                 DbHelperContract.UserEntry.STATE,
                 DbHelperContract.UserEntry.IS_LOGGED,
+                DbHelperContract.UserEntry.LOCATION,
         };
 
         String selection = DbHelperContract.UserEntry.PHONE + " = ?";
@@ -265,12 +272,14 @@ public class DbHelper extends SQLiteOpenHelper {
                 String name = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.NAME));
                 String password = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.PASSWORD));
                 String state = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.STATE));
+                String location = c.getString(c.getColumnIndex(DbHelperContract.UserEntry.LOCATION));
                 int isLogged = c.getInt(c.getColumnIndex(DbHelperContract.UserEntry.IS_LOGGED));
 
                 User user = new User(id, userId, phone, profilePicture, name);
                 user.setPassword(password);
                 user.setConnected(Boolean.valueOf(state));
                 user.setIsLogged(isLogged);
+                user.setLocation(location);
                 return user;
             }
         }

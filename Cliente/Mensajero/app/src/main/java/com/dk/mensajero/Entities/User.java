@@ -30,6 +30,7 @@ public class User implements Parcelable{
      * Contrasena de un usuario.
      * Permite al usuario, junto con su telefono, loguearse en el sistema.
      */
+    private String location = "desconocida";
     private String password = "";
     private String tokenSesion = "";
     private boolean connected = true;
@@ -224,6 +225,10 @@ public class User implements Parcelable{
     public boolean isExist() {
         return exist;
     }
+
+    public void setLocation(String location) { this.location = location; }
+
+    public String getLocation() { return this.location; }
 //Methods
 
     /**
