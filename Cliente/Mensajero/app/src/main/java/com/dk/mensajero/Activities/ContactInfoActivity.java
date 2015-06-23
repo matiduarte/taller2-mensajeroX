@@ -68,9 +68,8 @@ public class ContactInfoActivity extends ActionBarActivity {
             b = intent.getExtras();
             contactUser = b.getParcelable("contactUserInfo");
             tvName.setText(contactUser.getName());
-            //TODO: FALTA ESTADO Y LOCALIZACION
             tvState.setText("Estado: " + contactUser.getStatus());
-            tvLocation.setText("Ultima localizacion: Ibiza, España");
+            tvLocation.setText("Ultima localizacion: " + contactUser.getLocation());
             if (!contactUser.getProfilePicture().equals("default")) {
                 ImageView profilePicture = (ImageView) findViewById(R.id.contact_picture);
                 Bitmap bitmapPicture = Utilities.stringToBitmap(contactUser.getProfilePicture());

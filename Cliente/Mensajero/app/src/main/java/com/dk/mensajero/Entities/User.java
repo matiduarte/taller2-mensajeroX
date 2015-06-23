@@ -297,6 +297,7 @@ public class User implements Parcelable{
         dest.writeString(this.profilePicture);
         dest.writeString(this.phone);
         dest.writeString(this.status);
+        dest.writeString(this.location);
     }
 
     /**
@@ -308,6 +309,7 @@ public class User implements Parcelable{
         profilePicture = in.readString();
         phone = in.readString();
         status = in.readString();
+        location = in.readString();
     }
 
     /**
