@@ -125,6 +125,9 @@ public class Service {
             client.addParam(KEY_USER_LOCATION, user.getLocation());
             client.addParam(KEY_USER_PASSWORD, user.getPassword());
 
+            User user = User.getUser(context);
+            client.addParam(KEY_TOKEN_SESION, user.getTokenSesion());
+
             try {
                 client.execute(RestClient.RequestMethod.PUT);
             } catch (Exception e) {
@@ -224,11 +227,13 @@ public class Service {
 
             String url = getBaseUrl(context) + COVERSATION_URL;
             RestClient client = new RestClient(url);
+            User user = User.getUser(context);
 
             client.addParam(KEY_PHONE_USER, message.getUserPhoneTransmitter());
             client.addParam(KEY_PHONE_USER_RECEIVER, message.getUserPhoneReceiver());
             client.addParam(KEY_MESSAGE_BODY, message.getBody());
             client.addParam(KEY_MESSAGE_DATE, message.getDate());
+            client.addParam(KEY_TOKEN_SESION, user.getTokenSesion());
 
             try {
                 client.execute(RestClient.RequestMethod.POST);
@@ -239,6 +244,7 @@ public class Service {
             String response = client.getResponse();
             Message returnedMsg = null;
             if (response != null) {
+                System.out.println("ENTRE SendNewMessageAsyncTask");
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {
@@ -297,6 +303,7 @@ public class Service {
             String response = client.getResponse();
             String conversationId = null;
             if (response != null) {
+                System.out.println("ENTRE FetchNewConversationIdAsyncTask");
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {
@@ -349,6 +356,7 @@ public class Service {
             String response = client.getResponse();
             ArrayList<Message> messageList = null;
             if (response != null) {
+                System.out.println("ENTRE FetchNewMessageAsyncTask");
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {
@@ -426,6 +434,7 @@ public class Service {
             String response = client.getResponse();
             JSONObject jObject = null;
             if (response != null){
+                System.out.println("ENTRE StoreNewUserAsyncTask");
                 try {
                     jObject = new JSONObject(response);
                 } catch (JSONException e) {
@@ -480,6 +489,7 @@ public class Service {
             String response = client.getResponse();
             User returnedUser = null;
             if (response != null) {
+                System.out.println("ENTRE fetchUserDataAsyncTask");
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {
@@ -558,6 +568,7 @@ public class Service {
             String response = client.getResponse();
             ArrayList<Conversation> conversations = new ArrayList<>();
             if (response != null) {
+                System.out.println("ENTRE fetchConversationsDataAsyncTask");
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {
@@ -637,6 +648,7 @@ public class Service {
             String response = client.getResponse();
             ArrayList<User> users = new ArrayList<>();
             if (response != null) {
+                System.out.println("ENTRE fetchContactsDataAsyncTask");
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {
@@ -704,10 +716,12 @@ public class Service {
 
             String url = getBaseUrl(context) + BROADCAST_URL;
             RestClient client = new RestClient(url);
+            User user = User.getUser(context);
 
             client.addParam(KEY_PHONE_USER, message.getUserPhoneTransmitter());
             client.addParam(KEY_MESSAGE_BODY, message.getBody());
             client.addParam(KEY_MESSAGE_DATE, message.getDate());
+            client.addParam(KEY_TOKEN_SESION, user.getTokenSesion());
 
             JSONArray jsArray = new JSONArray(this.phoneNumbers);
             client.addParam(KEY_CONTACTS_PARAM, jsArray.toString());
@@ -721,6 +735,7 @@ public class Service {
             String response = client.getResponse();
             Message returnedMsg = null;
             if (response != null) {
+                System.out.println("ENTRE SendBroadcastMessageAsyncTask");
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {

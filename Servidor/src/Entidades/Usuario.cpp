@@ -271,7 +271,6 @@ string Usuario::obtenerId(string telefono){
 }
 
 string Usuario::calcularTokenDeSesion(){
-
 	return this->token = md5(this->getTelefono() + this->getUltimaConexion());
 }
 /**

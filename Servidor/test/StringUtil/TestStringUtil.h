@@ -21,6 +21,10 @@ class TestStringUtil: public TestFixture {
 	CPPUNIT_TEST(testToUpperDeberiaPasarTodoAMayuscula);
 	CPPUNIT_TEST(testStringToBoolean);
 	CPPUNIT_TEST(testBooleanToString);
+	CPPUNIT_TEST(testStringToInt);
+	CPPUNIT_TEST(testStringToChar);
+	CPPUNIT_TEST(testVectorContiene);
+	CPPUNIT_TEST(testJsonValueToVector);
 	CPPUNIT_TEST_SUITE_END();
 public:
 	TestStringUtil();
@@ -28,6 +32,10 @@ public:
     void testToUpperDeberiaPasarTodoAMayuscula();
     void testStringToBoolean();
     void testBooleanToString();
+    void testStringToInt();
+    void testStringToChar();
+    void testVectorContiene();
+    void testJsonValueToVector();
 	virtual ~TestStringUtil();
 };
 

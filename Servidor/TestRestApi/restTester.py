@@ -1,6 +1,15 @@
 import unittest
-from testCases import TestRestApi
+from testCases import TestUsuario
+from testCases import TestConversacion
 
 if __name__ == '__main__':
-	suite = unittest.TestLoader().loadTestsFromTestCase(TestRestApi)
+	suite = unittest.TestSuite()
+
+	tests = unittest.TestLoader().loadTestsFromTestCase(TestUsuario)
+	suite.addTests(tests)
+
+	tests = unittest.TestLoader().loadTestsFromTestCase(TestConversacion)
+	suite.addTests(tests)
+
 	unittest.TextTestRunner().run(suite)
+

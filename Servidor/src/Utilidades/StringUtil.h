@@ -21,8 +21,6 @@ using namespace std;
 class StringUtil {
 
 public:
-	StringUtil();
-	virtual ~StringUtil();
     static string toLower(string str);
     static string toUpper(string str);
     static int str2int (string string);

@@ -21,7 +21,7 @@ Loger::Loger(){
 void Loger::escribir(string texto){
 	this->archivo->write(texto.c_str(), strlen(texto.c_str()));
 	this->archivo->write("\n", strlen("\n"));
-
+	this->guardarEstado();
 }
 
 void Loger::guardarEstado(){
@@ -96,5 +96,10 @@ Loger* Loger::getLoger(){
 	if(logInstancia == NULL) logInstancia = new Loger();
 
 	return logInstancia;
+}
+
+void Loger::destruirLoger(){
+	delete logInstancia;
+	logInstancia = NULL;
 }
 

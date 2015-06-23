@@ -191,6 +191,12 @@ public class User implements Parcelable{
     public void setPassword(String password){this.password = password; }
 
     /**
+     * Setter
+     * @param tokenSesion
+     */
+    public void setTokenSesion(String tokenSesion){this.tokenSesion = tokenSesion; }
+
+    /**
      * Getter
      * @return status: verdadero si esta conectado, falso sino.
      */

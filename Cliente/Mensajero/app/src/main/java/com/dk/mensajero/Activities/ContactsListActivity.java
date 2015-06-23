@@ -12,15 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dk.mensajero.Adapters.ContactAdapter;
-import com.dk.mensajero.Conversations.ConversationDataProvider;
 import com.dk.mensajero.Entities.Message;
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.Interfaces.GetContactsCallback;
@@ -223,4 +220,6 @@ public class ContactsListActivity extends ActionBarActivity {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return df.format(c.getTime());
     }
+
+
 }

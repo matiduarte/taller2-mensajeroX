@@ -234,7 +234,7 @@ public class PhoneNumberRegisterActivity extends ActionBarActivity implements On
     private void hideAreaCode(){
         this.areaCode.setVisibility(INVISIBLE);
     }
-    
+
     private void showUserPhone(){
         this.showNumberConfirmationRL();
         this.userPhone = (TextView) findViewById(R.id.number);

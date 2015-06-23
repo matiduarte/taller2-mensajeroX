@@ -7,7 +7,7 @@
 
 #include "Servicio.h"
 
-int Servicio::tamanioBuffer = (1024*1024)*2;
+int Servicio::tamanioBuffer = (1024 * 1024) * 2;
 
 Servicio::Servicio(struct mg_connection *conn) {
 	this->connexion = conn;
@@ -17,11 +17,15 @@ Servicio::Servicio(struct mg_connection *conn) {
 Servicio::~Servicio() {
 }
 
-void Servicio::parsearParametros(){
+/**
+ * Parsea los parametros en una llamada a servicio
+ *
+ */
+void Servicio::parsearParametros() {
 	char buffer[tamanioBuffer];
 	//params es un JSON con toda la data
 	int result = mg_get_var(this->connexion, "params", buffer, tamanioBuffer);
-	if(result < 1){
+	if (result < 1) {
 		//TODO: loggear error
 		//-1 clave no encontrada
 	}
@@ -30,18 +34,25 @@ void Servicio::parsearParametros(){
 	Json::Reader reader;
 
 	bool parseoExitoso = reader.parse(buffer, valorParams);
-	if(parseoExitoso){
+	if (parseoExitoso) {
 		this->parametros = valorParams;
-	}else{
+	} else {
 		//TODO: loggear error
 	}
 }
 
-string Servicio::getParametro(string nombreParametro, string valorDefault){
+/**
+ * Devuelve un parametro cuando se realizar una llamada a servicio
+ * @param nombreParametro El nombre del parametro
+ * @param valorDefault Valor default que se devuelve si no se encuetra el parametro
+ *
+ */
+string Servicio::getParametro(string nombreParametro, string valorDefault) {
 	string metodo(this->connexion->request_method);
 	char buffer[tamanioBuffer];
-	int resultado = mg_get_var(this->connexion, nombreParametro.c_str(), buffer, tamanioBuffer);
-	if(resultado < 1){
+	int resultado = mg_get_var(this->connexion, nombreParametro.c_str(), buffer,
+			tamanioBuffer);
+	if (resultado < 1) {
 		return valorDefault;
 	}
 
@@ -49,8 +60,15 @@ string Servicio::getParametro(string nombreParametro, string valorDefault){
 	return parametro;
 }
 
-Json::Value Servicio::getParametroArray(string nombreParametro, string valorDefault){
-	string parametro =  this->getParametro(nombreParametro, valorDefault);
+/**
+ * Devuelve un parametro array cuando se realizar una llamada a servicio
+ * @param nombreParametro El nombre del parametro
+ * @param valorDefault Valor default que se devuelve si no se encuetra el parametro
+ *
+ */
+Json::Value Servicio::getParametroArray(string nombreParametro,
+		string valorDefault) {
+	string parametro = this->getParametro(nombreParametro, valorDefault);
 
 	Json::Value valorParams;
 	Json::Reader reader;
@@ -59,40 +77,57 @@ Json::Value Servicio::getParametroArray(string nombreParametro, string valorDefa
 	return valorParams;
 }
 
-string Servicio::getParametroIdMetodoGET(string urlBase){
+/**
+ * Devuelve el id del recurso al realizar una llamada por GET
+ * @param urlBase La url de la que se obtendra el id
+ *
+ */
+string Servicio::getParametroIdMetodoGET(string urlBase) {
 	string parametrosUri = urlBase + "%s";
 
 	char id[255];
-	if(1 == sscanf(this->connexion->uri, parametrosUri.c_str(), &id)){
+	if (1 == sscanf(this->connexion->uri, parametrosUri.c_str(), &id)) {
 		return id;
 	}
 
 	return "";
 }
 
-void Servicio::responder(string mensaje, bool success){
+/**
+ * Se utiliza para responder al cliente
+ * @param mensaje La respuesta al cliente
+ * @param success Si la consulta fue satisfactoria
+ *
+ */
+void Servicio::responder(string mensaje, bool success) {
 	Json::Value respuesta;
 	respuesta[keyPayload] = mensaje;
 	respuesta[keySuccess] = "true";
-	if(!success){
+	if (!success) {
 		respuesta[keySuccess] = "false";
 	}
 
 	mg_printf_data(this->connexion, respuesta.toStyledString().c_str());
 }
 
-void Servicio::prueba(){
+void Servicio::prueba() {
 	cout << "Esto es una prueba." << endl;
 }
 
-void Servicio::registrarUsuario(){
+/**
+ * Registra un usuario en el sistema
+ *
+ */
+void Servicio::registrarUsuario() {
 
 	Usuario* user = this->obtenerUsuario();
-	if(user->getId() != keyIdUsuarioNoEncontrado){
+	if (user->getId() != keyIdUsuarioNoEncontrado) {
 		//El usuario ya existe. Devuelvo error
-		Loger::getLoger()->warn("Se intento registrar un usuario ya existente. Id: " + user->getId());
+		Loger::getLoger()->warn(
+				"Se intento registrar un usuario ya existente. Id: "
+						+ user->getId());
 		this->responder("El usuario ya existe", false);
-	}else{
+	} else {
 		string nombre = this->getParametro(keyNombre, keyDefault);
 		string fotoPerfil = this->getParametro(keyFotoDePerfil, keyDefault);
 		string telefono = this->getParametro(keyTelefono, keyDefault);
@@ -102,12 +137,13 @@ void Servicio::registrarUsuario(){
 
 		user->persistir();
 		this->responder("Usuario registrado correctamente", true);
-		Loger::getLoger()->info("Se registro el usuario con Id: " + user->getId());
+		Loger::getLoger()->info(
+				"Se registro el usuario con Id: " + user->getId());
 		delete user;
 	}
 }
 
-Usuario* Servicio::obtenerUsuario(){
+Usuario* Servicio::obtenerUsuario() {
 
 	string telefono = this->getParametro(keyTelefono, keyDefault);
 	Usuario* user = Usuario::obtenerPorTelefono(telefono);
@@ -115,34 +151,54 @@ Usuario* Servicio::obtenerUsuario(){
 
 }
 
-void Servicio::administrarPerfil(){
+void Servicio::administrarPerfil() {
 
 	string nombreUsuario = this->getParametro(keyNombre, keyDefault);
-	string estadoDeConexion = this->getParametro(keyEstadoDeConexion, keyDefault);
+	string estadoDeConexion = this->getParametro(keyEstadoDeConexion,
+			keyDefault);
 	string fotoDePerfil = this->getParametro(keyFotoDePerfil, keyDefault);
 	bool estado = StringUtil::toBoolean(estadoDeConexion);
 	string localizacion = this->getParametro(keyLocalizacion, keyDefault);
 	string password = this->getParametro(keyPassword, keyDefault);
 	Usuario* user = this->obtenerUsuario();
+	string token = this->getParametro(keyTokenSesion, keyDefault);
 
-	if (user->getId() != keyIdUsuarioNoEncontrado){
-		user->setNombre(nombreUsuario);
-		user->setEstadoConexion(estado);
-		user->setFotoDePerfil(fotoDePerfil);
-		user->setLocalizacion(localizacion);
-		user->setPassword(password);
-		user->persistir();
-		Loger::getLoger()->info("Se modificaron los datos del usuario "+user->getNombre()+ " correctamente.");
-		this->responder("Se modificaron los datos del usuario "+user->getNombre()+ " correctamente. Token:" + user->getToken(), true);
+	if (user->getId() != keyIdUsuarioNoEncontrado) {
+		if (user->getToken() == token) {
+			user->setNombre(nombreUsuario);
+			user->setEstadoConexion(estado);
+			user->setFotoDePerfil(fotoDePerfil);
+			user->setLocalizacion(localizacion);
+			user->setPassword(password);
+			user->persistir();
+			Loger::getLoger()->info(
+					"Se modificaron los datos del usuario " + user->getNombre()
+							+ " correctamente.");
+			this->responder(
+					"Se modificaron los datos del usuario " + user->getNombre()
+							+ " correctamente. Token:" + user->getToken(),
+					true);
+		} else {
+			Loger::getLoger()->warn(
+					"El usuario " + user->getNombre()
+							+ " no posee un token de session correcto");
+			this->responder(
+					"El usuario " + user->getNombre()
+							+ " no posee un token de session correcto", false);
+		}
+
 	} else {
-		Loger::getLoger()->warn("El usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
-		this->responder("El usuario "+user->getNombre()+ " no se encuentra registrado en el sistema", false);
+		Loger::getLoger()->warn(
+				"El usuario " + user->getNombre()
+						+ " no se encuentra registrado en el sistema");
+		this->responder(
+				"El usuario " + user->getNombre()
+						+ " no se encuentra registrado en el sistema", false);
 	}
 	Loger::getLoger()->guardarEstado();
 	delete user;
 
 }
-
 
 void Servicio::consultarUsuarioOnline() {
 	string telefono = this->getParametroIdMetodoGET(urlBaseUsuario);
@@ -152,32 +208,36 @@ void Servicio::consultarUsuarioOnline() {
 		user->registrarUltimaConexion();
 
 		Json::Value respuesta;
-		respuesta[keyNombre] 			= user->getNombre();
-		respuesta[keyPassword] 			= user->getPassword();
-		respuesta[keyTokenSesion] 		= user->calcularTokenDeSesion();
-		respuesta[keyEstadoDeConexion] 	= StringUtil::toString(user->getEstadoConexion());
-		respuesta[keyFotoDePerfil]		= user->getFotoDePerfil();
-		respuesta["idUsuario"]			= user->getId();
-		respuesta[keyLocalizacion]		= user->getLocalizacion();
+		respuesta[keyNombre] = user->getNombre();
+		respuesta[keyPassword] = user->getPassword();
+		respuesta[keyTokenSesion] = user->calcularTokenDeSesion();
+		respuesta[keyEstadoDeConexion] = StringUtil::toString(
+				user->getEstadoConexion());
+		respuesta[keyFotoDePerfil] = user->getFotoDePerfil();
+		respuesta["idUsuario"] = user->getId();
+		respuesta[keyLocalizacion] = user->getLocalizacion();
+		user->persistir();
 
 		this->responder(respuesta.toStyledString(), true);
-		Loger::getLoger()->info("Consulta del usuario "+user->getNombre()+ " exitosa.");
+		Loger::getLoger()->info(
+				"Consulta del usuario " + user->getNombre() + " exitosa.");
 
 	} else {
 		Loger::getLoger()->warn(
-								"No se pudo obtener el estado del usuario con numero: "
-								+ this->getParametro(keyTelefono, keyDefault)
-								+ " ya que no se encuentra registrado en el sistema.");
-		this->responder("No se pudo obtener el estado del usuario con numero: "
-				+ this->getParametro(keyTelefono, keyDefault)
-				+ " ya que no se encuentra registrado en el sistema.", false);
+				"No se pudo obtener el estado del usuario con numero: "
+						+ this->getParametro(keyTelefono, keyDefault)
+						+ " ya que no se encuentra registrado en el sistema.");
+		this->responder(
+				"No se pudo obtener el estado del usuario con numero: "
+						+ this->getParametro(keyTelefono, keyDefault)
+						+ " ya que no se encuentra registrado en el sistema.",
+				false);
 	}
 
 	Loger::getLoger()->guardarEstado();
 	delete user;
 
 }
-
 
 /*
  * Agrega el mensaje que envió el cliente a la conversacion correspondiente y luego la almacena en
@@ -186,211 +246,278 @@ void Servicio::consultarUsuarioOnline() {
  */
 void Servicio::almacenarConversacion() {
 
-	string idEmisor   = this->getParametro(keyIdUsuarioEmisor,keyDefault);
-	string idReceptor = this->getParametro(keyIdUsuarioReceptor,keyDefault);
+	string idEmisor = this->getParametro(keyIdUsuarioEmisor, keyDefault);
+	string idReceptor = this->getParametro(keyIdUsuarioReceptor, keyDefault);
 
 	//chequeo que los usuarios existan:
-	Usuario *emisor   =  Usuario::obtenerPorTelefono(idEmisor);
-	Usuario *receptor =  Usuario::obtenerPorTelefono(idReceptor);
+	Usuario *emisor = Usuario::obtenerPorTelefono(idEmisor);
+	Usuario *receptor = Usuario::obtenerPorTelefono(idReceptor);
 
-	if (	emisor	->getId() 	== keyIdUsuarioNoEncontrado ||
-			receptor->getId() 	== keyIdUsuarioNoEncontrado		)
-	{
+	string token = this->getParametro(keyTokenSesion, keyDefault);
+
+	if (emisor->getId() == keyIdUsuarioNoEncontrado
+			|| receptor->getId() == keyIdUsuarioNoEncontrado) {
 		string msj_warning = "No se pudo almacenar la conversacion porque: ";
-		if(emisor->getId()	 == keyIdUsuarioNoEncontrado) msj_warning.append("el emisor no existe.");
-		if(receptor->getId() == keyIdUsuarioNoEncontrado) msj_warning.append(" el receptor no existe.");
+		if (emisor->getId() == keyIdUsuarioNoEncontrado)
+			msj_warning.append("el emisor no existe.");
+		if (receptor->getId() == keyIdUsuarioNoEncontrado)
+			msj_warning.append(" el receptor no existe.");
 		this->responder(msj_warning, false);
 		Loger::getLoger()->warn(msj_warning);
 		Loger::getLoger()->guardarEstado();
-	}
-	else{
-		//Obtengo el mensaje:
-		string 		cuerpo 	= this->getParametro(keyCuerpo,keyDefault);
-		string 		fecha 	= this->getParametro(keyFecha,keyDefault);
-		Mensaje*	mensaje	= new Mensaje(cuerpo,emisor->getId(),fecha);
 
-		//almaceno la conversacion (si no existe la creo):
-		Conversacion *conversacion = Conversacion::obtener(emisor->getId()+"-"+receptor->getId());
-		if (conversacion->getId() != keyIdConversacionNoEncontrada) {
-			conversacion->agregarMensaje(mensaje);
-			conversacion->persistir();
-			delete conversacion;
-		}
-		else{
-			Conversacion *conversacion = Conversacion::obtener(receptor->getId()+"-"+emisor->getId());
+	} else {
+		if (emisor->getToken() == token) {
+			//Obtengo el mensaje:
+			string cuerpo = this->getParametro(keyCuerpo, keyDefault);
+			string fecha = this->getParametro(keyFecha, keyDefault);
+			Mensaje* mensaje = new Mensaje(cuerpo, emisor->getId(), fecha);
+
+			//almaceno la conversacion (si no existe la creo):
+			Conversacion *conversacion = Conversacion::obtener(
+					emisor->getId() + "-" + receptor->getId());
 			if (conversacion->getId() != keyIdConversacionNoEncontrada) {
 				conversacion->agregarMensaje(mensaje);
 				conversacion->persistir();
 				delete conversacion;
-			}else{
-				vector<Usuario*> usuarios;
-				usuarios.push_back(emisor);
-				usuarios.push_back(receptor);
-				vector<Mensaje*> mensajes;
-				mensajes.push_back(mensaje);
-				Conversacion *nuevaConversacion = new Conversacion(usuarios,mensajes);
-				nuevaConversacion->persistir();
-				delete nuevaConversacion;
+			} else {
+				Conversacion *conversacion = Conversacion::obtener(
+						receptor->getId() + "-" + emisor->getId());
+				if (conversacion->getId() != keyIdConversacionNoEncontrada) {
+					conversacion->agregarMensaje(mensaje);
+					conversacion->persistir();
+					delete conversacion;
+				} else {
+					vector<Usuario*> usuarios;
+					usuarios.push_back(emisor);
+					usuarios.push_back(receptor);
+					vector<Mensaje*> mensajes;
+					mensajes.push_back(mensaje);
+					Conversacion *nuevaConversacion = new Conversacion(usuarios,
+							mensajes);
+					nuevaConversacion->persistir();
+					delete nuevaConversacion;
+				}
 			}
-		}
 
-		this->responder(mensaje->getId(), true);
-		delete mensaje;
+			this->responder(mensaje->getId(), true);
+			delete mensaje;
+		} else {
+			Loger::getLoger()->warn(
+					"El usuario " + emisor->getNombre()
+							+ " no posee un token de session correcto");
+			this->responder(
+					"El usuario " + emisor->getNombre()
+							+ " no posee un token de session correcto", false);
+		}
 	}
+
 }
 
-void Servicio::obtenerIdConversacion(){
-	string telefonoUsuarioEmisor = this->getParametro(keyTelefonoEmisor,keyDefault);;
-	string telefonoUsuarioRecceptor = this->getParametro(keyTelefonoReceptor,keyDefault);
+/**
+ * Devuelve el id de una conversacion a partir de dos telefonos
+ *
+ */
+void Servicio::obtenerIdConversacion() {
+	string telefonoUsuarioEmisor = this->getParametro(keyTelefonoEmisor,
+			keyDefault);
+	;
+	string telefonoUsuarioRecceptor = this->getParametro(keyTelefonoReceptor,
+			keyDefault);
 
 	Usuario* usuarioEmisor = Usuario::obtenerPorTelefono(telefonoUsuarioEmisor);
-	Usuario* usuarioReceptor = Usuario::obtenerPorTelefono(telefonoUsuarioRecceptor);
+	Usuario* usuarioReceptor = Usuario::obtenerPorTelefono(
+			telefonoUsuarioRecceptor);
 
-	if (usuarioEmisor->getId() != keyIdUsuarioNoEncontrado && usuarioReceptor->getId() != keyIdUsuarioNoEncontrado){
+	if (usuarioEmisor->getId() != keyIdUsuarioNoEncontrado
+			&& usuarioReceptor->getId() != keyIdUsuarioNoEncontrado) {
 		vector<Mensaje*> mensajes;
 		vector<Usuario*> usuarios;
 		usuarios.push_back(usuarioEmisor);
 		usuarios.push_back(usuarioReceptor);
-		Conversacion *conversacion = Conversacion::obtener(usuarioEmisor->getId()+"-"+usuarioReceptor->getId());
+		Conversacion *conversacion = Conversacion::obtener(
+				usuarioEmisor->getId() + "-" + usuarioReceptor->getId());
 		if (conversacion->getId() == keyIdConversacionNoEncontrada) {
-			conversacion = Conversacion::obtener(usuarioReceptor->getId()+"-"+usuarioEmisor->getId());
+			conversacion = Conversacion::obtener(
+					usuarioReceptor->getId() + "-" + usuarioEmisor->getId());
 		}
 		string idConversacion = conversacion->getId();
-		if(idConversacion != keyIdUsuarioNoEncontrado){
+		if (idConversacion != keyIdUsuarioNoEncontrado) {
 			this->responder(idConversacion, true);
-		}else{
+		} else {
 			//Si la conversacion no existe devuelvo como id uno default para estos dos usuarios
 			Conversacion* conversacion = new Conversacion(usuarios, mensajes);
 			string idConversacion = conversacion->getId();
 
 			this->responder(idConversacion, false);
 		}
-	}else{
+	} else {
 		Usuario* user;
-		if(usuarioEmisor->getId() == keyIdUsuarioNoEncontrado){
+		if (usuarioEmisor->getId() == keyIdUsuarioNoEncontrado) {
 			user = usuarioEmisor;
-		}else{
+		} else {
 			user = usuarioReceptor;
 		}
-		Loger::getLoger()->warn("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema");
-		this->responder("Usuario "+user->getNombre()+ " no se encuentra registrado en el sistema", false);
+		Loger::getLoger()->warn(
+				"Usuario " + user->getNombre()
+						+ " no se encuentra registrado en el sistema");
+		this->responder(
+				"Usuario " + user->getNombre()
+						+ " no se encuentra registrado en el sistema", false);
 	}
 
 	delete usuarioEmisor;
 	delete usuarioReceptor;
 }
 
-void Servicio::obtenerConversacion(){
+/**
+ * Devuelve una conversacion a partir de dos telefonos
+ *
+ */
+void Servicio::obtenerConversacion() {
 	string idConversacion = this->getParametroIdMetodoGET(urlBaseConversacion);
-	string idUltimoMensaje = this->getParametro(keyIdUltimoMensaje,keyDefault);
+	string idUltimoMensaje = this->getParametro(keyIdUltimoMensaje, keyDefault);
 
-	//Puede darse el caso de que la conversacion no exista si este servicio se llamo primero que agregarMensaje
-	//No deberia pasar ya que agregarMensaje se llama primero, pero por latencia de red podria llamarse a este servicio primero
+//Puede darse el caso de que la conversacion no exista si este servicio se llamo primero que agregarMensaje
+//No deberia pasar ya que agregarMensaje se llama primero, pero por latencia de red podria llamarse a este servicio primero
 	Conversacion* conversacion = Conversacion::obtener(idConversacion);
-	if(conversacion->getId() != keyIdConversacionNoEncontrada){
+	if (conversacion->getId() != keyIdConversacionNoEncontrada) {
 		vector<Mensaje*> mensajes = conversacion->getMensajes();
 		vector<Mensaje*> mensajesRespuesta;
 
-		if(idUltimoMensaje != ""){
+		if (idUltimoMensaje != "") {
 			bool encontrado = false;
-			for(unsigned i=0; i<mensajes.size(); i++){
-				if(encontrado){
+			for (unsigned i = 0; i < mensajes.size(); i++) {
+				if (encontrado) {
 					mensajesRespuesta.push_back(mensajes[i]);
 				}
 
-				if(!encontrado && mensajes[i]->getId() == idUltimoMensaje){
+				if (!encontrado && mensajes[i]->getId() == idUltimoMensaje) {
 					//A partir del proximo mensaje tengo que enviar todos
 					encontrado = true;
 				}
 			}
-		}else{
+		} else {
 			//El cliente no tiene mensajes en su aplicacion. Tengo que enviar la conversacion entera
 			mensajesRespuesta = mensajes;
 		}
 
 		Json::Value respuesta;
-		for(unsigned i=0; i<mensajesRespuesta.size(); i++){
+		for (unsigned i = 0; i < mensajesRespuesta.size(); i++) {
 			respuesta["mensajes"][i] = mensajesRespuesta[i]->serializar();
 		}
 		this->responder(respuesta.toStyledString(), true);
 
-	}else{
-		Loger::getLoger()->warn("La conversacion "+ idConversacion + " no se encuentra en el sistema");
-		this->responder("La conversacion "+ idConversacion + " no se encuentra en el sistema", false);
+	} else {
+		Loger::getLoger()->warn(
+				"La conversacion " + idConversacion
+						+ " no se encuentra en el sistema");
+		this->responder(
+				"La conversacion " + idConversacion
+						+ " no se encuentra en el sistema", false);
 	}
 }
 
-void Servicio::obtenerConversaciones(){
-	Json::Value idsConversacionesValue = this->getParametroArray(keyIdConversaciones, keyDefault);
-	vector<string> idsConversaciones = StringUtil::jsonValueToVector(idsConversacionesValue);
+/**
+ * Devuelve las conversciones a partir de un usuario. Recibe un arreglo de de ids de conversaciones,
+ * y devuelve las que no estan en ese arreglo
+ *
+ */
 
-	string idUsuario = this->getParametroIdMetodoGET(urlBaseUsuarioConversaciones);
+void Servicio::obtenerConversaciones() {
+	Json::Value idsConversacionesValue = this->getParametroArray(
+	keyIdConversaciones, keyDefault);
+	vector<string> idsConversaciones = StringUtil::jsonValueToVector(
+			idsConversacionesValue);
+
+	string idUsuario = this->getParametroIdMetodoGET(
+			urlBaseUsuarioConversaciones);
 
 	Usuario* usuario = Usuario::obtenerPorTelefono(idUsuario);
-	if(usuario->getId() != keyIdUsuarioNoEncontrado){
-		vector<string> idsConversacionesActuales = usuario->obtnerIdsConversaciones();
+	if (usuario->getId() != keyIdUsuarioNoEncontrado) {
+		vector<string> idsConversacionesActuales =
+				usuario->obtnerIdsConversaciones();
 		vector<Conversacion*> nuevasConversaciones;
 
-		for(unsigned i=0; i<idsConversacionesActuales.size();i++){
+		for (unsigned i = 0; i < idsConversacionesActuales.size(); i++) {
 			string idActual = idsConversacionesActuales[i];
 
 			//Si no esta en las conversaciones que me llegan, quiere decir que es una nueva conversacion.
 			//Tengo que enviarla al cliente
-			if(!StringUtil::vectorContiene(idsConversaciones, idActual)){
-				Conversacion* nuevaConversacion = Conversacion::obtener(idActual);
-				if(nuevaConversacion->getId() != keyIdConversacionNoEncontrada){
+			if (!StringUtil::vectorContiene(idsConversaciones, idActual)) {
+				Conversacion* nuevaConversacion = Conversacion::obtener(
+						idActual);
+				if (nuevaConversacion->getId()
+						!= keyIdConversacionNoEncontrada) {
 					nuevasConversaciones.push_back(nuevaConversacion);
-				}else{
-					Loger::getLoger()->warn("La conversacion "+ idActual + " no se encuentra en el sistema");
+				} else {
+					Loger::getLoger()->warn(
+							"La conversacion " + idActual
+									+ " no se encuentra en el sistema");
 				}
 			}
 		}
 
 		Json::Value respuesta;
 
-		for(unsigned i=0; i<nuevasConversaciones.size();i++){
+		for (unsigned i = 0; i < nuevasConversaciones.size(); i++) {
 			Conversacion* conv = nuevasConversaciones[i];
 
 			vector<Mensaje*> mens = conv->getMensajes();
 			Mensaje* ultimoMensj = mens[mens.size() - 1];
 
 			Usuario* usuarioContacto = conv->getUsuarios().at(0);
-			if(usuarioContacto->getId() == usuario->getId()){
+			if (usuarioContacto->getId() == usuario->getId()) {
 				usuarioContacto = conv->getUsuarios().at(1);
 			}
 
 			respuesta["conversaciones"][i]["id"] = conv->getId();
-			respuesta["conversaciones"][i]["ultimoMensaje"] = ultimoMensj->getCuerpo();
-			respuesta["conversaciones"][i]["usuarioNombre"] = usuarioContacto->getNombre();
-			respuesta["conversaciones"][i]["usuarioTelefono"] = usuarioContacto->getTelefono();
-			respuesta["conversaciones"][i]["usuarioFotoDePerfil"] = usuarioContacto->getFotoDePerfil();
+			respuesta["conversaciones"][i]["ultimoMensaje"] =
+					ultimoMensj->getCuerpo();
+			respuesta["conversaciones"][i]["usuarioNombre"] =
+					usuarioContacto->getNombre();
+			respuesta["conversaciones"][i]["usuarioTelefono"] =
+					usuarioContacto->getTelefono();
+			respuesta["conversaciones"][i]["usuarioFotoDePerfil"] =
+					usuarioContacto->getFotoDePerfil();
 
 		}
 
 		this->responder(respuesta.toStyledString(), true);
 
-	}else{
-		Loger::getLoger()->warn("El usuario "+ idUsuario  + " no se encuentra en el sistema");
+	} else {
+		Loger::getLoger()->warn(
+				"El usuario " + idUsuario + " no se encuentra en el sistema");
 	}
 
 }
 
-void Servicio::obtenerContactos(){
-	Json::Value contactosTelefonoValue = this->getParametroArray(keyContantosTelefono, keyDefault);
-	vector<string> contactosTelefono = StringUtil::jsonValueToVector(contactosTelefonoValue);
+/**
+ * Obtiene los contactos que se encuentran registrados en el sistemas y estan conectados,
+ * a partir de numeros de telefono que recibe
+ *
+ */
+void Servicio::obtenerContactos() {
+	Json::Value contactosTelefonoValue = this->getParametroArray(
+	keyContantosTelefono, keyDefault);
+	vector<string> contactosTelefono = StringUtil::jsonValueToVector(
+			contactosTelefonoValue);
 
 	Json::Value respuesta;
 	int counter = 0;
-	for(unsigned i=0; i<contactosTelefono.size();i++){
+	for (unsigned i = 0; i < contactosTelefono.size(); i++) {
 		string telefonoActual = contactosTelefono[i];
 		Usuario* usuario = Usuario::obtenerPorTelefono(telefonoActual);
 
 		//Agrego los usuarios que estan registrados y que se encuentran conectados
 
-		if(usuario->getId() != keyIdUsuarioNoEncontrado && usuario->getEstadoConexion()){
+		if (usuario->getId() != keyIdUsuarioNoEncontrado
+				&& usuario->getEstadoConexion()) {
 			respuesta["contactos"][counter][keyNombre] = usuario->getNombre();
-			respuesta["contactos"][counter][keyTelefono] = usuario->getTelefono();
-			respuesta["contactos"][counter][keyFotoDePerfil] = usuario->getFotoDePerfil();
+			respuesta["contactos"][counter][keyTelefono] =
+					usuario->getTelefono();
+			respuesta["contactos"][counter][keyFotoDePerfil] =
+					usuario->getFotoDePerfil();
 			counter++;
 		}
 	}
@@ -404,53 +531,67 @@ void Servicio::obtenerContactos(){
  *
  */
 void Servicio::almacenarListaDifusion() {
-	string idEmisor   = this->getParametro(keyIdUsuarioEmisor,keyDefault);
+	string idEmisor = this->getParametro(keyIdUsuarioEmisor, keyDefault);
+	string token = this->getParametro(keyTokenSesion, keyDefault);
 
-	Json::Value contactosTelefonoValue = this->getParametroArray(keyContantosTelefono, keyDefault);
-	vector<string> contactosTelefono = StringUtil::jsonValueToVector(contactosTelefonoValue);
+	Json::Value contactosTelefonoValue = this->getParametroArray(
+	keyContantosTelefono, keyDefault);
+	vector<string> contactosTelefono = StringUtil::jsonValueToVector(
+			contactosTelefonoValue);
 
-	//chequeo que los usuarios existan:
-	Usuario *emisor   =  Usuario::obtenerPorTelefono(idEmisor);
+//chequeo que los usuarios existan:
+	Usuario *emisor = Usuario::obtenerPorTelefono(idEmisor);
 
-	if (emisor->getId() == keyIdUsuarioNoEncontrado){
-		string msj_warning = "No se pudo almacenar la lista de difusion porque el emisor no existe";
+	if (emisor->getId() == keyIdUsuarioNoEncontrado) {
+		string msj_warning =
+				"No se pudo almacenar la lista de difusion porque el emisor no existe";
 		this->responder(msj_warning, false);
 		Loger::getLoger()->warn(msj_warning);
 		Loger::getLoger()->guardarEstado();
-	}
-	else{
+	} else if (emisor->getToken() != token) {
+		Loger::getLoger()->warn(
+				"El usuario " + emisor->getNombre()
+						+ " no posee un token de session correcto");
+		this->responder(
+				"El usuario " + emisor->getNombre()
+						+ " no posee un token de session correcto", false);
+	} else {
 		//Obtengo el mensaje:
-		string 		cuerpo 	= this->getParametro(keyCuerpo,keyDefault);
-		string 		fecha 	= this->getParametro(keyFecha,keyDefault);
-		Mensaje*	mensaje	= new Mensaje(cuerpo,emisor->getId(),fecha);
+		string cuerpo = this->getParametro(keyCuerpo, keyDefault);
+		string fecha = this->getParametro(keyFecha, keyDefault);
+		Mensaje* mensaje = new Mensaje(cuerpo, emisor->getId(), fecha);
 
 		//Recorro los contactos del telefono para verificar cuales estan registrados y conectados
-		for(unsigned i=0; i<contactosTelefono.size();i++){
+		for (unsigned i = 0; i < contactosTelefono.size(); i++) {
 			string telefonoActual = contactosTelefono[i];
 			Usuario* usuario = Usuario::obtenerPorTelefono(telefonoActual);
 
 			//Envío mensaje a los usuarios que estan registrados y que se encuentran conectados
-			if(usuario->getId() != keyIdUsuarioNoEncontrado && usuario->getEstadoConexion()){
+			if (usuario->getId() != keyIdUsuarioNoEncontrado
+					&& usuario->getEstadoConexion()) {
 				//almaceno la conversacion (si no existe la creo):
-				Conversacion *conversacion = Conversacion::obtener(emisor->getId()+"-"+usuario->getId());
+				Conversacion *conversacion = Conversacion::obtener(
+						emisor->getId() + "-" + usuario->getId());
 				if (conversacion->getId() != keyIdConversacionNoEncontrada) {
 					conversacion->agregarMensaje(mensaje);
 					conversacion->persistir();
 					delete conversacion;
-				}
-				else{
-					Conversacion *conversacion = Conversacion::obtener(usuario->getId()+"-"+emisor->getId());
-					if (conversacion->getId() != keyIdConversacionNoEncontrada) {
+				} else {
+					Conversacion *conversacion = Conversacion::obtener(
+							usuario->getId() + "-" + emisor->getId());
+					if (conversacion->getId()
+							!= keyIdConversacionNoEncontrada) {
 						conversacion->agregarMensaje(mensaje);
 						conversacion->persistir();
 						delete conversacion;
-					}else{
+					} else {
 						vector<Usuario*> usuarios;
 						usuarios.push_back(emisor);
 						usuarios.push_back(usuario);
 						vector<Mensaje*> mensajes;
 						mensajes.push_back(mensaje);
-						Conversacion *nuevaConversacion = new Conversacion(usuarios,mensajes);
+						Conversacion *nuevaConversacion = new Conversacion(
+								usuarios, mensajes);
 						nuevaConversacion->persistir();
 						delete nuevaConversacion;
 					}
@@ -470,21 +611,17 @@ void Servicio::almacenarListaDifusion() {
  */
 void Servicio::checkIn() {
 	Json::Value coordenadas;
-	string latitud  = this->getParametro(keyLatitud, keyDefault);
+	string latitud = this->getParametro(keyLatitud, keyDefault);
 	string longitud = this->getParametro(keyLongitud, keyDefault);
 	coordenadas["latitud"] = atof(latitud.c_str());
 	coordenadas["longitud"] = atof(longitud.c_str());
 
 	Usuario* usuario = this->obtenerUsuario();
-	if(usuario->getId() != keyIdUsuarioNoEncontrado){
+	if (usuario->getId() != keyIdUsuarioNoEncontrado) {
 		usuario->setLocalizacion(Localizacion::calcularUbicacion(coordenadas));
 		this->responder(usuario->getLocalizacion(), true);
-	}else
-	{
-		this->responder("el usuario no existe.",false);
+	} else {
+		this->responder("el usuario no existe.", false);
 	}
 }
-
-
-
 

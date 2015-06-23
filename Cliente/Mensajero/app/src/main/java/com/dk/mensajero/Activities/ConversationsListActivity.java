@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.dk.mensajero.Adapters.ConversationAdapter;
@@ -16,6 +17,7 @@ import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.Interfaces.GetConversationsCallback;
 import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -29,6 +31,7 @@ public class ConversationsListActivity extends ActionBarActivity {
         android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
         mActionBar.hide();
         initView();
+        settingsFloatingButton();
     }
 
     @Override
@@ -60,9 +63,9 @@ public class ConversationsListActivity extends ActionBarActivity {
         handler.postDelayed(new Runnable() {
             public void run() {
                 getConversationsFromService();
-                handler.postDelayed(this, 1000 * 2); //cada dos segundos
+                handler.postDelayed(this, 1000 * 3); //cada dos segundos
             }
-        }, 1000 * 2);
+        }, 1000 * 3);
     }
 
     public void getConversations() {
@@ -136,5 +139,22 @@ public class ConversationsListActivity extends ActionBarActivity {
         Service service = new Service(this);
         service.cancelCurrentServices();
         super.onStop();
+    }
+
+    public void settingsFloatingButton(){
+        ImageView icon = new ImageView(this);
+        icon.setImageResource(R.drawable.icon_settings_fb);
+
+        FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
+                .setContentView(icon)
+                .build();
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ConversationsListActivity.this, SettingsActivity.class));
+            }
+        });
+
+
     }
 }

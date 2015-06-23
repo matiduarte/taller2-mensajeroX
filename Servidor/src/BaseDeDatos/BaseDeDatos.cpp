@@ -66,7 +66,10 @@ void BaseDeDatos::setDato(string clave, string valor) {
 	}
 }
 
-
+/**
+ * Obtiene un dato en la base de datos.
+ * @param clave es la clave del dato a obtener.
+ */
 string BaseDeDatos::getDato(string clave) {
 	string valor;
 	estado = db->Get(ReadOptions(), clave, &valor);
@@ -119,6 +122,10 @@ void BaseDeDatos::setConversacion(Conversacion* conversacion) {
 
 }
 
+/**
+ * Devuelve los ids de conversaciones asociadas a un usuario
+ * @param claveUsuario Clave identificadora del usuario
+ */
 vector<string> BaseDeDatos::getIdsConversacionPorIdUsuario(string claveUsuario) {
 	string valor = getDato(claveBaseConversacionesPorUsuario + claveUsuario);
 	return StringUtil::split(valor, SeparadorListaBD);
@@ -144,7 +151,9 @@ Conversacion* BaseDeDatos::getConversacion(string clave) {
 
 }
 
-
+/**
+ * Eliminia un dato de la base de datos
+ */
 void BaseDeDatos::eliminar(string clave) {
 	estado = db->Delete(rocksdb::WriteOptions(), clave);
 	if (!estado.ok()){

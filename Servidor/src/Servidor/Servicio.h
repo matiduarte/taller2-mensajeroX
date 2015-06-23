@@ -15,6 +15,11 @@
 #include "../Log/Loger.h"
 #include "../Utilidades/Localizacion.h"
 
+/**
+ * Clase encargada de proporcionar los servicios
+ *
+ *
+ */
 class Servicio {
 public:
 	Servicio(struct mg_connection *conn);

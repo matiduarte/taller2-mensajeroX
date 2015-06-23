@@ -18,6 +18,9 @@
 
 using namespace std;
 
+/**
+ * Clase que modela un mensaje dentro de una conversacion
+ */
 class Mensaje : public Persistible{
 private:
 	string cuerpo;

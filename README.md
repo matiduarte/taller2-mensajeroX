@@ -50,11 +50,24 @@ Para ver el resultado de las pruebas en detalle
 ```
 $ ctest -V
 ```
+### Pruebas REST API
+
+Se incluye un script en python para realizar las pruebas sobre la REST API. 
+Dicho script se encuentra en Servidor/TestRestApi/restTester.py
+
+Dentro de la carpeta TestRestApi/ se encuentra un archivo de configuración de ejemplo: restTest.cfg.sample. Para la ejecución de pruebas se debe crear un archivo restTest.cfg, identico al sample.
+
+Finalmente para correr las pruebas (el servidor debe estar corriendo):
+```
+$ python restTester.py
+```
+
+
 ### Cobertura  
 
 Desde la consola ingresar:  
 ```
-sudo apt-get install lcov
+$ sudo apt-get install lcov
 ```
 
 Se agrega un script que recoge la información de cobertura a través de las pruebas y la muestra en un explorador web. Para correr este script, dirigirse desde la consola a la carpeta del Servidor e ingresar:
@@ -63,7 +76,20 @@ Se agrega un script que recoge la información de cobertura a través de las pru
 $ sh cobertura.sh
 ```
 
+### Documentacion del codigo  
 
+Para genera la documentación del código es necesario tener instalado Doxygen
+
+```
+$ sudo apt-get install doxygen
+```
+
+Se incluye un script que genera la documentación del código, tanto del Servidor como del Cliente, en formato html y latex.
+Para correr este script, en la carpeta Informe (se abrirá por defecto al versión html de la documentación en un explorador web):
+
+```
+$ sh documentacionCodigo.sh
+```
 
 ##API REST
 -----------

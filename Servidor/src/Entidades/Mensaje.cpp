@@ -17,6 +17,10 @@ Mensaje::Mensaje(string aDeserealizar){
 Mensaje::~Mensaje(){
 }
 
+/**
+ * Serializa un mensaje a formato JSON
+ *
+ */
 string Mensaje::serializar(){
 	Json::Value mensaje;
 
@@ -30,6 +34,9 @@ string Mensaje::serializar(){
 	return str_mensaje;
 }
 
+/**
+ * Obtiene un mensaje a partir de un JSON
+ */
 int Mensaje::deserealizar(string aDeserealizar){
 	Json::Value mensaje;
 	Json::Reader reader;

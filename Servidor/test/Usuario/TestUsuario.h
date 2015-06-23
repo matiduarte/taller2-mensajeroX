@@ -18,12 +18,14 @@ class TestUsuario: public TestFixture {
 	CPPUNIT_TEST_SUITE(TestUsuario);
 	CPPUNIT_TEST(testSerializacionDeDatosDeUnUsuario);
 	CPPUNIT_TEST(testModificacionDeDatosDelUsuario);
+	CPPUNIT_TEST(testEliminarUsuario);
 	CPPUNIT_TEST_SUITE_END();
 public:
 	TestUsuario();
 	virtual ~TestUsuario();
     void testSerializacionDeDatosDeUnUsuario();
     void testModificacionDeDatosDelUsuario();
+    void testEliminarUsuario();
 
 };
 
