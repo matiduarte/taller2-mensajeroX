@@ -42,6 +42,7 @@ public class Service {
     private String CONTACTS_URL = "contactos/";
     private String ID_URL = "id/";
     private String BROADCAST_URL = "difusion/";
+    private String CHECKIN_URL = "checkIn";
 
     ProgressDialog progressDialog;
     private Context context;
@@ -121,8 +122,7 @@ public class Service {
             client.addParam(KEY_USER_PHONE, user.getPhone());
             client.addParam(KEY_USER_PICTURE, user.getProfilePicture());
             client.addParam(KEY_USER_STATE, String.valueOf(user.isConnected()) );
-            //TODO: Agregar Localizacion.
-            client.addParam(KEY_USER_LOCATION, "nada");
+            client.addParam(KEY_USER_LOCATION, user.getLocation());
             client.addParam(KEY_USER_PASSWORD, user.getPassword());
 
             try {
