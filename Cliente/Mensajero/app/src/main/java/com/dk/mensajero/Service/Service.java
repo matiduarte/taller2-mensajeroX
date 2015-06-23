@@ -191,7 +191,7 @@ public class Service {
 
             client.addParam(KEY_USER_PHONE, user.getPhone());
             client.addParam(KEY_USER_LATITUDE,String.valueOf(gps.getLatitude()));
-            client.addParam(KEY_USER_LONGITUDE,String.valueOf(gps.getLatitude()));
+            client.addParam(KEY_USER_LONGITUDE,String.valueOf(gps.getLongitude()));
             client.addParam(KEY_TOKEN_SESION, user.getTokenSesion());
 
             try {
