@@ -244,6 +244,7 @@ public class Service {
             String response = client.getResponse();
             Message returnedMsg = null;
             if (response != null) {
+                System.out.println("ENTRE SendNewMessageAsyncTask");
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {
@@ -302,6 +303,7 @@ public class Service {
             String response = client.getResponse();
             String conversationId = null;
             if (response != null) {
+                System.out.println("ENTRE FetchNewConversationIdAsyncTask");
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {
@@ -354,6 +356,7 @@ public class Service {
             String response = client.getResponse();
             ArrayList<Message> messageList = null;
             if (response != null) {
+                System.out.println("ENTRE FetchNewMessageAsyncTask");
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {
@@ -431,6 +434,7 @@ public class Service {
             String response = client.getResponse();
             JSONObject jObject = null;
             if (response != null){
+                System.out.println("ENTRE StoreNewUserAsyncTask");
                 try {
                     jObject = new JSONObject(response);
                 } catch (JSONException e) {
@@ -485,6 +489,7 @@ public class Service {
             String response = client.getResponse();
             User returnedUser = null;
             if (response != null) {
+                System.out.println("ENTRE fetchUserDataAsyncTask");
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {
@@ -563,6 +568,7 @@ public class Service {
             String response = client.getResponse();
             ArrayList<Conversation> conversations = new ArrayList<>();
             if (response != null) {
+                System.out.println("ENTRE fetchConversationsDataAsyncTask");
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {
@@ -642,6 +648,7 @@ public class Service {
             String response = client.getResponse();
             ArrayList<User> users = new ArrayList<>();
             if (response != null) {
+                System.out.println("ENTRE fetchContactsDataAsyncTask");
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {
@@ -728,6 +735,7 @@ public class Service {
             String response = client.getResponse();
             Message returnedMsg = null;
             if (response != null) {
+                System.out.println("ENTRE SendBroadcastMessageAsyncTask");
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {

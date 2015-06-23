@@ -129,15 +129,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activities.LocationActivity"
-            android:label="@string/title_activity_location" >
-            <intent-filter>
-                <action android:name="com.dk.mensajero.LocationActivity" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

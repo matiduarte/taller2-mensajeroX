@@ -32,12 +32,6 @@ public class TabLayoutActivity extends TabActivity {
                 .setContent(new Intent(this, ConversationsListActivity.class));
         mTabHost.addTab(spec);
 
-        //Ajustes tab
-        spec = mTabHost.newTabSpec("check-in")
-                .setIndicator("Check-in")
-                .setContent(new Intent(this, LocationActivity.class));
-        mTabHost.addTab(spec);
-
         mTabHost.setCurrentTab(1);
     }
 
