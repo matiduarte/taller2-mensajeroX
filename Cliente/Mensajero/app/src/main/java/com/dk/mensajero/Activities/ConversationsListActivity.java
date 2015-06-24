@@ -1,5 +1,7 @@
 package com.dk.mensajero.Activities;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,10 +12,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.dk.mensajero.Adapters.ConversationAdapter;
 import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.User;
+import com.dk.mensajero.Interfaces.CheckInCallback;
 import com.dk.mensajero.Interfaces.GetConversationsCallback;
 import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
@@ -28,12 +32,14 @@ public class ConversationsListActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversations_list);
         android.support.v7.app.ActionBar mActionBar = getSupportActionBar();
         mActionBar.hide();
         initView();
         settingsFloatingButton();
+        checkInFloatingButton();
     }
 
     @Override
@@ -160,6 +166,44 @@ public class ConversationsListActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ConversationsListActivity.this, SettingsActivity.class));
+            }
+        });
+
+
+    }
+
+    public void checkInFloatingButton(){
+        ImageView icon = new ImageView(this);
+        icon.setImageResource(R.drawable.icon_checkin);
+
+
+        FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
+                .setContentView(icon).setPosition(6)
+                .build();
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Service serviceRequest = new Service(ConversationsListActivity.this);
+                serviceRequest.checkInUserInBackgroud(new CheckInCallback() {
+                    @Override
+                    public void done(String location, boolean success) {
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ConversationsListActivity.this);
+                        if(success){
+                            User user = User.getUser(ConversationsListActivity.this);
+                            user.setLocation(location);
+                            user.save(ConversationsListActivity.this);
+                            dialogBuilder.setMessage("Se encuentra en: "+location);
+                            dialogBuilder.setPositiveButton("ACEPTAR",null);
+                            dialogBuilder.show();
+                        }else {
+                            dialogBuilder.setMessage("No se pudo calcular su ubicación. Error de conexión. ");
+                            dialogBuilder.setPositiveButton("ACEPTAR", null);
+                            dialogBuilder.show();
+                        }
+                    }
+                });
+
             }
         });
 
