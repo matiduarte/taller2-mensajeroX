@@ -9,6 +9,11 @@ import android.widget.TabHost;
 
 import com.dk.mensajero.R;
 
+/**
+ * Pantalla principal, donde aparecen las conversaciones del usuario y el acceso a
+ * las otras funcionalidades de la aplicacón.
+ *
+ */
 public class TabLayoutActivity extends TabActivity {
 
     private TabHost mTabHost;

@@ -6,7 +6,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.dk.mensajero.R;
 
-
+/**
+ * Se encarga de mostrar la información referente a la aplicación, como ser su nombre,
+ * versión, derechos, etc.
+ */
 public class InformationActivity extends ActionBarActivity {
 
     @Override

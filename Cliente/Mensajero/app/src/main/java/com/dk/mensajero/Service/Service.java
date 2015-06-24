@@ -170,6 +170,12 @@ public class Service {
         }
     }
 
+    /**
+     * Se encarga de realizar el check-in del usuario en el servidor.
+     * @param checkInCallback respuesta que obtiene del servidor.
+     * @param latitude es la latitud geográfica.
+     * @param longitude es la longitud geográfica.
+     */
     public void checkInUserInBackgroud(CheckInCallback checkInCallback, double latitude, double longitude){
         progressDialog.show();
         executeAsyncTask(new checkInUserAsyncTask(checkInCallback, latitude, longitude));
@@ -238,17 +244,32 @@ public class Service {
         }
     }
 
+    /**
+     * Se encarga de almacenar el usuario nuevo en el servidor.
+     * @param user  Es el usuario a almacenar.
+     * @param userCallback  Es la respuesta que se obtiene del servidor.
+     */
     public void storeNewUserInBackground(User user, GetUserCallback userCallback){
         progressDialog.show();
         executeAsyncTask(new StoreNewUserAsyncTask(user, userCallback));
 
     }
 
+    /**
+     * Se encarga de enviar el mensaje al servidor.
+     * @param message Es el mensaje a ser enviado.
+     * @param messageCallback
+     */
     public void sendNewMessageInBackground(Message message, GetMessageCallback messageCallback){
         executeAsyncTask(new SendNewMessageAsyncTask(message, messageCallback));
 
     }
 
+    /**
+     * Se encarga de consultar nuevos mensajes
+     * @param message Es último mensaje recibido.
+     * @param messageCallback Es el mensaje a recibir del servidor.
+     */
     public void fetchNewMessageInBackground(Message message, GetMessageCallback messageCallback){
         executeAsyncTask(new FetchNewMessageAsyncTask(message, messageCallback));
     }
@@ -257,6 +278,12 @@ public class Service {
         executeAsyncTask(new FetchNewConversationIdAsyncTask(transmitterId, receiverId, idCallback));
     }
 
+    /**
+     * Se encarga consultar el usuario en el servidor.
+     * @param user Es el usuario a realizar la consulta.
+     * @param userCallback Es el usuario que se recibe del servidor.
+     * @param showProgressDialog Indica si la consulta está en progreso.
+     */
     public void fetchUserDataInBackground(User user, GetUserCallback userCallback, boolean showProgressDialog){
         if (showProgressDialog)
             progressDialog.show();
@@ -267,10 +294,21 @@ public class Service {
         executeAsyncTask(new fetchConversationsDataAsyncTask(user, conversationsCallback));
     }
 
+    /**
+     * Se encarga de consultar la lista de contactos del usuario.
+     * @param phoneNumbers Es la lista de los telefonos de los contactos.
+     * @param userCallback Es la respuesta del servidor.
+     */
     public void fetchContactsDataInBackground(ArrayList<String> phoneNumbers, GetContactsCallback userCallback){
         executeAsyncTask(new fetchContactsDataAsyncTask(phoneNumbers, userCallback));
     }
 
+    /**
+     * Se encarga de enviar la lista de difusión.
+     * @param message Es el mensaje a ser enviado.
+     * @param phoneNumbers Son los numeros de telefonos de los contactos.
+     * @param messageCallback Respuesta del servidor.
+     */
     public void sendNewBroadcastInBackground(Message message, ArrayList<String> phoneNumbers,GetMessageCallback messageCallback){
         progressDialog.show();
         executeAsyncTask(new SendNewBroadcastAsyncTask(message, phoneNumbers,messageCallback));
@@ -469,6 +507,7 @@ public class Service {
         }
 
     }
+
 
     public class StoreNewUserAsyncTask extends AsyncTask<Void, Void, JSONObject>{
 

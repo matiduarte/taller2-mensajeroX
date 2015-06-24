@@ -24,6 +24,10 @@ import com.dk.mensajero.Utilities.Utilities;
 import java.io.FileDescriptor;
 import java.io.IOException;
 
+
+/**
+ * Pantalla que muestra la información de perfil y permite modificarla.
+ */
 public class ProfileActivity extends ActionBarActivity {
     private static final int SELECT_PICTURE = 1;
     private static final int widthProfileSize = 200;

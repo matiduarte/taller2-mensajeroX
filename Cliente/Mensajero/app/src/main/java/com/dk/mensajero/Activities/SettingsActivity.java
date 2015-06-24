@@ -12,7 +12,10 @@ import com.dk.mensajero.Interfaces.CheckInCallback;
 import com.dk.mensajero.R;
 import com.dk.mensajero.Service.Service;
 
-
+/**
+ * Pantalla que se encarga de mostrar un menu para acceder a la configuración del perfil,
+ * acerca de y le permite al usuario cerrar su sesion.
+ */
 public class SettingsActivity extends ActionBarActivity {
 
     @Override
