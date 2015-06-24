@@ -13,7 +13,8 @@ import android.os.IBinder;
 import android.provider.Settings;
 
 /**
- * Created by matias on 17/05/15.
+ * Clase que se encarga de proveer la ubicación geográfica utilizando el gps
+ * del dispositivo.
  */
 public class GPSTracker extends Service implements LocationListener {
 

@@ -28,7 +28,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by quimey on 10/05/15.
+ * Se encarga de proveer servicios para realizar consultas a la API rest del servidor.
  */
 public class Service {
 
@@ -98,7 +98,11 @@ public class Service {
         }
     }
 
-
+    /**
+     * Se encarga de actualizar la información de perfil del usuario.
+     * @param user El usuario con la información nueva a ser actualizada.
+     * @param profileCallback La respuesta que trae el serivico del servidor.
+     */
     public void updateUserProfileInBackground(User user, UpdateProfileCallback profileCallback){
         progressDialog.show();
         executeAsyncTask(new UpdateUserProfileAsyncTask(user, profileCallback));
@@ -166,29 +170,31 @@ public class Service {
         }
     }
 
-    public void checkInUserInBackgroud(CheckInCallback checkInCallback){
+    public void checkInUserInBackgroud(CheckInCallback checkInCallback, double latitude, double longitude){
         progressDialog.show();
-        executeAsyncTask(new checkInUserAsyncTask(checkInCallback));
+        executeAsyncTask(new checkInUserAsyncTask(checkInCallback, latitude, longitude));
     }
 
     public class checkInUserAsyncTask extends AsyncTask<Void, Void, JSONObject>{
         CheckInCallback checkInCallback;
+        double latitude,longitude;
 
-        public checkInUserAsyncTask(CheckInCallback checkInCallback){
+        public checkInUserAsyncTask(CheckInCallback checkInCallback, double latitude, double longitude){
             this.checkInCallback = checkInCallback;
+            this.latitude = latitude;
+            this.longitude = longitude;
         }
 
         @Override
         protected JSONObject doInBackground(Void... params) {
-            Looper.prepare();
+
             String url = getBaseUrl(context) + USER_URL + CHECKIN_URL;
             RestClient client = new RestClient(url);
             User user = User.getUser(context);
-            GPSTracker gps = new GPSTracker(context);
 
             client.addParam(KEY_USER_PHONE, user.getPhone());
-            client.addParam(KEY_USER_LATITUDE,String.valueOf(gps.getLatitude()));
-            client.addParam(KEY_USER_LONGITUDE,String.valueOf(gps.getLongitude()));
+            client.addParam(KEY_USER_LATITUDE,String.valueOf(latitude));
+            client.addParam(KEY_USER_LONGITUDE,String.valueOf(longitude));
             client.addParam(KEY_TOKEN_SESION, user.getTokenSesion());
 
             try {
@@ -218,19 +224,17 @@ public class Service {
             try {
                 userLocation = jsonObject.getString(KEY_PAYLOAD);
                 success = jsonObject.getBoolean(KEY_SUCCESS);
-                User user = User.getUser(context);
-                user.setLocation(userLocation);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             checkInCallback.done(userLocation,success);
+
             super.onPostExecute(jsonObject);
         }
 
         @Override
         protected void onPreExecute(){
-
         }
     }
 
@@ -311,7 +315,6 @@ public class Service {
             String response = client.getResponse();
             Message returnedMsg = null;
             if (response != null) {
-                System.out.println("ENTRE SendNewMessageAsyncTask");
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {
@@ -325,8 +328,6 @@ public class Service {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            } else {
-                System.out.println("ENTRE SendNewMessageAsyncTask");
             }
             return returnedMsg;
         }
@@ -423,7 +424,6 @@ public class Service {
             String response = client.getResponse();
             ArrayList<Message> messageList = null;
             if (response != null) {
-                System.out.println("ENTRE FetchNewMessageAsyncTask");
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {
@@ -457,8 +457,6 @@ public class Service {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            } else {
-                System.out.println("ENTRE FetchNewMessageAsyncTask");
             }
 
             return messageList;
@@ -501,14 +499,11 @@ public class Service {
             String response = client.getResponse();
             JSONObject jObject = null;
             if (response != null){
-                System.out.println("ENTRE StoreNewUserAsyncTask");
                 try {
                     jObject = new JSONObject(response);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            } else {
-                System.out.println("ENTRE StoreNewUserAsyncTask");
             }
 
             return jObject;
@@ -556,7 +551,6 @@ public class Service {
             String response = client.getResponse();
             User returnedUser = null;
             if (response != null) {
-                System.out.println("ENTRE fetchUserDataAsyncTask");
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {
@@ -587,8 +581,6 @@ public class Service {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            } else {
-                System.out.println("ENTRE fetchUserDataAsyncTask");
             }
 
             return returnedUser;
@@ -637,7 +629,7 @@ public class Service {
             String response = client.getResponse();
             ArrayList<Conversation> conversations = new ArrayList<>();
             if (response != null) {
-                System.out.println("ENTRE fetchConversationsDataAsyncTask");
+
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {
@@ -668,8 +660,6 @@ public class Service {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            } else {
-                System.out.println("ENTRE fetchConversationsDataAsyncTask");
             }
 
             return conversations;
@@ -717,7 +707,7 @@ public class Service {
             String response = client.getResponse();
             ArrayList<User> users = new ArrayList<>();
             if (response != null) {
-                System.out.println("ENTRE fetchContactsDataAsyncTask");
+
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {
@@ -748,8 +738,6 @@ public class Service {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            } else {
-            System.out.println("ENTRE fetchContactsDataAsyncTask");
             }
 
             return users;
@@ -806,7 +794,6 @@ public class Service {
             String response = client.getResponse();
             Message returnedMsg = null;
             if (response != null) {
-                System.out.println("ENTRE SendBroadcastMessageAsyncTask");
                 try {
                     JSONObject jObject = new JSONObject(response);
                     if (jObject.length() == 0) {
@@ -820,8 +807,6 @@ public class Service {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            } else {
-                System.out.println("ENTRE SendBroadcastMessageAsyncTask");
             }
             return returnedMsg;
         }
@@ -859,5 +844,6 @@ public class Service {
         }
         return "";
     }
+
 
 }

@@ -1,7 +1,6 @@
 package com.dk.mensajero.Activities;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,14 +11,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-
 import com.dk.mensajero.Adapters.ConversationAdapter;
 import com.dk.mensajero.Entities.Conversation;
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.Interfaces.CheckInCallback;
 import com.dk.mensajero.Interfaces.GetConversationsCallback;
 import com.dk.mensajero.R;
+import com.dk.mensajero.Service.GPSTracker;
 import com.dk.mensajero.Service.Service;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 
@@ -29,6 +27,7 @@ import java.util.ArrayList;
 public class ConversationsListActivity extends ActionBarActivity {
 
     Handler conversationsHandler = new Handler();
+    String userLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,29 +183,32 @@ public class ConversationsListActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
+                GPSTracker gps = new GPSTracker(ConversationsListActivity.this);
                 Service serviceRequest = new Service(ConversationsListActivity.this);
                 serviceRequest.checkInUserInBackgroud(new CheckInCallback() {
                     @Override
                     public void done(String location, boolean success) {
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ConversationsListActivity.this);
-                        if(success){
+                        if (success) {
                             User user = User.getUser(ConversationsListActivity.this);
                             user.setLocation(location);
                             user.save(ConversationsListActivity.this);
-                            dialogBuilder.setMessage("Se encuentra en: "+location);
-                            dialogBuilder.setPositiveButton("ACEPTAR",null);
+                            dialogBuilder.setMessage("Se encuentra en: " + location);
+                            dialogBuilder.setPositiveButton("ACEPTAR", null);
                             dialogBuilder.show();
-                        }else {
+                        } else {
                             dialogBuilder.setMessage("No se pudo calcular su ubicación. Error de conexión. ");
                             dialogBuilder.setPositiveButton("ACEPTAR", null);
                             dialogBuilder.show();
                         }
                     }
-                });
+                },gps.getLatitude(),gps.getLongitude());
 
             }
         });
 
 
     }
+
+
 }
