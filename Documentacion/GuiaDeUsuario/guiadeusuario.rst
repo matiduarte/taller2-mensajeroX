@@ -18,6 +18,7 @@ Para poder utilizar la aplicación, una vez instalada, seleccione el icono que s
 
 .. image:: /GuiaDeUsuario/imagenes/app_icono.png
    :scale: 60 %
+   :align: center
    
 A continuación se muestra en detalle los pasos que debe seguir para poder ingresar al sistema.
 
@@ -30,26 +31,26 @@ Para ello debe presionar el botón ip/port el cual se indica con un flecha (pant
 
 .. |logo1| image:: /GuiaDeUsuario/imagenes/ip-puerto-boton.png
    :scale: 60%
-   :align: middle
 .. |logo2| image:: /GuiaDeUsuario/imagenes/ip-puerto-ejemplo.png
    :scale: 60%
-   :align: top
 
-+---------+---------+
-| |logo1| | |logo2| |
-+---------+---------+
++---------------+---------------+
+|    |logo1|    |    |logo2|    |
++---------------+---------------+
 
 
 2. Pantalla de registro
 -----------------------
 
-Para poder iniciar sesión, deberá registrarse en el sistema, para ello presione el botón Registrarse, el cual se encuentra enmarcado en rojo (primer pantalla).
+Para iniciar sesión, realice los siguientes pasos:
 
-Una vez en la pantalla de registro (segunda pantalla), deberá seleccionar el país al cual corresponde su código de área e ingresar su numero de teléfono.
+1. Presione el botón Registrarse, el cual se encuentra enmarcado en rojo.
 
-Al finalizar, se mostrara una pantalla de confirmación de numero de teléfono (tercer pantalla), en la cual podrá confirmar el numero ingresado o editarlo en caso de haber ingresado un numero erróneo.
+2. Una vez en la pantalla de registro, deberá seleccionar el país al cual corresponde su código de área e ingresar su numero de teléfono.
 
-Por ultimo, deberá ingresar su nombre y una contraseña (cuarta pantalla),  que le permitirá poder autenticarse en el sistema. Debido a que la contraseña es algo muy importante deberá confirmar la misma. Una vez finalizado presione el boton Finalizar y su registro estará completo.
+3. Al finalizar, se mostrara una pantalla de confirmación de numero de teléfono, en la cual podrá confirmar el numero ingresado o editarlo en caso de haber ingresado un numero erróneo.
+
+4. Por ultimo, deberá ingresar su nombre y una contraseña, que le permitirá poder autenticarse en el sistema. Debido a que la contraseña es algo muy importante deberá confirmar la misma. Una vez finalizado presione el boton Finalizar y su registro estará completo.
 
 .. |logo3| image:: /GuiaDeUsuario/imagenes/register-select.png
    :scale: 60%
@@ -59,7 +60,9 @@ Por ultimo, deberá ingresar su nombre y una contraseña (cuarta pantalla),  que
    :scale: 60%
 .. |logo6| image:: /GuiaDeUsuario/imagenes/registronombre.png
    :scale: 60%
-
+   
++---------+---------+---------+---------+   
+|   (1)   |   (2)   |   (3)   |   (4)   |
 +---------+---------+---------+---------+
 | |logo3| | |logo4| | |logo5| | |logo6| |
 +---------+---------+---------+---------+
@@ -73,6 +76,7 @@ De vuelta en la pantalla de inicio, ingrese su numero de teléfono y la contrase
 
 .. image:: /GuiaDeUsuario/imagenes/iniciarsesion.png
    :scale: 60%
+   :align: center
    
 Utilizar la Aplicación
 ----------------------
@@ -83,13 +87,13 @@ En esta sección se muestran las funcionalidades de la aplicación.
 
 Para poder enviar un mensaje debe seguir los siguientes pasos:
 
-1- Diríjase a la pantalla de Contactos, donde encontrar a sus contactos que se encuentran registrados en la aplicación.
+1. Diríjase a la pantalla de Contactos, donde encontrar a sus contactos que se encuentran registrados en la aplicación.
 
-2- Seleccione el contacto con el cual desea enviarse mensajes, esto abrirá una nueva pantalla de chat.
+2. Seleccione el contacto con el cual desea enviarse mensajes, esto abrirá una nueva pantalla de chat.
 
-3- Presione sobre el cuadro que se encuentra a la izquierda del botón Enviar y se desplegara el teclado.
+3. Presione sobre el cuadro que se encuentra a la izquierda del botón Enviar y se desplegara el teclado.
 
-4- Escriba el mensaje que desee y presione la tecla Enviar.
+4. Escriba el mensaje que desee y presione la tecla Enviar.
 
 .. |logo11| image:: /GuiaDeUsuario/imagenes/contactos.png
    :scale: 50%
@@ -107,22 +111,23 @@ Para poder enviar un mensaje debe seguir los siguientes pasos:
 
 Para ingresar a la pantalla de Ajustes, diríjase a la ventana de Chats y presione el botón indicado por la flecha. Dentro de la pantalla de Ajustes se encontrara con 3 botones:
 
-1- Acerca de: muestra información de la aplicación.
+1. Acerca de: muestra información de la aplicación.
 
-2- Editar Perfil: pantalla que permite editar su información personal.
+2. Editar Perfil: pantalla que permite editar su información personal.
+
   * Agregar/Editar fotografía: presione  sobre sobre la imagen y elija la foto de su galería que desee.
   * Editar nombre: puede modificar su nombre, eligiendo algún apodo para que lo visualicen el resto de sus contactos.
   * Editar contraseña: puede modificar la contraseña para aumentar su seguridad.
   * Visualizar su localización.
 
-3- Cerrar Sesión: finaliza la sesión, se explica en detalle luego.
+3. Cerrar Sesión: finaliza la sesión, se explica en detalle luego.
 
 .. |logo16| image:: /GuiaDeUsuario/imagenes/botonajustes.png
-   :scale: 60%
+   :scale: 50%
 .. |logo17| image:: /GuiaDeUsuario/imagenes/ajutesbotones.png
-   :scale: 60%
+   :scale: 50%
 .. |logo18| image:: /GuiaDeUsuario/imagenes/editarperfil.png
-   :scale: 60%
+   :scale: 50%
    
 +----------+----------+----------+
 | |logo16| | |logo17| | |logo18| |
@@ -133,11 +138,11 @@ Para ingresar a la pantalla de Ajustes, diríjase a la ventana de Chats y presio
 
 Para poder visualizar la información de alguno de sus contactos debe realizar los siguientes pasos:
 
-1- En la pantalla de Chat, seleccione el contacto que desee.
+1. En la pantalla de Chat, seleccione el contacto que desee.
 
-2- Seleccione el botón indicado con la flecha, se desplegara una lista.
+2. Seleccione el botón indicado con la flecha, se desplegara una lista.
 
-3- Seleccione el botón de información de contacto.
+3. Seleccione el botón de información de contacto.
 
 Al finalizar estos pasos se abrirá la pantalla de información de contacto con todos los datos que posee.
 
@@ -158,6 +163,14 @@ Al finalizar estos pasos se abrirá la pantalla de información de contacto con 
 
 4. Actualizar localización
 --------------------------
+
+Para actualizar su localización, lo que debe hacer es dirigirse a la ventana de Chats y presionar el botón de localización indicado en la imagen.
+
+Para visualizarla diríjase a Ajustes->Editar Perfil.
+
+.. image:: /GuiaDeUsuario/imagenes/localizacion.png
+   :scale: 50%
+   :align: center
 
 5. Cerrar sesión
 ----------------

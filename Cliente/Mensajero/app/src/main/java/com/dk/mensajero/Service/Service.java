@@ -32,12 +32,7 @@ import java.util.ArrayList;
  */
 public class Service {
 
-
-    //private String BASE_URL = "http://192.168.0.20:8080/";
-    //public static String BASE_URL = "http://192.168.1.102:8080/";
     private static String BASE_URL;
-
-
     private String USER_URL = "usuario/";
     private String COVERSATION_URL = "conversacion/";
     private String USER_COVERSATIONS_URL = "usuarioConversacion/";
@@ -269,7 +264,6 @@ public class Service {
     }
 
     public void fetchContactsDataInBackground(ArrayList<String> phoneNumbers, GetContactsCallback userCallback){
-        //progressDialog.show();
         executeAsyncTask(new fetchContactsDataAsyncTask(phoneNumbers, userCallback));
     }
 
