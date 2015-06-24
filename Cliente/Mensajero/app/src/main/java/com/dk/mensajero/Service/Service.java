@@ -577,12 +577,14 @@ public class Service {
                             String tokenSesion = jData.getString(KEY_TOKEN_SESION);
                             String state = jData.getString(KEY_USER_STATE);
                             String picture = jData.getString(KEY_USER_PICTURE);
+                            String location = jData.getString(KEY_USER_LOCATION);
                             returnedUser = new User(user.getPhone(), name, password, tokenSesion);
                             returnedUser.setProfilePicture(picture);
                             returnedUser.setConnected(Boolean.valueOf(state));
                             String userId = jData.getString(KEY_USER_ID);
                             returnedUser.setUserId(userId);
                             returnedUser.setExist(true);
+                            returnedUser.setLocation(location);
                         } else {
                             returnedUser = new User();
                             returnedUser.setExist(false);
