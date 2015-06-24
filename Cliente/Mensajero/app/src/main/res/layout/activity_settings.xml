@@ -9,7 +9,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/information"
+        android:text="@string/Acerca_de"
         android:id="@+id/settings_bInformation"
         android:textColor="@android:color/white"
         android:textStyle="bold"
