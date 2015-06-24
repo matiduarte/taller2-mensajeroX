@@ -9,7 +9,6 @@ Desde la linea de comando descarge el codigo e instale su propia copia:
 
 ```
 $ git clone https://github.com/matiduarte/taller2-mensajeroX.git  
-$ cd taller2-mensajero/Servidor  
 ```
 
 ### Dependencias
@@ -30,6 +29,7 @@ $ sudo apt-get install libcppunit-dev
 
 En la carpeta del servidor escribir:
 ```
+$ cd taller2-mensajero/Servidor 
 $ mkdir build  
 $ cd /build  
 $ cmake ..  
@@ -78,17 +78,21 @@ $ sh cobertura.sh
 
 ### Documentacion del codigo  
 
-Para genera la documentación del código es necesario tener instalado Doxygen
+Para genera la documentación del código es necesario tener instalado Doxygen y Sphinx
 
 ```
 $ sudo apt-get install doxygen
 ```
 
-Se incluye un script que genera la documentación del código, tanto del Servidor como del Cliente, en formato html y latex.
-Para correr este script, en la carpeta Informe (se abrirá por defecto al versión html de la documentación en un explorador web):
+```
+$ pip install Sphinx
+```
+
+Se incluye un script que genera la documentación del código, tanto del Servidor como del Cliente, en formato html.
+Para correr este script, en la carpeta Informe (se abrirá por defecto la versión html de la documentación en un explorador web):
 
 ```
-$ sh documentacionCodigo.sh
+$ sh documentacion.sh
 ```
 
 ##API REST

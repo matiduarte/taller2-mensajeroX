@@ -1,4 +1,4 @@
-3-Purebas y Covertura
+3-Pruebas y Cobertura
 ===================
 
 Instrucciones para correr los test unitarios y calcular el coverage del código

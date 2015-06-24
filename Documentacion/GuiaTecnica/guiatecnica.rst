@@ -1,4 +1,4 @@
-2-Guía técnica
+3-Guía técnica
 ==============
 
 Guía técnica para la aplicación MensajeroX.
