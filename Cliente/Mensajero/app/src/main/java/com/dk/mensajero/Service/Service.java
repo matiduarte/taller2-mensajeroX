@@ -734,14 +734,16 @@ public class Service {
                         for (int i = 0; i < contactsJson.length(); i++) {
                             JSONObject contactJson = (JSONObject) contactsJson.get(i);
 
-                            String name = contactJson.getString("Nombre");
-                            String phone = contactJson.getString("Telefono");
-                            String profilePicture = contactJson.getString("FotoDePerfil");
+                            String name = contactJson.getString(KEY_USER_NAME);
+                            String phone = contactJson.getString(KEY_USER_PHONE);
+                            String profilePicture = contactJson.getString(KEY_USER_PICTURE);
+                            String location = contactJson.getString(KEY_USER_LOCATION);
 
                             User user = new User();
                             user.setName(name);
                             user.setPhone(phone);
                             user.setProfilePicture(profilePicture);
+                            user.setLocation(location);
 
                             users.add(user);
                         }

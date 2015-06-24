@@ -50,8 +50,14 @@ public class ContactAdapter extends ArrayAdapter<User> {
         User contact = this.contacts.get(position);
 
         TextView contactNameField = (TextView) rowView.findViewById(R.id.contact_name);
-        String contactName = contact.getName();
-        contactNameField.setText(contactName);
+        contactNameField.setText(contact.getName());
+
+        String contactLocation = contact.getLocation();
+        if(!contactLocation.equals("desconocida")){
+            TextView contactLocationField = (TextView) rowView.findViewById(R.id.contact_location);
+            contactLocationField.setText(contactLocation);
+        }
+
 
         if (!contact.getProfilePicture().equals("default")) {
             ImageView contactPictureField = (ImageView) rowView.findViewById(R.id.contact_image);
