@@ -48,6 +48,7 @@ public class ChatActivity extends ActionBarActivity{
     private String conversationId = "";
     private User transmitterUser;
     private User receiverUser;
+    private Handler chatHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -267,13 +268,13 @@ public class ChatActivity extends ActionBarActivity{
 
         this.getSaveMessageList();
 
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        chatHandler = new Handler();
+        chatHandler.postDelayed(new Runnable() {
             public void run() {
                 String lastMsgId = Conversation.getLastMessageIdByConversationId(ChatActivity.this, conversationId);
                 Message msg = new Message(conversationId, lastMsgId);
                 getMessageFromService(msg);
-                handler.postDelayed(this, 1000);
+                chatHandler.postDelayed(this, 1000);
             }
         }, 1000);
     }
@@ -314,10 +315,11 @@ public class ChatActivity extends ActionBarActivity{
     }
 
     @Override
-    public void onStop() {
+    public void onPause() {
         Service service = new Service(this);
         service.cancelCurrentServices();
-        super.onStop();
+        chatHandler.removeCallbacksAndMessages(null);
+        super.onPause();
     }
 
 }

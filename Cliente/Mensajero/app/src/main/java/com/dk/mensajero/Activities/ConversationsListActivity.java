@@ -24,6 +24,8 @@ import java.util.ArrayList;
 
 public class ConversationsListActivity extends ActionBarActivity {
 
+    Handler conversationsHandler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,15 +59,14 @@ public class ConversationsListActivity extends ActionBarActivity {
     }
 
     private void initView() {
+        conversationsHandler = new Handler();
         getConversations();
-
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        conversationsHandler.postDelayed(new Runnable() {
             public void run() {
                 getConversationsFromService();
-                handler.postDelayed(this, 1000 * 3); //cada dos segundos
+                conversationsHandler.postDelayed(this, 1000 * 2); //cada dos segundos
             }
-        }, 1000 * 3);
+        }, 1000 * 2);
     }
 
     public void getConversations() {
@@ -135,10 +136,17 @@ public class ConversationsListActivity extends ActionBarActivity {
     }
 
     @Override
-    public void onStop() {
+    public void onPause() {
         Service service = new Service(this);
         service.cancelCurrentServices();
-        super.onStop();
+        conversationsHandler.removeCallbacksAndMessages(null);
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        initView();
+        super.onResume();
     }
 
     public void settingsFloatingButton(){
