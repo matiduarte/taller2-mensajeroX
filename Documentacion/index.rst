@@ -13,6 +13,7 @@ Indice:
 .. toctree::
    :maxdepth: 1
    
+   /GuiaAdministrador/guiaadministrador
    /GuiaDeUsuario/guiadeusuario
    /GuiaTecnica/guiatecnica
    /DocumentacionCodigo/servidor

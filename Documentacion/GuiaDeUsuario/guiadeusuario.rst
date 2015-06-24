@@ -1,4 +1,4 @@
-1-Manual de usuario
+2-Manual de usuario
 ===================
 
 Manual de usuario para la aplicación MensajeroX.
