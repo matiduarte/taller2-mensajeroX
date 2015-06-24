@@ -16,7 +16,7 @@ Iniciar la aplicación:
 
 Para poder utilizar la aplicación, una vez instalada, seleccione el icono que se muestra a continuación en la imagen.
 
-.. image:: ../image/app_icono.png
+.. image:: /GuiaDeUsuario/imagenes/app_icono.png
    :scale: 60 %
    
 A continuación se muestra en detalle los pasos que debe seguir para poder ingresar al sistema.
@@ -28,10 +28,10 @@ Al iniciar la aplicación por primera vez, lo primero que debe hacer es ingresar
 
 Para ello debe presionar el botón ip/port el cual se indica con un flecha (pantalla izquierda), se abrirá la pantalla para ingresar los 2 campos (pantalla derecha), una vez ingresados los datos, presione el botón Ok y retornara a la pantalla de inicio.
 
-.. |logo1| image:: ../image/ip-puerto-boton.png
+.. |logo1| image:: /GuiaDeUsuario/imagenes/ip-puerto-boton.png
    :scale: 60%
    :align: middle
-.. |logo2| image:: ../image/ip-puerto-ejemplo.png
+.. |logo2| image:: /GuiaDeUsuario/imagenes/ip-puerto-ejemplo.png
    :scale: 60%
    :align: top
 
@@ -51,13 +51,13 @@ Al finalizar, se mostrara una pantalla de confirmación de numero de teléfono (
 
 Por ultimo, deberá ingresar su nombre y una contraseña (cuarta pantalla),  que le permitirá poder autenticarse en el sistema. Debido a que la contraseña es algo muy importante deberá confirmar la misma. Una vez finalizado presione el boton Finalizar y su registro estará completo.
 
-.. |logo3| image:: ../image/register-select.png
+.. |logo3| image:: /GuiaDeUsuario/imagenes/register-select.png
    :scale: 60%
-.. |logo4| image:: ../image/numerotelefono.png
+.. |logo4| image:: /GuiaDeUsuario/imagenes/numerotelefono.png
    :scale: 60%
-.. |logo5| image:: ../image/verificacion.png
+.. |logo5| image:: /GuiaDeUsuario/imagenes/verificacion.png
    :scale: 60%
-.. |logo6| image:: ../image/registronombre.png
+.. |logo6| image:: /GuiaDeUsuario/imagenes/registronombre.png
    :scale: 60%
 
 +---------+---------+---------+---------+
@@ -71,7 +71,7 @@ Finalizado el registro de datos, sera llevado a la pantalla de inicio en donde p
 
 De vuelta en la pantalla de inicio, ingrese su numero de teléfono y la contraseña con los cuales se registró y presione el botón Iniciar Sesión, si los datos están correctos podrá ingresar al sistema. 
 
-.. image:: ../image/iniciarsesion.png
+.. image:: /GuiaDeUsuario/imagenes/iniciarsesion.png
    :scale: 60%
    
 Utilizar la Aplicación
@@ -81,21 +81,52 @@ En esta sección se muestran las funcionalidades de la aplicación.
 1. Enviar un mensaje
 --------------------
 
+Para poder enviar un mensaje debe seguir los siguientes pasos:
+
+1- Diríjase a la pantalla de Contactos, donde encontrar a sus contactos que se encuentran registrados en la aplicación.
+
+2- Seleccione el contacto con el cual desea enviarse mensajes, esto abrirá una nueva pantalla de chat.
+
+3- Presione sobre el cuadro que se encuentra a la izquierda del botón Enviar y se desplegara el teclado.
+
+4- Escriba el mensaje que desee y presione la tecla Enviar.
+
+.. |logo11| image:: /GuiaDeUsuario/imagenes/contactos.png
+   :scale: 50%
+.. |logo12| image:: /GuiaDeUsuario/imagenes/chat.png
+   :scale: 50%
+.. |logo13| image:: /GuiaDeUsuario/imagenes/hola.png
+   :scale: 50%
+
++----------+----------+----------+
+| |logo11| | |logo12| | |logo13| |
++----------+----------+----------+
+
 2. Pantalla de Ajustes
 ----------------------
 
-.. |logo11| image:: ../image/ingresarchat.png
-   :scale: 50%
-.. |logo12| image:: ../image/entrarinfo.png
-   :scale: 50%
-.. |logo13| image:: ../image/botoninfo.png
-   :scale: 50%
-.. |logo14| image:: ../image/infocontacto.png
-   :scale: 50%
+Para ingresar a la pantalla de Ajustes, diríjase a la ventana de Chats y presione el botón indicado por la flecha. Dentro de la pantalla de Ajustes se encontrara con 3 botones:
 
-+----------+----------+----------+----------+
-| |logo11| | |logo12| | |logo13| | |logo14| |
-+----------+----------+----------+----------+
+1- Acerca de: muestra información de la aplicación.
+
+2- Editar Perfil: pantalla que permite editar su información personal.
+  * Agregar/Editar fotografía: presione  sobre sobre la imagen y elija la foto de su galería que desee.
+  * Editar nombre: puede modificar su nombre, eligiendo algún apodo para que lo visualicen el resto de sus contactos.
+  * Editar contraseña: puede modificar la contraseña para aumentar su seguridad.
+  * Visualizar su localización.
+
+3- Cerrar Sesión: finaliza la sesión, se explica en detalle luego.
+
+.. |logo16| image:: /GuiaDeUsuario/imagenes/botonajustes.png
+   :scale: 60%
+.. |logo17| image:: /GuiaDeUsuario/imagenes/ajutesbotones.png
+   :scale: 60%
+.. |logo18| image:: /GuiaDeUsuario/imagenes/editarperfil.png
+   :scale: 60%
+   
++----------+----------+----------+
+| |logo16| | |logo17| | |logo18| |
++----------+----------+----------+
 
 3. Ver información de contacto
 ------------------------------
@@ -111,13 +142,13 @@ Para poder visualizar la información de alguno de sus contactos debe realizar l
 Al finalizar estos pasos se abrirá la pantalla de información de contacto con todos los datos que posee.
 
 
-.. |logo7| image:: ../image/ingresarchat.png
+.. |logo7| image:: /GuiaDeUsuario/imagenes/ingresarchat.png
    :scale: 50%
-.. |logo8| image:: ../image/entrarinfo.png
+.. |logo8| image:: /GuiaDeUsuario/imagenes/entrarinfo.png
    :scale: 50%
-.. |logo9| image:: ../image/botoninfo.png
+.. |logo9| image:: /GuiaDeUsuario/imagenes/botoninfo.png
    :scale: 50%
-.. |logo10| image:: ../image/infocontacto.png
+.. |logo10| image:: /GuiaDeUsuario/imagenes/infocontacto.png
    :scale: 50%
 
 +---------+---------+---------+----------+
@@ -128,5 +159,18 @@ Al finalizar estos pasos se abrirá la pantalla de información de contacto con 
 4. Actualizar localización
 --------------------------
 
-4. Cerrar sesión
+5. Cerrar sesión
 ----------------
+
+Para cerrar sesión, debe presionar el botón de ajustes, el cual se indica con una flecha en la pantalla de Chats, una vez dentro de la pantalla de Ajustes, presione el botón de Cerrar Sesión y la misma finalizará. 
+
+Esto lo devolverá a la pantalla de logueo en caso de que desee iniciar sesión nuevamente.
+
+.. |logo14| image:: /GuiaDeUsuario/imagenes/botonajustes.png
+   :scale: 50%
+.. |logo15| image:: /GuiaDeUsuario/imagenes/cerrarsesion.png
+   :scale: 50%
+
++----------+----------+
+| |logo14| | |logo15| |
++----------+----------+
