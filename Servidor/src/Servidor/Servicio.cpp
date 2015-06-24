@@ -518,6 +518,7 @@ void Servicio::obtenerContactos() {
 					usuario->getTelefono();
 			respuesta["contactos"][counter][keyFotoDePerfil] =
 					usuario->getFotoDePerfil();
+			respuesta["contactos"][counter][keyLocalizacion] = usuario->getLocalizacion();
 			counter++;
 		}
 	}

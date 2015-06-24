@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Looper;
 import android.util.Log;
 
 import com.dk.mensajero.Entities.Conversation;
@@ -184,6 +185,7 @@ public class Service {
 
         @Override
         protected JSONObject doInBackground(Void... params) {
+            Looper.prepare();
             String url = getBaseUrl(context) + USER_URL + CHECKIN_URL;
             RestClient client = new RestClient(url);
             User user = User.getUser(context);
