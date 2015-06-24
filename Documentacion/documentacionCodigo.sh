@@ -2,6 +2,6 @@
 
 doxygen ../Servidor/doxygenConfigServidor
 doxygen ../Cliente/doxygenConfigCliente
+make html
 
-xdg-open ../Documentacion/DocumentacionCodigoCliente/html/index.html
-xdg-open ../Documentacion/DocumentacionCodigoServidor/html/index.html
+xdg-open ../Documentacion/_build/html/index.html

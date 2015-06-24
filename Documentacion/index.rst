@@ -15,6 +15,8 @@ Indice:
    
    /GuiaDeUsuario/guiadeusuario
    /GuiaTecnica/guiatecnica
+   /DocumentacionCodigo/servidor
+   /DocumentacionCodigo/cliente
 
 
 Indices and tables
