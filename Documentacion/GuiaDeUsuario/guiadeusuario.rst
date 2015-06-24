@@ -123,11 +123,11 @@ Para ingresar a la pantalla de Ajustes, diríjase a la ventana de Chats y presio
 3. Cerrar Sesión: finaliza la sesión, se explica en detalle luego.
 
 .. |logo16| image:: /GuiaDeUsuario/imagenes/botonajustes.png
-   :scale: 60%
+   :scale: 50%
 .. |logo17| image:: /GuiaDeUsuario/imagenes/ajutesbotones.png
-   :scale: 60%
+   :scale: 50%
 .. |logo18| image:: /GuiaDeUsuario/imagenes/editarperfil.png
-   :scale: 60%
+   :scale: 50%
    
 +----------+----------+----------+
 | |logo16| | |logo17| | |logo18| |
