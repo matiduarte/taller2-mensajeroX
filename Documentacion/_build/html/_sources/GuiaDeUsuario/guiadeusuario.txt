@@ -19,11 +19,7 @@ Para poder utilizar la aplicación, una vez instalada, seleccione el icono que s
 .. image:: ../image/app_icono.png
    :scale: 60 %
    
-
-Navegación de la Aplicación
----------------------------
-
-A continuación se muestra en detalle los pasos para poder utilizar la aplicación correctamente.
+A continuación se muestra en detalle los pasos que debe seguir para poder ingresar al sistema.
 
 1. Pantalla de inicio
 ---------------------
@@ -73,6 +69,26 @@ Finalizado el registro de datos, sera llevado a la pantalla de inicio en donde p
 3. Iniciar sesión
 -----------------
 
+De vuelta en la pantalla de inicio, ingrese su numero de teléfono y la contraseña con los cuales se registró y presione el botón Iniciar Sesión, si los datos están correctos podrá ingresar al sistema. 
+
 .. image:: ../image/iniciarsesion.png
    :scale: 60%
    
+Utilizar la Aplicación
+----------------------
+En esta sección se muestran las funcionalidades de la aplicación.
+
+1. Enviar un mensaje
+--------------------
+
+2. Modificar datos personales
+-----------------------------
+
+3. Ver información de contacto
+------------------------------
+
+4. Actualizar localización
+--------------------------
+
+4. Cerrar sesión
+----------------
