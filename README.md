@@ -88,11 +88,11 @@ $ sudo apt-get install doxygen
 $ pip install Sphinx
 ```
 
-Se incluye un script que genera la documentación del código, tanto del Servidor como del Cliente, en formato html y latex.
-Para correr este script, en la carpeta Informe (se abrirá por defecto al versión html de la documentación en un explorador web):
+Se incluye un script que genera la documentación del código, tanto del Servidor como del Cliente, en formato html.
+Para correr este script, en la carpeta Informe (se abrirá por defecto la versión html de la documentación en un explorador web):
 
 ```
-$ sh documentacionCodigo.sh
+$ sh documentacion.sh
 ```
 
 ##API REST
