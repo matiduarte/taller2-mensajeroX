@@ -78,10 +78,14 @@ $ sh cobertura.sh
 
 ### Documentacion del codigo  
 
-Para genera la documentación del código es necesario tener instalado Doxygen
+Para genera la documentación del código es necesario tener instalado Doxygen y Sphinx
 
 ```
 $ sudo apt-get install doxygen
+```
+
+```
+$ pip install Sphinx
 ```
 
 Se incluye un script que genera la documentación del código, tanto del Servidor como del Cliente, en formato html y latex.
