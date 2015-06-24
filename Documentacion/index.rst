@@ -14,6 +14,7 @@ Indice:
    :maxdepth: 1
    
    /GuiaDeUsuario/guiadeusuario
+   /GuiaTecnica/guiatecnica
 
 
 Indices and tables
