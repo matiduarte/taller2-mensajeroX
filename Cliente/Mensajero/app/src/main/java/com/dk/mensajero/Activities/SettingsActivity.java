@@ -55,27 +55,6 @@ public class SettingsActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    public void doCheckIn(View view){
-        Service serviceRequest = new Service(this);
-        serviceRequest.checkInUserInBackgroud(new CheckInCallback() {
-            @Override
-            public void done(String location, boolean success) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(SettingsActivity.this);
-                if(success){
-                    User user = User.getUser(SettingsActivity.this);
-                    user.setLocation(location);
-                    user.save(SettingsActivity.this);
-                    dialogBuilder.setMessage("Se encuentra en: "+location);
-                    dialogBuilder.setPositiveButton("ACEPTAR",null);
-                    dialogBuilder.show();
-                }else {
-                    dialogBuilder.setMessage("No se pudo calcular su ubicación. ");
-                    dialogBuilder.setPositiveButton("ACEPTAR", null);
-                    dialogBuilder.show();
-                }
-            }
-        });
-    }
 
     public void logout(View view){
         User user = User.getUser(this);
