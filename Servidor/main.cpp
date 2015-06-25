@@ -24,6 +24,7 @@
 using namespace std;
 
 int main(int argc,char *argv[]) {
+	BaseDeDatos::setPath(path_BaseDeDatos);
 
 	try{
 		Localizacion::cargarLugares("Lugares.txt");
