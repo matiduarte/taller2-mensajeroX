@@ -151,6 +151,10 @@ Usuario* Servicio::obtenerUsuario() {
 
 }
 
+/**
+ * Se encarga de actualizar los datos del usuario que recibe, en la
+ * base de datos.
+ */
 void Servicio::administrarPerfil() {
 
 	string nombreUsuario = this->getParametro(keyNombre, keyDefault);
@@ -200,6 +204,10 @@ void Servicio::administrarPerfil() {
 
 }
 
+/**
+ * Devuelve los datos correspondientes al usuario con telefono igual al
+ * recibido.
+ */
 void Servicio::consultarUsuarioOnline() {
 	string telefono = this->getParametroIdMetodoGET(urlBaseUsuario);
 	Usuario* user = Usuario::obtenerPorTelefono(telefono);
@@ -223,15 +231,12 @@ void Servicio::consultarUsuarioOnline() {
 				"Consulta del usuario " + user->getNombre() + " exitosa.");
 
 	} else {
-		Loger::getLoger()->warn(
-				"No se pudo obtener el estado del usuario con numero: "
-						+ this->getParametro(keyTelefono, keyDefault)
-						+ " ya que no se encuentra registrado en el sistema.");
-		this->responder(
-				"No se pudo obtener el estado del usuario con numero: "
-						+ this->getParametro(keyTelefono, keyDefault)
-						+ " ya que no se encuentra registrado en el sistema.",
-				false);
+		string msj = "No se pudo obtener el estado del usuario con numero: "
+				+ this->getParametro(keyTelefono, keyDefault)
+				+ " ya que no se encuentra registrado en el sistema.";
+
+		Loger::getLoger()->warn(msj);
+		this->responder(msj, false);
 	}
 
 	Loger::getLoger()->guardarEstado();
@@ -303,12 +308,10 @@ void Servicio::almacenarConversacion() {
 			this->responder(mensaje->getId(), true);
 			delete mensaje;
 		} else {
-			Loger::getLoger()->warn(
-					"El usuario " + emisor->getNombre()
-							+ " no posee un token de session correcto");
-			this->responder(
-					"El usuario " + emisor->getNombre()
-							+ " no posee un token de session correcto", false);
+			string msj = "El usuario " + emisor->getNombre()
+					+ " no posee un token de session correcto";
+			Loger::getLoger()->warn(msj);
+			this->responder(msj, false);
 		}
 	}
 
@@ -358,12 +361,11 @@ void Servicio::obtenerIdConversacion() {
 		} else {
 			user = usuarioReceptor;
 		}
-		Loger::getLoger()->warn(
-				"Usuario " + user->getNombre()
-						+ " no se encuentra registrado en el sistema");
-		this->responder(
-				"Usuario " + user->getNombre()
-						+ " no se encuentra registrado en el sistema", false);
+		string msj_warn = "Usuario " + user->getNombre()
+				+ " no se encuentra registrado en el sistema";
+
+		Loger::getLoger()->warn(msj_warn);
+		this->responder(msj_warn, false);
 	}
 
 	delete usuarioEmisor;
@@ -409,12 +411,11 @@ void Servicio::obtenerConversacion() {
 		this->responder(respuesta.toStyledString(), true);
 
 	} else {
-		Loger::getLoger()->warn(
-				"La conversacion " + idConversacion
-						+ " no se encuentra en el sistema");
-		this->responder(
-				"La conversacion " + idConversacion
-						+ " no se encuentra en el sistema", false);
+		string msj_warn = "La conversacion " + idConversacion
+				+ " no se encuentra en el sistema";
+
+		Loger::getLoger()->warn(msj_warn);
+		this->responder(msj_warn, false);
 	}
 }
 

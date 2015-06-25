@@ -72,7 +72,6 @@ void Servidor::administrarServicio(struct mg_connection* conn){
 	default: 		cout << "default." << endl;
 
 	};
-	//mg_send_header(conn, "Content-Type", "application/json");
 
 	delete servicio;
 }
