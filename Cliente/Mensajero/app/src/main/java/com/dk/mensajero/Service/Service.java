@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Looper;
 import android.util.Log;
 
 import com.dk.mensajero.Entities.Conversation;

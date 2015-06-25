@@ -55,7 +55,7 @@ public class ContactAdapter extends ArrayAdapter<User> {
         String contactLocation = contact.getLocation();
         if(!contactLocation.equals("desconocida")){
             TextView contactLocationField = (TextView) rowView.findViewById(R.id.contact_location);
-            contactLocationField.setText(contactLocation);
+            contactLocationField.setText("Última ubicación: "+contactLocation);
         }
 
 

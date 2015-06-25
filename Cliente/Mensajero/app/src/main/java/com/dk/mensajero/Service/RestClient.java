@@ -3,7 +3,6 @@ package com.dk.mensajero.Service;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
@@ -26,12 +25,10 @@ import java.io.InputStreamReader;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+
 /**
- * Created by quimey on 07/05/15.
+ * Clase que permite hacer las operaciones de un cliente REST.
  */
-
-//TODO: Resolver la descarga de un archivo
-
 public class RestClient {
     public enum RequestMethod {
         GET,
@@ -186,9 +183,6 @@ public class RestClient {
                 instream.close();
             }
 
-        } catch (ClientProtocolException e) {
-            client.getConnectionManager().shutdown();
-            e.printStackTrace();
         } catch (IOException e) {
             client.getConnectionManager().shutdown();
             e.printStackTrace();

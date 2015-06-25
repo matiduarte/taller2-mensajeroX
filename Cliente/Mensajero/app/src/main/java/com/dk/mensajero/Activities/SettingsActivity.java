@@ -1,6 +1,5 @@
 package com.dk.mensajero.Activities;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -8,9 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import com.dk.mensajero.Entities.User;
-import com.dk.mensajero.Interfaces.CheckInCallback;
 import com.dk.mensajero.R;
-import com.dk.mensajero.Service.Service;
+
 
 /**
  * Pantalla que se encarga de mostrar un menu para acceder a la configuración del perfil,

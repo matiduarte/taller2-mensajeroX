@@ -39,7 +39,7 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
 
     /**
      * Se encarga de inicializar todos los atributos de la pantalla.
-     * @param savedInstanceState
+     * @param savedInstanceState Es el estado de la instancia salvada.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
