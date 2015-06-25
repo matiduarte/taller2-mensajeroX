@@ -146,7 +146,7 @@ public class ChatActivity extends ActionBarActivity{
             public void done(User returnedUser, boolean success, boolean check) {
                 setReceiverUser(returnedUser);
             }
-        }, false);
+        }, false, false);
 
     }
 
@@ -320,6 +320,12 @@ public class ChatActivity extends ActionBarActivity{
         service.cancelCurrentServices();
         chatHandler.removeCallbacksAndMessages(null);
         super.onPause();
+    }
+    
+    @Override
+    public void onResume() {
+        lookForNewMessage();
+        super.onResume();
     }
 
 }

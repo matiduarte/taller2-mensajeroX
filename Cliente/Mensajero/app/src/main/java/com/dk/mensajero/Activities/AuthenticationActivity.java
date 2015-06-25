@@ -139,7 +139,7 @@ public class AuthenticationActivity extends ActionBarActivity implements View.On
                     }
                 }
             }
-        }, true);
+        }, true, true);
 
 
     }

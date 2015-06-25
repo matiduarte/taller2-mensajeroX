@@ -40,6 +40,7 @@ const string keyDefault = "";
 #define keyLocalizacion "Localizacion"
 #define keyTokenSesion "Token"
 #define keyPassword "Password"
+#define keyRenovarToken "RenovarToken"
 
 /*Claves principales de Conversacion*/
 #define keyIdConversacion "Id"

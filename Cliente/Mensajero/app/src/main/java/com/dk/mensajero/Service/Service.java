@@ -67,6 +67,7 @@ public class Service {
     private String KEY_SUCCESS = "success";
     private String KEY_USER_PASSWORD = "Password";
     private String KEY_TOKEN_SESION = "Token";
+    private String KEY_USER_RENEW_TOKEN = "renovarToken";
 
     private static ArrayList<AsyncTask> currentActiveServices = new ArrayList<AsyncTask>();
 
@@ -283,10 +284,10 @@ public class Service {
      * @param userCallback Es el usuario que se recibe del servidor.
      * @param showProgressDialog Indica si la consulta está en progreso.
      */
-    public void fetchUserDataInBackground(User user, GetUserCallback userCallback, boolean showProgressDialog){
+    public void fetchUserDataInBackground(User user, GetUserCallback userCallback, boolean renewToken, boolean showProgressDialog){
         if (showProgressDialog)
             progressDialog.show();
-        executeAsyncTask(new fetchUserDataAsyncTask(user, userCallback));
+        executeAsyncTask(new fetchUserDataAsyncTask(user, userCallback, renewToken));
     }
 
     public void fetchConversationsDataInBackground(User user, GetConversationsCallback conversationsCallback){
@@ -568,10 +569,12 @@ public class Service {
 
         User user;
         GetUserCallback userCallback;
+        boolean renewToken;
 
-        public fetchUserDataAsyncTask(User user, GetUserCallback callback) {
+        public fetchUserDataAsyncTask(User user, GetUserCallback callback, boolean renewToken) {
             this.user = user;
             this.userCallback = callback;
+            this.renewToken = renewToken;
         }
 
         @Override
@@ -579,6 +582,7 @@ public class Service {
 
             String url = getBaseUrl(context) + USER_URL + user.getPhone();
             RestClient client = new RestClient(url);
+            client.addParam(KEY_USER_RENEW_TOKEN, String.valueOf(renewToken));
 
             try {
                 client.execute(RestClient.RequestMethod.GET);
