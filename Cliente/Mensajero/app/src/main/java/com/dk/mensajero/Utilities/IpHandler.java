@@ -1,15 +1,8 @@
 package com.dk.mensajero.Utilities;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.util.Base64;
-import android.util.Log;
 
 import com.dk.mensajero.DB.DbHelper;
-
-import java.io.ByteArrayOutputStream;
 
 
 /**

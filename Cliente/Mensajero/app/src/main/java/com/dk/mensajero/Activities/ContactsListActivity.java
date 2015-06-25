@@ -140,11 +140,9 @@ public class ContactsListActivity extends ActionBarActivity {
         Cursor cursor = null;
         try {
             cursor = this.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-            int nameIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
             int phoneNumberIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
             cursor.moveToFirst();
             do {
-                String name = cursor.getString(nameIdx);
                 String phoneNumber = cursor.getString(phoneNumberIdx);
                 numbers.add(phoneNumber);
             } while (cursor.moveToNext());

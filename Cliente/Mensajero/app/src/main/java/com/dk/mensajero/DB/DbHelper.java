@@ -299,8 +299,7 @@ public class DbHelper extends SQLiteOpenHelper {
             }
         }
         //Si no está devuelvo uno default.
-        User user_default = new User();
-        return user_default;
+        return new User();
     }
 
 

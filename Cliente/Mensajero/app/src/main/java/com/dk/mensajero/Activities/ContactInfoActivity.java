@@ -16,7 +16,6 @@ import com.dk.mensajero.Utilities.Utilities;
 public class ContactInfoActivity extends ActionBarActivity {
 
     TextView tvName, tvState, tvLocation;
-    ImageView contactPicture;
     User contactUser;
 
     @Override
