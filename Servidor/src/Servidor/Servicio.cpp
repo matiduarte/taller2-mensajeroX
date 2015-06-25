@@ -204,13 +204,20 @@ void Servicio::consultarUsuarioOnline() {
 	string telefono = this->getParametroIdMetodoGET(urlBaseUsuario);
 	Usuario* user = Usuario::obtenerPorTelefono(telefono);
 
+	string renovarToken = this->getParametro(keyRenovarToken, keyDefault);
+	bool renovar = StringUtil::toBoolean(renovarToken);
+
 	if (user->getId() != keyIdUsuarioNoEncontrado) {
 		user->registrarUltimaConexion();
 
 		Json::Value respuesta;
 		respuesta[keyNombre] = user->getNombre();
 		respuesta[keyPassword] = user->getPassword();
-		respuesta[keyTokenSesion] = user->calcularTokenDeSesion();
+		if(renovar){
+			respuesta[keyTokenSesion] = user->calcularTokenDeSesion();
+		}else{
+			respuesta[keyTokenSesion] = user->getToken();
+		}
 		respuesta[keyEstadoDeConexion] = StringUtil::toString(
 				user->getEstadoConexion());
 		respuesta[keyFotoDePerfil] = user->getFotoDePerfil();
