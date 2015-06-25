@@ -321,5 +321,11 @@ public class ChatActivity extends ActionBarActivity{
         chatHandler.removeCallbacksAndMessages(null);
         super.onPause();
     }
+    
+    @Override
+    public void onResume() {
+        lookForNewMessage();
+        super.onResume();
+    }
 
 }
