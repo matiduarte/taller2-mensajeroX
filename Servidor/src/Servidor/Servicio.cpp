@@ -628,6 +628,7 @@ void Servicio::checkIn() {
 	Usuario* usuario = this->obtenerUsuario();
 	if (usuario->getId() != keyIdUsuarioNoEncontrado) {
 		usuario->setLocalizacion(Localizacion::calcularUbicacion(coordenadas));
+		usuario->persistir();
 		this->responder(usuario->getLocalizacion(), true);
 	} else {
 		this->responder("el usuario no existe.", false);
