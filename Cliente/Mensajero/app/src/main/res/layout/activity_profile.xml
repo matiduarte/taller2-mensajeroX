@@ -65,13 +65,12 @@
         android:layout_marginTop="9dp"
         android:textSize="@dimen/abc_text_size_medium_material" />
 
-    <EditText
-        android:id="@+id/profile_etLocation"
+    <TextView
+        android:id="@+id/profile_tvLocationField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/abc_text_size_small_material"
         android:textStyle="bold"
-        android:inputType="textPersonName"
         android:textColor="#000000" />
 
     <TextView

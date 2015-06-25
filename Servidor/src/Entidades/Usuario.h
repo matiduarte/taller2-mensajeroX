@@ -34,7 +34,7 @@ private:
 	string id;
 	string telefono;
 	bool conectado = true;
-	string localizacion = "";
+	string localizacion = "desconocida";
 	string ultimaConexion;
 	string token;
 	string password;

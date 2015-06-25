@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.dk.mensajero.Entities.User;
 import com.dk.mensajero.Interfaces.UpdateProfileCallback;
@@ -33,7 +34,8 @@ public class ProfileActivity extends ActionBarActivity {
     private static final int widthProfileSize = 200;
     private static final int heightProfileSize = 200;
     private String userPicture;
-    EditText etName, etPassword,etLocation;
+    EditText etName, etPassword;
+    TextView tvLocationField;
     Button bState;
     ImageButton ibPicture;
 
@@ -54,8 +56,8 @@ public class ProfileActivity extends ActionBarActivity {
         etPassword.setHint(R.string.newPassword);
 
         //ubicacion
-        etLocation = (EditText)findViewById(R.id.profile_etLocation);
-        etLocation.setText(user.getLocation());
+        tvLocationField = (TextView)findViewById(R.id.profile_tvLocationField);
+        tvLocationField.setText(user.getLocation());
 
         //foto de perfil
         ibPicture = (ImageButton) findViewById(R.id.profile_ibPicture);

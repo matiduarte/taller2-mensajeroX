@@ -58,7 +58,7 @@ void Localizacion::cargarLugares(string pathArchivoLugares) {
  * devuelve desconocido.
  */
 string Localizacion::calcularUbicacion(Json::Value coordenadas) {
-	string ubicacion = "desconocido";
+	string ubicacion = "desconocida";
 	double distanciaAlMasCercano = distanciaMaxima;
 	double distanciaActual, radio;
 
