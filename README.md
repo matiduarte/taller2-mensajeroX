@@ -85,7 +85,7 @@ $ sudo apt-get install doxygen
 ```
 
 ```
-$ pip install Sphinx
+$ sudo pip install Sphinx
 ```
 
 Se incluye un script que genera la documentación del código, tanto del Servidor como del Cliente, en formato html.
