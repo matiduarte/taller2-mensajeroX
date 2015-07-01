@@ -50,5 +50,5 @@ void TestLocalizacion::testCalcularUbicacionSinCargarLugares() {
 	coordenadas["latitud"] = -34.617630;
 	coordenadas["longitud"] = -58.368254;
 
-	CPPUNIT_ASSERT(Localizacion::calcularUbicacion(coordenadas) == "desconocido");
+	CPPUNIT_ASSERT(Localizacion::calcularUbicacion(coordenadas) == "desconocida");
 }

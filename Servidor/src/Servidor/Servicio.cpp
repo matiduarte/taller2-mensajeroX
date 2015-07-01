@@ -627,11 +627,24 @@ void Servicio::checkIn() {
 
 	Usuario* usuario = this->obtenerUsuario();
 	if (usuario->getId() != keyIdUsuarioNoEncontrado) {
-		usuario->setLocalizacion(Localizacion::calcularUbicacion(coordenadas));
+		string localizacion = Localizacion::calcularUbicacion(coordenadas)+" "+fechaYhoraActual();
+		usuario->setLocalizacion(localizacion);
 		usuario->persistir();
-		this->responder(usuario->getLocalizacion(), true);
+		this->responder(localizacion, true);
 	} else {
 		this->responder("el usuario no existe.", false);
 	}
+}
+
+
+//devuelve la fecha/hora actual en formato: DD/MM/AA, HH:mm
+const string Servicio::fechaYhoraActual() {
+    time_t     now = time(0);
+    struct tm  tstruct;
+    char       buf[30];
+    tstruct = *localtime(&now);
+    strftime(buf, sizeof(buf), "%d/%m/%y, %Rhs", &tstruct);
+
+    return buf;
 }
 

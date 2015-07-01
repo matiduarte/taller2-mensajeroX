@@ -49,6 +49,7 @@ private:
 	Json::Value parametros;
 	struct mg_connection* connexion;
 	static int tamanioBuffer;
+	const string fechaYhoraActual();
 };
 
 #endif /* SRC_SERVIDOR_SERVICIO_H_ */

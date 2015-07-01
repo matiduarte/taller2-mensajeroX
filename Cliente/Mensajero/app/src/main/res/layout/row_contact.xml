@@ -14,7 +14,7 @@
         android:contentDescription="TODO"
         android:scaleType="centerCrop"
         android:src="@drawable/profile_default" />
-
+D
     <TextView
         android:id="@+id/contact_name"
         android:layout_width="fill_parent"
