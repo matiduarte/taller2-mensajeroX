@@ -53,12 +53,11 @@ public class ContactAdapter extends ArrayAdapter<User> {
         contactNameField.setText(contact.getName());
 
         String contactLocation = contact.getLocation();
-        if(!contactLocation.equals("desconocida")){
-            TextView contactLocationField = (TextView) rowView.findViewById(R.id.contact_location);
-            contactLocationField.setText("Última ubicación: "+contactLocation);
-        }
 
+        TextView contactLocationField = (TextView) rowView.findViewById(R.id.contact_location);
+        contactLocationField.setText("Última ubicación: "+contactLocation);
 
+        
         if (!contact.getProfilePicture().equals("default")) {
             ImageView contactPictureField = (ImageView) rowView.findViewById(R.id.contact_image);
             Bitmap picture = Utilities.stringToBitmap(contact.getProfilePicture());
